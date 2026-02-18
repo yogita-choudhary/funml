@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Notebooks Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 40px;
+        }
+        .intro {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        .notebook-section {
+            background: white;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .badge-container {
+            margin: 15px 0;
+        }
+        iframe {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+        .note {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 4px;
+        }
+        code {
+            background-color: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🚀 Interactive Computational Notebooks Gallery</h1>
+    
+    <div class="intro">
+        <p>Welcome to this demo page showcasing various ways to embed and share interactive computational notebooks. Whether you're working with Python, Julia, R, or Wolfram Language, there are multiple platforms that allow you to share your work in an accessible and interactive format.</p>
+        
+        <p>Below you'll find examples of different embedding methods, each with its own strengths. Some provide read-only views perfect for documentation, while others offer full interactivity where visitors can modify and run code directly in their browser.</p>
+    </div>
+
+    <!-- Google Colab Section -->
+    <div class="notebook-section">
+        <h2>📊 Google Colab Notebook</h2>
+        <p>Google Colab is ideal for Python-based machine learning and data science workflows. It provides free GPU/TPU access and integrates seamlessly with Google Drive.</p>
+        
+        <div class="badge-container">
+            <a href="https://colab.research.google.com/github/tensorflow/docs/blob/master/site/en/tutorials/quickstart/beginner.ipynb" target="_blank">
+                <img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/>
+            </a>
+        </div>
+        
+        <div class="note">
+            <strong>Note:</strong> Replace the URL with your own: <code>https://colab.research.google.com/github/YOUR-USERNAME/YOUR-REPO/blob/main/notebook.ipynb</code>
+        </div>
+        
+        <p>Embedded preview (read-only):</p>
+        <iframe src="https://colab.research.google.com/github/tensorflow/docs/blob/master/site/en/tutorials/quickstart/beginner.ipynb" 
+                width="100%" 
+                height="600px">
+        </iframe>
+    </div>
+
+    <!-- Jupyter nbviewer Section -->
+    <div class="notebook-section">
+        <h2>📓 Jupyter Notebook (nbviewer)</h2>
+        <p>nbviewer provides a clean, static rendering of Jupyter notebooks. Perfect for sharing analyses, tutorials, or documentation without requiring users to run code.</p>
+        
+        <div class="badge-container">
+            <a href="https://nbviewer.org/github/jakevdp/PythonDataScienceHandbook/blob/master/notebooks/01.00-IPython-Beyond-Normal-Python.ipynb" target="_blank">
+                <img src="https://img.shields.io/badge/render-nbviewer-orange.svg" alt="Render with nbviewer"/>
+            </a>
+        </div>
+        
+        <div class="note">
+            <strong>Note:</strong> Use this format: <code>https://nbviewer.org/github/YOUR-USERNAME/YOUR-REPO/blob/main/notebook.ipynb</code>
+        </div>
+        
+        <iframe src="https://nbviewer.org/github/jakevdp/PythonDataScienceHandbook/blob/master/notebooks/01.00-IPython-Beyond-Normal-Python.ipynb"
+                width="100%" 
+                height="700px">
+        </iframe>
+    </div>
+
+    <!-- Binder Section -->
+    <div class="notebook-section">
+        <h2>🔬 Interactive Binder Environment</h2>
+        <p>Binder creates a fully interactive computing environment in the cloud. Users can modify code, install packages, and experiment freely. Supports Python, R, Julia, and more.</p>
+        
+        <div class="badge-container">
+            <a href="https://mybinder.org/v2/gh/binder-examples/requirements/master?filepath=index.ipynb" target="_blank">
+                <img src="https://mybinder.org/badge_logo.svg" alt="Launch Binder">
+            </a>
+        </div>
+        
+        <div class="note">
+            <strong>Note:</strong> Format: <code>https://mybinder.org/v2/gh/YOUR-USERNAME/YOUR-REPO/main?filepath=notebook.ipynb</code><br>
+            <em>First launch takes 30-60 seconds to build the environment.</em>
+        </div>
+    </div>
+
+    <!-- Wolfram Cloud Section -->
+    <div class="notebook-section">
+        <h2>🧮 Wolfram Cloud Notebook</h2>
+        <p>Wolfram notebooks bring symbolic computation, visualization, and the Wolfram Language to the web. Great for mathematical modeling, symbolic math, and computational essays.</p>
+        
+        <div class="note">
+            <strong>To embed a Wolfram notebook:</strong>
+            <ol>
+                <li>Publish your notebook to Wolfram Cloud</li>
+                <li>Get the cloud object URL</li>
+                <li>Use this format: <code>&lt;iframe src="https://www.wolframcloud.com/obj/YOUR-CLOUD-PATH" width="100%" height="700px"&gt;&lt;/iframe&gt;</code></li>
+            </ol>
+        </div>
+        
+        <p><strong>Example Wolfram Cloud object:</strong></p>
+        <iframe src="https://www.wolframcloud.com/obj/examples/DoublePendulum" 
+                width="100%" 
+                height="600px">
+        </iframe>
+    </div>
+
+    <!-- Comparison Section -->
+    <div class="notebook-section">
+        <h2>🔍 Quick Comparison</h2>
+        <table style="width: 100%; border-collapse: collapse;">
+            <tr style="background-color: #3498db; color: white;">
+                <th style="padding: 12px; text-align: left;">Platform</th>
+                <th style="padding: 12px; text-align: left;">Best For</th>
+                <th style="padding: 12px; text-align: left;">Interactive?</th>
+                <th style="padding: 12px; text-align: left;">Load Time</th>
+            </tr>
+            <tr style="background-color: #ecf0f1;">
+                <td style="padding: 10px;"><strong>Google Colab</strong></td>
+                <td style="padding: 10px;">Python ML/Data Science</td>
+                <td style="padding: 10px;">✅ Yes (with login)</td>
+                <td style="padding: 10px;">Fast</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px;"><strong>nbviewer</strong></td>
+                <td style="padding: 10px;">Static documentation</td>
+                <td style="padding: 10px;">❌ Read-only</td>
+                <td style="padding: 10px;">Instant</td>
+            </tr>
+            <tr style="background-color: #ecf0f1;">
+                <td style="padding: 10px;"><strong>Binder</strong></td>
+                <td style="padding: 10px;">Full interactivity, any language</td>
+                <td style="padding: 10px;">✅ Yes (no login)</td>
+                <td style="padding: 10px;">30-60s first launch</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px;"><strong>Wolfram Cloud</strong></td>
+                <td style="padding: 10px;">Symbolic math, CDF</td>
+                <td style="padding: 10px;">✅ Yes (varies)</td>
+                <td style="padding: 10px;">Fast</td>
+            </tr>
+        </table>
+    </div>
+
+    <footer style="margin-top: 50px; padding: 20px; text-align: center; color: #7f8c8d; border-top: 1px solid #ddd;">
+        <p>Built with ❤️ for computational storytelling | Last updated: February 2026</p>
+    </footer>
+</body>
+</html>
