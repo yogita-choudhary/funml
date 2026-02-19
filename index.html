@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FunML | DSP & ML Lectures</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-grid"></div>
+
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">FM</div>
+        <div>
+          <div class="title">FunML Lecture Hub</div>
+          <div class="subtitle">ECE 4252 | Signals, Systems, and ML</div>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Primary">
+        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu">
+          Menu
+        </button>
+        <div class="nav-menu" id="nav-menu">
+          <div class="dropdown">
+            <button class="dropdown-toggle" aria-expanded="false">Slides</button>
+            <div class="dropdown-menu" role="menu">
+              <a href="#" role="menuitem">All Slides (PDF)</a>
+              <a href="#" role="menuitem">Slide Deck Index</a>
+              <a href="#" role="menuitem">Download Bundle</a>
+            </div>
+          </div>
+          <div class="dropdown">
+            <button class="dropdown-toggle" aria-expanded="false">Lecture Notes</button>
+            <div class="dropdown-menu" role="menu">
+              <a href="#" role="menuitem">Weekly Notes</a>
+              <a href="#" role="menuitem">Annotated Notes</a>
+              <a href="#" role="menuitem">Printable Packet</a>
+            </div>
+          </div>
+          <div class="dropdown">
+            <button class="dropdown-toggle" aria-expanded="false">Videos</button>
+            <div class="dropdown-menu" role="menu">
+              <a href="#" role="menuitem">Lecture Recordings</a>
+              <a href="#" role="menuitem">Mini Tutorials</a>
+              <a href="#" role="menuitem">Office Hours</a>
+            </div>
+          </div>
+          <div class="dropdown">
+            <button class="dropdown-toggle" aria-expanded="false">Exercises</button>
+            <div class="dropdown-menu" role="menu">
+              <a href="#" role="menuitem">Problem Sets</a>
+              <a href="#" role="menuitem">Quizzes</a>
+              <a href="#" role="menuitem">Practice Bank</a>
+            </div>
+          </div>
+          <div class="dropdown">
+            <button class="dropdown-toggle" aria-expanded="false">Handouts</button>
+            <div class="dropdown-menu" role="menu">
+              <a href="#" role="menuitem">Cheat Sheets</a>
+              <a href="#" role="menuitem">Formulas & Tables</a>
+              <a href="#" role="menuitem">Reference Cards</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-title">Lectures</div>
+          <div class="sidebar-caption">Spring 2026 · 25 sessions</div>
+        </div>
+        <div class="lecture-list" role="list">
+          <a class="lecture-item active" href="#lecture-01" role="listitem">
+            <span class="lecture-num">01</span>
+            <div>
+              <div class="lecture-title">Signals as Data</div>
+              <div class="lecture-meta">Foundations · Sampling · Perspective</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-02" role="listitem">
+            <span class="lecture-num">02</span>
+            <div>
+              <div class="lecture-title">Linear Systems Toolkit</div>
+              <div class="lecture-meta">LTI · Convolution · Properties</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-03" role="listitem">
+            <span class="lecture-num">03</span>
+            <div>
+              <div class="lecture-title">Frequency Thinking</div>
+              <div class="lecture-meta">Fourier · Spectra · Filtering</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-04" role="listitem">
+            <span class="lecture-num">04</span>
+            <div>
+              <div class="lecture-title">Discrete Transforms</div>
+              <div class="lecture-meta">DFT · FFT · Leakage</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-05" role="listitem">
+            <span class="lecture-num">05</span>
+            <div>
+              <div class="lecture-title">Z-Transform Playbook</div>
+              <div class="lecture-meta">Poles · Zeros · ROC</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-06" role="listitem">
+            <span class="lecture-num">06</span>
+            <div>
+              <div class="lecture-title">Sampling and Aliasing</div>
+              <div class="lecture-meta">Nyquist · Reconstruction</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-07" role="listitem">
+            <span class="lecture-num">07</span>
+            <div>
+              <div class="lecture-title">Random Signals</div>
+              <div class="lecture-meta">Expectation · Stationarity</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-08" role="listitem">
+            <span class="lecture-num">08</span>
+            <div>
+              <div class="lecture-title">Noise and Estimation</div>
+              <div class="lecture-meta">MMSE · Filters · Tricks</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-09" role="listitem">
+            <span class="lecture-num">09</span>
+            <div>
+              <div class="lecture-title">Optimization Primer</div>
+              <div class="lecture-meta">Gradients · Convexity</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-10" role="listitem">
+            <span class="lecture-num">10</span>
+            <div>
+              <div class="lecture-title">Least Squares in DSP</div>
+              <div class="lecture-meta">Regression · Projections</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-11" role="listitem">
+            <span class="lecture-num">11</span>
+            <div>
+              <div class="lecture-title">Intro to ML Models</div>
+              <div class="lecture-meta">Features · Losses · Training</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-12" role="listitem">
+            <span class="lecture-num">12</span>
+            <div>
+              <div class="lecture-title">Logistic Regression</div>
+              <div class="lecture-meta">Classification · Metrics</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-13" role="listitem">
+            <span class="lecture-num">13</span>
+            <div>
+              <div class="lecture-title">Neural Networks Basics</div>
+              <div class="lecture-meta">Perceptrons · MLPs</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-14" role="listitem">
+            <span class="lecture-num">14</span>
+            <div>
+              <div class="lecture-title">Backprop Mechanics</div>
+              <div class="lecture-meta">Autograd · Training Loops</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-15" role="listitem">
+            <span class="lecture-num">15</span>
+            <div>
+              <div class="lecture-title">Regularization</div>
+              <div class="lecture-meta">Bias/Variance · Dropout</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-16" role="listitem">
+            <span class="lecture-num">16</span>
+            <div>
+              <div class="lecture-title">Sequence Models</div>
+              <div class="lecture-meta">RNNs · LSTMs · DSP Links</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-17" role="listitem">
+            <span class="lecture-num">17</span>
+            <div>
+              <div class="lecture-title">Convolutional Nets</div>
+              <div class="lecture-meta">CNNs · Filters · Vision</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-18" role="listitem">
+            <span class="lecture-num">18</span>
+            <div>
+              <div class="lecture-title">Representation Learning</div>
+              <div class="lecture-meta">Embeddings · Autoencoders</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-19" role="listitem">
+            <span class="lecture-num">19</span>
+            <div>
+              <div class="lecture-title">Signal-to-Feature Pipelines</div>
+              <div class="lecture-meta">MFCC · Spectrograms</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-20" role="listitem">
+            <span class="lecture-num">20</span>
+            <div>
+              <div class="lecture-title">Probabilistic Models</div>
+              <div class="lecture-meta">Bayes · HMMs · Priors</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-21" role="listitem">
+            <span class="lecture-num">21</span>
+            <div>
+              <div class="lecture-title">Reinforcement Signals</div>
+              <div class="lecture-meta">MDPs · Rewards · Policy</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-22" role="listitem">
+            <span class="lecture-num">22</span>
+            <div>
+              <div class="lecture-title">Model Compression</div>
+              <div class="lecture-meta">Pruning · Quantization</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-23" role="listitem">
+            <span class="lecture-num">23</span>
+            <div>
+              <div class="lecture-title">Edge Deployment</div>
+              <div class="lecture-meta">Latency · Power · Tradeoffs</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-24" role="listitem">
+            <span class="lecture-num">24</span>
+            <div>
+              <div class="lecture-title">Ethics and Reliability</div>
+              <div class="lecture-meta">Fairness · Safety · Robustness</div>
+            </div>
+          </a>
+          <a class="lecture-item" href="#lecture-25" role="listitem">
+            <span class="lecture-num">25</span>
+            <div>
+              <div class="lecture-title">Capstone Showcase</div>
+              <div class="lecture-meta">Projects · Demos · Wrap-up</div>
+            </div>
+          </a>
+        </div>
+      </aside>
+
+      <section class="content">
+        <div class="hero">
+          <div class="hero-text">
+            <div class="eyebrow">Welcome to FunML</div>
+            <h1>DSP-first machine learning with a modern, tactile layout.</h1>
+            <p>
+              This is a starter layout inspired by DSP First, with a bold visual system and
+              a fast lecture navigator. We will wire in real lecture data from
+              <span class="badge">ece4252funml</span> next.
+            </p>
+            <div class="hero-actions">
+              <button class="primary">View this week</button>
+              <button class="ghost">Download syllabus</button>
+            </div>
+          </div>
+          <div class="hero-panel">
+            <div class="panel-header">At a glance</div>
+            <div class="panel-grid">
+              <div class="panel-card">
+                <div class="panel-label">Lecture 07</div>
+                <div class="panel-value">Random Signals</div>
+                <div class="panel-sub">Next live session</div>
+              </div>
+              <div class="panel-card">
+                <div class="panel-label">Office Hours</div>
+                <div class="panel-value">Tue + Thu</div>
+                <div class="panel-sub">2:30 - 4:00 PM</div>
+              </div>
+              <div class="panel-card">
+                <div class="panel-label">New Upload</div>
+                <div class="panel-value">FFT Walkthrough</div>
+                <div class="panel-sub">Video + Notebook</div>
+              </div>
+              <div class="panel-card">
+                <div class="panel-label">Practice</div>
+                <div class="panel-value">Set 03</div>
+                <div class="panel-sub">Due Feb 27</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="content-grid">
+          <article class="card">
+            <div class="card-header">
+              <h2>Lecture Focus</h2>
+              <span class="pill">Week 4</span>
+            </div>
+            <p>
+              We dig into discrete transforms and how they power spectrum views of signals. Expect
+              worked examples, guided labs, and interactive exercises.
+            </p>
+            <ul class="list">
+              <li>From continuous to discrete spectra</li>
+              <li>DFT intuition, leakage, and windowing</li>
+              <li>FFT implementation details</li>
+            </ul>
+          </article>
+          <article class="card">
+            <div class="card-header">
+              <h2>Quick links</h2>
+              <span class="pill">Starter</span>
+            </div>
+            <p>Everything students need in one sweep.</p>
+            <div class="link-grid">
+              <a class="mini-link" href="#">Syllabus</a>
+              <a class="mini-link" href="#">Schedule</a>
+              <a class="mini-link" href="#">Policies</a>
+              <a class="mini-link" href="#">Project Guide</a>
+              <a class="mini-link" href="#">Forum</a>
+              <a class="mini-link" href="#">FAQ</a>
+            </div>
+          </article>
+          <article class="card">
+            <div class="card-header">
+              <h2>Learning Outcomes</h2>
+              <span class="pill">Goals</span>
+            </div>
+            <p>Students will leave with a stronger link between theory and modern ML systems.</p>
+            <ul class="list">
+              <li>Model signals in time and frequency domains</li>
+              <li>Build ML pipelines grounded in DSP thinking</li>
+              <li>Deploy lean models with real constraints</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
