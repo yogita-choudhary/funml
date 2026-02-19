@@ -1,0 +1,831 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>L6_ECE4252-8803_PerformanceEval</title>
+  <link rel="stylesheet" href="../assets/style.css"/>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<nav>
+  <a href="../index.html">Home</a>
+</nav>
+<main>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>_Lecture6</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="center">
+
+</div>
+<p><strong>Contributors:</strong> Dr. Ahmad Mustafa, Dr. Motaz Alfarraj, Dr. Ashraf Alattar, Dr. Chen Zhou</p>
+<p><strong>Teaching Assistants</strong> with remarkable contributions include: Kuo-Wei Lai, Wuyang Du, Shiva Mahato, Michael Zhou, Ninghan Zhong</p>
+<p><strong>Disclaimer</strong>: <span>All content of these notes are part of this course at Georgia Tech. Any re-use or distribution is not permitted without pre-approved permission. All these notes belong to, created by, and copyrighted for Ghassan AlRegib and Mohit Prabhushankar, Georgia Tech, 2021–2028.</span></p>
+<p><strong>License</strong>: <span>These lecture notes are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</span></p>
+<p><strong>Errata</strong>: <span><em>Please submit any errata you find using the following form: <a href="https://forms.office.com/r/fbg9dMWPgY">Errata Form for FunML Textbook</a> or visit: <a href="https://forms.office.com/r/fbg9dMWPgY">https://forms.office.com/r/fbg9dMWPgY</a></em></span></p>
+<section id="lecture-objectives" data-number="0.1">
+<h2 data-number="1.1"><span class="header-section-number">1.1</span> Lecture Objectives</h2>
+<p>In the previous lecture, we discussed Artificial Neural Networks. This lecture summarizes Back propagation in Artificial Neural Networks and a high level overview of how to train MLP for image classification using Artificial Neural Networks. The bulk of this lecture is about classifier performance evaluation. We look into numerous methods of analyzing the performance of classifiers using cross-validation, and understanding precision and recall. We discuss the confusion matrix and see the trade off between precision and recall trade off, leading us to the ROC curve and how to interpret it.</p>
+</section>
+<section id="back-propagation-summary" data-number="0.2">
+<h2 data-number="1.2"><span class="header-section-number">1.2</span> Back propagation Summary</h2>
+<div class="center">
+<p><img src="img/lecture6/image.png" alt="image" /></p>
+</div>
+<p>The sample <span class="math inline">\(x_i\)</span> goes through some hidden layers and outputs as some raw logits, ie. <span class="math inline">\(y_i\)</span> = [3.2, 5.1, -1.7]. These raw logits are transformed into a probability using the softmax function. <span class="math display">\[f(y_{ij}) = \frac{e^{y_{ij}}}{\sum_k e^{y_{ik}}}\]</span> The raw logits, [3.2, 5.1, -1.7] are converted into the probability distribution, [0.13, 0.87, 0.001], which can be interpreted as this sample <span class="math inline">\(x_i\)</span> belongs to <span class="math inline">\(y_2\)</span> with a 87% confidence. During the inference, the goal is to predict the class with the highest probability with softmax activation: <span class="math inline">\(\text{argmax}_j f(y_{ij})\)</span>. During training, for every sample, we set the ground-truth label as a one-hot vector <span class="math inline">\([1,0,...,0]^T\)</span> with 1 for the correct class and 0 for every other class. Back propagate the error and repeat for every sample. For instance, if the one-hot ground-truth is [1, 0, 0], but the model predicted that <span class="math inline">\(x_i\)</span> belongs to <span class="math inline">\(y_2\)</span>, which is incorrect. We create a loss function to obtain the error between them and back propagate the vector with the number 1 at the position corresponding to the desired class.</p>
+</section>
+<section id="image-classification" data-number="0.3">
+<h2 data-number="1.3"><span class="header-section-number">1.3</span> Image Classification</h2>
+<p>Image classification is the task of assigning a label to an input image based on its content, typically by mapping the pixel values of the image to probabilities across various categories. This can be modeled as a linear function using parameters such as weights and biases. The general form of this function is given by: <span class="math display">\[\hat{Y} = \phi(XW^T+b^T)\]</span></p>
+<ul>
+<li><p><span class="math inline">\(X \in \mathbb{R}^{N\times P}\)</span> : dataset containing N vectorized images</p></li>
+<li><p><span class="math inline">\(P = HWC\)</span> : the number of pixels (features) of each image</p></li>
+<li><p><span class="math inline">\(\hat{Y} \in \mathbb{R}^{N \times K}\)</span> : predicted class probabilities over classes <span class="math inline">\(1,2,\dots,K\)</span></p></li>
+<li><p><span class="math inline">\(\phi (X,W,b)\)</span> : the activation function</p></li>
+<li><p><span class="math inline">\(W \in \mathbb{R}^{P \times K}\)</span> : the weight matrix</p></li>
+<li><p><span class="math inline">\(b \in \mathbb{R}^{K}\)</span> : the bias vector</p></li>
+</ul>
+<p>Given a 32x32 RGB image as the input, we can write the linear function as: <span class="math display">\[\phi \left( 
+\begin{pmatrix}
+  0.2 &amp; 2.1 \\
+ -0.5 &amp; 0.0 \\
+  0.1 &amp; 0.25 \\
+  2.0 &amp; 0.2 \\
+  1.5 &amp; -0.3 \\
+  \vdots &amp; \vdots \\
+  1.3 &amp; 1.2
+\end{pmatrix}^T
+\begin{pmatrix}
+  56 \\
+  231 \\
+  24 \\
+  188 \\
+  75 \\
+  \vdots \\
+  32
+\end{pmatrix}
++ 
+\begin{pmatrix}
+  0.2 \\
+  2.4
+\end{pmatrix}
+\right) = 
+\begin{pmatrix}
+  0.8 \\
+  0.2
+\end{pmatrix}\]</span></p>
+<div class="center">
+<p>where the parameters correspond to: <span class="math inline">\(w^T \in \mathbb{R}^{2 \times(32)(32)(3)}\)</span> , <span class="math inline">\(x_i \in \mathbb{R}^{(32)(32)(3) \times 1}\)</span>, <span class="math inline">\(b \in \mathbb{R}^{2 \times 1}\)</span>, <span class="math inline">\(y_i \in \mathbb{R}^{2 \times 1}\)</span></p>
+</div>
+<p>In this example, the weight matrix <span class="math inline">\(w^T\)</span> and bias vector <span class="math inline">\(b\)</span> are used to compute the class scores, which are then transformed into probabilities for classification.</p>
+<section id="example-datasets" data-number="0.3.1">
+<h3 data-number="1.3.1"><span class="header-section-number">1.3.1</span> Example Datasets</h3>
+<p>The Modified National Institute of Standards and Technology (MNIST) <a href="https://yann.lecun.com/exdb/mnist/">database</a> is a large dataset of handwritten digits. It has 70,000 gray scale images of digits across 10 classes: (0,1,2,3,4,5,6,7,8,9). Each image is 28x28.<br />
+The Canadian Institute For Advanced Research-10 (CIFAR-10) <a href="https://www.cs.toronto.edu/~kriz/cifar.html">database</a> are labeled subsets of the 80 million tiny images. It consists of 60000 32x32 colour images in 10 classes, with 6000 images per class. This is split into 50000 training images and 10000 test images.</p>
+</section>
+</section>
+<section id="terminologies" data-number="0.4">
+<h2 data-number="1.4"><span class="header-section-number">1.4</span> Terminologies</h2>
+<p>In this course, several fundamental training terms will be used repeatedly. The <strong>batch size</strong> refers to the number of training samples processed before the model updates its parameters. An <strong>epoch</strong> is one complete pass through the entire training dataset. A <strong>round</strong> (also called an <strong>iteration/step</strong>) denotes a single forward and backward pass through the model using one batch of data.</p>
+<p>It is also important to distinguish between different dataset splits. The <strong>training set</strong> is used to train the model by adjusting its weights. The <strong>validation set</strong> is used during training to tune hyperparameters and monitor for overfitting, helping guide model design decisions. The <strong>testing set</strong> is used only after training is complete to evaluate model performance on unseen data and provide an unbiased assessment of generalization.</p>
+<section id="model-validation" data-number="0.4.1">
+<h3 data-number="1.4.1"><span class="header-section-number">1.4.1</span> Model Validation</h3>
+<p><strong>Model validation</strong> refers to the collection of techniques used to evaluate how well a trained model will perform on <em>unseen data</em>. The central challenge in machine learning is not merely achieving high performance on the data used to train the model, but ensuring that the learned patterns <em>generalize</em> beyond the training examples. To address this, the available dataset is typically divided into separate subsets with distinct roles during the modeling process.</p>
+<p>A standard approach is the <strong>training–validation–test split</strong>. The <strong>training set</strong> is used to fit the model parameters; this is the data from which the model directly learns patterns. The <strong>validation set</strong> is used during development to assess model performance and guide decisions such as <em>hyperparameter tuning</em>, <em>model selection</em>, and <em>early stopping</em>. Although the model is evaluated on validation data, it does not learn from it in the same way as the training data. Finally, the <strong>test set</strong> is kept completely separate and is used only after the model design is finalized. Its purpose is to provide an <strong>unbiased estimate</strong> of the model’s performance on new, unseen data.</p>
+<p><strong>Learning curves</strong> are another important tool in model validation. A learning curve plots training and validation performance as a function of <strong>training set size</strong>. By observing how these curves evolve, we can gain insight into the model’s <em>generalization behavior</em>. A large gap between training and validation performance typically indicates <strong>overfitting</strong>, where the model memorizes the training data but fails to generalize. Conversely, if both curves are low and close together, the model may be <strong>underfitting</strong>, suggesting that it lacks sufficient capacity to capture the underlying structure of the data. Learning curves are discussed more in detail in Section <a href="#sec:learning_curves" data-reference-type="ref" data-reference="sec:learning_curves">4.3</a>. They are particularly useful for diagnosing overfitting and underfitting.</p>
+<p><strong>Cross-validation</strong> provides a more robust method for estimating generalization performance, particularly when the dataset is limited. Instead of relying on a single train/validation split, the data is partitioned into multiple <strong>folds</strong>. The model is trained repeatedly, each time using a different fold as the validation set and the remaining folds for training. The results are then averaged to obtain a more reliable estimate of performance. Cross-validation reduces the dependence on a particular split and helps ensure that the evaluation reflects the model’s expected behavior on unseen data.</p>
+<p>To make this concrete, suppose we have a dataset of 60<span>,</span>000 samples. Our goal is not for the model to memorize all 60<span>,</span>000 examples, but to learn the underlying structure of the data. When a model performs extremely well on the training set but poorly on new data, it is said to suffer from <strong>overfitting</strong>. Overfitting occurs when the model fits too closely to the training distribution and fails to capture the general patterns needed for accurate prediction.</p>
+<p>To monitor this, we split the dataset into separate subsets. For example, we might use 50<span>,</span>000 samples for the <strong>training set</strong> and 10<span>,</span>000 samples for the <strong>validation set</strong>. During training, the model updates its weights using only the training data. At the end of each epoch, we evaluate performance on the validation set by computing the <strong>validation loss</strong>. The validation data is never used to update gradients; it is only used for evaluation. By tracking validation performance, we can detect overfitting and select the best model configuration.</p>
+</section>
+<section id="train-validation-and-test-splits" data-number="0.4.2">
+<h3 data-number="1.4.2"><span class="header-section-number">1.4.2</span> Train, Validation, and Test Splits</h3>
+<p>In supervised learning, it is essential to clearly separate the roles of the <strong>training</strong>, <strong>validation</strong>, and <strong>test</strong> datasets. The <strong>training dataset</strong> is the portion of the data used to learn the model parameters. The model directly updates its weights based on this data through optimization procedures such as <em>gradient descent</em>.</p>
+<p>The <strong>validation dataset</strong> is used to monitor performance during model development. It helps guide <em>hyperparameter tuning</em>, <em>architecture decisions</em>, and other design choices. While the model’s performance is evaluated on validation data, the data itself is not used to update model parameters. In practice, validation may be implemented through a simple <strong>hold-out set</strong> or through <strong>cross-validation</strong>.</p>
+<p>The <strong>test dataset</strong> serves as the final benchmark. It is only used once the model has been fully trained and all design decisions have been made. Because the test data is never seen during training or validation, it provides the most <strong>unbiased estimate</strong> of how the model will perform in real-world deployment. To be meaningful, the test set should reflect the <em>true data distribution</em> that the model is expected to encounter.</p>
+<section id="typical-data-split-ratios" data-number="0.4.2.1">
+<h4 data-number="1.4.2.1"><span class="header-section-number">1.4.2.1</span> Typical Data Split Ratios</h4>
+<p>In practice, datasets are commonly divided using approximate ratios such as:</p>
+<ul>
+<li><p>60–70% training</p></li>
+<li><p>10–20% validation</p></li>
+<li><p>20–30% testing</p></li>
+</ul>
+<p>Larger datasets allow smaller validation/test fractions, while smaller datasets often rely more heavily on cross-validation to make efficient use of data.</p>
+<div class="center">
+<p><img src="img/lecture6/split.png" alt="image" /></p>
+</div>
+</section>
+</section>
+<section id="sec:learning_curves" data-number="0.4.3">
+<h3 data-number="1.4.3"><span class="header-section-number">1.4.3</span> Learning Curves</h3>
+<p>A learning curve is a graphical representation that shows how a model’s performance changes as the size of the training dataset increases. It helps diagnose issues like overfitting and underfitting. When the training set is very small, the model can nearly memorize the data, so the training error starts very low. As more training data is added, the task becomes harder to fit perfectly, causing the training error to increase slightly before stabilizing. In contrast, validation error starts high when training data is limited and decreases as more training data is added, since the model learns patterns that generalize better to unseen data.</p>
+<p>The general procedure for generating learning curves, assuming n = 100 samples:</p>
+<ol>
+<li><p>Set aside validation set (e.g., v = 20 samples)</p></li>
+<li><p>For k = 1 to n - v</p>
+<ol>
+<li><p>Take the first k samples as one training dataset</p></li>
+<li><p>Fit the model on the training set and evaluate it on the validation set</p></li>
+<li><p>Retain the training score and the evaluation score and discard the model</p></li>
+</ol></li>
+<li><p>Plot the training and evaluation scores recorded in the iterations above against training set sizes</p></li>
+</ol>
+<div class="center">
+<p><img src="img/lecture6/Leanring curve.png" alt="image" /></p>
+</div>
+<p>For more visualizations check out this <a href="https://playground.tensorflow.org">tool</a>.</p>
+</section>
+</section>
+<section id="performance-evaluation" data-number="0.5">
+<h2 data-number="1.5"><span class="header-section-number">1.5</span> Performance Evaluation</h2>
+<section id="hyper-parameters" data-number="0.5.1">
+<h3 data-number="1.5.1"><span class="header-section-number">1.5.1</span> Hyper parameters</h3>
+<p>A hyper parameter is a configuration setting used to control the learning process of a machine learning model, significantly impacting its performance and effectiveness. Unlike model parameters, which are learned from the training data, hyper parameters must be set prior to training and can often require tuning to achieve optimal results. Here are some common hyper parameters for various algorithms:</p>
+<ul>
+<li><p>k-Nearest Neighbor:</p>
+<ul>
+<li><p>Number of neighbors (k): a smaller value of k can lead to over fitting, as the model becomes sensitive to noise in the training data, while a larger k may oversimplify the model, increasing bias toward the majority classes and potentially missing out on important patterns.</p></li>
+</ul></li>
+<li><p>Support Vector Machines:</p>
+<ul>
+<li><p>Regularization parameter (C): balances the trade-off between achieving a low training error and a low testing error. A smaller C value allows for a larger margin between classes, enhancing the model’s robustness against outliers, but may result in under fitting. Conversely, a larger C can lead to a more complex model that fits the training data closely, risking over fitting.</p></li>
+</ul></li>
+<li><p>Artificial Neural Networks:</p>
+<ul>
+<li><p>Number of hidden layers (K): a larger value increases model capacity to learn from massive data on complex tasks</p></li>
+<li><p>Learning rate (<span class="math inline">\(\alpha\)</span>): a learning rate that is too high can lead to unstable learning, causing the model to diverge, while a rate that is too low may result in slow convergence and getting stuck in undesirable local minima</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="cross-validation" data-number="0.5.2">
+<h3 data-number="1.5.2"><span class="header-section-number">1.5.2</span> Cross-validation</h3>
+<p>Cross-validation is used to compare the efficacy of various hyper parameters throughout the tuning process. The model is trained and tested for each combination of hyper parameters, and the results are summarized over k iterations to provide an overall performance score. It is more rigorous and randomized than single validation split, helping to mitigate issues like over fitting and ensuring that the model generalizes well to unseen data.. The general procedure involves the following steps:</p>
+<ol>
+<li><p>Shuffle the dataset randomly: to prevent any ordering bias and ensure that each fold is representative of the entire dataset</p></li>
+<li><p>Split the dataset into k groups: divided into k equally sized groups or folds</p></li>
+<li><p>For each group</p>
+<ol>
+<li><p>Take that group as a hold-out or validation dataset</p></li>
+<li><p>Combine the remaining k-1 groups as one training dataset</p></li>
+<li><p>Fit a model on the training set and evaluate it on the validation (holdout) set</p></li>
+<li><p>Retain the evaluation scores and discard the model</p></li>
+</ol></li>
+<li><p>Average the scores of the model to get a single k-fold validation score</p></li>
+</ol>
+<div class="center">
+<p><img src="img/lecture6/cross_validation.png" alt="image" /></p>
+</div>
+</section>
+<section id="accuracy-confusion-matrix" data-number="0.5.3">
+<h3 data-number="1.5.3"><span class="header-section-number">1.5.3</span> Accuracy, Confusion Matrix</h3>
+<p><strong>Accuracy</strong> is a metric that measures how often a machine learning model correctly predicts the outcome. It can be written as: <span class="math display">\[\text{Accuracy} = \frac{\text{\# of correctly labeled samples}}{\text{Total \# of samples}}\]</span> If you have imbalanced classes, accuracy is less useful since it gives equal weight to the model’s ability to predict all categories, which can be misleading and disguise low performance on the target class.</p>
+<div class="center">
+<table>
+<caption>Grading Table with True/False Positive/Negative Labels</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><strong>Q#</strong></th>
+<th style="text-align: center;"><strong>Answer Key</strong></th>
+<th style="text-align: center;"><strong>Your Answer</strong></th>
+<th style="text-align: center;"><strong>Grading</strong></th>
+<th style="text-align: center;"><strong>?</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">FP</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">F</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">TN</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">TP</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">F</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">TN</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">TP</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">F</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">FN</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">TP</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">F</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">TN</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">T</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">FP</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">10</td>
+<td style="text-align: center;">F</td>
+<td style="text-align: center;">F</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">TN</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>A better way to analyze the accuracy of your model is by evaluating the <strong>confusion matrix</strong>, which consists of:</p>
+<ul>
+<li><p>True Positive (TP): Positive and successfully accepted</p></li>
+<li><p>False Positive (FP): Negative, but mistakenly accepted</p></li>
+<li><p>True Negative (TN): Negative and successfully rejected</p></li>
+<li><p>False Negative (FN): Positive, but mistakenly rejected</p></li>
+</ul>
+<p>This can be better visualized in a confusion matrix, which allows you to evaluate the precision and recall of your model.</p>
+<div class="center">
+<table>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;" rowspan="4"><strong>Actual<br />
+Value</strong></td>
+<td style="text-align: right;"><strong></strong></td>
+<td style="text-align: center;" colspan="2"><strong>Prediction outcome</strong></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><strong></strong></td>
+<td style="text-align: center;"><strong>P</strong></td>
+<td style="text-align: center;"><strong>N</strong></td>
+<td style="text-align: left;"><strong></strong></td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;"><strong>P</strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: right;"><strong>N</strong></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: left;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="example-multi-class-confusion-matrix" data-number="0.5.3.1">
+<h4 data-number="1.5.3.1"><span class="header-section-number">1.5.3.1</span> Example: Multi-class Confusion Matrix</h4>
+<div class="center">
+<p><img src="img/lecture6/apple.png" alt="image" /></p>
+</div>
+<p>A confusion matrix is not limited to a True/False table but can be generated for all multi-class classifiers. For instance, the confusion matrix below compares 3 different classes: Apple, Orange, and Mango. When analyzing the confusion matrix, the diagonal corresponds to correct predictions for each class. For example, Apple has 7 correct predictions, which represents the True Positives (TP) for Apple when viewed in a one-vs-rest sense. Here we treat ’Apple’ as the positive class and ’<span>Orange,Mango</span>’ as negative.</p>
+<p>For Apple: The True Negatives (TN) are all entries that are neither in the Apple row nor the Apple column: TN = (2 + 3 + 2 + 1) = 8.</p>
+<p>The False Positives (FP) are the samples predicted as Apple but belonging to other classes: FP = (8 + 9) = 17.</p>
+<p>The False Negatives (FN) are Apple samples predicted as another class: FN = (1 + 3) = 4.</p>
+<p>From this we can calculate: Precision = 7 / (7 + 17) = 0.29,</p>
+<p>Recall = 7 / (7 + 4) = 0.64,</p>
+<p>F1-score = 2 × (0.29 × 0.64) / (0.29 + 0.64) = 0.40.</p>
+<div class="center">
+<p><img src="img/lecture6/con.png" alt="image" /></p>
+</div>
+<p>An interesting question in the lecture was about which matrix has the a higher error. In these matrices, black represents 0 and white represents 256. In the left matrix, the diagonal is shades white, while the rest is darker. This tells us that there is a very high TP and a low FP and FN, resulting in high precision and recall and overall low error. The second matrix on the right however is very scattered and has a diagonal of black squares. This means that there are little to no TP, meaning low precision and recall and overall high error.</p>
+</section>
+</section>
+<section id="precision-recall-and-f1-score" data-number="0.5.4">
+<h3 data-number="1.5.4"><span class="header-section-number">1.5.4</span> Precision, Recall, and F1 Score</h3>
+<p>In classification problems, evaluating model performance requires more than simply measuring overall accuracy, especially when classes are imbalanced or when different types of errors carry different costs. Three fundamental metrics used to analyze classifier behavior are <strong>precision</strong>, <strong>recall</strong>, and the <strong>F1 score</strong>. Each metric captures a different aspect of prediction quality.</p>
+<p><strong>Precision</strong> is defined as <span class="math display">\[\text{Precision} = \frac{TP}{TP + FP},\]</span> and measures the proportion of predicted positive samples that are actually positive. In other words, precision answers the question: <em>“Of all the samples the model labeled as positive, how many were correct?”</em> Precision becomes particularly important when the cost of false positives is high (e.g., flagging important emails as spam).</p>
+<p><strong>Recall</strong> is defined as <span class="math display">\[\text{Recall} = \frac{TP}{TP + FN},\]</span> and measures the proportion of actual positive samples that were correctly identified by the model. It answers the question: <em>“Of all the truly positive samples, how many did the model successfully detect?”</em> Recall is especially important when false negatives are costly (e.g., missing a disease in medical diagnosis).</p>
+<p>Because precision and recall often trade off against each other, it is useful to combine them into a single metric. The <strong>F1 score</strong> is defined as the harmonic mean of precision and recall: <span class="math display">\[\text{F1 Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}.\]</span> The harmonic mean penalizes extreme imbalances between precision and recall, meaning that a high F1 score can only be achieved when both metrics are reasonably high.</p>
+</section>
+<section id="precisionrecall-trade-off-decision-threshold" data-number="0.5.5">
+<h3 data-number="1.5.5"><span class="header-section-number">1.5.5</span> Precision–Recall Trade-off (Decision Threshold)</h3>
+<p>Many classifiers output a <em>score</em> (e.g., probability or confidence) and then apply a <em>decision threshold</em> to convert scores into class labels. Changing this threshold moves the classifier along a trade-off curve: a <strong>stricter</strong> threshold predicts fewer positives (often <em>higher precision</em>, <em>lower recall</em>), while a <strong>softer</strong> threshold predicts more positives (often <em>higher recall</em>, <em>lower precision</em>).</p>
+<p>Equivalently, increasing the threshold typically decreases the number of false positives (FP), which tends to <em>increase precision</em>, but increases the number of false negatives (FN), which tends to <em>decrease recall</em>. The opposite happens when the threshold is decreased. Which operating point is best depends on the application costs (e.g., prioritize recall when missing positives is costly; prioritize precision when false alarms are costly).</p>
+<section id="illustrative-example" data-number="0.5.5.1">
+<h4 data-number="1.5.5.1"><span class="header-section-number">1.5.5.1</span> Illustrative Example</h4>
+<p>Suppose a classifier predicts 5 samples as positive, of which 3 are correct, and there are 4 true positive samples in total in the dataset. Then <span class="math display">\[P = \frac{TP}{TP+FP} = \frac{3}{5} = 0.6, 
+\qquad
+R = \frac{TP}{TP+FN} = \frac{3}{4} = 0.75,\]</span> and the F1 score is <span class="math display">\[F_1 = 2 \times \frac{PR}{P+R}
+= 2 \times \frac{0.6 \times 0.75}{0.6 + 0.75}
+= 0.667.\]</span> This illustrates how the harmonic mean penalizes imbalance between precision and recall.</p>
+</section>
+<section id="visualizing-the-threshold-effect" data-number="0.5.5.2">
+<h4 data-number="1.5.5.2"><span class="header-section-number">1.5.5.2</span> Visualizing the Threshold Effect</h4>
+<div class="center">
+<p><img src="img/lecture6/pre.png" alt="image" /></p>
+</div>
+<p>The diagram above shows how moving the threshold changes which samples are labeled positive, thereby changing the counts of FP and FN. As the threshold increases, precision often improves (fewer FP) while recall often decreases (more FN).</p>
+<div class="center">
+<p><img src="img/lecture6/cur.png" alt="image" /></p>
+</div>
+<p>The curve above visualizes this relationship continuously across thresholds: low thresholds tend to yield <em>high recall / lower precision</em>, while high thresholds tend to yield <em>higher precision / lower recall</em>. Selecting a threshold means choosing an operating point along this trade-off.</p>
+</section>
+</section>
+<section id="roc-curve" data-number="0.5.6">
+<h3 data-number="1.5.6"><span class="header-section-number">1.5.6</span> ROC Curve</h3>
+<p>The Receiver Operating Characteristic (ROC) curve evaluates a binary classifier <em>across all decision thresholds</em> by plotting the <strong>True Positive Rate (TPR)</strong> versus the <strong>False Positive Rate (FPR)</strong>. Each threshold produces one point on the curve.</p>
+<p><span class="math display">\[\text{TPR (Recall/Sensitivity)} = \frac{TP}{TP + FN},
+\qquad
+\text{FPR} = \frac{FP}{FP + TN}.\]</span> Equivalently, <strong>Specificity</strong> (True Negative Rate) is <span class="math display">\[\text{TNR (Specificity)} = \frac{TN}{TN + FP} = 1 - \text{FPR}.\]</span></p>
+<div class="center">
+<p><img src="img/lecture6/curve.png" alt="image" /></p>
+</div>
+<p>A useful interpretation is that ROC focuses on the classifier’s <em>ranking behavior</em>: how well it separates positive examples from negative ones as the threshold changes.</p>
+</section>
+<section id="area-under-the-roc-curve-auc-roc" data-number="0.5.7">
+<h3 data-number="1.5.7"><span class="header-section-number">1.5.7</span> Area Under the ROC Curve (AUC-ROC)</h3>
+<div class="center">
+<p><img src="img/lecture6/roc_com.png" alt="image" /></p>
+</div>
+<p>The Area Under the ROC Curve (AUC-ROC) summarizes ROC performance as a single number in <span class="math inline">\([0,1]\)</span>. One interpretation is: <em>AUC-ROC is the probability that a randomly chosen positive example receives a higher score than a randomly chosen negative example.</em> AUC-ROC <span class="math inline">\(=1\)</span> indicates perfect ranking; AUC-ROC <span class="math inline">\(=0.5\)</span> corresponds to random guessing.</p>
+<section id="note-on-class-imbalance." data-number="0.5.7.0.1">
+<h5 data-number="1.5.7.0.1"><span class="header-section-number">1.5.7.0.1</span> Note on class imbalance.</h5>
+<p>When the dataset is highly imbalanced, ROC curves can look overly optimistic because FPR may stay small even when the absolute number of false positives is large (due to many true negatives). In such cases, the precision–recall curve is often more informative.</p>
+</section>
+</section>
+<section id="precisionrecall-pr-curve-and-pr-auc" data-number="0.5.8">
+<h3 data-number="1.5.8"><span class="header-section-number">1.5.8</span> Precision–Recall (PR) Curve and PR-AUC</h3>
+<div class="center">
+<p><img src="img/lecture6/PRC.png" alt="image" /></p>
+</div>
+<p>The Precision–Recall (PR) curve plots <strong>Precision</strong> versus <strong>Recall</strong> across thresholds: <span class="math display">\[\text{Precision} = \frac{TP}{TP + FP},
+\qquad
+\text{Recall} = \frac{TP}{TP + FN}.\]</span> PR curves emphasize performance on the positive class and therefore are typically preferred under class imbalance. The area under this curve (PR-AUC) is a common summary metric, where higher values indicate better trade-off between capturing positives (recall) while keeping false alarms low (precision).</p>
+</section>
+<section id="example-evaluation-plots-from-a-trained-classifier" data-number="0.5.9">
+<h3 data-number="1.5.9"><span class="header-section-number">1.5.9</span> Example: Evaluation Plots from a Trained Classifier</h3>
+<p>In this example, we summarize classifier performance using several standard plots.</p>
+<p>Figure <a href="#fig:cm_binary" data-reference-type="ref" data-reference="fig:cm_binary">1</a> shows the confusion matrix for a binary classifier, which makes the types of errors explicit (false positives vs. false negatives) and enables computation of accuracy, precision, recall, and F1 score.</p>
+<figure>
+<img src="img/lecture6/confusion_matrix_binary.png" id="fig:cm_binary" alt="Confusion matrix for a binary classifier. Rows correspond to true labels and columns to predicted labels." /><figcaption aria-hidden="true">Confusion matrix for a binary classifier. Rows correspond to true labels and columns to predicted labels.</figcaption>
+</figure>
+<p>Figure <a href="#fig:lc" data-reference-type="ref" data-reference="fig:lc">2</a> shows a learning curve (training vs. validation accuracy vs. training set size). A persistent gap between the training and validation curves suggests overfitting, whereas both curves low and close suggest underfitting. As the training set grows, validation performance typically stabilizes if the model generalizes well.</p>
+<figure>
+<img src="img/lecture6/learning_curve.png" id="fig:lc" alt="Learning curve showing training and validation accuracy as a function of training set size." /><figcaption aria-hidden="true">Learning curve showing training and validation accuracy as a function of training set size.</figcaption>
+</figure>
+<p>Figure <a href="#fig:roc_binary" data-reference-type="ref" data-reference="fig:roc_binary">3</a> shows the ROC curve (TPR vs. FPR) across all thresholds, with AUC summarizing ranking quality. ROC is often most informative when classes are relatively balanced.</p>
+<figure>
+<img src="img/lecture6/roc_curve_2.png" id="fig:roc_binary" alt="ROC curve for binary classification (true positive rate vs. false positive rate)." /><figcaption aria-hidden="true">ROC curve for binary classification (true positive rate vs. false positive rate).</figcaption>
+</figure>
+<p>Figure <a href="#fig:pr_binary" data-reference-type="ref" data-reference="fig:pr_binary">4</a> shows the precision–recall (PR) curve, which is typically more informative than ROC under class imbalance, since it focuses on performance on the positive class (precision) while increasing coverage (recall).</p>
+<figure>
+<img src="img/lecture6/pr_curve.png" id="fig:pr_binary" alt="Precision–recall curve for binary classification." /><figcaption aria-hidden="true">Precision–recall curve for binary classification.</figcaption>
+</figure>
+<p>Figure <a href="#fig:thresh_tradeoff" data-reference-type="ref" data-reference="fig:thresh_tradeoff">5</a> shows how precision and recall vary with the decision threshold. This plot is useful for selecting an operating point that matches application costs (e.g., favor recall when false negatives are costly).</p>
+<figure>
+<img src="img/lecture6/threshold_tradeoff.png" id="fig:thresh_tradeoff" alt="Precision and recall as functions of the decision threshold." /><figcaption aria-hidden="true">Precision and recall as functions of the decision threshold.</figcaption>
+</figure>
+<p>Finally, Figure <a href="#fig:roc_multiclass" data-reference-type="ref" data-reference="fig:roc_multiclass">6</a> shows a multi-class ROC plot using a One-vs-Rest (OvR) strategy. Micro-averaging weights classes by frequency, while macro-averaging treats all classes equally.</p>
+<figure>
+<img src="img/lecture6/multiclass_roc_ovr.png" id="fig:roc_multiclass" alt="Multi-class ROC curves using a One-vs-Rest strategy with micro and macro averages." /><figcaption aria-hidden="true">Multi-class ROC curves using a One-vs-Rest strategy with micro and macro averages.</figcaption>
+</figure>
+<p>(Details on multi-class ROC construction are discussed in Section <a href="#sec:multiroc" data-reference-type="ref" data-reference="sec:multiroc">6.1</a>.)</p>
+</section>
+</section>
+<section id="additional-details" data-number="0.6">
+<h2 data-number="1.6"><span class="header-section-number">1.6</span> Additional Details</h2>
+<section id="sec:multiroc" data-number="0.6.1">
+<h3 data-number="1.6.1"><span class="header-section-number">1.6.1</span> Multi-Class ROC Curves</h3>
+<p>When evaluating the performance of a classifier in a multi-class setting, the ROC curve can be extended beyond its binary classification use. Typically, ROC curves display the true positive rate (TPR) against the false positive rate (FPR), but in multi-class problems, this requires modifications. Two common approaches are used: the One-vs-Rest (OvR) and One-vs-One (OvO) schemes.</p>
+<p>In the <strong>One-vs-Rest (OvR)</strong> approach, a separate ROC curve is calculated for each class by treating it as the positive class and considering all other classes as the negative class. This results in one ROC curve per class. These individual curves can then be combined using averaging techniques.</p>
+<ul>
+<li><p><strong>Micro-averaging</strong> aggregates the contributions from all classes, calculating the overall true positives and false positives, and then computing a single ROC curve. This method is sensitive to class imbalances, as it gives more weight to classes with more samples. It’s useful when overall performance is the focus, especially in imbalanced datasets.</p></li>
+<li><p><strong>Macro-averaging</strong>, on the other hand, computes the ROC curve for each class independently and then averages the results. This treats each class equally, regardless of how many instances it contains, making it more appropriate for balanced datasets where the performance on each class is equally important.</p></li>
+</ul>
+<p>For example:<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> the figure below illustrates a multi-class ROC analysis using the One-vs-Rest (OvR) strategy, showing per-class ROC curves along with micro- and macro-averaged performance.</p>
+<div class="center">
+<p><img src="img/lecture6/roc_multiclass.png" alt="image" /></p>
+</div>
+<p>We can also consider classifiers between each pair of classes, resulting in <span class="math inline">\(\frac{k(k-1)}{2}\)</span> total ROC curves. This constitutes the <strong>One-vs-One (OvO)</strong> approach, and micro/macro-averaging can similarly used to aggregate the results.</p>
+</section>
+</section>
+<section id="qa-section" data-number="0.7">
+<h2 data-number="1.7"><span class="header-section-number">1.7</span> Q&amp;A Section</h2>
+<ol>
+<li><p><strong>Question:</strong> Given the following softmax output matrix for 5 inputs and 3 possible classes, where each row represents the softmax probabilities for the corresponding input across the 3 classes:</p>
+<p><span class="math display">\[\begin{bmatrix}
+    0.2 &amp; 0.5 &amp; 0.3 \\
+    0.1 &amp; 0.7 &amp; 0.2 \\
+    0.6 &amp; 0.3 &amp; 0.1 \\
+    0.3 &amp; 0.3 &amp; 0.4 \\
+    0.5 &amp; 0.2 &amp; 0.3
+    \end{bmatrix}\]</span></p>
+<p>The true labels for the 5 inputs are given in the table below:</p>
+<div class="center">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Input</th>
+<th style="text-align: center;">True Label</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Find the predicted labels, calculate the number of incorrect predictions, and construct the confusion matrix based on the predicted and true labels.</p>
+<p><strong>Solution:</strong> The predicted class for each input is obtained by taking the <em>argmax</em> of each row of the softmax matrix. We assume class labels are indexed as <span class="math inline">\(\{1,2,3\}\)</span>.</p>
+<p><span class="math display">\[\begin{aligned}
+\text{Input 1: } &amp; [0.2,\,0.5,\,0.3] \rightarrow \hat{y}_1 = 2 \\
+\text{Input 2: } &amp; [0.1,\,0.7,\,0.2] \rightarrow \hat{y}_2 = 2 \\
+\text{Input 3: } &amp; [0.6,\,0.3,\,0.1] \rightarrow \hat{y}_3 = 1 \\
+\text{Input 4: } &amp; [0.3,\,0.3,\,0.4] \rightarrow \hat{y}_4 = 3 \\
+\text{Input 5: } &amp; [0.5,\,0.2,\,0.3] \rightarrow \hat{y}_5 = 1
+\end{aligned}\]</span></p>
+<p>Thus, the predicted labels are:</p>
+<p><span class="math display">\[\{\hat{y}_i\} = \{2, 2, 1, 3, 1\}\]</span></p>
+<p>The true labels are:</p>
+<p><span class="math display">\[\{y_i\} = \{2, 1, 1, 3, 1\}\]</span></p>
+<p>Comparing predictions with true labels, only Input 2 is misclassified (true label <span class="math inline">\(1\)</span>, predicted <span class="math inline">\(2\)</span>). Therefore, there is <strong>1 incorrect prediction</strong>.</p>
+<p>To construct the confusion matrix, we use a <span class="math inline">\(3\times3\)</span> matrix where:</p>
+<p><span class="math display">\[\text{rows} = \text{true classes}, \quad
+\text{columns} = \text{predicted classes}.\]</span></p>
+<p>We count occurrences of each <span class="math inline">\((\text{true},\text{predicted})\)</span> pair:</p>
+<p><span class="math display">\[\begin{aligned}
+\text{True class 1: } &amp; \text{predicted as }1 \text{ twice (inputs 3,5)}, \\
+                      &amp; \text{predicted as }2 \text{ once (input 2)} \\[2mm]
+\text{True class 2: } &amp; \text{predicted as }2 \text{ once (input 1)} \\[2mm]
+\text{True class 3: } &amp; \text{predicted as }3 \text{ once (input 4)}
+\end{aligned}\]</span></p>
+<p>Hence, the confusion matrix is:</p>
+<p><span class="math display">\[\begin{bmatrix}
+2 &amp; 1 &amp; 0 \\
+0 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 1
+\end{bmatrix}\]</span></p>
+<p>Row <span class="math inline">\(i\)</span> corresponds to true class <span class="math inline">\(i\)</span>, and column <span class="math inline">\(j\)</span> corresponds to predicted class <span class="math inline">\(j\)</span>. For example, entry <span class="math inline">\((1,2)=1\)</span> indicates one sample from class 1 was predicted as class 2.</p></li>
+<li><p><strong>Question:</strong> You are given a <em>balanced</em> dataset for a binary classification task where the number of positive and negative samples is equal (in general, balanced is to say that they are roughly equal). After training your model, you receive the following confusion matrix:</p>
+<p><span class="math display">\[\begin{bmatrix}
+    40 &amp; 10 \\
+    10 &amp; 40
+    \end{bmatrix}\]</span></p>
+<p>What are the accuracy and F1 score for this model?</p>
+<ol>
+<li><p>Accuracy = 0.80, F1 Score = 0.80</p></li>
+<li><p>Accuracy = 0.90, F1 Score = 0.90</p></li>
+<li><p>Accuracy = 0.90, F1 Score = 0.89</p></li>
+<li><p>Accuracy = 0.95, F1 Score = 0.94</p></li>
+</ol>
+<p><strong>Solution:</strong> In this balanced dataset, the number of positive and negative samples is equal, so both accuracy and F1 score should give a good representation of model performance. To calculate accuracy, we use the formula:</p>
+<p><span class="math display">\[\text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}} = \frac{40 + 40}{40 + 40 + 10 + 10} = 0.80\]</span></p>
+<p>Next, for the F1 score, we calculate precision and recall:</p>
+<p><span class="math display">\[\text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}} = \frac{40}{40 + 10} = 0.80\]</span></p>
+<p><span class="math display">\[\text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} = \frac{40}{40 + 10} = 0.80\]</span></p>
+<p>Then, the F1 score is:</p>
+<p><span class="math display">\[\text{F1 Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}} = 2 \times \frac{0.80 \times 0.80}{0.80 + 0.80} = 0.80\]</span></p>
+<p>Thus, the correct answer is: <strong>(a) Accuracy = 0.80, F1 Score = 0.80</strong>.</p></li>
+<li><p><strong>Question:</strong> Now suppose you are given an <em>imbalanced</em> dataset for a binary classification task where 90% of the samples are negative, and only 10% are positive. After training your model, you receive the following confusion matrix:</p>
+<p><span class="math display">\[\begin{bmatrix}
+    85 &amp; 5 \\
+    10 &amp; 0
+    \end{bmatrix}\]</span></p>
+<p>What are the accuracy and F1 score for this model?</p>
+<ol>
+<li><p>Accuracy = 0.85, F1 Score = 0.00</p></li>
+<li><p>Accuracy = 0.90, F1 Score = 0.00</p></li>
+<li><p>Accuracy = 0.85, F1 Score = 0.91</p></li>
+<li><p>Accuracy = 0.90, F1 Score = 0.25</p></li>
+</ol>
+<p><strong>Solution:</strong> In this imbalanced dataset, accuracy can be misleading because the model may perform well on the majority class (negative samples) while failing completely on the minority positive class.</p>
+<p>From the confusion matrix</p>
+<p><span class="math display">\[\begin{bmatrix}
+85 &amp; 5 \\
+10 &amp; 0
+\end{bmatrix}\]</span></p>
+<p>using the standard layout (rows = true class, columns = predicted class):</p>
+<p><span class="math display">\[\text{TN} = 85, \quad
+\text{FP} = 5, \quad
+\text{FN} = 10, \quad
+\text{TP} = 0\]</span></p>
+<p><span class="math display">\[\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}
+= \frac{0 + 85}{0 + 85 + 5 + 10}
+= 0.85\]</span></p>
+<p>Although accuracy appears high, the model completely fails to detect the positive class.</p>
+<p><span class="math display">\[\text{Precision} = \frac{TP}{TP + FP} = \frac{0}{0 + 5} = 0\]</span></p>
+<p><span class="math display">\[\text{Recall} = \frac{TP}{TP + FN} = \frac{0}{0 + 10} = 0\]</span></p>
+<p><span class="math display">\[\text{F1 Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}} = 0\]</span></p>
+<p>Therefore, the correct answer is:</p>
+<p><span class="math display">\[\boxed{\textbf{(a) Accuracy = 0.85, F1 Score = 0.00}}\]</span></p>
+<p>In this imbalanced setting, accuracy is misleading because the model can score high by predicting the majority (negative) class. In contrast, the F1 score for the positive class is 0, correctly reflecting that the model completely fails to identify positive examples. Notice that if the positive and negative classes were flipped, we would see the following calculations instead: <span class="math display">\[\text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}} = \frac{0}{0 + 10} = 0\]</span></p>
+<p><span class="math display">\[\text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} = \frac{0}{0 + 5} = 0\]</span></p>
+<p><span class="math display">\[\text{F1 Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}} = 0\]</span></p>
+<p>This again reflects poorly on the performance of the negative class, which is now the original positive class (fairly good accuracy). From this exercise, we can see that we must be careful on how we report on the performance of a classifier using these different metrics, especially in class imbalanced settings.</p></li>
+<li><p>Consider the table below, which shows model predictions and ground truth for a binary classification task.</p>
+<p><span class="math display">\[\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Sample} &amp; \textbf{Ground Truth} &amp; \textbf{Model Prediction} \\
+\hline
+1 &amp; 1 &amp; 1 \\
+2 &amp; 1 &amp; 0 \\
+3 &amp; 0 &amp; 1 \\
+4 &amp; 1 &amp; 1 \\
+5 &amp; 0 &amp; 0 \\
+6 &amp; 0 &amp; 0 \\
+7 &amp; 0 &amp; 0 \\
+8 &amp; 0 &amp; 1 \\
+\hline
+\end{tabular}\]</span></p>
+<p>Calculate the following evaluation metrics:</p>
+<ul>
+<li><p>True Positive Rate (TPR), i.e. Sensitivity/Recall</p></li>
+<li><p>False Positive Rate (FPR)</p></li>
+<li><p>Precision</p></li>
+<li><p>Specificity</p></li>
+<li><p>F1 score</p></li>
+</ul>
+<p><strong>Solution:</strong></p>
+<p><strong>Step 1: Identify TP, FP, TN, FN for each sample</strong></p>
+<div class="center">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><strong>Sample</strong></th>
+<th style="text-align: center;"><strong>Ground Truth</strong></th>
+<th style="text-align: center;"><strong>Prediction</strong></th>
+<th style="text-align: center;"><strong>Type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">TP</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">FN</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">FP</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">TP</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">TN</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">TN</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">TN</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">FP</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Step 2: Count each category</strong></p>
+<ul>
+<li><p><strong>True Positives (TP)</strong> = 2 (samples 1, 4)</p></li>
+<li><p><strong>False Positives (FP)</strong> = 2 (samples 3, 8)</p></li>
+<li><p><strong>True Negatives (TN)</strong> = 3 (samples 5, 6, 7)</p></li>
+<li><p><strong>False Negatives (FN)</strong> = 1 (sample 2)</p></li>
+</ul>
+<p><strong>Step 3: Compute evaluation metrics</strong></p>
+<p><span class="math display">\[\begin{aligned}
+R=\text{True Positive Rate (TPR)} &amp;= \frac{TP}{TP + FN} = \frac{2}{2 + 1} = \frac{2}{3} \\[6pt]
+\text{False Positive Rate (FPR)} &amp;= \frac{FP}{FP + TN} = \frac{2}{2 + 3} = \frac{2}{5} \\[6pt]
+P=\text{Precision} &amp;= \frac{TP}{TP + FP} = \frac{2}{2 + 2} = \frac{1}{2} \\[6pt]
+\text{Specificity} &amp;= \frac{TN}{TN + FP} = \frac{3}{3 + 2} = \frac{3}{5} \\[6pt]
+\text{F1 Score} &amp;= 2\times\frac{P\times R}{P + R} 
+= 2\times\frac{(1/2)(2/3)}{1/2 + 2/3}
+= \frac{4}{7}
+\end{aligned}\]</span></p>
+<p>Notice that</p>
+<p><span class="math display">\[1-\text{Specificity} = 1-\frac{3}{5} = \frac{2}{5} = \text{FPR}.\]</span></p></li>
+</ol>
+</section>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p><a href="https://scikit-learn.org/stable/auto_examples/model_selection/plot_roc.html">Source</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</body>
+</html>
+
+</main>
+</body>
+</html>

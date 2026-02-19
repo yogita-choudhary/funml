@@ -1,0 +1,882 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>L2_ECE4252-8803_NaiveBayes</title>
+  <link rel="stylesheet" href="../assets/style.css"/>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<nav>
+  <a href="../index.html">Home</a>
+</nav>
+<main>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>_Lecture2</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="center">
+
+</div>
+<p><strong>Contributors:</strong> Dr. Ahmad Mustafa, Dr. Motaz Alfarraj, Dr. Ashraf Alattar, Dr. Chen Zhou</p>
+<p><strong>Teaching Assistants</strong> with remarkable contributions include: Kuo-Wei Lai, Wuyang Du, Shiva Mahato, Michael Zhou, Ninghan Zhong</p>
+<p><strong>Disclaimer</strong>: <span>All content of these notes are part of this course at Georgia Tech. Any re-use or distribution is not permitted without pre-approved permission. All these notes belong to, created by, and copyrighted for Ghassan AlRegib and Mohit Prabhushankar, Georgia Tech, 2021–2028.</span></p>
+<p><strong>License</strong>: <span>These lecture notes are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</span></p>
+<p><strong>Errata</strong>: <span><em>Please submit any errata you find using the following form: <a href="https://forms.office.com/r/fbg9dMWPgY">Errata Form for FunML Textbook</a> or visit: <a href="https://forms.office.com/r/fbg9dMWPgY">https://forms.office.com/r/fbg9dMWPgY</a></em></span></p>
+<section id="lecture-objectives" data-number="0.1">
+<h2 data-number="1.1"><span class="header-section-number">1.1</span> Lecture Objectives</h2>
+<ol>
+<li><p>Provide an overview of classification in machine learning</p>
+<ul>
+<li><p>Distinguish between supervised and unsupervised learning.</p></li>
+<li><p>Comprehend how learning algorithms work by leveraging experience (data) to improve predictions.</p></li>
+</ul></li>
+<li><p>Introduce the key challenges involved in classification tasks</p>
+<ul>
+<li><p>Define the classification task, including how to map inputs <span class="math inline">\(X\)</span> to discrete outputs <span class="math inline">\(Y\)</span>.</p></li>
+<li><p>Understand the challenges associated with classification, such as identifying decision boundaries.</p></li>
+</ul></li>
+<li><p>Explain predictor classifier modeling and the general process</p></li>
+<li><p>Discuss different types of classification models:</p>
+<ul>
+<li><p>Case-based vs. Model-based</p></li>
+<li><p>Feature-based vs. End-to-end</p></li>
+<li><p>Binary, Multi-class, Multi-label, and Multi-output classification</p></li>
+</ul></li>
+<li><p>Introduce and explain two specific classification algorithms:</p>
+<ul>
+<li><p><span class="math inline">\(k\)</span>-Nearest Neighbor (<span class="math inline">\(k\)</span>-NN) Classifier</p></li>
+<li><p>Naïve Bayes Classifier</p></li>
+</ul></li>
+<li><p>Provide examples and case studies to illustrate the application of these classification techniques</p></li>
+</ol>
+</section>
+<section id="the-learning-algorithm" data-number="0.2">
+<h2 data-number="1.2"><span class="header-section-number">1.2</span> The Learning Algorithm</h2>
+<p>There are 2 types of learning algorithms</p>
+<ul>
+<li><p><strong>Unsupervised Learning</strong> - there is no target label; the algorithm tries to discover structure (e.g., clusters) from <span class="math inline">\(x\)</span> alone</p>
+<ul>
+<li><p>Unsupervised learning algorithms:</p>
+<ul>
+<li><p>Work with datasets containing multiple features but lacking labeled outputs.</p></li>
+<li><p>Aim to learn useful properties about the structure of the data.</p></li>
+<li><p>A common goal is clustering similar examples together.</p></li>
+</ul></li>
+<li><p><strong>Key Application:</strong></p>
+<ul>
+<li><p>Discover hidden patterns in data.</p></li>
+</ul></li>
+<li><p><strong>Example Algorithms:</strong></p>
+<ul>
+<li><p>K-means clustering</p></li>
+<li><p>Hierarchical (agglomerative) clustering</p></li>
+<li><p>Gaussian mixture models (GMMs)</p></li>
+<li><p>Principal component analysis (PCA)</p></li>
+<li><p>Autoencoders</p></li>
+</ul></li>
+</ul></li>
+<li><p><strong>Supervised Learning</strong> - there is a target label <span class="math inline">\(y\)</span>; the algorithm learns a mapping from inputs <span class="math inline">\(x\)</span> to outputs <span class="math inline">\(y\)</span> (i.e., <span class="math inline">\(p(y \mid x)\)</span>)</p>
+<ul>
+<li><p>Supervised learning algorithms:</p>
+<ul>
+<li><p>Work with datasets where each example is associated with a label or target.</p></li>
+<li><p>Learn a mapping function <span class="math inline">\(p(y|\mathbf{x})\)</span> based on labeled instances <span class="math inline">\(\mathbf{x}\)</span> and their corresponding labels <span class="math inline">\(y\)</span>.</p></li>
+</ul></li>
+<li><p><strong>Example:</strong></p>
+<ul>
+<li><p>The Iris dataset, where measurements of iris plants are annotated with species labels.</p>
+<p>A supervised learning algorithm can study this dataset and learn to classify iris plants into three different species based on their measurements.</p></li>
+</ul></li>
+<li><p><strong>Key Idea:</strong></p>
+<ul>
+<li><p>The term "supervised" reflects the role of an instructor providing correct labels to guide the learning process.</p></li>
+</ul></li>
+<li><p><strong>Example Algorithms:</strong></p>
+<ul>
+<li><p>Logistic regression</p></li>
+<li><p>Decision trees / random forests</p></li>
+<li><p>Support vector machines (SVMs)</p></li>
+<li><p>k-NN classifier</p></li>
+<li><p>Neural networks (CNNs, RNNs, MLPs, etc.)</p></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="classification" data-number="0.3">
+<h2 data-number="1.3"><span class="header-section-number">1.3</span> Classification</h2>
+<p>Classification is the task of approximating a mapping function <span class="math inline">\(f: X \rightarrow Y\)</span>, where <span class="math inline">\(X\)</span> is the set of input variables, and <span class="math inline">\(Y\)</span> is the set of discrete output variables (classes). The goal is to label objects in <span class="math inline">\(X\)</span> with their correct class in <span class="math inline">\(Y\)</span>. The process of classification finds decision boundaries between labeled data and uses that boundary to label new, unseen data.</p>
+<p>In 2D, a decision boundary is typically a curve (or line) that separates regions assigned to different classes; in higher dimensions it becomes a separating surface. Once a boundary is learned from labeled data, predicting a new data point reduces to determining which side of the boundary it lies on.</p>
+<section id="classification-vs-regression-vs-clustering" data-number="0.3.1">
+<h3 data-number="1.3.1"><span class="header-section-number">1.3.1</span> Classification vs Regression vs Clustering</h3>
+<ul>
+<li><p><strong>Classification:</strong> Finds decision boundary(ies) between labeled data and uses that boundary to label new objects.</p></li>
+<li><p><strong>Regression:</strong> Finds a linear or non-linear real-valued function to predict mapping to a single value.</p></li>
+<li><p><strong>Clustering:</strong> Groups similar non-labeled data into clusters. The number of clusters is generally pre-determined, but it could be estimated by the clustering method.</p></li>
+</ul>
+</section>
+<section id="types-of-classification-models" data-number="0.3.2">
+<h3 data-number="1.3.2"><span class="header-section-number">1.3.2</span> Types of Classification Models</h3>
+<ul>
+<li><p><strong>Case-based vs. Model-based</strong></p>
+<ul>
+<li><p><strong>Case-based</strong>:</p>
+<ul>
+<li><p>Does not explicitly learn a parametric model during training (stores the data instead).</p></li>
+<li><p>Accumulates data and processes it only during query time to predict the class of new data.</p>
+<p>– Example: k-Nearest Neighbor (k-NN) assigns a label to new data based on the most related data in the stored training data.</p></li>
+</ul></li>
+<li><p><strong>Model-based</strong>:</p>
+<ul>
+<li><p>Creates a classification model based on the given training data before receiving new data.</p></li>
+<li><p>The model is then used for quick predictions later.</p>
+<p>- Example: Decision Tree, Naive Bayes, Artificial Neural Networks.</p></li>
+</ul></li>
+</ul></li>
+<li><p><strong>Feature-based vs. End-to-End</strong></p>
+<ul>
+<li><p><strong>Feature-based models</strong> require extracting a set of features (feature vectors) from each data item in the raw dataset.</p></li>
+<li><p><strong>End-to-end models</strong> train directly on inputs, learning features automatically.</p></li>
+</ul></li>
+<li><p><strong>Binary vs. Multi-class vs. Multi-label Classification</strong></p>
+<ul>
+<li><p><strong>Binary Classification</strong>: Distinguishes between two classes, often as a specific class vs. the rest.</p>
+<ul>
+<li><p>Example: Support Vector Machines (SVM).</p></li>
+</ul></li>
+<li><p><strong>Multi-class Classification</strong>: Handles more than two classes.</p>
+<ul>
+<li><p>Example: Random Forest.</p></li>
+</ul></li>
+<li><p><strong>Multi-label Classification</strong>: Classifies a single instance into multiple classes simultaneously.</p>
+<ul>
+<li><p>Suitable for cases where multiple objects of interest are present in a single input.</p></li>
+</ul></li>
+</ul></li>
+<li><p><strong>Multi-output Classification</strong></p>
+<ul>
+<li><p>Predicts multiple target variables simultaneously (each output may be binary or multi-class).</p></li>
+</ul></li>
+</ul>
+</section>
+</section>
+<section id="k-nearest-neighbor-k-nn-classifier" data-number="0.4">
+<h2 data-number="1.4"><span class="header-section-number">1.4</span> k-Nearest Neighbor (k-NN) Classifier</h2>
+<p>The <span class="math inline">\(k\)</span>-Nearest Neighbor (k-NN) classifier is a non-parametric learning algorithm used for both classification and regression. Its strength lies in the simplicity of the algorithm and the fact that it doesn’t require model training but instead relies on the entire dataset at prediction time.</p>
+<section id="overview" data-number="0.4.1">
+<h3 data-number="1.4.1"><span class="header-section-number">1.4.1</span> Overview</h3>
+<ul>
+<li><p><span class="math inline">\(k\)</span>-NN is considered a <strong>lazy learner</strong>, meaning it does not build a model during the training phase. Instead, all computations are postponed until a prediction is made.</p></li>
+<li><p>The classifier was first used in the 1970s and has since been applied in various fields, particularly in pattern recognition and statistical estimation.</p></li>
+<li><p>It is considered a <strong>non-parametric</strong> technique, where the only adjustable parameter is <span class="math inline">\(k\)</span>, the number of neighbors considered.</p></li>
+</ul>
+</section>
+<section id="algorithm" data-number="0.4.2">
+<h3 data-number="1.4.2"><span class="header-section-number">1.4.2</span> Algorithm</h3>
+<p>Given a dataset of labeled samples and a new sample to be classified:</p>
+<ol>
+<li><p>Calculate the distance between the new sample and all stored samples in the dataset using a chosen distance metric.</p></li>
+<li><p>Identify the <span class="math inline">\(k\)</span> samples with the smallest distances (nearest neighbors).</p></li>
+<li><p>Assign the class label of the new sample based on the majority class among the <span class="math inline">\(k\)</span> nearest neighbors.</p></li>
+</ol>
+<p><strong>Special case:</strong> When <span class="math inline">\(k = 1\)</span>, the new sample is classified based on its nearest neighbor, which can increase variance.</p>
+</section>
+<section id="distance-metrics" data-number="0.4.3">
+<h3 data-number="1.4.3"><span class="header-section-number">1.4.3</span> Distance Metrics</h3>
+<p>In <span class="math inline">\(k\)</span>-NN, the distance between data points is a key factor. Here, <span class="math inline">\(\mathbf{x}, \mathbf{y} \in \mathbb{R}^d\)</span>, and <span class="math inline">\(d\)</span> is the number of features (dimensions). Common distance metrics include:</p>
+<ul>
+<li><p><strong>Euclidean Distance</strong>: <span class="math display">\[d(\mathbf{x}, \mathbf{y}) = \sqrt{\sum_{i=1}^{d} (x_i - y_i)^2}\]</span> - Measures the straight-line distance between two points in <span class="math inline">\(d\)</span>-dimensional space.</p>
+<p>- Suitable for continuous variables with similar scales.</p></li>
+<li><p><strong>Manhattan Distance</strong>: <span class="math display">\[d(\mathbf{x}, \mathbf{y}) = \sum_{i=1}^{d} |x_i - y_i|\]</span> - Measures the sum of absolute differences between feature values.</p>
+<p>- Useful for minimizing linear distances, more robust to outliers than Euclidean.</p></li>
+<li><p><strong>Minkowski Distance</strong>: <span class="math display">\[d(\mathbf{x}, \mathbf{y}) = \left( \sum_{i=1}^{d} |x_i - y_i|^q \right)^{\frac{1}{q}}\]</span> - Generalizes Euclidean (when <span class="math inline">\(q = 2\)</span>) and Manhattan (when <span class="math inline">\(q = 1\)</span>) distances, where <span class="math inline">\(q \geq 1\)</span> is the order parameter.</p>
+<p>- Flexible, allowing adjustment based on problem specifics.</p></li>
+<li><p><strong>Hamming Distance</strong> (for categorical variables): <span class="math display">\[d(\mathbf{x}, \mathbf{y}) = \sum_{i=1}^{d} \mathbf{1}[x_i \neq y_i]\]</span> - Counts the number of differing attributes between two categorical samples.</p>
+<p>- Ideal for comparing binary/categorical feature vectors (e.g., strings).</p></li>
+</ul>
+</section>
+<section id="example-1-classification-using-euclidean-distance" data-number="0.4.4">
+<h3 data-number="1.4.4"><span class="header-section-number">1.4.4</span> Example 1: Classification Using Euclidean Distance</h3>
+<p>Consider a dataset where we need to classify a new data point based on its nearest neighbors. The dataset consists of the following labeled data points:</p>
+<ul>
+<li><p>Data Point A: <span class="math inline">\((1, 2)\)</span> - Class 0</p></li>
+<li><p>Data Point B: <span class="math inline">\((2, 3.5)\)</span> - Class 0</p></li>
+<li><p>Data Point C: <span class="math inline">\((4, 1)\)</span> - Class 1</p></li>
+<li><p>Data Point D: <span class="math inline">\((4, 4)\)</span> - Class 1</p></li>
+<li><p>Data Point E: <span class="math inline">\((1.5, 4)\)</span> - Class 0</p></li>
+<li><p>Data Point F: <span class="math inline">\((3.5, 2)\)</span> - Class 1</p></li>
+</ul>
+<p>The new data point to classify is <span class="math inline">\((3, 2.5)\)</span>.</p>
+<p><img src="img/lecture2/example1.png" alt="image" /></p>
+<p><strong>Step 1: Calculate Euclidean Distances</strong></p>
+<ul>
+<li><p><span class="math inline">\(d(\text{New Point}, A) = \sqrt{(3 - 1)^2 + (2.5 - 2)^2} = \sqrt{2^2 + 0.5^2} = \sqrt{4.25} \approx 2.06\)</span></p></li>
+<li><p><span class="math inline">\(d(\text{New Point}, B) = \sqrt{(3 - 2)^2 + (2.5 - 3.5)^2} = \sqrt{1^2 + (-1)^2} = \sqrt{2} \approx 1.41\)</span></p></li>
+<li><p><span class="math inline">\(d(\text{New Point}, C) = \sqrt{(3 - 4)^2 + (2.5 - 1)^2} = \sqrt{(-1)^2 + 1.5^2} = \sqrt{3.25} \approx 1.80\)</span></p></li>
+<li><p><span class="math inline">\(d(\text{New Point}, D) = \sqrt{(3 - 4)^2 + (2.5 - 4)^2} = \sqrt{(-1)^2 + (-1.5)^2} = \sqrt{3.25} \approx 1.80\)</span></p></li>
+<li><p><span class="math inline">\(d(\text{New Point}, E) = \sqrt{(3 - 1.5)^2 + (2.5 - 4)^2} = \sqrt{1.5^2 + (-1.5)^2} = \sqrt{4.5} \approx 2.12\)</span></p></li>
+<li><p><span class="math inline">\(d(\text{New Point}, F) = \sqrt{(3 - 3.5)^2 + (2.5 - 2)^2} = \sqrt{(-0.5)^2 + 0.5^2} = \sqrt{0.5} \approx 0.71\)</span></p></li>
+</ul>
+<p><strong>Step 2: Identify Nearest Neighbors</strong></p>
+<p>For <span class="math inline">\(k = 3\)</span>, the nearest neighbors are:</p>
+<ul>
+<li><p>Points F, B, and C (tie with D; choose C by index order), since these have the smallest distances.</p></li>
+</ul>
+<p><strong>Step 3: Assign Class Label</strong></p>
+<p>The majority class among the nearest neighbors is:</p>
+<ul>
+<li><p>2 neighbors from Class 1 (F and C), 1 from Class 0 (B). <strong>Class 1 is assigned</strong>.</p></li>
+</ul>
+</section>
+<section id="example-2-classification-with-an-outlier-using-manhattan-distance" data-number="0.4.5">
+<h3 data-number="1.4.5"><span class="header-section-number">1.4.5</span> Example 2: Classification with an Outlier Using Manhattan Distance</h3>
+<p>Consider a dataset with an outlier, appearing to be misclassified or on the wrong side of the decision boundary:</p>
+<ul>
+<li><p>Data Point A: <span class="math inline">\((1.2, 2.8)\)</span> - Class 0</p></li>
+<li><p>Data Point B: <span class="math inline">\((3.7, 4.1)\)</span> - Class 0</p></li>
+<li><p>Data Point C: <span class="math inline">\((6.2, 5.0)\)</span> - Class 1</p></li>
+<li><p>Data Point D: <span class="math inline">\((7.5, 3.8)\)</span> - Class 1</p></li>
+<li><p>Data Point E: <span class="math inline">\((7.2, 4.7)\)</span> - Class 0<br />
+(Outlier)</p></li>
+</ul>
+<p>The new data point to classify is <span class="math inline">\((7.5, 4.5)\)</span> (we’ll call it F).</p>
+<p><img src="img/lecture2/example2.png" alt="image" /></p>
+<p><strong>Step 1: Calculate Manhattan Distances</strong></p>
+<ul>
+<li><p><span class="math inline">\(d(\text{New Point}, A) = |7.5 - 1.2| + |4.5 - 2.8| = 6.3 + 1.7 = 8.0\)</span></p></li>
+<li><p><span class="math inline">\(d(\text{New Point}, B) = |7.5 - 3.7| + |4.5 - 4.1| = 3.8 + 0.4 = 4.2\)</span></p></li>
+<li><p><span class="math inline">\(d(\text{New Point}, C) = |7.5 - 6.2| + |4.5 - 5.0| = 1.3 + 0.5 = 1.8\)</span></p></li>
+<li><p><span class="math inline">\(d(\text{New Point}, D) = |7.5 - 7.5| + |4.5 - 3.8| = 0.0 + 0.7 = 0.7\)</span></p></li>
+<li><p><span class="math inline">\(d(\text{New Point}, E) = |7.5 - 7.2| + |4.5 - 4.7| = 0.3 + 0.2 = 0.5\)</span></p></li>
+</ul>
+<p><strong>Scenario 1: k = 1, Including Outlier</strong></p>
+<p>With <span class="math inline">\(k = 1\)</span> and the outlier included, the nearest neighbor is:</p>
+<ul>
+<li><p>Point E (the outlier), which is closest with a distance of 0.5.</p></li>
+</ul>
+<p>Since Point E is labeled as Class 0, the new point is <strong>classified as Class 0</strong>.</p>
+<p><strong>Scenario 2: k = 1, Removing Outlier</strong></p>
+<p>If we remove the outlier (Point E), the new nearest neighbor is:</p>
+<ul>
+<li><p>Point D, with a distance of 0.7.</p></li>
+</ul>
+<p>Since Point D is labeled as Class 1, the new point is <strong>classified as Class 1</strong>.</p>
+<p><strong>Scenario 3: k = 3, Including Outlier</strong></p>
+<p>With <span class="math inline">\(k = 3\)</span> and the outlier included, the three nearest neighbors are:</p>
+<ul>
+<li><p>Point E (Class 0) with a distance of 0.5</p></li>
+<li><p>Point D (Class 1) with a distance of 0.7</p></li>
+<li><p>Point C (Class 1) with a distance of 1.8</p></li>
+</ul>
+<p>The majority class among these neighbors is Class 1 (2 neighbors from Class 1 and 1 from Class 0), so the new point is <strong>classified as Class 1</strong>.</p>
+<p>Here we see how having outliers, e.g. due to noisy data, can affect the k-NN algorithm. We can see from this example that increasing <span class="math inline">\(k\)</span> made the model less sensitive to the outlier, but if we were to increase <span class="math inline">\(k\)</span> too much then it could lead to underfitting (see below).</p>
+</section>
+<section id="choosing-the-value-of-k" data-number="0.4.6">
+<h3 data-number="1.4.6"><span class="header-section-number">1.4.6</span> Choosing the Value of <span class="math inline">\(k\)</span></h3>
+<ul>
+<li><p>Selecting <span class="math inline">\(k\)</span> is crucial:</p>
+<ul>
+<li><p>Small <span class="math inline">\(k\)</span> values lead to high variance (overfitting).</p></li>
+<li><p>Larger <span class="math inline">\(k\)</span> values reduce variance but can introduce bias (underfitting).</p></li>
+</ul></li>
+<li><p>Cross-validation can be used to determine the optimal <span class="math inline">\(k\)</span> by evaluating performance on validation sets.</p></li>
+</ul>
+</section>
+<section id="feature-scaling" data-number="0.4.7">
+<h3 data-number="1.4.7"><span class="header-section-number">1.4.7</span> Feature Scaling</h3>
+<section id="min-max-normalization" data-number="0.4.7.1">
+<h4 data-number="1.4.7.1"><span class="header-section-number">1.4.7.1</span> Min-Max Normalization</h4>
+<ul>
+<li><p>Distance metrics can be biased if features have different scales.</p></li>
+<li><p>For example, in the scenario covered in class, loan amounts (in dollars) may dominate the distance calculation compared to age (in years).</p></li>
+<li><p>To address this, features should be normalized: <span class="math display">\[x&#39;_{i,j} = \frac{x_{i,j} - \min(x_{:,j})}{\max(x_{:,j}) - \min(x_{:,j})}\]</span></p></li>
+</ul>
+<p>Where:</p>
+<ul>
+<li><p><span class="math inline">\(x&#39;_{i,j}\)</span> is the normalized value of the feature.</p></li>
+<li><p><span class="math inline">\(x_{i,j}\)</span> is the original value of the feature.</p></li>
+<li><p><span class="math inline">\(\min(x_{:,j})\)</span> and <span class="math inline">\(\max(x_{:,j})\)</span> are the minimum and maximum values of the feature across the dataset.</p></li>
+</ul>
+<p>Here we use <strong>min–max normalization</strong> (scales to [0, 1]). This transformation scales all features to a [0, 1] range, preventing any single feature from dominating the distance computation.</p>
+</section>
+<section id="z-score-standardization" data-number="0.4.7.2">
+<h4 data-number="1.4.7.2"><span class="header-section-number">1.4.7.2</span> Z-Score Standardization</h4>
+<ul>
+<li><p>Another common feature scaling method is <strong>z-score standardization</strong>, which centers the data to mean 0 and scales it to unit variance.</p></li>
+<li><p>Useful when features have different spreads/variances and when outliers may affect min–max scaling. <span class="math display">\[x&#39;_{i,j} = \frac{x_{i,j} - \mu_j}{\sigma_j}\]</span></p></li>
+</ul>
+<p>Where:</p>
+<ul>
+<li><p><span class="math inline">\(x&#39;_{i,j}\)</span> is the standardized value of feature <span class="math inline">\(j\)</span> for sample <span class="math inline">\(i\)</span>.</p></li>
+<li><p><span class="math inline">\(\mu_j\)</span> is the mean of feature <span class="math inline">\(j\)</span> across the dataset.</p></li>
+<li><p><span class="math inline">\(\sigma_j\)</span> is the standard deviation of feature <span class="math inline">\(j\)</span> across the dataset.</p></li>
+</ul>
+<p>Z-score standardization ensures features have comparable scale (mean 0, variance 1), which improves distance-based methods like <span class="math inline">\(k\)</span>-NN.</p>
+</section>
+</section>
+</section>
+<section id="naïve-bayes-classifier" data-number="0.5">
+<h2 data-number="1.5"><span class="header-section-number">1.5</span> Naïve Bayes Classifier</h2>
+<p>The Naïve Bayes classifier is a probabilistic model based on applying Bayes’ theorem with the “naïve” assumption that the features are conditionally independent given the class label and performs surprisingly well for certain tasks, particularly in text classification.</p>
+<section id="overview-1" data-number="0.5.1">
+<h3 data-number="1.5.1"><span class="header-section-number">1.5.1</span> Overview</h3>
+<ul>
+<li><p>The Naïve Bayes classifier assumes that all features are <strong>conditionally independent</strong> given the class label.</p></li>
+<li><p>It is a <strong>generative model</strong>, meaning it models <span class="math inline">\(P(x \mid y)\)</span> and <span class="math inline">\(P(y)\)</span>.</p></li>
+<li><p>This method is well-suited for high-dimensional data and performs well even with a small amount of training data.</p></li>
+</ul>
+</section>
+<section id="bayes-theorem" data-number="0.5.2">
+<h3 data-number="1.5.2"><span class="header-section-number">1.5.2</span> Bayes’ Theorem</h3>
+<p>The Naïve Bayes classifier uses Bayes’ theorem: <span class="math display">\[P(y \mid \mathbf{x}) = \frac{P(\mathbf{x} \mid y)P(y)}{P(\mathbf{x})}\]</span> Where:</p>
+<ul>
+<li><p><span class="math inline">\(P(y \mid \mathbf{x})\)</span> is the posterior probability of class <span class="math inline">\(y\)</span> given the feature vector <span class="math inline">\(\mathbf{x}\)</span>.</p></li>
+<li><p><span class="math inline">\(P(\mathbf{x} \mid y)\)</span> is the likelihood of the feature vector <span class="math inline">\(\mathbf{x}\)</span> given class <span class="math inline">\(y\)</span>.</p></li>
+<li><p><span class="math inline">\(P(y)\)</span> is the prior probability of class <span class="math inline">\(y\)</span>.</p></li>
+<li><p><span class="math inline">\(P(\mathbf{x})\)</span> is the evidence or the marginal likelihood.</p></li>
+</ul>
+<p>The “naïve” assumption imposes the condition that the features <span class="math inline">\(x_i\)</span> are conditionally independent on the class label <span class="math inline">\(y\)</span>. Given this assumption, the likelihood <span class="math inline">\(P(\mathbf{x} \mid y)\)</span> can be simplified as: <span class="math display">\[P(\mathbf{x} \mid y) = \ \prod_{i=1}^{d} P(x_i \mid y)\]</span> where <span class="math inline">\(x_i\)</span> represents individual features. Note that this is a strong assumption, but even if it’s not totally accurate for a given dataset, it turns out to work very well in practice.</p>
+</section>
+<section id="types-of-naïve-bayes-models" data-number="0.5.3">
+<h3 data-number="1.5.3"><span class="header-section-number">1.5.3</span> Types of Naïve Bayes Models</h3>
+<p>There are several variants of the Naïve Bayes classifier depending on the nature of the features:</p>
+<ul>
+<li><p><strong>Gaussian Naïve Bayes</strong>:</p>
+<ul>
+<li><p>Assumes that continuous features follow a normal distribution.</p></li>
+<li><p>For each class <span class="math inline">\(y\)</span>, we estimate <span class="math inline">\(\mu_y\)</span> and <span class="math inline">\(\sigma_y\)</span> from the training examples belonging to that class (and typically separately for each feature).</p></li>
+<li><p>The likelihood is computed using: <span class="math display">\[P(x_i \mid y) = \frac{1}{\sqrt{2\pi\sigma_y^2}} \mathrm{e}^{-\frac{(x_i - \mu_y)^2}{2\sigma_y^2}}\]</span></p>
+<p><span class="math display">\[P(x \mid y) = \prod_{i=1}^d P(x_i \mid y)\]</span></p></li>
+<li><p>Here, <span class="math inline">\(\mu_y\)</span> and <span class="math inline">\(\sigma_y\)</span> are the mean and standard deviation of the feature <span class="math inline">\(x_i\)</span> for class <span class="math inline">\(y\)</span> (typically separately for each feature).</p></li>
+</ul></li>
+<li><p><strong>Multinomial Naïve Bayes</strong>:</p>
+<ul>
+<li><p>Used for discrete count features (e.g., text classification).</p></li>
+<li><p>Likelihood: <span class="math display">\[P(x \mid y)= \frac{\left(\sum_{j=1}^d x_j\right)!}{\prod_{j=1}^d x_j!}
+        \prod_{j=1}^d \theta_{y,j}^{\,x_j}\]</span></p></li>
+<li><p>Here, <span class="math inline">\(\theta_{y,j} = P(\text{feature }j \mid y)\)</span>.</p></li>
+<li><p><em>The multinomial coefficient is constant w.r.t. <span class="math inline">\(y\)</span> and is often ignored in prediction.</em></p></li>
+</ul></li>
+<li><p><strong>Bernoulli Naïve Bayes</strong>:</p>
+<ul>
+<li><p>Suitable for binary/boolean features.</p></li>
+<li><p>The model assumes that features are binary indicators (<span class="math inline">\(x_j \in \{0,1\}\)</span>; e.g., presence or absence of a word in a document).</p></li>
+<li><p>Likelihood: <span class="math display">\[P(x \mid y)=\prod_{j=1}^d p_{y,j}^{\,x_j}(1-p_{y,j})^{(1-x_j)}\]</span></p></li>
+</ul></li>
+</ul>
+</section>
+<section id="advantages-and-disadvantages" data-number="0.5.4">
+<h3 data-number="1.5.4"><span class="header-section-number">1.5.4</span> Advantages and Disadvantages</h3>
+<ul>
+<li><p><strong>Advantages</strong>:</p>
+<ul>
+<li><p><strong>Fast</strong>: Naïve Bayes is computationally efficient and works well with large datasets.</p></li>
+<li><p><strong>Multi-class prediction</strong>: It handles multiple classes naturally.</p></li>
+<li><p><strong>Low storage requirements</strong>: It only needs to store a small set of parameters per class (e.g., feature statistics/probabilities).</p></li>
+</ul></li>
+<li><p><strong>Disadvantages</strong>:</p>
+<ul>
+<li><p><strong>Zero-frequency problem</strong>: If a class-feature combination is not observed in training data, the model assigns zero probability. Smoothing techniques like Laplace smoothing can help mitigate this.</p></li>
+<li><p><strong>Strong independence assumption</strong>: The naive assumption of independence is often unrealistic, which can lead to lower accuracy.</p></li>
+<li><p><strong>Poor probability calibration</strong>: Predicted probabilities can be overconfident (especially when independence assumption fails).</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="applications" data-number="0.5.5">
+<h3 data-number="1.5.5"><span class="header-section-number">1.5.5</span> Applications</h3>
+<p>Naïve Bayes is commonly applied in:</p>
+<ul>
+<li><p><strong>Text Classification</strong>: Including spam detection and sentiment analysis.</p></li>
+<li><p><strong>Real-time prediction</strong>: Due to its efficiency, it is well-suited for real-time applications.</p></li>
+<li><p><strong>Recommendation Systems</strong>: Used in content-based recommendation (e.g., modeling user/item attributes, collaborative filtering, etc.).</p></li>
+</ul>
+</section>
+<section id="example-done-in-class-available-in-lecture-slides" data-number="0.5.6">
+<h3 data-number="1.5.6"><span class="header-section-number">1.5.6</span> Example (done in class &amp; available in lecture slides)</h3>
+<p>Consider a weather dataset where the goal is to predict if a game will be played based on weather conditions (e.g., sunny, rainy) and wind conditions (e.g., strong, weak). Using the Naïve Bayes approach, we would:</p>
+<ol>
+<li><p>Convert the dataset into a frequency table.</p></li>
+<li><p>Build a likelihood table by determining the likelihoods for each feature given the class.</p></li>
+<li><p>Use Bayes’ theorem to compute the posterior probabilities and predict the class with the highest probability.</p></li>
+</ol>
+</section>
+<section id="another-example-email-spam-classification" data-number="0.5.7">
+<h3 data-number="1.5.7"><span class="header-section-number">1.5.7</span> Another Example: Email Spam Classification</h3>
+<p>In this example, we develop a spam filter using the (Bernoulli) Naïve Bayes classifier to classify emails as either “Spam" or “Not Spam" based on the presence or absence of certain keywords.</p>
+<p><strong>Step 1: Dataset</strong></p>
+<p>Consider the following dataset of emails, with features indicating the presence (1) or absence (0) of specific keywords:</p>
+<div class="center">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><strong>Email</strong></th>
+<th style="text-align: center;"><strong>Contains “offer"</strong></th>
+<th style="text-align: center;"><strong>Contains “free"</strong></th>
+<th style="text-align: center;"><strong>Contains “win"</strong></th>
+<th style="text-align: center;"><strong>Class</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">Spam</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">Spam</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">Spam</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">Not Spam</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">Not Spam</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">Spam</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">Not Spam</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The goal is to classify a new email with the following feature vector: <span class="math inline">\((1, 1, 0)\)</span> (i.e., it contains “offer" and “free", but not “win").</p>
+<p><strong>Step 2: Convert the Dataset into a Frequency Table</strong></p>
+<p>First, we compute the frequencies of each feature for the classes “Spam" and “Not Spam".<br />
+<strong>Feature</strong>: contains “offer"<br />
+<br />
+</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">Spam</th>
+<th style="text-align: center;">Not Spam</th>
+<th style="text-align: center;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Yes (1)</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">No (0)</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Total</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">7</td>
+</tr>
+</tbody>
+</table>
+<p><br />
+<br />
+<strong>Feature</strong>: contains “free"<br />
+<br />
+</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">Spam</th>
+<th style="text-align: center;">Not Spam</th>
+<th style="text-align: center;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Yes (1)</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">No (0)</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Total</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">7</td>
+</tr>
+</tbody>
+</table>
+<p><br />
+<br />
+<strong>Feature</strong>: contains “win"<br />
+<br />
+</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"></th>
+<th style="text-align: center;">Spam</th>
+<th style="text-align: center;">Not Spam</th>
+<th style="text-align: center;">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Yes (1)</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">4</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">No (0)</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Total</td>
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">7</td>
+</tr>
+</tbody>
+</table>
+<p><br />
+<br />
+<strong>Step 3: Build the Likelihood Table</strong></p>
+<p>Using the frequency tables above, we calculate the likelihood of each feature given the class.<br />
+<strong>Likelihood</strong>:<br />
+<br />
+</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><strong>Feature</strong></th>
+<th style="text-align: center;"><strong>P(Feature <span class="math inline">\(\mid\)</span> Spam)</strong></th>
+<th style="text-align: center;"><strong>P(Feature <span class="math inline">\(\mid\)</span> Not Spam)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Contains “offer" (1)</td>
+<td style="text-align: center;">2/4</td>
+<td style="text-align: center;">1/3</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Does not contain “offer" (0)</td>
+<td style="text-align: center;">2/4</td>
+<td style="text-align: center;">2/3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Contains “free" (1)</td>
+<td style="text-align: center;">2/4</td>
+<td style="text-align: center;">1/3</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Does not contain “free" (0)</td>
+<td style="text-align: center;">2/4</td>
+<td style="text-align: center;">2/3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Contains “win" (1)</td>
+<td style="text-align: center;">4/4</td>
+<td style="text-align: center;">0/3</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Does not contain “win" (0)</td>
+<td style="text-align: center;">0/4</td>
+<td style="text-align: center;">3/3</td>
+</tr>
+</tbody>
+</table>
+<p><br />
+<br />
+<strong>Step 4: Apply Bayes’ Theorem and Make a Prediction</strong></p>
+<p>Now, we calculate the posterior probability for each class (Spam and Not Spam) using Bayes’ theorem. We multiply the prior probability of each class by the likelihood of the features given that class.</p>
+<p>The prior probabilities are calculated as follows: <span class="math display">\[P(\text{Spam}) = \frac{4}{7}, \quad P(\text{Not Spam}) = \frac{3}{7}\]</span></p>
+<p>For the new email with the feature vector <span class="math inline">\((1, 1, 0)\)</span>:</p>
+<p><span class="math display">\[P(\text{Spam $\mid$ (1, 1, 0)}) \propto P(\text{Spam}) \times P(\text{cont. offer $\mid$ Spam}) \times P(\text{cont. free $\mid$ Spam}) \times P(\text{not cont. win $\mid$ Spam})\]</span> <span class="math display">\[= \frac{4}{7} \times \frac{2}{4} \times \frac{2}{4} \times \frac{0}{4} = 0\]</span></p>
+<p><span class="math display">\[P(\text{Not Spam $\mid$ (1, 1, 0)}) \propto P(\text{Not Spam}) \times P(\text{offer $\mid$ Not Spam}) \times P(\text{free $\mid$ Not Spam}) \times P(\text{not win $\mid$ Not Spam})\]</span> <span class="math display">\[= \frac{3}{7} \times \frac{1}{3} \times \frac{1}{3} \times \frac{3}{3} = \frac{3}{63} = \frac{1}{21}\]</span></p>
+<p>Since <span class="math inline">\(P(\text{Spam $\mid$ (1, 1, 0)}) = 0\)</span> and <span class="math inline">\(P(\text{Not Spam $\mid$ (1, 1, 0)}) = \frac{1}{21}\)</span>, the classifier predicts that the email is <strong>Not Spam</strong>. Notice that the model we constructed was sensitive to the <span class="math inline">\(0/4\)</span> probability for not containing “win" given it’s spam. Hence the other likelihoods were disregarded. This is an example of the zero-frequency problem, and could be mitigated using Laplace smoothing.</p>
+</section>
+</section>
+<section id="additional-details" data-number="0.6">
+<h2 data-number="1.6"><span class="header-section-number">1.6</span> Additional Details</h2>
+<ul>
+<li><p><strong>Samples:</strong> A sample is a data item to be processed (e.g., classified). It can be a document, a picture, an audio clip, a video, a row in a database or CSV file, or anything describable with a fixed set of quantitative traits.</p></li>
+<li><p><strong>Features:</strong> Features are the distinct traits or properties used to describe each data item quantitatively. These traits can include measurements, attributes, or other characteristics that represent the data item.</p></li>
+<li><p><strong>Feature Vector:</strong> A feature vector is an <span class="math inline">\(n\)</span>-dimensional vector that contains the concatenation of all features representing a sample. It is used as input to machine learning models.</p></li>
+<li><p><strong>Feature Extraction:</strong> Feature extraction is the process of transforming raw data into a feature vector, typically reducing the dimensionality. It transforms the raw data into more manageable inputs for the model.</p></li>
+<li><p><strong>Target Class:</strong> The target class refers to the correct label or category that the model is trying to predict. For example, in classification tasks, it could be the species of a plant or whether an email is spam or not.</p></li>
+<li><p><strong>Learning Model:</strong> A learning model is a class of functions that an algorithm searches to find one that best estimates the mapping between input data and the target output. The model includes both the computational structure (e.g., decision tree) and the learned parameters (weights and biases).</p></li>
+<li><p><strong>Training Algorithm:</strong> The training algorithm is the procedure that adjusts the model’s parameters based on the training data to optimize its performance in mapping inputs to correct outputs. Examples include gradient descent and backpropagation.</p></li>
+<li><p><strong>Training/Evaluation Set:</strong> The training set is the portion of data used to train the model, while the evaluation (or test) set is used to assess the model’s performance on unseen data. The evaluation set helps to measure the generalization ability of the model.</p></li>
+</ul>
+</section>
+<section id="qa-section" data-number="0.7">
+<h2 data-number="1.7"><span class="header-section-number">1.7</span> Q&amp;A Section</h2>
+<ol>
+<li><p>Assume that you are given the Iris dataset, consisting of flower measurements. Recall that each measurement is comprised of four variables, denoted by <span class="math inline">\([x_1 x_2 x_3 x_4]\)</span>. Here <span class="math inline">\(x_1\)</span> is the sepal length, <span class="math inline">\(x_2\)</span> is the sepal width, <span class="math inline">\(x_3\)</span> is the petal length, and <span class="math inline">\(x_4\)</span> is the petal width. All the measurements are continuous variables in centimeter units. A machine learning model <span class="math inline">\(f(\cdot)\)</span> is trained to estimate <span class="math inline">\(x_4\)</span> given <span class="math inline">\([x_1 x_2 x_3]\)</span> as the inputs. Which one of the following tasks does <span class="math inline">\(f(\cdot)\)</span> perform?</p>
+<ol>
+<li><p>Classification</p></li>
+<li><p>Regression</p></li>
+</ol>
+<p><strong>Solution:</strong><br />
+b) Regression</p>
+<p><strong>Explanation:</strong><br />
+The model <span class="math inline">\(f(\cdot)\)</span> is predicting a continuous variable <span class="math inline">\(x_4\)</span> based on other continuous variables <span class="math inline">\([x_1 x_2 x_3]\)</span>. Therefore, it is performing a regression task.</p></li>
+<li><p><strong>Question:</strong><br />
+You are given a dataset of handwritten digit images. Each image has been labeled with the correct digit (0-9). However, you are asked to develop a system that groups the images based on similarity, without using the provided labels during the training process.</p>
+<p>Which type of learning approach should you use for this task?</p>
+<ol>
+<li><p>Supervised Learning</p></li>
+<li><p>Unsupervised Learning</p></li>
+</ol>
+<p><strong>Solution:</strong><br />
+b) Unsupervised Learning</p>
+<p><strong>Explanation:</strong><br />
+Even though the dataset comes with labels, the task is to group the images based on their similarity without using these labels during the training process.</p></li>
+<li><p>Given the following four points in a 2D space:</p>
+<p><span class="math display">\[P_1 = (1, 2), \quad P_2 = (3, 4), \quad P_3 = (5, 1), \quad P_4 = (7, 3)\]</span></p>
+<p>Calculate the <span class="math inline">\(k=2\)</span> nearest neighbors to the new point <span class="math inline">\(P_{\text{new}} = (4, 2)\)</span> using the Manhattan distance metric.</p>
+<p><strong>Solution:</strong><br />
+<span class="math inline">\(P_3\)</span> and one of {<span class="math inline">\(P_1\)</span>, <span class="math inline">\(P_2\)</span>}</p>
+<p><strong>Explanation:</strong><br />
+First, compute the Manhattan distances between <span class="math inline">\(P_{\text{new}}\)</span> and each of the four points:</p>
+<p><span class="math display">\[\text{Distance to } P_1 = |4 - 1| + |2 - 2| = 3 + 0 = 3\]</span> <span class="math display">\[\text{Distance to } P_2 = |4 - 3| + |2 - 4| = 1 + 2 = 3\]</span> <span class="math display">\[\text{Distance to } P_3 = |4 - 5| + |2 - 1| = 1 + 1 = 2\]</span> <span class="math display">\[\text{Distance to } P_4 = |4 - 7| + |2 - 3| = 3 + 1 = 4\]</span></p>
+<p>The two nearest neighbors to <span class="math inline">\(P_{\text{new}}\)</span> are <span class="math inline">\(P_3\)</span> with a distance of 2, and either <span class="math inline">\(P_1\)</span> or <span class="math inline">\(P_2\)</span>, both with a distance of 3.</p></li>
+<li><p>Given the following feature values for a dataset (feature 1):</p>
+<p><span class="math display">\[\mathbf{x}_{:,1} = [42, 23, 4, 16, 15, 8]\]</span></p>
+<p>Standardize the data using min-max normalization to scale the features to the range [0, 1]. Provide the standardized value for <span class="math inline">\(x_{4,1} = 16\)</span>.</p>
+<p><strong>Solution:</strong><br />
+0.316</p>
+<p><strong>Explanation:</strong><br />
+First, calculate the minimum and maximum values of the dataset:</p>
+<p><span class="math display">\[\min(\mathbf{x}_{:,1}) = 4, \quad \max(\mathbf{x}_{:,1}) = 42\]</span></p>
+<p>Apply the min-max normalization formula:</p>
+<p><span class="math display">\[x_{4,1} := \frac{x_{4,1} - \min(\mathbf{x}_{:,1})}{\max(\mathbf{x}_{:,1}) - \min(\mathbf{x}_{:,1})} = \frac{16 - 4}{42 - 4} = \frac{12}{38} \approx 0.316\]</span></p>
+<p>The min-max normalization scales the value <span class="math inline">\(x_{4,1} = 16\)</span> to approximately 0.316.</p></li>
+<li><p>In a Naïve Bayes classifier, you are given the following prior probabilities and likelihoods for two binary features “free” and “win”:</p>
+<p><span class="math display">\[P(\text{Spam}) = 0.5, \qquad P(\text{Not Spam}) = 0.5\]</span> <span class="math display">\[P(\text{``free&#39;&#39;}=1 \mid \text{Spam}) = 0.6, \qquad
+P(\text{``free&#39;&#39;}=1 \mid \text{Not Spam}) = 0.3\]</span> <span class="math display">\[P(\text{``win&#39;&#39;}=1 \mid \text{Spam}) = 0.7, \qquad
+P(\text{``win&#39;&#39;}=1 \mid \text{Not Spam}) = 0.2\]</span></p>
+<p><strong>(i)</strong> Calculate the <strong>unnormalized Naïve Bayes score</strong> for the email being “Spam” given that it contains the words “free” and “win” (i.e., <span class="math inline">\(\text{``free&#39;&#39;}=1\)</span> and <span class="math inline">\(\text{``win&#39;&#39;}=1\)</span>).</p>
+<p><strong>Solution:</strong><br />
+<span class="math inline">\(0.21\)</span></p>
+<p><strong>Explanation:</strong><br />
+Using the Naïve Bayes conditional independence assumption, <span class="math display">\[P(\text{``free&#39;&#39;}=1,\,\text{``win&#39;&#39;}=1 \mid \text{Spam})
+= P(\text{``free&#39;&#39;}=1 \mid \text{Spam})P(\text{``win&#39;&#39;}=1 \mid \text{Spam})
+= 0.6 \times 0.7 = 0.42.\]</span></p>
+<p>Multiplying by the prior gives the unnormalized posterior score: <span class="math display">\[P(\text{Spam} \mid \text{``free&#39;&#39;}=1,\,\text{``win&#39;&#39;}=1)
+\propto P(\text{``free&#39;&#39;}=1,\,\text{``win&#39;&#39;}=1 \mid \text{Spam})P(\text{Spam})
+= 0.42 \times 0.5 = 0.21.\]</span></p>
+<p><strong>(ii)</strong> Compute the <strong>normalized posterior probability</strong> <span class="math display">\[P(\text{Spam}\mid \text{``free&#39;&#39;}=1,\text{``win&#39;&#39;}=1).\]</span> (Compute the corresponding unnormalized score for and normalize.)</p>
+<p><strong>Solution:</strong><br />
+<span class="math display">\[P(\text{Spam}\mid \text{``free&#39;&#39;}=1,\text{``win&#39;&#39;}=1) = \frac{0.21}{0.21 + 0.03} = 0.875.\]</span></p>
+<p><strong>Explanation:</strong><br />
+First compute the unnormalized Naïve Bayes score for : <span class="math display">\[P(\text{``free&#39;&#39;}=1,\,\text{``win&#39;&#39;}=1 \mid \text{Not Spam})
+= 0.3 \times 0.2 = 0.06,\]</span> <span class="math display">\[\text{Score}(\text{Not Spam})
+= P(\text{``free&#39;&#39;}=1,\,\text{``win&#39;&#39;}=1 \mid \text{Not Spam})P(\text{Not Spam})
+= 0.06 \times 0.5 = 0.03.\]</span></p>
+<p>Now normalize: <span class="math display">\[P(\text{Spam}\mid x)
+=
+\frac{\text{Score}(\text{Spam})}
+{\text{Score}(\text{Spam}) + \text{Score}(\text{Not Spam})}
+=
+\frac{0.21}{0.21+0.03}
+=
+0.875,\]</span> where <span class="math inline">\(x=(\text{``free&#39;&#39;}=1,\text{``win&#39;&#39;}=1)\)</span>.</p>
+<p><strong>(iii)</strong> Based on your result in (ii), classify the email as Spam or Not Spam.</p>
+<p><strong>Solution:</strong><br />
+Spam</p>
+<p><strong>Explanation:</strong><br />
+Since <span class="math inline">\(P(\text{Spam}\mid x)=0.875 &gt; P(\text{Not Spam}\mid x)=1-0.875=0.125\)</span>, we classify the email as <strong>Spam</strong>.</p></li>
+</ol>
+</section>
+</body>
+</html>
+
+</main>
+</body>
+</html>

@@ -1,0 +1,911 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>ECE4252-8803_Notes_Template</title>
+  <link rel="stylesheet" href="../assets/style.css"/>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<nav>
+  <a href="../index.html">Home</a>
+</nav>
+<main>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>_Lecture12</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="center">
+
+</div>
+<p><strong>Contributors:</strong> Dr. Ahmad Mustafa, Dr. Motaz Alfarraj, Dr. Ashraf Alattar, Dr. Chen Zhou</p>
+<p><strong>Teaching Assistants</strong> with remarkable contributions include: Kuo-Wei Lai, Wuyang Du, Shiva Mahato, Michael Zhou, Ninghan Zhong</p>
+<p><strong>Disclaimer</strong>: <span>All content of these notes are part of this course at Georgia Tech. Any re-use or distribution is not permitted without pre-approved permission. All these notes belong to, created by, and copyrighted for Ghassan AlRegib and Mohit Prabhushankar, Georgia Tech, 2021–2028.</span></p>
+<p><strong>License</strong>: <span>These lecture notes are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</span></p>
+<p><strong>Errata</strong>: <span><em>Please submit any errata you find using the following form: <a href="https://forms.office.com/r/fbg9dMWPgY">Errata Form for FunML Textbook</a> or visit: <a href="https://forms.office.com/r/fbg9dMWPgY">https://forms.office.com/r/fbg9dMWPgY</a></em></span></p>
+<section id="lecture-objectives" data-number="0.1">
+<h2 data-number="1.1"><span class="header-section-number">1.1</span> Lecture Objectives</h2>
+<p>In the previous lecture we introduced k-means clustering and its variants. Therefore, in this lecture we continue with clustering by introducing a new clustering method: Gaussian Mixture Models. Additionally, we will cover the performance metrics of a clustering method.</p>
+</section>
+<section id="recap-from-last-lecture" data-number="0.2">
+<h2 data-number="1.2"><span class="header-section-number">1.2</span> Recap From Last Lecture</h2>
+<p>k-means and its variant are all hard-clustering methods. Thereby those methods fail to works very successfully when:</p>
+<ul>
+<li><p>Clusters are not near symmetrical in shape (distance to cluster centroid is different)</p></li>
+<li><p>Overlap exists between clusters</p></li>
+</ul>
+<p>Therefore, the Clustering method, <strong>Gaussian Mixture Model</strong>, a probabilistic model for representing several <strong>normally distributed</strong> data within an overall <strong>data distribution</strong>, is needed to deal with situations k-means clustering can’t handle well.</p>
+</section>
+<section id="gmm-clustering" data-number="0.3">
+<h2 data-number="1.3"><span class="header-section-number">1.3</span> GMM Clustering</h2>
+<section id="definition-of-gmm-clustering" data-number="0.3.1">
+<h3 data-number="1.3.1"><span class="header-section-number">1.3.1</span> Definition of GMM Clustering</h3>
+<p>Assume the data <span class="math inline">\(x_1,x_2,...x_N \in \mathbb{R}^{p}\)</span> are random variables drawn independent and identically from an unknown distribution with probabilistic density <span class="math inline">\(Q(x)\)</span>. GMM estimates the likelihood of <span class="math inline">\(Q(x)\)</span> with a <strong>linear superposition</strong> of <span class="math inline">\(k\)</span> <strong>multivariate Gaussian distributions</strong> can be denoted by:<span class="math display">\[Q(x) = \sum_{j=1}^{k}\pi_{j}q_{j}(x)=\sum_{j=1}^{k}\pi_{j}\mathcal{N}   (x|\mu_{j},\Sigma_{j})\]</span> Where <span class="math inline">\(\mathcal{N}(x|\mu_{j}\Sigma_{j})\)</span> is the <strong>Gaussian Distribution</strong> denoted by:<span class="math display">\[\mathcal{N}(x|\mu_{j}\Sigma_{j})=\frac{1}{(2\pi)^{\frac{p}{2}}|\Sigma|^{\frac{1}{2}}}e^{-\frac{1}{2}(x-\mu_{j})^{T}\Sigma_{j}^{-1}(x-\mu_{j})}\]</span> in which, the parameters<br />
+<span class="math inline">\(\mu = \{\mu_1,...\mu_k\}, \: \mu_{j} \in \mathbb{R}^{p}\)</span> is the <strong>cluster means</strong>;<br />
+<span class="math inline">\(\Sigma = \{\Sigma_1,...,\Sigma_k\}, \: \Sigma_{j} \in \mathbb{R}^{p\times p}\)</span> is the <strong>cluster covariance matrices</strong> (Multi-variant equivalent of standard deviation);<br />
+<span class="math inline">\(\pi = \{\pi_1,...,\pi_k\}, \: \pi_{j}\in \mathbb{R}\)</span> is the <strong>cluster coefficients</strong> (Multi-variant equivalent of prior/likelihood) selecting <span class="math inline">\(\mathcal{N}(x|\mu_{j}\Sigma_{j})\)</span>, satisfying <span class="math inline">\(\Sigma_{j}\pi_{j} = 1\)</span><br />
+Note:</p>
+<ul>
+<li><p>GMM is a <strong>Generative model</strong> which specifically model <span class="math inline">\(p(z_i = j)\)</span> and <span class="math inline">\(p(X_i|z_i = j)\)</span></p></li>
+<li><p>GMM is a <strong>soft clustering method</strong>, which computes the probability of sach sample generated from each cluster.</p></li>
+<li><p>Given a sufficiently large number of mixture components, a GMM can be used to approximate <strong>any density</strong> defined on <span class="math inline">\(\mathbb{R}^p\)</span></p></li>
+<li><p>GMM can be though of using Naive Bayes calculation of probability with the assignment algorithm of k-means</p></li>
+</ul>
+</section>
+<section id="estimation-with-gmm-clustering" data-number="0.3.2">
+<h3 data-number="1.3.2"><span class="header-section-number">1.3.2</span> Estimation with GMM Clustering</h3>
+<p>Similar as other methods, we could also implement MLE estimation for GMM clustering, and write the likelihood function and log likelihood function as follows:<span class="math display">\[L(x,\pi,\mu,\Sigma)=\prod_{i=1}^{N}Q(x_i)=\prod_{i=1}^{N}\sum_{j=1}^{k}\pi_{j}\mathcal{N}(x|\mu_{j},\Sigma_{j})\]</span> <span class="math display">\[LL(x,\pi,\mu,\Sigma)=\sum_{i=1}^{N}log\{\sum_{j=1}^{k}\pi_{j}\mathcal{N}(x|\mu_{j},\Sigma_{j})\}\]</span> However, since the existing of clustering structure (log of sum), there is <strong>no close-form maxima</strong> for the likelihood function except for <span class="math inline">\(k=1\)</span> (<span class="math inline">\(\mu_{MLE}=\frac{1}{N}\sum_{i}^{N}x_i\)</span>, <span class="math inline">\(\Sigma_{MLE}=\frac{1}{N}\sum_{i=1}^{N}(x_i-\mu_{MLE})(x_i-\mu_{MLE})^{T}\)</span>).<br />
+Therefore, we could utilize the <strong>Expectation Maximization (EM) Algorithm</strong>, which iteratively estimates the mean <span class="math inline">\(\mu_j\)</span> with <span class="math inline">\(\gamma_i^{j}\)</span>, and in turn estimates the posterior.<br />
+The posterior <span class="math inline">\(\gamma_i^{j}\)</span>, which is also known as the <strong>responsibility</strong> of cluster j for sample <span class="math inline">\(x_i\)</span>, can be derived using Bayes Rule:<span class="math display">\[\gamma_i^{j}=p(z_i=j|x_i)=\frac{\pi_j\mathcal{N}(x_i|\mu_j,\Sigma_j)}{\sum_{j=1}^{k}\pi_j\mathcal{N}(x_i|\mu_j,\Sigma_j)}\]</span><br />
+The specific steps are as following:</p>
+<ol>
+<li><p><strong>Initialization</strong>: Initialize the mean <span class="math inline">\(\mu_j^{(0)}\)</span>, covariance <span class="math inline">\(\Sigma_j^{(0)}\)</span> and mixing coefficient <span class="math inline">\(\pi_j^{(0)}\)</span>.<br />
+(A good initialization is <span class="math inline">\(\mu_j^{(0)} =\)</span>random sample <span class="math inline">\(x_i\)</span>; <span class="math inline">\(\Sigma_j^(t)=\)</span>sample covariance; <span class="math inline">\(\pi_j^{(0)}=\frac{1}{k}\)</span>)</p></li>
+<li><p><strong>Expectation</strong>: compute the responsibility with current parameters<span class="math display">\[(\gamma_i^j)^{(t)}=\frac{\pi_j^{(t)}\mathcal{N}(x_i|\mu_j^{(t)},\Sigma_j^{(t)})}{\sum_{j=1}^{k}\pi_j^{(t)}\mathcal{N}(x_i|\mu_j^{(t)},\Sigma_j^{(t)})}\]</span></p></li>
+<li><p><strong>Maximization</strong>: Re-estimate the parameters using the current responsibilities<span class="math display">\[\mu_j^{(t+1)}=\frac{\sum_{i=1}^{N}(\gamma_i^{j})^{(t)}x_i}{\sum_{i=1}^{N}(\gamma_{i}^{j})^{(t)}}\]</span> <span class="math display">\[\Sigma_j^{(t+1)}=\frac{\sum_{i=1}^{N}(\gamma_i^{j})^{(t)}(x_i-\mu_j^{(t+1)})(x_i-\mu_j^{(t+1)})^{T}}{\sum_{i=1}^{N}(\gamma_i^{j})^{(t)}}\]</span> <span class="math display">\[\pi_j^{(t+1)}=\frac{1}{N}\sum_{i=1}^{N}(\gamma_i^{j})^{(t)}\]</span></p></li>
+<li><p><strong>Convergence Check</strong>: Evaluate the log likelihood<span class="math display">\[LL(x,\pi,\mu,\Sigma)=\sum_{i=1}^{N}log\{\sum_{j=1}^{k}\pi_{j}\mathcal{N}(x|\mu_{j},\Sigma_{j})\}\]</span> to see if there’s convergence, given by<span class="math display">\[|(LL(x,\pi,\mu,\Sigma))^{(t+1)} - (LL(x,\pi,\mu,\Sigma))^{(t)}| \leq \epsilon\]</span>if not, go back to step 2.</p></li>
+</ol>
+</section>
+<section id="aside-em-vs-mle" data-number="0.3.3">
+<h3 data-number="1.3.3"><span class="header-section-number">1.3.3</span> Aside: EM vs MLE</h3>
+<p>It’s important to appreciate the difference between the introduced EM approach above and MLE which we’ve seen before. In MLE, we optimize the likelihood of parameters directly by finding the values that maximize the likelihood function. However, in more complex cases where there are hidden (<strong>latent</strong>) variables, a direct MLE (or even MAP) estimate may not be possible. In these cases, we invoke EM as an iterative approximation of the MLE/MAP estimates. Note that EM is a general optimization technique that extends beyond GMM. In general, it consists of the two main steps:</p>
+<ul>
+<li><p><strong>Expectation (E-Step):</strong> Compute the expected value of the log-likelihood function, with respect to the current distribution of the latent variables (the responsibilities in the case of GMM). This step effectively “fills in" the latent information by computing a distribution over the latents.</p></li>
+<li><p><strong>Maximization (M-Step):</strong> Maximize this expected log-likelihood with respect to the model parameters. This step refines the parameter estimates based on the expectations from the E-Step.</p></li>
+</ul>
+</section>
+<section id="example-of-gmm-clustering" data-number="0.3.4">
+<h3 data-number="1.3.4"><span class="header-section-number">1.3.4</span> Example of GMM Clustering</h3>
+<p>We are going to implement EM Algorithm for a Gaussian mixture of 2 models.</p>
+<section id="initialization" data-number="0.3.4.1">
+<h4 data-number="1.3.4.1"><span class="header-section-number">1.3.4.1</span> Initialization</h4>
+<p>We can initialize the EM Algorithm as follows:</p>
+<figure>
+<img src="img/lecture12/GMM clustering Examples/Initialization of EM algorithm.png" alt="Initialization of EM Algorithm" /><figcaption aria-hidden="true">Initialization of EM Algorithm</figcaption>
+</figure>
+</section>
+<section id="iteration-0" data-number="0.3.4.2">
+<h4 data-number="1.3.4.2"><span class="header-section-number">1.3.4.2</span> Iteration 0</h4>
+<p>We can calculate the parameters for iteration <span class="math inline">\(0^{th}\)</span> as following:<br />
+Cluster Means: <span class="math display">\[\mu_1 = 
+\begin{bmatrix}
+0.6496 \\
+4.6208
+\end{bmatrix}, \quad
+\mu_2 = 
+\begin{bmatrix}
+4.7642 \\
+0.2020
+\end{bmatrix}\]</span></p>
+<p>Cluster Covariances: <span class="math display">\[\Sigma_1 = 
+\begin{bmatrix}
+5.3102 &amp; 0.0000 \\
+0.0000 &amp; 4.2118
+\end{bmatrix}, \quad
+\Sigma_2 = 
+\begin{bmatrix}
+5.4851 &amp; 0.0000 \\
+0.0000 &amp; 1.7956
+\end{bmatrix}\]</span> Cluster Means: <span class="math display">\[\mu_1 = 
+\begin{bmatrix}
+1.1000 \\
+2.1000
+\end{bmatrix}, \quad
+\mu_2 = 
+\begin{bmatrix}
+2.9000 \\
+3.9000
+\end{bmatrix}\]</span></p>
+<p>Cluster Covariances: <span class="math display">\[\Sigma_1 = 
+\begin{bmatrix}
+1.1052 &amp; 0.0000 \\
+0.0000 &amp; 2.2103
+\end{bmatrix}, \quad
+\Sigma_2 = 
+\begin{bmatrix}
+3.3155 &amp; 0.0000 \\
+0.0000 &amp; 4.4207
+\end{bmatrix}\]</span></p>
+<figure>
+<img src="img/lecture12/GMM clustering Examples/Iteration 0 of EM algorithm.png" alt="Iteration 0 of EM Algorithm" /><figcaption aria-hidden="true">Iteration 0 of EM Algorithm</figcaption>
+</figure>
+</section>
+<section id="iteration-50" data-number="0.3.4.3">
+<h4 data-number="1.3.4.3"><span class="header-section-number">1.3.4.3</span> Iteration 50</h4>
+<p>We can calculate the new parameters for iteration <span class="math inline">\(50^{th}\)</span> as following:<br />
+Cluster Means: <span class="math display">\[\mu_1 = 
+\begin{bmatrix}
+2.0690 \\
+3.0228
+\end{bmatrix}, \quad
+\mu_2 = 
+\begin{bmatrix}
+2.7500 \\
+2.2505
+\end{bmatrix}\]</span></p>
+<p>Cluster Covariances: <span class="math display">\[\Sigma_1 = 
+\begin{bmatrix}
+5.5456 &amp; 0.0000 \\
+0.0000 &amp; 7.5187
+\end{bmatrix}, \quad
+\Sigma_2 = 
+\begin{bmatrix}
+9.9789 &amp; 0.0000 \\
+0.0000 &amp; 7.4052
+\end{bmatrix}\]</span></p>
+<figure>
+<img src="img/lecture12/GMM clustering Examples/Iteration 50 of EM Algorithm.png" alt="Iteration 50 of EM Algorithm" /><figcaption aria-hidden="true">Iteration 50 of EM Algorithm</figcaption>
+</figure>
+</section>
+<section id="iteration-100" data-number="0.3.4.4">
+<h4 data-number="1.3.4.4"><span class="header-section-number">1.3.4.4</span> Iteration 100</h4>
+<p>We can calculate the parameters for iteration <span class="math inline">\(100^{th}\)</span> as following:<br />
+Cluster Means: <span class="math display">\[\mu_1 = 
+\begin{bmatrix}
+0.6496 \\
+4.6208
+\end{bmatrix}, \quad
+\mu_2 = 
+\begin{bmatrix}
+4.7642 \\
+0.2020
+\end{bmatrix}\]</span></p>
+<p>Cluster Covariances: <span class="math display">\[\Sigma_1 = 
+\begin{bmatrix}
+5.3102 &amp; 0.0000 \\
+0.0000 &amp; 4.2118
+\end{bmatrix}, \quad
+\Sigma_2 = 
+\begin{bmatrix}
+5.4851 &amp; 0.0000 \\
+0.0000 &amp; 1.7956
+\end{bmatrix}\]</span></p>
+<figure>
+<img src="img/lecture12/GMM clustering Examples/Iteration 100 of EM Algorithm.png" alt="Iteration 100 of EM Algorithm" /><figcaption aria-hidden="true">Iteration 100 of EM Algorithm</figcaption>
+</figure>
+</section>
+<section id="iteration-150" data-number="0.3.4.5">
+<h4 data-number="1.3.4.5"><span class="header-section-number">1.3.4.5</span> Iteration 150</h4>
+<p>We can calculate the parameters for the <span class="math inline">\(150^{th}\)</span> iteration as following:<br />
+Cluster Means: <span class="math display">\[\mu_1 = 
+\begin{bmatrix}
+0.6496 \\
+4.6208
+\end{bmatrix}, \quad
+\mu_2 = 
+\begin{bmatrix}
+4.7642 \\
+0.2020
+\end{bmatrix}\]</span></p>
+<p>Cluster Covariances: <span class="math display">\[\Sigma_1 = 
+\begin{bmatrix}
+5.3102 &amp; 0.0000 \\
+0.0000 &amp; 4.2118
+\end{bmatrix}, \quad
+\Sigma_2 = 
+\begin{bmatrix}
+5.4851 &amp; 0.0000 \\
+0.0000 &amp; 1.7956
+\end{bmatrix}\]</span></p>
+<figure>
+<img src="img/lecture12/GMM clustering Examples/Iteration 150 of EM Algorithm.png" alt="Iteration 150 of EM Algorithm" /><figcaption aria-hidden="true">Iteration 150 of EM Algorithm</figcaption>
+</figure>
+<p>Keep iterating until the log likelihood converges. Note:</p>
+<ul>
+<li><p>The diagonals of the cluster covariances are standard deviations and measure the length of the cluster shape on an axis.</p></li>
+</ul>
+</section>
+</section>
+</section>
+<section id="clustering-performance-evaluation" data-number="0.4">
+<h2 data-number="1.4"><span class="header-section-number">1.4</span> Clustering Performance Evaluation</h2>
+<p>We are going to use evaluation metrics to measure if the results produced by the clustering algorithm</p>
+<ul>
+<li><p>Are similar to some ground truth set of classes (External) or</p></li>
+<li><p>Satisfy some assumption such that members belong to the same class are more similar than member of different classes according to some similarity metrics (Internal)</p></li>
+</ul>
+<p>Note:<br />
+The evaluation metric needs to be <strong>independent of the absolute value of the labels</strong>. <strong>Permutation</strong> of the class or cluster <strong>label values</strong> will <strong>not change</strong> the <strong>evaluation score</strong>.</p>
+<section id="internal-evaluation" data-number="0.4.1">
+<h3 data-number="1.4.1"><span class="header-section-number">1.4.1</span> Internal Evaluation</h3>
+<p>For internal evaluation, the clustering result is evaluated based on <strong>the data that was clustered itself</strong>. characteristics:</p>
+<ul>
+<li><p>Algorithm producing clusters with high similarity within cluster and low similarity between clusters would score high</p></li>
+<li><p>High score doesn’t necessarily result in good information retrieval applications</p></li>
+<li><p>Biased towards algorithms that use the same cluster model</p></li>
+</ul>
+<p>The Internal Clustering Metrics are as following:</p>
+<section id="davis-bouldin-index" data-number="0.4.1.1">
+<h4 data-number="1.4.1.1"><span class="header-section-number">1.4.1.1</span> Davis-Bouldin Index</h4>
+<p>The Davis-Bouldin Index is denoted by the following formula:<span class="math display">\[DB = \frac{1}{k}\sum_{r=1}^{k}\mathop{max}_{r\neq s}\left(\frac{\sigma_r+\sigma_s}{d(m_r,m_s)}\right)\]</span> The main part is the ratio between <strong>intra-cluster distance</strong> and <strong>inter-cluster distance</strong><br />
+in which,<br />
+</p>
+<ul>
+<li><p><span class="math inline">\(k\)</span> is the number of clusters;</p></li>
+<li><p><span class="math inline">\(m_r\)</span> is the centroid of cluster <span class="math inline">\(r\)</span>;</p></li>
+<li><p><span class="math inline">\(\sigma_r\)</span> is the average distance of all samples in cluster <span class="math inline">\(r\)</span> to centroid <span class="math inline">\(m_r\)</span>. <span class="math inline">\(\sigma_r=\frac{1}{N}\sum_{i=1}^{N}d(x_i,m_r)\)</span>;</p></li>
+<li><p><span class="math inline">\(d(m_r,m_s)\)</span> is the distance between centroid <span class="math inline">\(m_r\)</span> and <span class="math inline">\(m_s\)</span>.<br />
+</p></li>
+</ul>
+<p>DB-index is used when <strong>the goal is to compare cluster separation and compactness</strong>.<br />
+Algorithms producing clusters with <strong>smaller</strong> DB index is ideal.</p>
+</section>
+<section id="dunn-index" data-number="0.4.1.2">
+<h4 data-number="1.4.1.2"><span class="header-section-number">1.4.1.2</span> Dunn Index</h4>
+<p>The Dunn Index is denoted by the following formula:<span class="math display">\[D = \frac{\displaystyle \min_{1\leq r\leq s\leq k}d(m_r,m_s)}{\displaystyle \max_{1\leq z\leq k}d&#39;(z)}\]</span></p>
+<p>The main part is the ratio between the <strong>minimal inter-cluster distance to maximal intra-cluster distance.</strong><br />
+Calculation of <span class="math inline">\(d(m_r,m_s)\)</span> is similar to the one in Davis-Bouldin Index, while <span class="math inline">\(d&#39;(z)\)</span> can also be calculated in a variety of ways(e.g. the maximal distance between any pair of element in cluster <span class="math inline">\(z\)</span>)<br />
+DB Index is used when <strong>the goal is to identify well-separated, compact clusters</strong>.<br />
+Algorithms producing clusters with <strong>bigger</strong> Dunn Index is ideal.</p>
+</section>
+<section id="silhouette-coefficient" data-number="0.4.1.3">
+<h4 data-number="1.4.1.3"><span class="header-section-number">1.4.1.3</span> Silhouette Coefficient</h4>
+<p>The Silhouette Coefficient can be calculated with the following steps:</p>
+<ol>
+<li><p>Calculate the average internal dissimilarity <span class="math inline">\(a_i\)</span> between <span class="math inline">\(x_i \in C_r\)</span> andd all other samples in <span class="math inline">\(C_r\)</span> as:<span class="math display">\[a_i = \frac{1}{|C_r|-1}\sum_{j\in C_r, i\neq j} d(x_i,x_j)\]</span></p></li>
+<li><p>Calculate the average external dissimilarity of point <span class="math inline">\(X_i\)</span> to samples in other clusters as the smallest average distance from <span class="math inline">\(x_i\)</span> to all samples in each other cluster <span class="math inline">\(C_s\)</span> as:<span class="math display">\[b_i = \mathop{min}_{i\neq j} \frac{1}{|C_s|}\sum_{x_j \in C_s} d(x_i, x_j)\]</span></p></li>
+<li><p>Calculate the silhouette coefficient as following:<span class="math display">\[s(x_i)=\begin{cases}
+            1-\frac{a_i}{b_i} &amp; \mbox{if $a_i &lt; b_i$} \\
+
+            0 &amp; \mbox{if $a_i=b_i$} \\
+
+            \frac{b_i}{a_i} - 1 &amp; \mbox{if $a_i &gt; b_i$}
+            \end{cases}\]</span></p></li>
+</ol>
+<figure>
+<img src="img/lecture12/Clustering Performance Evaluation/Silhouette Coefficient.png" alt="Demonstration of Silhouette Coefficient" /><figcaption aria-hidden="true">Demonstration of Silhouette Coefficient</figcaption>
+</figure>
+<p>Notes:</p>
+<ul>
+<li><p><span class="math inline">\(-1 \leq s(x_i) \leq 1\)</span></p></li>
+<li><p>Outliers have <strong>negative silhouette values</strong></p></li>
+</ul>
+<p>Algorithms producing clusters with <strong>bigger</strong> silhouette coefficient is ideal.<br />
+From Silhouette coefficients, we can also plot <strong>Cluster Silhouette Plot</strong> by sorting silhouette coefficients in descent order, and draw them vertically.</p>
+<figure>
+<img src="img/lecture12/Clustering Performance Evaluation/Cluster Silhouette Plot.png" alt="Cluster Silhouette Plot of k-means and GMMs" /><figcaption aria-hidden="true">Cluster Silhouette Plot of k-means and GMMs</figcaption>
+</figure>
+<p>Notes:</p>
+<ul>
+<li><p>Negative coefficients are outliers</p></li>
+<li><p>The thickness of the silhouette plot indicates the cluster size</p></li>
+<li><p>The mean silhouette coefficient can be used to measure the entire clustering performance</p></li>
+</ul>
+<p>The Cluster Silhouette Plot depicts the distribution of coefficients within each cluster, and can be used to access and compare cluster results of different methods.<br />
+</p>
+</section>
+</section>
+<section id="external-evaluations" data-number="0.4.2">
+<h3 data-number="1.4.2"><span class="header-section-number">1.4.2</span> External Evaluations</h3>
+<p>For external evaluation, the clustering results are evaluated based on <strong>data that was not used for clustering</strong> (e.g. known class labels, external benchmarks).<br />
+Requires <strong>benchmark sets</strong> referred to as <strong>"gold standard"</strong> or <strong>"ground truth"</strong> that are <strong>predetermined by humans.</strong> In all evaluations assume:</p>
+<ul>
+<li><p>There is a ground truth clustering of <span class="math inline">\(R = \{R_1,...,R_u\}\)</span> of <span class="math inline">\(u\)</span> clusters</p></li>
+<li><p>There is a computed clustering <span class="math inline">\(Q=\{Q_1,..., Q_v\}\)</span> of <span class="math inline">\(v\)</span> clusters</p></li>
+</ul>
+<section id="rand-index" data-number="0.4.2.1">
+<h4 data-number="1.4.2.1"><span class="header-section-number">1.4.2.1</span> Rand Index</h4>
+<p>The calculation of Rand Index requires measurement of the following 4 number of pairs:</p>
+<ol>
+<li><p><span class="math inline">\(a\)</span>: in the same class for both <span class="math inline">\(R\)</span> and <span class="math inline">\(Q\)</span></p></li>
+<li><p><span class="math inline">\(b\)</span>: in the same class for <span class="math inline">\(R\)</span>, but different for <span class="math inline">\(Q\)</span></p></li>
+<li><p><span class="math inline">\(c\)</span>: in the same class for <span class="math inline">\(Q\)</span>, but different for <span class="math inline">\(R\)</span></p></li>
+<li><p><span class="math inline">\(d\)</span>: in the different class for both <span class="math inline">\(R\)</span> and <span class="math inline">\(Q\)</span></p></li>
+</ol>
+<figure>
+<img src="img/lecture12/Clustering Performance Evaluation/Rand Index.png" alt="Rand Index Parameters Demonstration" /><figcaption aria-hidden="true">Rand Index Parameters Demonstration</figcaption>
+</figure>
+<p>With the four measurements, Rand Index can be denoted as:<span class="math display">\[RI(R,Q)=\frac{a+d}{a+b+c+d}\]</span> Rand index can be used to evaluate generated clustering against a ground truth clustering.<br />
+Algorithms producing clusters with <strong>bigger</strong> rand index is ideal.</p>
+</section>
+<section id="mutual-information" data-number="0.4.2.2">
+<h4 data-number="1.4.2.2"><span class="header-section-number">1.4.2.2</span> Mutual Information</h4>
+<p>Mutual Information measures the overlap between computed an ground-truth cluster on basis of information theory. The formula for Mutual information score is given as following:<span class="math display">\[MI(R, Q) = \sum_{i=1}^{|R|} \sum_{j=1}^{|Q|} \frac{|R_i \cap Q_j|}{N} \log \frac{N |R_i \cap Q_j|}{|R_i| |Q_j|}\]</span> in which,<br />
+</p>
+<ul>
+<li><p><span class="math inline">\(|R_i|\)</span> is the number of the samples in cluster <span class="math inline">\(R_i\)</span>;</p></li>
+<li><p><span class="math inline">\(|Q_j|\)</span> is the number of the samples in cluster <span class="math inline">\(Q_j\)</span>.</p></li>
+</ul>
+<p>Algorithms producing clusters with <strong>bigger</strong> Mutual Information score is ideal.</p>
+</section>
+<section id="cluster-purity" data-number="0.4.2.3">
+<h4 data-number="1.4.2.3"><span class="header-section-number">1.4.2.3</span> Cluster Purity</h4>
+<p>Purity is the measure of the extent to which clusters contain <strong>a single class</strong>.<br />
+Purity is defined as how much the <strong>ground truth</strong> clustering <strong>matches</strong> the <strong>computed clustering</strong>, i.e. for a set of <span class="math inline">\(N\)</span> data points the formula is:<span class="math display">\[\frac{1}{N} \sum_{j=1}^{v} \max_{1 \leq i \leq u} |Q_j \cap R_i|\]</span></p>
+<p>In simplistic terms, add the number of matches for each most matched computed clusters and divide that by the number of data points - that is the purity score. The closer to 1 the purity score is, the better the computed cluster is.<br />
+The purity score fails to accuracy measure a clustering algorithm if the data is imbalanced between the ground truth clusters.<br />
+</p>
+</section>
+</section>
+<section id="summary-of-metrics" data-number="0.4.3">
+<h3 data-number="1.4.3"><span class="header-section-number">1.4.3</span> Summary of Metrics</h3>
+<div class="center">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><strong>Internal</strong> (Best)</th>
+<th style="text-align: center;"><strong>External</strong> (Best)</th>
+<th style="text-align: center;"></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">Davies-Boudlin - Distinctness (Smallest)</td>
+<td style="text-align: center;">Rand-Index - Correctness (Biggest)</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">Dunn - Density (Biggest)</td>
+<td style="text-align: center;">Mutual Information Score - Overlap (Biggest)</td>
+<td style="text-align: center;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">Silhouette - Separability (Biggest of 1)</td>
+<td style="text-align: center;">Cluster Purity - Accuracy (Biggest of 1)</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="additional-details" data-number="0.5">
+<h2 data-number="1.5"><span class="header-section-number">1.5</span> Additional Details</h2>
+<p>This the FYI information and is optional to read about.</p>
+<section id="mean-shift-clustering" data-number="0.5.1">
+<h3 data-number="1.5.1"><span class="header-section-number">1.5.1</span> Mean Shift Clustering</h3>
+<p>The mean-shift algorithm seeks a mode or <strong>local maximum</strong> of <strong>density</strong> of a given distribution, which does <strong>not require prior</strong> knowledge of the <strong>number of clusters</strong>.<br />
+<br />
+In the mean shift algorithm, data points find their mode by <strong>shifting iteratively towards the mode</strong> until convergence<br />
+Note that <span class="math inline">\(K(x_i-x)\)</span> is a kernel function determining the weights of the sample <span class="math inline">\(x_i\)</span> in the window. The algorithm is as follows:</p>
+<ol>
+<li><p>Set a <strong>window</strong> <span class="math inline">\(W(x)\)</span> around each data point (pre-determined by <strong>window size/bandwidth</strong>)</p></li>
+<li><p>Compute the weighted mean of data within the window. <span class="math inline">\(m(x)=\frac{\sum_{x_i\in W(x)} K(x_i-x)x_i}{\sum_{x_i\in W(x)} K(x_i-x)}\)</span></p></li>
+<li><p><strong>Shift the window to the mean</strong>, <span class="math inline">\(m(x) - x\)</span> is called the mean shift.</p></li>
+<li><p>Repeat until <span class="math inline">\(m(x)\)</span> converges, <span class="math inline">\(m(x)\)</span> becomes the mode representing a cluster.</p></li>
+<li><p>Merge nearly-identical means, assign each data point to the mean its window converges to</p></li>
+</ol>
+<p>Computational Complexity</p>
+<ol>
+<li><p>Needs to shift many windows (a window for each data sample).</p></li>
+<li><p>Many computations will be redundant (all samples on the same path are redundant).</p></li>
+</ol>
+<p>Mean-Shift Speedup</p>
+<ol>
+<li><p>Assign all points within radius <span class="math inline">\(r\)</span> of end point to the mode</p></li>
+<li><p>Assign all points within radius <span class="math inline">\(r/c\)</span> of the search path to the mode</p></li>
+</ol>
+<p>Summary for Mean Shift Clustering</p>
+<ul>
+<li><p>Pros</p>
+<ul>
+<li><p>Model-free, does not assume any prior shape (spherical, elliptical, etc.) on data clusters</p></li>
+<li><p>Performs clustering using a single parameter (windows size/bandwidth)</p>
+<ul>
+<li><p>Window size has a physical meaning</p></li>
+</ul></li>
+<li><p>Finds variable number of modes</p></li>
+<li><p>Robust to outliers</p></li>
+</ul></li>
+<li><p>Cons</p>
+<ul>
+<li><p>Clustering depends on window size</p></li>
+<li><p>Windows size/bandwidth selection is non-trivial</p></li>
+<li><p>Computationally expensive</p></li>
+<li><p>Does not scale well with high dimensional features</p></li>
+</ul></li>
+</ul>
+</section>
+<section id="adjusted-rand-index" data-number="0.5.2">
+<h3 data-number="1.5.2"><span class="header-section-number">1.5.2</span> Adjusted Rand Index</h3>
+<p>The problem with Rand index is that the value of it can vary a lot between two random partitions.<br />
+To account for that adjusted Rand index assumes the random case as the generalized hyper-geometric distribution. Note that:<br />
+</p>
+<ul>
+<li><p>The adjusted Rand index has the maximum value 1, and its <strong>expected value is 0 in the case of random clusters</strong></p></li>
+<li><p>The adjusted Rand index is recommended for measuring agreement <strong>even</strong> when the partitions compared <strong>have different numbers of clusters</strong></p></li>
+</ul>
+<p>Use the same notation for ground truth and computed clusters, that there is <span class="math inline">\(N\)</span> elements in the dataset. The <strong>overlap</strong> between <span class="math inline">\(R\)</span> and <span class="math inline">\(Q\)</span> can be summarized in a <strong>contingency table</strong> <span class="math inline">\([n_{ij}]\)</span> where:<br />
+</p>
+<ul>
+<li><p><span class="math inline">\(n_{ij} = |R_i \cap Q_j|\)</span></p></li>
+<li><p><span class="math inline">\(n_{i,}=\sum_{j}^v n_{ij}\)</span> and <span class="math inline">\(n_{,j}=\sum_{j}^u n_{ij}\)</span></p></li>
+</ul>
+<p>With this notation we can derive a formula for the values of <span class="math inline">\(a\)</span>, <span class="math inline">\(b\)</span>, <span class="math inline">\(c\)</span>, and <span class="math inline">\(d\)</span> in the original rand index. They are as follows:<br />
+</p>
+<ul>
+<li><p><span class="math inline">\(a=\displaystyle\sum_{i, j}\binom{n_{ij}}{2}\)</span></p></li>
+<li><p><span class="math inline">\(b=\displaystyle\sum_i\binom{n_{i,}}{2} - a\)</span></p></li>
+<li><p><span class="math inline">\(c=\displaystyle\sum_j\binom{n_{,j}}{2} - a\)</span></p></li>
+<li><p><span class="math inline">\(d=\displaystyle\binom{N}{2} - a - b - c\)</span></p></li>
+</ul>
+<p>The calculation of Adjusted Rand Index is as follows:<br />
+<br />
+<span class="math inline">\(ARI=\displaystyle\frac{\sum_{i, j}\binom{n_{ij}}{2}-\left[\sum_{i}\binom{n_{i,}}{2}\sum_{j}\binom{n_{,j}}{2}\right]/\binom{N}{2}}{\frac{1}{2}\left[\sum_{i}\binom{n_{i,}}{2}+\sum_{j}\binom{n_{,j}}{2}\right]-\left[\sum_{i}\binom{n_{i,}}{2}\sum_{j}\binom{n_{,j}}{2}\right]/\binom{N}{2}}\)</span><br />
+Note:<br />
+</p>
+<ul>
+<li><p><span class="math inline">\(\sum_{i, j}\binom{n_{ij}}{2}\)</span> is the Index</p></li>
+<li><p><span class="math inline">\(\left[\sum_{i}\binom{n_{i,}}{2}\sum_{j}\binom{n_{,j}}{2}\right]/\binom{N}{2}\)</span> is the Max Index</p></li>
+<li><p><span class="math inline">\(\frac{1}{2}\left[\sum_{i}\binom{n_{i,}}{2}+\sum_{j}\binom{n_{,j}}{2}\right]\)</span> is the Expected Index</p></li>
+</ul>
+</section>
+<section id="image-segmentation" data-number="0.5.3">
+<h3 data-number="1.5.3"><span class="header-section-number">1.5.3</span> Image Segmentation</h3>
+<p>The goal of image segmentation is to separate an image into coherent regions. Clustering algorithms can process feature vectors as samples and group them into coherent cluster regions. Those coherent regions can be:</p>
+<ul>
+<li><p>Spatial proximity</p></li>
+<li><p>Similar color</p></li>
+<li><p>Similar texture</p></li>
+</ul>
+<p>There are a number of potential objectives that can be associated with image segmentation. For a quick survey of different tasks of interest in computer vision, see <a href="https://nirmalamurali.medium.com/image-classification-vs-semantic-segmentation-vs-instance-segmentation-625c33a08d50">here</a>. Image segmentation in clustering can formulated as:</p>
+<ul>
+<li><p>Each pixel is represented by a feature vector <span class="math inline">\(x_i\in\mathbb{R}^{3}\)</span> containing its color channels (RGB).</p></li>
+<li><p>Each pixel is represented by a feature vector that use color spaces such as <span class="math inline">\(L^*\)</span> ( luminosity), <span class="math inline">\(a^*\)</span> (red-green), and <span class="math inline">\(b^*\)</span> (blue-yellow).</p></li>
+</ul>
+<p>Because the color spaces in an image are not equally separable, clustering performance depends on the color space used. In general, given an image we can engineer a set of features (e.g. choosing an appropriate color space) that will best help the model we are using to differentiate between the segments of interest.</p>
+</section>
+</section>
+<section id="qa-section" data-number="0.6">
+<h2 data-number="1.6"><span class="header-section-number">1.6</span> Q&amp;A Section</h2>
+<p>The following table shows the clustering results from two different methods on five samples, along with the ground truth (GT) cluster assignments.</p>
+<table>
+<caption>Clustering outputs of two methods along with ground truth values.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Sample</th>
+<th style="text-align: center;">Features</th>
+<th style="text-align: center;">GT Cluster</th>
+<th style="text-align: center;">Method 1</th>
+<th style="text-align: center;">Method 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">[0,1]</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">[1,1]</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">[3,1]</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">[5,1]</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">[6,1]</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">3</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><p><strong>Question:</strong> What is the <strong>Rand Index (RI)</strong> for each method, calculated across all five samples? <strong>Options:</strong></p>
+<ol>
+<li><p>Method 1: 0.80, Method 2: 0.60</p></li>
+<li><p>Method 1: 0.60, Method 2: 0.85</p></li>
+<li><p>Method 1: 0.75, Method 2: 0.90</p></li>
+<li><p>Method 1: 0.80, Method 2: 0.95</p></li>
+</ol>
+<p><strong>Solution:</strong> The Rand Index (RI) is calculated as the ratio of the number of agreements between the two clusterings (both in-cluster and out-of-cluster pairs) to the total number of possible pairs. We first need to examine each pair of samples and compare their cluster assignments in both the ground truth and the clustering methods.<br />
+<br />
+For Method 1:</p>
+<table>
+<caption>Cluster Assignments for Ground Truth and Method 1</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Pairs of Samples</th>
+<th style="text-align: center;">Ground Truth Clusters (GT)</th>
+<th style="text-align: center;">Method 1 Clusters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">(S1, S2)</td>
+<td style="text-align: center;">(C1, C1)</td>
+<td style="text-align: center;">(C1, C1)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(S1, S3)</td>
+<td style="text-align: center;">(C1, C2)</td>
+<td style="text-align: center;">(C1, C2)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(S1, S4)</td>
+<td style="text-align: center;">(C1, C2)</td>
+<td style="text-align: center;">(C1, C3)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(S1, S5)</td>
+<td style="text-align: center;">(C1, C3)</td>
+<td style="text-align: center;">(C1, C3)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(S2, S3)</td>
+<td style="text-align: center;">(C1, C2)</td>
+<td style="text-align: center;">(C1, C2)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(S2, S4)</td>
+<td style="text-align: center;">(C1, C2)</td>
+<td style="text-align: center;">(C1, C3)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(S2, S5)</td>
+<td style="text-align: center;">(C1, C3)</td>
+<td style="text-align: center;">(C1, C3)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(S3, S4)</td>
+<td style="text-align: center;">(C2, C2)</td>
+<td style="text-align: center;">(C2, C3)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(S3, S5)</td>
+<td style="text-align: center;">(C2, C3)</td>
+<td style="text-align: center;">(C2, C3)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(S4, S5)</td>
+<td style="text-align: center;">(C2, C3)</td>
+<td style="text-align: center;">(C3, C3)</td>
+</tr>
+</tbody>
+</table>
+<p>From the table, we can count:</p>
+<ul>
+<li><p><span class="math inline">\(a = 1\)</span> (pair (S1, S2) where both GT and Method 1 agree that the clusters are in the same cluster).</p></li>
+<li><p><span class="math inline">\(b = 1\)</span> (pair (S3, S4) where GT says same cluster but Method 1 says different).</p></li>
+<li><p><span class="math inline">\(c = 1\)</span> (pair (S4, S5) where Method 1 says same cluster but GT says different).</p></li>
+<li><p><span class="math inline">\(d = 7\)</span> (remaining pairs where both GT and Method 1 agree that the samples are in different clusters).</p></li>
+</ul>
+<p>Thus, the Rand Index for Method 1 is: <span class="math display">\[\text{Rand Index for Method 1} = \frac{a + d}{a + b + c + d} = \frac{1+7}{1+1+1+7} = 0.80\]</span></p>
+<p>For Method 2:</p>
+<table>
+<caption>Cluster Assignments for Ground Truth and Method 2</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Pairs of Samples</th>
+<th style="text-align: center;">Ground Truth Clusters (GT)</th>
+<th style="text-align: center;">Method 2 Clusters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">(S1, S2)</td>
+<td style="text-align: center;">(C1, C1)</td>
+<td style="text-align: center;">(C1, C2)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(S1, S3)</td>
+<td style="text-align: center;">(C1, C2)</td>
+<td style="text-align: center;">(C1, C2)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(S1, S4)</td>
+<td style="text-align: center;">(C1, C2)</td>
+<td style="text-align: center;">(C1, C3)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(S1, S5)</td>
+<td style="text-align: center;">(C1, C3)</td>
+<td style="text-align: center;">(C1, C3)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(S2, S3)</td>
+<td style="text-align: center;">(C1, C2)</td>
+<td style="text-align: center;">(C2, C2)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(S2, S4)</td>
+<td style="text-align: center;">(C1, C2)</td>
+<td style="text-align: center;">(C2, C3)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(S2, S5)</td>
+<td style="text-align: center;">(C1, C3)</td>
+<td style="text-align: center;">(C2, C3)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(S3, S4)</td>
+<td style="text-align: center;">(C2, C2)</td>
+<td style="text-align: center;">(C2, C3)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(S3, S5)</td>
+<td style="text-align: center;">(C2, C3)</td>
+<td style="text-align: center;">(C2, C3)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(S4, S5)</td>
+<td style="text-align: center;">(C2, C3)</td>
+<td style="text-align: center;">(C3, C3)</td>
+</tr>
+</tbody>
+</table>
+<p>From the table, we can count:</p>
+<ul>
+<li><p><span class="math inline">\(a = 0\)</span> (no pairs where both GT and Method 1 agree that the clusters are in the same cluster).</p></li>
+<li><p><span class="math inline">\(b = 2\)</span> (pairs (S1, S2) and (S3, S4) where GT says same cluster but Method 1 says different).</p></li>
+<li><p><span class="math inline">\(c = 2\)</span> (pairs (S2, S3) and (S4, S5) where Method 1 says same cluster but GT says different).</p></li>
+<li><p><span class="math inline">\(d = 6\)</span> (remaining pairs where both GT and Method 1 agree that the samples are in different clusters).</p></li>
+</ul>
+<p>Thus, the Rand Index for Method 2 is: <span class="math display">\[\text{Rand Index for Method 2} = \frac{a + d}{a + b + c + d} = \frac{0 + 6}{0+2+2+6} = 0.60\]</span></p>
+<p>Hence, the correct answer is <strong>(a) Method 1: 0.80, Method 2: 0.60</strong>.</p></li>
+<li><p><strong>Question 2:</strong> Compute the Silhouette Score for each sample based on the clusters in Method 1.</p>
+<p><strong>Solution:</strong> Let’s calculate the Silhouette Score for <strong>Sample 1</strong> step-by-step:</p>
+<ul>
+<li><p>Sample 1 is in <strong>Cluster 1</strong> in Method 1. The only other sample in Cluster 1 is Sample 2.</p></li>
+<li><p>Compute the <strong>internal dissimilarity</strong> <span class="math inline">\(a_1\)</span>: <span class="math display">\[a_1 = \text{dist(Sample 1, Sample 2)} = \sqrt{(1 - 0)^2 + (1 - 1)^2} = 1\]</span> Since Sample 1 only has one other sample in its cluster, <span class="math inline">\(a_1 = 1\)</span>.</p></li>
+<li><p>Now, compute the <strong>external dissimilarity</strong> <span class="math inline">\(b_1\)</span>. The closest cluster to Sample 1 is Cluster 2, so we compute the average distance between Sample 1 and all the samples in Cluster 2: <span class="math display">\[b_1 = \text{dist(Sample 1, Sample 3)} = \sqrt{(3 - 0)^2 + (1 - 1)^2} = 3\]</span> There is only one sample in Cluster 2, so <span class="math inline">\(b_1 = 3\)</span>.</p></li>
+<li><p>Finally, the Silhouette Score for Sample 1 is: <span class="math display">\[s(x_1) = \frac{b_1 - a_1}{\max(a_1, b_1)} = \frac{3 - 1}{\max(1, 3)} = \frac{2}{3} \approx 0.67\]</span></p></li>
+</ul>
+<p>Now, we use a similar process to calculate the Silhouette Scores for the remaining samples:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Sample</th>
+<th style="text-align: center;">Cluster (Method 1)</th>
+<th style="text-align: center;"><span class="math inline">\(a_i\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(b_i\)</span></th>
+<th style="text-align: center;">Silhouette Score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">3.00</td>
+<td style="text-align: center;">0.67</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">2.00</td>
+<td style="text-align: center;">0.50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.00</td>
+<td style="text-align: center;">5.00</td>
+<td style="text-align: center;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">2.00</td>
+<td style="text-align: center;">0.50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2.00</td>
+<td style="text-align: center;">3.00</td>
+<td style="text-align: center;">0.67</td>
+</tr>
+</tbody>
+</table>
+<p>Hence, the silhouette scores for all samples are shown in the table above.</p></li>
+<li><p><strong>Question 3:</strong> Compute the Cluster Purity for both Method 1 and Method 2 based on the ground truth clusters.</p>
+<p><strong>Solution:</strong> For Method 1:</p>
+<ul>
+<li><p>Cluster 1 (Method 1) has 2 samples, both from GT Cluster 1.</p></li>
+<li><p>Cluster 2 (Method 1) has 1 sample, which belongs to GT Cluster 2.</p></li>
+<li><p>Cluster 3 (Method 1) has 2 samples, one from GT Cluster 2 and one from GT Cluster 3.</p></li>
+</ul>
+<p>Purity (Method 1): <span class="math display">\[\text{Purity} = \frac{1}{5} (2 + 1 + 1) = 0.8\]</span></p>
+<p>For Method 2:</p>
+<ul>
+<li><p>Cluster 1 (Method 2) has 1 sample, from Ground Truth Cluster 1.</p></li>
+<li><p>Cluster 2 (Method 2) has 2 samples, one from Ground Truth Cluster 1 and one from Ground Truth Cluster 2.</p></li>
+<li><p>Cluster 3 (Method 2) has 2 samples, one from Ground Truth Cluster 2 and one from Ground Truth Cluster 3.</p></li>
+</ul>
+<p>Purity (Method 2): <span class="math display">\[\text{Purity} = \frac{1}{5} (1 + 1 + 1) = 0.60\]</span></p>
+<p>Thus, Method 1 has a purity score of 1.0, while Method 2 has a purity score of 0.60.</p></li>
+<li><p><strong>Question:</strong> Which of the three metrics (Rand Index, Silhouette Coefficient, Purity) would be <strong>more appropriate</strong> for a dataset where the number of ground truth clusters is unknown, and why? <strong>Options:</strong></p>
+<ol>
+<li><p>Rand Index, since it compares to a ground truth.</p></li>
+<li><p>Silhouette Coefficient, since it measures separation between clusters.</p></li>
+<li><p>Purity, since it indicates correctness of clustering assignment.</p></li>
+<li><p>None, because no metric is sufficient when ground truth is unknown.</p></li>
+</ol>
+<p><strong>Solution:</strong> The <strong>Silhouette Coefficient</strong> is more appropriate in cases where the number of ground truth clusters is unknown because it evaluates the quality of the clustering based on how well-separated and compact the clusters are, without needing ground truth labels.</p>
+<p>The correct answer is <strong>(b) Silhouette Coefficient</strong>.</p></li>
+</ol>
+</section>
+</body>
+</html>
+
+</main>
+</body>
+</html>

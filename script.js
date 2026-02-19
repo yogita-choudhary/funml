@@ -1,6 +1,11 @@
 const navToggle = document.querySelector('.nav-toggle');
 const navMenu = document.querySelector('.nav-menu');
 const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+const lectureItems = document.querySelectorAll('.lecture-item');
+const lectureFrame = document.getElementById('lecture-frame');
+const lectureTitle = document.getElementById('lecture-title');
+const lectureMeta = document.getElementById('lecture-meta');
+const openLecture = document.getElementById('open-lecture');
 
 const closeAllDropdowns = () => {
   dropdownToggles.forEach((toggle) => {
@@ -15,6 +20,33 @@ if (navToggle && navMenu) {
     const isOpen = navMenu.classList.toggle('open');
     navToggle.setAttribute('aria-expanded', String(isOpen));
   });
+}
+
+const setActiveLecture = (item) => {
+  if (!item || !lectureFrame) return;
+  lectureItems.forEach((entry) => entry.classList.remove('active'));
+  item.classList.add('active');
+
+  const src = item.dataset.lecture;
+  const title = item.dataset.title || item.querySelector('.lecture-title')?.textContent || 'Lecture';
+  const meta = item.dataset.meta || item.querySelector('.lecture-meta')?.textContent || '';
+
+  lectureFrame.src = src;
+  if (lectureTitle) lectureTitle.textContent = title;
+  if (lectureMeta) lectureMeta.textContent = meta ? `${meta} · Loaded` : 'Lecture selected.';
+  if (openLecture) openLecture.setAttribute('href', src);
+};
+
+lectureItems.forEach((item) => {
+  item.addEventListener('click', (event) => {
+    event.preventDefault();
+    setActiveLecture(item);
+  });
+});
+
+const defaultLecture = document.querySelector('.lecture-item.active') || lectureItems[0];
+if (defaultLecture) {
+  setActiveLecture(defaultLecture);
 }
 
 dropdownToggles.forEach((toggle) => {

@@ -1,0 +1,526 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>ECE4252-8803_Notes_Template</title>
+  <link rel="stylesheet" href="../assets/style.css"/>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<nav>
+  <a href="../index.html">Home</a>
+</nav>
+<main>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>_Lecture11</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="center">
+
+</div>
+<p><strong>Contributors:</strong> Dr. Ahmad Mustafa, Dr. Motaz Alfarraj, Dr. Ashraf Alattar, Dr. Chen Zhou</p>
+<p><strong>Teaching Assistants</strong> with remarkable contributions include: Kuo-Wei Lai, Wuyang Du, Shiva Mahato, Michael Zhou, Ninghan Zhong</p>
+<p><strong>Disclaimer</strong>: <span>All content of these notes are part of this course at Georgia Tech. Any re-use or distribution is not permitted without pre-approved permission. All these notes belong to, created by, and copyrighted for Ghassan AlRegib and Mohit Prabhushankar, Georgia Tech, 2021–2028.</span></p>
+<p><strong>License</strong>: <span>These lecture notes are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</span></p>
+<p><strong>Errata</strong>: <span><em>Please submit any errata you find using the following form: <a href="https://forms.office.com/r/fbg9dMWPgY">Errata Form for FunML Textbook</a> or visit: <a href="https://forms.office.com/r/fbg9dMWPgY">https://forms.office.com/r/fbg9dMWPgY</a></em></span></p>
+<section id="lecture-objectives" data-number="0.1">
+<h2 data-number="1.1"><span class="header-section-number">1.1</span> Lecture Objectives</h2>
+<p>In the previous lecture, we introduced clustering, its applications, and examples. This provides sufficient knowledge to delve deeper into common clustering methods, such as k-means clustering. In this lecture, we will introduce the k-means clustering problem statement, its algorithm, examples, and other information needed to implement this methodology in practice successfully.</p>
+</section>
+<section id="recap-from-last-lecture" data-number="0.2">
+<h2 data-number="1.2"><span class="header-section-number">1.2</span> Recap From Last Lecture</h2>
+<section id="proximity-measures-mahalanobis-distance" data-number="0.2.1">
+<h3 data-number="1.2.1"><span class="header-section-number">1.2.1</span> Proximity Measures-Mahalanobis Distance</h3>
+<p>Mahalanobis distance measures between two variables <span class="math inline">\(X_j\)</span> and <span class="math inline">\(X_k\)</span> of <strong>same distribution</strong>. Its equation is defined as <span class="math display">\[d(x_j, x_k) = (x_j - x_k)^T \Sigma^{-1} (x_j - x_k)\]</span>, where <span class="math inline">\(\Sigma^{-1}\)</span> is the covariance matrix of the entire dataset of X. We also defined variance and covariance. Variance measures variation of a single random variable with equation <span class="math display">\[\sigma_x^2 = \frac{1}{N-1} \sum_{i=1}^N (x_{i1} - \bar{x}_1)^2\]</span>.Covariance measures how much two random variables vary together with equation <span class="math display">\[\sigma(x_1, x_2) = \frac{1}{N-1} \sum_{i=1}^N (x_{i1} - \bar{x}_1)(x_{i2} - \bar{x}_2)\]</span>.</p>
+</section>
+</section>
+<section id="k-means-clustering" data-number="0.3">
+<h2 data-number="1.3"><span class="header-section-number">1.3</span> K-Means Clustering</h2>
+<p>The following things were discussed.</p>
+<ul>
+<li><p>Problem Statement</p></li>
+<li><p>Standard Algorithm</p></li>
+<li><p>Conversion Criterion</p></li>
+<li><p>Example</p></li>
+<li><p>Initiation</p></li>
+</ul>
+<section id="k-means-problem-statement" data-number="0.3.1">
+<h3 data-number="1.3.1"><span class="header-section-number">1.3.1</span> K-Means Problem Statement</h3>
+<p>K-means clustering separates given data <span class="math inline">\(X=\{x_1,x_2,...,x_N\}\)</span> into predefined k clusters <span class="math inline">\(\{C_1,C_2,C_3,...,C_k\}\)</span>. Note that <span class="math inline">\(x_i=[x_{i1},x_{i2},...,x_{iP}]^{T}\)</span> and P is the number of features in each data sample. Each sample is assigned to a cluster, and such assignment is conducted based on Euclidean distance. Each cluster <span class="math inline">\(C_j\)</span> has a centroid, or cluster center, calculated by taking the mean of all samples <span class="math inline">\(C_j: m_j = \frac{1}{|C_j|} \sum_{x_i \in C_j} x_i\)</span></p>
+</section>
+<section id="standard-algorithm-of-k-means-clustering" data-number="0.3.2">
+<h3 data-number="1.3.2"><span class="header-section-number">1.3.2</span> Standard Algorithm of k-Means Clustering</h3>
+<p>The k-Means algorithm consists of two main phases: training, where the centroids are computed, and inference, where new data points are assigned to the nearest centroid based on the trained model. Below, we present both the training and inference procedures for k-Means in an algorithmic form.</p>
+<div class="algorithm">
+<div class="algorithmic">
+<p><strong>Input:</strong> Data points <span class="math inline">\(X = \{x_1, x_2, ..., x_N\}\)</span>, Number of clusters <span class="math inline">\(k\)</span> <strong>Output:</strong> Centroids <span class="math inline">\(M = \{m_1, m_2, ..., m_k\}\)</span>, Cluster memberships <span class="math inline">\(C_j\)</span> Randomly initialize <span class="math inline">\(k\)</span> centroids <span class="math inline">\(M^{(0)} = \{m_1^{(0)}, m_2^{(0)}, ..., m_k^{(0)}\}\)</span> from the data <strong>(Step 1)</strong> Assign each data point <span class="math inline">\(x_i\)</span> to the nearest centroid: <strong>(Step 2)</strong> <span class="math display">\[C_j^{(t)} = \left\{ x_i : \|x_i - m_j^{(t)}\|_2 \leq \|x_i - m_l^{(t)}\|_2, \forall l, 1 \leq l \leq k \right\}\]</span> Recompute the centroids for each cluster: <strong>(Step 3)</strong> <span class="math display">\[m_j^{(t+1)} = \frac{1}{|C_j|} \sum_{x_i \in C_j^{(t)}} x_i, \quad \forall j, 1 \leq j \leq k\]</span> <strong>Return:</strong> Final centroids <span class="math inline">\(M\)</span> and cluster memberships <span class="math inline">\(C_j\)</span></p>
+</div>
+</div>
+<figure>
+<img src="img/lecture11/Screenshot 2024-09-29 at 10.43.43 AM.png" id="fig:enter-label" alt="k-Means Clustering Standard Algorithm Procedure" /><figcaption aria-hidden="true">k-Means Clustering Standard Algorithm Procedure</figcaption>
+</figure>
+<p>Now once the training phase is complete, the model can be used to assign new data points to the closest cluster centroid in the inference phase. The following algorithm outlines the inference procedure:</p>
+<div class="algorithm">
+<div class="algorithmic">
+<p><strong>Input:</strong> New data point <span class="math inline">\(x_{\text{new}}\)</span>, Final centroids <span class="math inline">\(M = \{m_1, m_2, ..., m_k\}\)</span> <strong>Output:</strong> Cluster assignment for <span class="math inline">\(x_{\text{new}}\)</span> Compute the Euclidean distance between <span class="math inline">\(x_{\text{new}}\)</span> and each centroid <span class="math inline">\(m_j\)</span>: <span class="math display">\[d_j = \|x_{\text{new}} - m_j\|_2, \quad \forall j, 1 \leq j \leq k\]</span> Assign <span class="math inline">\(x_{\text{new}}\)</span> to the cluster with the closest centroid: <span class="math display">\[\text{Cluster}(x_{\text{new}}) = \arg \min_{j} d_j\]</span> <strong>Return:</strong> The cluster assignment for <span class="math inline">\(x_{\text{new}}\)</span></p>
+</div>
+</div>
+</section>
+</section>
+<section id="convergence-criteria" data-number="0.4">
+<h2 data-number="1.4"><span class="header-section-number">1.4</span> Convergence Criteria</h2>
+<p>Convergence criteria is used to determine the convergence of functions based on specific conditions. Convergence criteria are satisfied when there is no new assignment and no new centroids:</p>
+<p>1. Cluster membership becomes static: No re-assignment of data samples to different clusters</p>
+<p>2. Centroids become static: No change in centroids</p>
+<p>3. Change in the cost; the sum of squared Euclidean distances(SSD), measured between iterations, drops to a minimum. The cost of SSD is calculated as follows:</p>
+<ul>
+<li><p><span class="math inline">\(C_j\)</span> be the <span class="math inline">\(j\)</span>th cluster,</p></li>
+<li><p><span class="math inline">\(m_j\)</span> be the centroid of cluster <span class="math inline">\(C_j\)</span> (the mean vector of all the data points in <span class="math inline">\(C_j\)</span>),</p></li>
+<li><p><span class="math inline">\(d(x_i, m_j)\)</span> be the distance between data sample <span class="math inline">\(x_i\)</span> and centroid <span class="math inline">\(m_j\)</span>.</p></li>
+</ul>
+<p>The cost, defined as the Sum of Squared Distances (SSD), is given by: <span class="math display">\[\text{Cost: } \text{SSD} = \sum_{j=1}^k \sum_{x_i \in C_j} d(x_i, m_j)^2\]</span></p>
+</section>
+<section id="examples-of-k-means-clustering" data-number="0.5">
+<h2 data-number="1.5"><span class="header-section-number">1.5</span> Examples of k-Means Clustering</h2>
+<section id="first-iteration" data-number="0.5.1">
+<h3 data-number="1.5.1"><span class="header-section-number">1.5.1</span> First Iteration</h3>
+<p>With the problem statement, standard algorithm, and convergence criteria introduced, we will now look at a few examples to enhance our concept. This is the sample data we will work within this example.</p>
+<figure>
+<img src="img/lecture11/Screenshot 2024-09-29 at 11.12.16 AM.png" id="fig:enter-label" alt="Data Points" /><figcaption aria-hidden="true">Data Points</figcaption>
+</figure>
+<p>Step 1 of the algorithm states we will randomly choose k points from all data points to be the initial centroids. So we predefined k=3, and chose <span class="math inline">\(m_1\)</span>,<span class="math inline">\(m_2\)</span>, and <span class="math inline">\(m_3\)</span> as centriods.</p>
+<figure>
+<img src="img/lecture11/Screenshot 2024-09-29 at 11.14.26 AM.png" id="fig:enter-label" alt="Initialized centriods" /><figcaption aria-hidden="true">Initialized centriods</figcaption>
+</figure>
+<p>Step 2 is the assignment step. We need to determine cluster membership for each sample using the Euclidean distance equation: <span class="math display">\[C_j^{(t)} = \left\{ x_i : \|x_i - m_j^{(t)}\|_2 \leq \|x_i - m_l^{(t)}\|_2 \, \forall l, 1 \leq l \leq k \right\}.\]</span> For example, if sample <span class="math inline">\(x_1\)</span> has coordinates (0.8, 4.2) and the centroid <span class="math inline">\(m_1\)</span> has coordinates (2.1, 3.9), then the Euclidean distance is calculated as: <span class="math display">\[d(x_1, m_1) = \sqrt{(0.8 - 2.1)^2 + (4.2 - 3.9)^2} \approx 1.334.\]</span></p>
+<p>Assuming this distance is the smallest, <span class="math inline">\(x_1\)</span> will be assigned to cluster <span class="math inline">\(C_1\)</span>. After determining cluster membership for each sample, the following result is obtained.</p>
+<figure>
+<img src="img/lecture11/Screenshot 2024-09-29 at 11.31.47 AM.png" id="fig:enter-label" alt="Assignment of all samples using Euclidean distance" /><figcaption aria-hidden="true">Assignment of all samples using Euclidean distance</figcaption>
+</figure>
+<p>Step 3 is the update step, where we need to re-estimate centroids (mean) of all three current clusters using the formula <span class="math inline">\(m_j = \frac{1}{|C_j|} \sum_{x_i \in C_j} x_i, \quad \forall j, 1 \leq j \leq 3\)</span>. For example, does <span class="math inline">\(m_1\)</span> centriod, the updated mean will be calculated by <span class="math inline">\(m_1=(\frac{0.8+2.1+3.2+3.7+....+7.3}{9},\frac{4.1+3.9+4.3+....+3.1}{9})\)</span>.</p>
+<figure>
+<img src="img/lecture11/Screenshot 2024-09-29 at 12.07.38 PM.png" id="fig:enter-label" alt="Centriods move the to the calculated mean of the clusters" /><figcaption aria-hidden="true">Centriods move the to the calculated mean of the clusters</figcaption>
+</figure>
+</section>
+<section id="second-iteration" data-number="0.5.2">
+<h3 data-number="1.5.2"><span class="header-section-number">1.5.2</span> Second Iteration</h3>
+<p>Now, we have to repeat steps 2 and 3 in the second iteration since we have not yet reached the convergence criteria. First, we need to re-assign cluster membership for each point. Repeat step 2 calculation using the equation <span class="math display">\[C_j^{(t)} = \left\{ x_i : \|x_i - m_j^{(t)}\|_2 \leq \|x_i - m_l^{(t)}\|_2 \, \forall l, 1 \leq l \leq k \right\}.\]</span> we reached this plot:</p>
+<figure>
+<img src="img/lecture11/Screenshot 2024-09-29 at 12.10.20 PM.png" id="fig:enter-label" alt="Second iteration assignment cluster membership" /><figcaption aria-hidden="true">Second iteration assignment cluster membership</figcaption>
+</figure>
+<p>Based on the reassigned clusters, we need to update the centroids using the previously introduced equation for step 3:<span class="math inline">\(m_j = \frac{1}{|C_j|} \sum_{x_i \in C_j} x_i, \quad \forall j, 1 \leq j \leq 3\)</span></p>
+<figure>
+<img src="img/lecture11/Screenshot 2024-09-29 at 12.18.27 PM.png" id="fig:enter-label" alt="second iteration update step: Re-estimate centroids" /><figcaption aria-hidden="true">second iteration update step: Re-estimate centroids</figcaption>
+</figure>
+</section>
+<section id="third-iteration" data-number="0.5.3">
+<h3 data-number="1.5.3"><span class="header-section-number">1.5.3</span> Third Iteration</h3>
+<p>With the new centroid, we need to reassign the samples to the clusters in the third iteration since the convergence criteria have yet to be met. The assignment step will reassign samples to their respective centroids using the Euclidean distance equation.</p>
+<figure>
+<img src="img/lecture11/Screenshot 2024-09-29 at 1.38.32 PM.png" id="fig:enter-label" alt="Third iteration update step" /><figcaption aria-hidden="true">Third iteration update step</figcaption>
+</figure>
+<p>After the assignment step, we will repeat step 3 to update and re-estimate centroids:</p>
+<figure>
+<img src="img/lecture11/Screenshot 2024-09-29 at 1.41.59 PM.png" id="fig:enter-label" alt="Third iteration update step" /><figcaption aria-hidden="true">Third iteration update step</figcaption>
+</figure>
+</section>
+<section id="fourth-iteration" data-number="0.5.4">
+<h3 data-number="1.5.4"><span class="header-section-number">1.5.4</span> Fourth Iteration</h3>
+<p>We will reassign every point. However, since there are no changes in cluster membership, the algorithm converges as the convergence criteria are met.</p>
+<figure>
+<img src="img/lecture11/Screenshot 2024-09-29 at 2.01.26 PM.png" id="fig:enter-label" alt="Converged Algorithm, and final cluster assignment" /><figcaption aria-hidden="true">Converged Algorithm, and final cluster assignment</figcaption>
+</figure>
+</section>
+</section>
+<section id="initialization" data-number="0.6">
+<h2 data-number="1.6"><span class="header-section-number">1.6</span> Initialization</h2>
+<p>For the initialization of k-Mean clustering, it is evident that different choices will affect its outcome. Initialization of k-means clustering is mainly affected by two aspects:</p>
+<p>1. choosing the number of K, since setting k to be too large or too small results in poor clustering. As we can see from the figure below, with the ground truth being 3 clusters, having a k=8 would cause eight different clusters, which does not match the ground truth.</p>
+<figure>
+<img src="img/lecture11/Screenshot 2024-09-29 at 2.21.34 PM.png" id="fig:enter-label" alt="Different Number of K Results In Different Clustering" /><figcaption aria-hidden="true">Different Number of K Results In Different Clustering</figcaption>
+</figure>
+<p>2. Methods to initialize k centroids, as it affects the convergence speed. As we can see from the figure below, choosing centroids at different locations results in drastically different clusters.</p>
+<figure>
+<img src="img/lecture11/Screenshot 2024-09-29 at 2.23.47 PM.png" id="fig:enter-label" alt="Different Method of Initializing K centroids" /><figcaption aria-hidden="true">Different Method of Initializing K centroids</figcaption>
+</figure>
+<section id="choice-of-k" data-number="0.6.1">
+<h3 data-number="1.6.1"><span class="header-section-number">1.6.1</span> Choice of K</h3>
+<p>There are a few ways we can optimize our choice of k.</p>
+<p>1. Utilize domain knowledge or any other insight about the data. For instance, when we want to cluster cars sold last year, we will need to know the number of car manufacturers in the market. This requires an understanding of the dataset we are working with, which could be challenging if data does not explicitly contain such information.</p>
+<p>2. Run the algorithm with various k values and select the k value that results in the smallest value of the total sum of squared Euclidean distances. This restrains the k value. <span class="math inline">\(\sum_{j=1}^k \sum_{x_i \in C_j} d(x_i, m_j)^2\)</span></p>
+<p>3. Perform cross-validation and select k that performs the best on a hold-out validation dataset. Cross-validation involves dividing the available data into multiple folds or subsets, using one of these folds as a validation set, and training the model on the remaining folds. This process is repeated multiple times using a different fold as the validation set. Finally, the results from each validation step are averaged to produce a more robust estimate of the model’s performance.</p>
+</section>
+<section id="choice-of-initial-centroids" data-number="0.6.2">
+<h3 data-number="1.6.2"><span class="header-section-number">1.6.2</span> Choice of initial centroids</h3>
+<p>We will only consider KMPP(random farthest points), As above, with a selection made based on distance and probability.</p>
+</section>
+</section>
+<section id="k-means" data-number="0.7">
+<h2 data-number="1.7"><span class="header-section-number">1.7</span> k-Means ++</h2>
+<p>k-Means algorithm performance is highly dependent on the choice of initial centroids. Choosing all the centroids at random can lead to a solution corresponding to a local minima which is much larger than the global minima, when considering the sum of squared distances within each cluster as the objective function being minimized.<br />
+k-Means++ is an algorithm to make a better choice of initial centroids to prevent an arbitrarily bad local minima. In the k-Means++ algorithm, the centroids are chosen at random in a sequential order from the set of data points.<br />
+The algorithm for choosing the initial centroids is described below:</p>
+<ol>
+<li><p>Randomly choose the first center from the set of data points, let us call it <span class="math inline">\(m_1\)</span> .</p></li>
+<li><p>For each of the remaining data points <span class="math inline">\(\mathbf{x}_i\)</span>, find <span class="math inline">\(d(\mathbf{x}_i)\)</span> = <span class="math inline">\(||m_{closest} - \mathbf{x}_i||\)</span> which is the distance between <span class="math inline">\(x_i\)</span> and the closest center. Initially, we only have one center to compute this distance but in future iterations we compute the distance from all the centers and choose the smallest one.</p></li>
+<li><p>For each point, we then calculate <span class="math inline">\(p(\mathbf{x}_i)\)</span> = <span class="math inline">\(\frac{d(\mathbf{x}_i)}{\Sigma_id(\mathbf{x}_i)^2}\)</span> . This helps us develop a probability distribution of the data points from which we need to pick the next centroid. Note that the data points with a higher probability are farther away from the previously chosen centroids.</p></li>
+<li><p>Choose the next centroid from the data set at random with probability proportional to <span class="math inline">\(p\)</span> which was computed in the previous step.</p></li>
+<li><p>Repeat steps 2, 3 and 4 until all k centers have been chosen.</p></li>
+</ol>
+<p>Once the initial centers are chosen, the standard k-Means clustering can be carried out.</p>
+</section>
+<section id="strengths-of-k-means" data-number="0.8">
+<h2 data-number="1.8"><span class="header-section-number">1.8</span> Strengths of k-Means</h2>
+<ol>
+<li><p><strong>Simple:</strong> k-Means clustering is an intuitive algorithm and it is easy to implement.</p></li>
+<li><p><strong>Efficient</strong>: Time complexity of running k-Means clustering is <span class="math inline">\(O(tkN)\)</span> where</p>
+<ol>
+<li><p><span class="math inline">\(N\)</span> is the number of data samples</p></li>
+<li><p><span class="math inline">\(k\)</span> is the number of clusters</p></li>
+<li><p><span class="math inline">\(t\)</span> is the number of iterations</p></li>
+</ol>
+<p>Since both <span class="math inline">\(t\)</span> and <span class="math inline">\(k\)</span> are small, k-Means clustering is considered a linear or <span class="math inline">\(O(n)\)</span> algorithm.</p></li>
+<li><p><strong>Popular:</strong> k-Means is the most popular clustering algorithm using Euclidean distance measure.</p></li>
+</ol>
+</section>
+<section id="weakness-of-k-means" data-number="0.9">
+<h2 data-number="1.9"><span class="header-section-number">1.9</span> Weakness of k-Means</h2>
+<ol>
+<li><p>The user needs to specify <span class="math inline">\(k\)</span>.</p></li>
+<li><p>k-Means algorithm does not guarantee convergence to a global optimum if sum of squared distances is used as the cost. The global optimum is hard to find due to complexity.</p></li>
+<li><p>The algorithm is only applicable if the mean of the cluster is defined. For categorical data, k-Mode is a more suitable algorithm where the centroid is represented by the most frequent values and the distance is a simple dissimilarity measure (number of features that are different).</p></li>
+<li><p>k-Means clustering is sensitive to outliers. Outliers are data samples that are very far away from (dissimilar to) other data points. They could be errors in the data recording (noise) or some special data points with very different values.</p></li>
+</ol>
+<p>For a more in-depth analysis and discussion of these issues, along with others, please refer to this article<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>, e.g. the discussion in section 2.2. For an illustrative example of the sensitivity of k-Means to outliers, refer to this article<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>.</p>
+<figure>
+<img src="img/lecture11/images/Dataset.jpg" alt="Dataset" /><figcaption aria-hidden="true">Dataset</figcaption>
+</figure>
+<figure>
+<img src="img/lecture11/images/Undesirable_clustering.jpg" alt="Undesirable clustering" /><figcaption aria-hidden="true">Undesirable clustering</figcaption>
+</figure>
+<figure>
+<img src="img/lecture11/images/Ideal_clustering.jpg" alt="Desirable clustering" /><figcaption aria-hidden="true">Desirable clustering</figcaption>
+</figure>
+</section>
+<section id="variants-of-k-means" data-number="0.10">
+<h2 data-number="1.10"><span class="header-section-number">1.10</span> Variants of k-Means</h2>
+<p>In this class, we are going to discuss three variants of k-Means Clustering</p>
+<ol>
+<li><p>Mini-batch k-Means</p></li>
+<li><p>k-Medians</p></li>
+<li><p>k-Medoid Clustering</p></li>
+</ol>
+</section>
+<section id="mini-batch-k-means" data-number="0.11">
+<h2 data-number="1.11"><span class="header-section-number">1.11</span> Mini-batch k-Means</h2>
+<p>Mini-batches are subsets of the input data that are randomly sampled in each training iteration. Mini-batch k-Means helps reduce the computation time while still attempting to optimize the same objective function. It offers an alternative to k-Means for clustering massive datasets.</p>
+<section id="algorithm" data-number="0.11.1">
+<h3 data-number="1.11.1"><span class="header-section-number">1.11.1</span> Algorithm</h3>
+<p>Per usual, the mini-batch k-Means algorithm consists of two phases: the training phase, where centroids are updated based on mini-batches, and the inference phase, where new data points are assigned to the nearest centroid.</p>
+<div class="algorithm">
+<div class="algorithmic">
+<p><strong>Input:</strong> Data points <span class="math inline">\(X = \{x_1, x_2, ..., x_N\}\)</span>, Number of clusters <span class="math inline">\(k\)</span>, Mini-batch size <span class="math inline">\(b\)</span> <strong>Output:</strong> Centroids <span class="math inline">\(M = \{m_1, m_2, ..., m_k\}\)</span>, Cluster memberships <span class="math inline">\(C_j\)</span> Initialize <span class="math inline">\(k\)</span> centroids <span class="math inline">\(M^{(0)} = \{m_1^{(0)}, m_2^{(0)}, ..., m_k^{(0)}\}\)</span> randomly from the data Randomly sample a mini-batch of <span class="math inline">\(b\)</span> data points from <span class="math inline">\(X\)</span> Assign each sample in the mini-batch to the nearest centroid: <span class="math display">\[C_j^{(t)} = \left\{ x_i : \|x_i - m_j^{(t)}\|_2 \leq \|x_i - m_l^{(t)}\|_2, \forall l, 1 \leq l \leq k \right\}\]</span> Update the centroids by keeping a running average of the assignments in each mini-batch: <span class="math display">\[m_j^{(t+1)} = \frac{|C_j^{(t-1)}| \cdot m_j^{(t-1)} + \sum_{x_i \in C_j^{(t)}} x_i}{|C_j^{(t-1)}| + |C_j^{(t)}|}\]</span> Repeat steps 2, 3, and 4 for a fixed number of iterations or until convergence <strong>Return:</strong> Final centroids <span class="math inline">\(M\)</span> and cluster memberships <span class="math inline">\(C_j\)</span></p>
+</div>
+</div>
+<p>Once the training phase is complete, the model can be used to assign new data points to the nearest centroid in the inference phase, as described below:</p>
+<div class="algorithm">
+<div class="algorithmic">
+<p><strong>Input:</strong> New data point <span class="math inline">\(x_{\text{new}}\)</span>, Final centroids <span class="math inline">\(M = \{m_1, m_2, ..., m_k\}\)</span> <strong>Output:</strong> Cluster assignment for <span class="math inline">\(x_{\text{new}}\)</span> Compute the Euclidean distance between <span class="math inline">\(x_{\text{new}}\)</span> and each centroid <span class="math inline">\(m_j\)</span>: <span class="math display">\[d_j = \|x_{\text{new}} - m_j\|_2, \quad \forall j, 1 \leq j \leq k\]</span> Assign <span class="math inline">\(x_{\text{new}}\)</span> to the cluster with the closest centroid: <span class="math display">\[\text{Cluster}(x_{\text{new}}) = \arg \min_{j} d_j\]</span> <strong>Return:</strong> The cluster assignment for <span class="math inline">\(x_{\text{new}}\)</span></p>
+</div>
+</div>
+</section>
+<section id="performance" data-number="0.11.2">
+<h3 data-number="1.11.2"><span class="header-section-number">1.11.2</span> Performance</h3>
+<p>Mini-batch k-Means is faster but gives slightly different results compared to traditional k-Means.</p>
+<figure>
+<img src="img/lecture11/images/mini_batch_comp.jpg" alt="Mini-batch clustering is faster but less accurate." /><figcaption aria-hidden="true">Mini-batch clustering is faster but less accurate.</figcaption>
+</figure>
+<figure>
+<img src="img/lecture11/images/Mini-batch-k-Means-diff.jpg" alt="Mini-batch k-Means vs k-Means." /><figcaption aria-hidden="true">Mini-batch k-Means vs k-Means.</figcaption>
+</figure>
+</section>
+</section>
+<section id="k-medians-clustering" data-number="0.12">
+<h2 data-number="1.12"><span class="header-section-number">1.12</span> k-Medians Clustering</h2>
+<p>k-Medians clustering uses the concept of the Geometric (Spatial) Median. For a given set <span class="math inline">\(\chi = \{\mathbf{x}_1, \mathbf{x}_2, ...\mathbf{x}_N\}\)</span> of <span class="math inline">\(N\)</span> points with each <span class="math inline">\(\mathbf{x}_i \in \mathbb{R}^p\)</span>, the geometric median is defined as the sample <span class="math inline">\(\mathbf{m} \in \chi\)</span> that satisfies: <span class="math display">\[\arg \min_{\mathbf{m} \in \chi} \sum_{i = 1}^N \|\mathbf{x}_i - \mathbf{m}\|_2\]</span> k-Medians uses the geometric median to compute cluster centroids. The median is less vulnerable to outliers compared to the mean; thus, k-Medians is more robust to outliers than k-Means.</p>
+<p>An alternative to using the geometric median is using the marginal median. The marginal median can be computed by finding the scalar median along each feature of the points in a cluster and combining the medians to form a vector.</p>
+<section id="algorithm-1" data-number="0.12.1">
+<h3 data-number="1.12.1"><span class="header-section-number">1.12.1</span> Algorithm</h3>
+<p>The k-Medians algorithm consists of two main phases: the training phase, where the cluster medians are computed, and the inference phase, where new data points are assigned to the nearest median.</p>
+<div class="algorithm">
+<div class="algorithmic">
+<p><strong>Input:</strong> Data points <span class="math inline">\(X = \{x_1, x_2, ..., x_N\}\)</span>, Number of clusters <span class="math inline">\(k\)</span> <strong>Output:</strong> Medians <span class="math inline">\(M = \{m_1, m_2, ..., m_k\}\)</span>, Cluster memberships <span class="math inline">\(C_j\)</span> Initialize <span class="math inline">\(k\)</span> medians <span class="math inline">\(M^{(0)} = \{m_1^{(0)}, m_2^{(0)}, ..., m_k^{(0)}\}\)</span> randomly from the data Assign each data point to the nearest median using Manhattan distance: <span class="math display">\[C_j^{(t)} = \left\{ x_i : \|x_i - m_j^{(t)}\|_1 \leq \|x_i - m_l^{(t)}\|_1, \forall l, 1 \leq l \leq k \right\}\]</span> Update the medians for each cluster by computing the new geometric or marginal median: <span class="math display">\[m_j^{(t+1)} = \arg \min_{\mathbf{m}} \sum_{x_i \in C_j^{(t)}} \|\mathbf{x}_i - \mathbf{m}\|_2, \quad \forall j, 1 \leq j \leq k\]</span> Repeat steps 2 and 3 while the cost (sum of distances) continues to decrease <strong>Return:</strong> Final medians <span class="math inline">\(M\)</span> and cluster memberships <span class="math inline">\(C_j\)</span></p>
+</div>
+</div>
+<p>Once the training phase is complete, the model can be used to assign new data points to the nearest median in the inference phase, as shown below:</p>
+<div class="algorithm">
+<div class="algorithmic">
+<p><strong>Input:</strong> New data point <span class="math inline">\(x_{\text{new}}\)</span>, Final medians <span class="math inline">\(M = \{m_1, m_2, ..., m_k\}\)</span> <strong>Output:</strong> Cluster assignment for <span class="math inline">\(x_{\text{new}}\)</span> Compute the Manhattan distance between <span class="math inline">\(x_{\text{new}}\)</span> and each median <span class="math inline">\(m_j\)</span>: <span class="math display">\[d_j = \|x_{\text{new}} - m_j\|_1, \quad \forall j, 1 \leq j \leq k\]</span> Assign <span class="math inline">\(x_{\text{new}}\)</span> to the cluster with the closest median: <span class="math display">\[\text{Cluster}(x_{\text{new}}) = \arg \min_{j} d_j\]</span> <strong>Return:</strong> The cluster assignment for <span class="math inline">\(x_{\text{new}}\)</span></p>
+</div>
+</div>
+</section>
+</section>
+<section id="k-medoids-clustering" data-number="0.13">
+<h2 data-number="1.13"><span class="header-section-number">1.13</span> k-Medoids Clustering</h2>
+<p>k-Medoids clustering is a variant of k-Means clustering that generalizes k-Medians clustering by allowing the use of arbitrary distance measures. Unlike k-Means, which uses centroids, k-Medoids selects actual data points as the representative centers of clusters, making it more robust to noise and outliers.</p>
+<p>A <strong>medoid</strong> is defined as the data point of a cluster whose average dissimilarity to all other data points in the cluster is minimal. For a given set <span class="math inline">\(\chi = \{\mathbf{x}_1, \mathbf{x}_2, ...\mathbf{x}_N\}\)</span> of <span class="math inline">\(N\)</span> points with each <span class="math inline">\(x_i \in \mathbb{R}^p\)</span>, the medoid is defined as the sample <span class="math inline">\(\mathbf{m} \in \chi\)</span> that satisfies: <span class="math display">\[\arg \min_{\mathbf{m} \in \chi} \sum_{i=1}^N d(\mathbf{x}_i, \mathbf{m})\]</span> where <span class="math inline">\(d(\mathbf{x}_i, \mathbf{m})\)</span> is an arbitrary distance metric between <span class="math inline">\(\mathbf{x}_i\)</span> and <span class="math inline">\(\mathbf{m}\)</span>.</p>
+<section id="algorithm-2" data-number="0.13.1">
+<h3 data-number="1.13.1"><span class="header-section-number">1.13.1</span> Algorithm</h3>
+<p>Below is the k-Medoids clustering algorithm, separated into the training and inference phases:</p>
+<div class="algorithm">
+<div class="algorithmic">
+<p><strong>Input:</strong> Data points <span class="math inline">\(X = \{x_1, x_2, ..., x_N\}\)</span>, Number of clusters <span class="math inline">\(k\)</span> <strong>Output:</strong> Medoids <span class="math inline">\(M = \{m_1, m_2, ..., m_k\}\)</span>, Cluster memberships <span class="math inline">\(C_j\)</span> Randomly select <span class="math inline">\(k\)</span> data points as the initial medoids Assign each data point to the nearest medoid based on the chosen distance metric: <span class="math display">\[C_j^{(t)} = \left\{ x_i : d(x_i, m_j^{(t)}) \leq d(x_i, m_l^{(t)}), \forall l, 1 \leq l \leq k \right\}\]</span> For each medoid, examine all points in its cluster to determine if any point provides a lower cost when swapped with the medoid:</p>
+<ol>
+<li><p>Swap medoid <span class="math inline">\(m_j\)</span> with a point <span class="math inline">\(x_i\)</span> in the same cluster</p></li>
+<li><p>Recompute the distances between all points in the cluster and the new medoid</p></li>
+<li><p>Calculate the total cost (sum of distances). If the cost increases, revert the swap</p></li>
+</ol>
+<p>Repeat steps 2 and 3 until the cost no longer decreases significantly <strong>Return:</strong> Final medoids <span class="math inline">\(M\)</span> and cluster memberships <span class="math inline">\(C_j\)</span></p>
+</div>
+</div>
+<p>After training is complete, new data points can be assigned to clusters based on the medoids found in the training phase. The following is the inference procedure:</p>
+<div class="algorithm">
+<div class="algorithmic">
+<p><strong>Input:</strong> New data point <span class="math inline">\(x_{\text{new}}\)</span>, Final medoids <span class="math inline">\(M = \{m_1, m_2, ..., m_k\}\)</span> <strong>Output:</strong> Cluster assignment for <span class="math inline">\(x_{\text{new}}\)</span> Compute the distance between <span class="math inline">\(x_{\text{new}}\)</span> and each medoid <span class="math inline">\(m_j\)</span> using the same distance metric: <span class="math display">\[d_j = d(x_{\text{new}}, m_j), \quad \forall j, 1 \leq j \leq k\]</span> Assign <span class="math inline">\(x_{\text{new}}\)</span> to the cluster with the closest medoid: <span class="math display">\[\text{Cluster}(x_{\text{new}}) = \arg \min_{j} d_j\]</span> <strong>Return:</strong> The cluster assignment for <span class="math inline">\(x_{\text{new}}\)</span></p>
+</div>
+</div>
+</section>
+<section id="example" data-number="0.13.2">
+<h3 data-number="1.13.2"><span class="header-section-number">1.13.2</span> Example</h3>
+<p>We are provided with the following data set:</p>
+<figure>
+<img src="img/lecture11/images/k_medoids_data.jpg" alt="Dataset and graphical representation" /><figcaption aria-hidden="true">Dataset and graphical representation</figcaption>
+</figure>
+<p>We need to split the data into two clusters (i.e. <span class="math inline">\(k\)</span> = 2) using k-Medoids algorithm with L-1 norm distance (Manhattan distance) metric.</p>
+<ol>
+<li><p>Initialization and Assignment:<br />
+<br />
+Randomly assign selected medoids: <span class="math inline">\(\mathbf{m}_1 = \mathbf{x}_4 =\)</span>(4, 7) and <span class="math inline">\(\mathbf{m}_2 = \mathbf{x}_9 = (8,2)\)</span></p>
+<figure>
+<img src="img/lecture11/images/k-med-init-assign.jpg" alt="Initial assignment to clusters" /><figcaption aria-hidden="true">Initial assignment to clusters</figcaption>
+</figure>
+<p>Each data sample is assigned the medoid which is closer to it. The total cost of clustering is computed as the sum of distances of each sample from its assigned cluster medoid.</p></li>
+<li><p>Update: Iteration 1</p>
+<ol>
+<li><p>Updating medoid <span class="math inline">\(\mathbf{m}_1\)</span> : Check samples associated with <span class="math inline">\(\mathbf{m}_1\)</span> to see if any of them can provide a better total cost.</p>
+<figure>
+<img src="img/lecture11/images/update_1_a_table.jpg" alt="Computing alternate center costs" /><figcaption aria-hidden="true">Computing alternate center costs</figcaption>
+</figure>
+<p>Current medoid <span class="math inline">\(\mathbf{x}_4\)</span> has a total cost of 13, which is the minimum cost, so <span class="math inline">\(\mathbf{x}_4\)</span> remains the value of medoid <span class="math inline">\(\mathbf{m}_1\)</span></p>
+<figure>
+<img src="img/lecture11/images/update_1_a_split.jpg" alt="Clusters after updating \mathbf{m}_1" /><figcaption aria-hidden="true">Clusters after updating <span class="math inline">\(\mathbf{m}_1\)</span></figcaption>
+</figure></li>
+<li><p>Updating medoid <span class="math inline">\(\mathbf{m}_2\)</span> : Check samples associated with <span class="math inline">\(\mathbf{m}_2\)</span> to see if any of them can provide a better total cost.</p>
+<figure>
+<img src="img/lecture11/images/k-med-update-1-b-table.jpg" alt="Computing alternate center costs" /><figcaption aria-hidden="true">Computing alternate center costs</figcaption>
+</figure>
+<p>Sample <span class="math inline">\(\mathbf{x}_7\)</span> provides a total cost of 7 which is lower than the total cost of the current medoid <span class="math inline">\(\mathbf{x}_9\)</span> which is 11. Therefore, medoid <span class="math inline">\(\mathbf{m}_2\)</span> moves to <span class="math inline">\(\mathbf{x}_7\)</span>.</p>
+<figure>
+<img src="img/lecture11/images/update_1_b_split.jpg" alt="Clusters after updating \mathbf{m}_2" /><figcaption aria-hidden="true">Clusters after updating <span class="math inline">\(\mathbf{m}_2\)</span></figcaption>
+</figure></li>
+</ol></li>
+<li><p>Update Step: Reassign the entire dataset based on new medoids. Recompute distances relative to new medoids: <span class="math inline">\(\mathbf{m}_1 = \mathbf{x}_4 =\)</span> (4,7) and <span class="math inline">\(\mathbf{m}_2 = \mathbf{x}_7 =\)</span> (7,3) .</p>
+<figure>
+<img src="img/lecture11/images/k-med-reassign.jpg" alt="Re-assignment of all samples to clusters" /><figcaption aria-hidden="true">Re-assignment of all samples to clusters</figcaption>
+</figure></li>
+<li><p>Update Step: Iteration 2</p>
+<ol>
+<li><p>Updating medoid <span class="math inline">\(\mathbf{m}_1\)</span> : Check samples associated with <span class="math inline">\(\mathbf{m}_1\)</span> to see if any of them can provide a better total cost.</p>
+<figure>
+<img src="img/lecture11/images/update_2_a_table.jpg" alt="Computing alternate center costs" /><figcaption aria-hidden="true">Computing alternate center costs</figcaption>
+</figure>
+<p>Current medoid <span class="math inline">\(\mathbf{x}_4\)</span> has a total cost of 9, which is the minimum cost, so <span class="math inline">\(\mathbf{x}_4\)</span> remains the value of medoid <span class="math inline">\(\mathbf{m}_1\)</span></p>
+<figure>
+<img src="img/lecture11/images/udpate_2_a_graph.jpg" alt="Clusters after updating \mathbf{m}_1" /><figcaption aria-hidden="true">Clusters after updating <span class="math inline">\(\mathbf{m}_1\)</span></figcaption>
+</figure></li>
+<li><p>Updating medoid <span class="math inline">\(\mathbf{m}_2\)</span> : Check samples associated with <span class="math inline">\(\mathbf{m}_2\)</span> to see if any of them can provide a better total cost.</p>
+<figure>
+<img src="img/lecture11/images/update_2_b_table.jpg" alt="Computing alternate center costs" /><figcaption aria-hidden="true">Computing alternate center costs</figcaption>
+</figure>
+<p>Current medoid <span class="math inline">\(\mathbf{x}_7\)</span> has a total cost of 10, which is the minimum cost, so <span class="math inline">\(\mathbf{x}_7\)</span> remains the value of medoid <span class="math inline">\(\mathbf{m}_2\)</span></p>
+<figure>
+<img src="img/lecture11/images/update_2_b_graph.jpg" alt="Clusters after updating \mathbf{m}_2" /><figcaption aria-hidden="true">Clusters after updating <span class="math inline">\(\mathbf{m}_2\)</span></figcaption>
+</figure></li>
+</ol></li>
+<li><p>Since the cost of clustering does not decrease any more, the algorithm terminates.</p></li>
+</ol>
+</section>
+</section>
+<section id="qa-section" data-number="0.14">
+<h2 data-number="1.14"><span class="header-section-number">1.14</span> Q&amp;A Section</h2>
+<ol>
+<li><p><strong>Question:</strong> Given the following centroids for a k-Means clustering model: <span class="math display">\[M_1 = (2, 3), \quad M_2 = (7, 8), \quad M_3 = (5, 2)\]</span> and a new data point <span class="math inline">\(x_{\text{new}} = (4, 4)\)</span>, which cluster should <span class="math inline">\(x_{\text{new}}\)</span> be assigned to using the Euclidean distance metric? <strong>Options:</strong></p>
+<ol>
+<li><p>Cluster 1</p></li>
+<li><p>Cluster 2</p></li>
+<li><p>Cluster 3</p></li>
+</ol>
+<p><strong>Solution:</strong> To assign the new data point <span class="math inline">\(x_{\text{new}} = (4, 4)\)</span> to a cluster, we compute the Euclidean distance between <span class="math inline">\(x_{\text{new}}\)</span> and each centroid: <span class="math display">\[d(x_{\text{new}}, M_1) = \sqrt{(4 - 2)^2 + (4 - 3)^2} = \sqrt{4 + 1} = \sqrt{5} \approx 2.24\]</span> <span class="math display">\[d(x_{\text{new}}, M_2) = \sqrt{(4 - 7)^2 + (4 - 8)^2} = \sqrt{9 + 16} = \sqrt{25} = 5\]</span> <span class="math display">\[d(x_{\text{new}}, M_3) = \sqrt{(4 - 5)^2 + (4 - 2)^2} = \sqrt{1 + 4} = \sqrt{5} \approx 2.24\]</span> Since <span class="math inline">\(d(x_{\text{new}}, M_1) = d(x_{\text{new}}, M_3) \approx 2.24\)</span>, we can assign <span class="math inline">\(x_{\text{new}}\)</span> to either Cluster 1 or Cluster 3 based on tie-breaking criteria (such as the first encountered). The correct answer is either <strong>(a) Cluster 1</strong> or <strong>(c) Cluster 3</strong>.</p></li>
+<li><p><strong>Question:</strong> In a k-Medoids clustering model, the following medoids were determined after training: <span class="math display">\[M_1 = (1, 5), \quad M_2 = (4, 5)\]</span> A new data point <span class="math inline">\(x_{\text{new}} = (3, 6)\)</span> arrives. Using the Chebyshev distance (L-infinity norm), which cluster does <span class="math inline">\(x_{\text{new}}\)</span> belong to? <strong>Options:</strong></p>
+<ol>
+<li><p>Cluster 1</p></li>
+<li><p>Cluster 2</p></li>
+</ol>
+<p><strong>Solution:</strong> The Chebyshev distance between two points <span class="math inline">\((x_1, y_1)\)</span> and <span class="math inline">\((x_2, y_2)\)</span> is calculated as: <span class="math display">\[d(x_{\text{new}}, M_j) = \max\{|x_1 - x_2|, |y_1 - y_2|\}\]</span> We calculate the Chebyshev distance between <span class="math inline">\(x_{\text{new}} = (3, 6)\)</span> and each medoid: <span class="math display">\[d(x_{\text{new}}, M_1) = \max\{|3 - 1|, |6 - 5|\} = \max\{2, 1\} = 2\]</span> <span class="math display">\[d(x_{\text{new}}, M_2) = \max\{|3 - 4|, |6 - 5|\} = \max\{1, 1\} = 1\]</span> Since the distance to Cluster 2 is lower, we will assign <span class="math inline">\(x_{\text{new}}\)</span> to Cluster. The correct answer is <strong>(b) Cluster 2</strong>.</p></li>
+</ol>
+</section>
+<section class="footnotes" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1" role="doc-endnote"><p><a href="https://arxiv.org/pdf/1602.08254">Theoretical Analysis of the k-Means Algorithm</a><a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2" role="doc-endnote"><p><a href="https://medium.com/analytics-vidhya/effect-of-outliers-on-k-means-algorithm-using-python-7ba85821ea23">Effect of outliers on K-Means algorithm using Python</a><a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
+</body>
+</html>
+
+</main>
+</body>
+</html>

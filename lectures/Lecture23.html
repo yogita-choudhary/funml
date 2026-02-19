@@ -1,0 +1,414 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>ECE4252-8803_Notes_Template</title>
+  <link rel="stylesheet" href="../assets/style.css"/>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<nav>
+  <a href="../index.html">Home</a>
+</nav>
+<main>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>_Lecture23</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="center">
+
+</div>
+<p><strong>Contributors:</strong> Dr. Ahmad Mustafa, Dr. Motaz Alfarraj, Dr. Ashraf Alattar, Dr. Chen Zhou</p>
+<p><strong>Teaching Assistants</strong> with remarkable contributions include: Kuo-Wei Lai, Wuyang Du, Shiva Mahato, Michael Zhou, Ninghan Zhong</p>
+<p><strong>Disclaimer</strong>: <span>All content of these notes are part of this course at Georgia Tech. Any re-use or distribution is not permitted without pre-approved permission. All these notes belong to, created by, and copyrighted for Ghassan AlRegib and Mohit Prabhushankar, Georgia Tech, 2021–2028.</span></p>
+<p><strong>License</strong>: <span>These lecture notes are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</span></p>
+<p><strong>Errata</strong>: <span><em>Please submit any errata you find using the following form: <a href="https://forms.office.com/r/fbg9dMWPgY">Errata Form for FunML Textbook</a> or visit: <a href="https://forms.office.com/r/fbg9dMWPgY">https://forms.office.com/r/fbg9dMWPgY</a></em></span></p>
+<section id="lecture-objectives" data-number="0.1">
+<h2 data-number="1.1"><span class="header-section-number">1.1</span> Lecture Objectives</h2>
+<p>The objective of this lecture is to explore the fundamentals of explainability in machine learning, focusing on the paradigms and evaluation methods used to interpret model behavior. We will learn how to categorize and explain various types of explanations, including indirect and direct methods, and their relevance to enhancing transparency and trust in AI systems. We will also learn visualization techniques such as saliency maps, embeddings, and dimensionality reduction to gain insights into model decisions. The lecture also introduces targeted explanations and discusses frameworks for evaluating the quality of explanations through human-centric, application-specific, and network-based methods.</p>
+</section>
+<section id="what-constitutes-an-explanation-in-machine-learning" data-number="0.2">
+<h2 data-number="1.2"><span class="header-section-number">1.2</span> What constitutes an explanation in Machine Learning?</h2>
+<p>An explanation in machine learning provides insight into how and why a model makes specific predictions or decisions. Various techniques have been developed to generate explanations, each targeting different aspects of a model’s structure or behavior.</p>
+<p>Visualizing <strong>weights across different layer</strong>s helps understand the importance of input features and how they influence subsequent layers in a neural network. For example, visualizing weights in convolutional layers of a CNN can highlight which regions of an image are most critical for feature extraction. Similarly, <strong>visualizing activations in intermediate layers</strong> provides a clearer picture of how data transforms as it passes through the network, helping to understand the progression of feature abstraction (see Figure 23.1).</p>
+<div class="center">
+<figure>
+<img src="img/lecture23/net10.png" id="fig:figure1" style="width:4in" alt="Visualizing activations of intermediate layers" /><figcaption aria-hidden="true">Visualizing activations of intermediate layers</figcaption>
+</figure>
+</div>
+<p>Explanations can also focus on the relationships between data points. <strong>Nearest neighbor samples</strong> reveal which training data points are most similar to the test input in the learned feature space, providing interpretable evidence for predictions.</p>
+<p>Techniques like <strong>dimensionality reduction</strong> (e.g., t-SNE, PCA) project high-dimensional data into a lower-dimensional space, helping visualize clusters or patterns that the model relies on.</p>
+<p>At the pixel level, <strong>saliency maps</strong> illustrate the importance of specific input pixels to a model’s output. These can be generated via feature importance measures or interventions, such as systematically occluding parts of an input to observe the impact on predictions. Among these, explanations like pixel saliency via feature importance are computationally efficient and generalize well across tasks. However, the quality of an explanation is subjective and context-dependent; for instance, visualizing activations in intermediate layers may provide better qualitative insights than weight visualizations, depending on the task. Ultimately, effective explanations strike a balance between informativeness, computational efficiency, and ease of interpretation for the target audience.</p>
+<section id="types-of-explanations" data-number="0.2.1">
+<h3 data-number="1.2.1"><span class="header-section-number">1.2.1</span> Types of explanations</h3>
+<section id="indirect-explanations" data-number="0.2.1.1">
+<h4 data-number="1.2.1.1"><span class="header-section-number">1.2.1.1</span> Indirect Explanations</h4>
+<p>Indirect explanations offer auxiliary information that helps interpret the underlying patterns the model is recognizing. For example, maximally activated patches in an image classification model show the regions of an input image that most strongly activate a particular feature detector, such as edges or textures. (see Figure 23.2)</p>
+<p>This can be visualized by highlighting specific patches or areas in an image that cause the highest activations in intermediate layers, revealing the key elements that the model uses to identify objects. Similarly, activation visualizations track the activations of neurons in intermediate layers, helping to understand what features the model extracts as the input progresses through the network.</p>
+<p>Dimensionality reduction techniques like t-SNE can be applied to the final embeddings of a model, projecting high-dimensional features into 2D space to reveal how well the model clusters data points from different classes.</p>
+<p>Another example, nearest neighbor samples, show which training samples are closest to a given test sample in the feature space, explaining the model’s decision by comparing it to similar cases. All these methods indirectly explain a model’s behavior by illustrating how it processes and organizes input data.</p>
+<div class="center">
+<figure>
+<img src="img/lecture23/net11.png" id="fig:figure1" style="width:4in" alt="Indirect explanations" /><figcaption aria-hidden="true">Indirect explanations</figcaption>
+</figure>
+</div>
+</section>
+<section id="direct-explanations" data-number="0.2.1.2">
+<h4 data-number="1.2.1.2"><span class="header-section-number">1.2.1.2</span> Direct Explanations</h4>
+<p>Direct explanations aim to explicitly describe how a model reaches a particular decision or prediction. A good example of a direct explanation is using saliency maps via occlusion to understand which parts of an image influence the model’s decision.</p>
+<p>For instance, consider an image of an elephant (see Figure 23.3): by occluding (masking) different sections of the image and observing how the model’s confidence in predicting the label (elephant) changes, we can identify which pixels or regions are most important for the model’s classification. If masking the elephant’s trunk decreases the probability of predicting "elephant," we can directly infer that the trunk is a key feature for this decision. Another direct explanation technique is saliency via feature importance, where the model highlights specific features (e.g., pixels or regions in the image) based on their contribution to the output. For example, in a classification task, the model might use a heatmap to visually emphasize areas of the image that contribute most to the predicted class.</p>
+<p>In the case of an elephant image, the heatmap might highlight the elephant’s ears or tusks, directly correlating these areas with the model’s decision-making. These methods provide concrete and interpretable answers to the question, "Why did the model make this prediction?" by showing exactly which parts of the input influenced the outcome.</p>
+<div class="center">
+<figure>
+<img src="img/lecture23/net12.png" id="fig:figure1" style="width:4in" alt="Direct explanations - saliency via occlusions and via feature importance" /><figcaption aria-hidden="true">Direct explanations - saliency via occlusions and via feature importance</figcaption>
+</figure>
+</div>
+</section>
+<section id="targeted-explanations" data-number="0.2.1.3">
+<h4 data-number="1.2.1.3"><span class="header-section-number">1.2.1.3</span> Targeted Explanations</h4>
+<p>Targeted explanations focus on explaining specific aspects of a model’s decision-making, often tailored to particular questions or audiences. Unlike general explanations, which provide an overview of the model’s behavior, targeted explanations are precise and aim to address a specific query about a prediction or behavior. In machine learning, especially for image classification tasks, explaining a model’s decisions involves addressing different types of questions. These questions—“<strong>Why P?” (correlations)</strong>, “<strong>What if?” (counterfactuals)</strong>, and “<strong>Why P, rather than Q?” (contrastive)</strong>—help users understand the rationale behind predictions, evaluate model reliability, and assess its behavior under hypothetical scenarios. Let’s explore these paradigms using the following example.</p>
+<p><strong>1. Why P? — Correlations</strong> The question “Why Spoonbill?” focuses on uncovering the features that led the neural network to classify the image as a Spoonbill. The model identifies features such as the pink and round body and the straight beak, which strongly correlate with the Spoonbill class. Techniques like saliency maps or feature attribution methods can visualize these contributions, highlighting the areas in the image the model deemed most important for its decision.</p>
+<p>For example, a saliency map might emphasize the straight beak, indicating that this feature was a decisive factor in the prediction. This correlation-based explanation aligns with human reasoning and fosters trust in the model by showing that <span class="math inline">\(f()\)</span> relies on meaningful and intuitive features for its decision.</p>
+<p><strong>2. What if? — Counterfactuals</strong> The “What if?” question explores hypothetical scenarios, testing the model’s robustness to changes in key features. Counterfactual explanations might ask, “What if the beak were curved instead of straight? Would the network still classify the image as a Spoonbill?” or “What if the body color were white instead of pink?”</p>
+<p>To answer these questions, features in the image can be perturbed or modified, and the resulting predictions analyzed. If altering the straight beak to a curved one causes the model to switch its prediction to Flamingo, it indicates that the beak’s shape is crucial for the Spoonbill classification. Counterfactuals are particularly actionable because they allow users to assess the reliability of <span class="math inline">\(f()\)</span> and understand what minimal changes could result in a different decision.</p>
+<p><strong>3. Why P, rather than Q? — Contrastive</strong> Contrastive explanations answer questions like “Why Spoonbill, rather than a Flamingo or a Fox?” These explanations emphasize the differences in features between the predicted class and alternative outcomes, providing a comparative understanding of the decision-making process.</p>
+<p>For example consider Figure 23.4:</p>
+<div class="center">
+<figure>
+<img src="img/lecture23/net13.png" id="fig:figure1" style="width:4in" alt="Targeted explanations" /><figcaption aria-hidden="true">Targeted explanations</figcaption>
+</figure>
+</div>
+<p><strong>“Why Spoonbill, rather than Flamingo?”:</strong> The network highlights the lack of an S-shaped neck in the Spoonbill, which is a distinguishing feature for Flamingos. This difference explains why the model favored Spoonbill over Flamingo.</p>
+<p><strong>“Why Spoonbill, rather than Fox?”:</strong> The stark differences in the neck, beak, body, and legs separate Spoonbill from Fox. However, if the legs are occluded in the image or were underrepresented in the training data, the network might rely more heavily on features like the neck and beak for its classification.</p>
+<p>Contrastive explanations align closely with human reasoning by comparing similarities and differences, making the model’s logic more interpretable. To understand how explanatory paradigms work in neural networks, consider a classification task where a model identifies an image as a Bullmastiff (see Figure 23.5). Using the paradigms of correlation ("Why P?"), counterfactual reasoning ("What if?"), and contrastive explanation ("Why P, rather than Q?"), we can gain detailed insights into the model’s decision-making process.</p>
+<div class="center">
+<figure>
+<img src="img/lecture23/net14.png" id="fig:figure1" style="width:4in" alt="Targeted explanations - identifying a Bullmastiff" /><figcaption aria-hidden="true">Targeted explanations - identifying a Bullmastiff</figcaption>
+</figure>
+</div>
+<p><strong>“Why Bullmastiff?” — Observed Correlation</strong></p>
+<p>The question “Why Bullmastiff?” seeks to explain the model’s decision by identifying features that strongly correlate with the Bullmastiff class. For instance, the network might highlight the broad head, muscular build, and short coat, which are characteristic features of a Bullmastiff.</p>
+<p>Visualizing this explanation could involve saliency maps or attention heatmaps that pinpoint the regions in the image (e.g., the face and body of the dog) the network deemed critical for classification. The heatmap might reveal that the shape of the head and structure of the ears were particularly influential, reassuring users that the model bases its decision on relevant, intuitive features. This paradigm builds trust in the network by showing that its prediction aligns with observable traits consistent with expert knowledge of dog breeds.</p>
+<p><strong>“What if Bullmastiff was not in the image?” — Observed Counterfactual</strong></p>
+<p>The counterfactual paradigm examines hypothetical scenarios to test the robustness of the model. The question “What if Bullmastiff was not in the image?” might involve replacing the Bullmastiff with another breed (e.g., a Boxer) or altering specific features to deviate from the Bullmastiff class.</p>
+<p>For example, what if the dog’s head shape were narrower and the build less muscular? Would the model still classify it as a Bullmastiff? What if the coat pattern changed significantly? Modifying these features in the image can reveal how sensitive the model is to key characteristics. If slight alterations lead the model to classify the image as a Boxer, it shows that the network heavily relies on subtle morphological distinctions. Counterfactual analysis enables users to evaluate whether the model’s decision boundaries are reasonable and aligned with real-world expectations.</p>
+<p><strong>“Why Bullmastiff, rather than a Boxer?” — Observed Contrastive</strong></p>
+<p>Contrastive explanations answer “Why Bullmastiff, rather than a Boxer?”, emphasizing differences between the predicted class and alternatives. Here, the model might point out that while both breeds share a similar coat texture, the Bullmastiff’s broader head and more muscular frame differentiate it from the Boxer’s relatively narrower head and leaner build.</p>
+<p>Contrastive reasoning is particularly useful when two classes are closely related, as it helps users understand subtle distinctions the model captures. For example, a saliency map comparison could show that the forehead structure and ear shape were key to selecting Bullmastiff over Boxer. Alternatively, visualizing embeddings from the last layer might illustrate how Bullmastiff and Boxer form separate clusters in feature space, providing a quantitative and spatial representation of their distinction.</p>
+</section>
+</section>
+<section id="correlations-through-grad-cam" data-number="0.2.2">
+<h3 data-number="1.2.2"><span class="header-section-number">1.2.2</span> Correlations through Grad-CAM</h3>
+<p>Grad-CAM not only explains predictions but also helps explore the network’s understanding of unrelated classes. For example, when analyzing a <strong>Bullmastiff</strong> image, we probe the network by asking irrelevant questions like “Why Blue Jay?” or “Why Boxer?” This approach helps investigate whether the network focuses on meaningful features or spurious correlations.</p>
+<div class="center">
+<figure>
+<img src="img/lecture23/net15.png" id="fig:figure1" style="width:4in" alt="Grad-CAM process" /><figcaption aria-hidden="true">Grad-CAM process</figcaption>
+</figure>
+</div>
+<h4 class="unnumbered" id="grad-cam-process">Grad-CAM Process</h4>
+<ol>
+<li><p><strong>Forward Pass</strong>: Pass the input image through the CNN to compute the feature maps in the final convolutional layer.</p></li>
+<li><p><strong>Backward Pass</strong>: Compute the gradients <span class="math inline">\(\frac{\partial y^c}{\partial A^k}\)</span>, where <span class="math inline">\(y^c\)</span> is the logit corresponding to the target class <span class="math inline">\(c\)</span>, and <span class="math inline">\(A^k\)</span> represents the activation of kernel <span class="math inline">\(k\)</span> in the last convolutional layer.</p></li>
+<li><p><strong>Gradient Aggregation</strong>: Perform a global average pooling of the gradients to compute the weight <span class="math inline">\(\alpha_k^c\)</span> for each kernel: <span class="math display">\[\alpha_k^c = \frac{1}{Z} \sum_{i} \sum_{j} \frac{\partial y^c}{\partial A^k_{ij}}\]</span> where <span class="math inline">\(Z\)</span> is the total number of elements in the activation map.</p></li>
+<li><p><strong>Weighted Activation Map</strong>: Multiply each kernel’s activation <span class="math inline">\(A^k\)</span> with its corresponding weight <span class="math inline">\(\alpha_k^c\)</span> and compute the sum: <span class="math display">\[L^c_{\text{Grad-CAM}} = \text{ReLU} \left( \sum_k \alpha_k^c A^k \right)\]</span></p></li>
+<li><p><strong>Upsampling and Normalization</strong>: Upsample <span class="math inline">\(L^c_{\text{Grad-CAM}}\)</span> to the original image dimensions and normalize it for visualization.</p></li>
+</ol>
+<p>Observations for <strong>Why “Blue Jay?</strong> In this context, Grad-CAM often highlights the same features in the image, irrespective of the queried class. The heatmap may show strong activations around the dog’s head, body, or legs. These regions are not meaningful for identifying a "Blue Jay" but are crucial for the network’s understanding of the input image. The consistent highlighting indicates that the network reuses generic, high-level features (e.g., shape, texture) across classes, even when the target class is irrelevant. This behavior reflects a lack of focus on class-specific details when queried with an unrelated label.</p>
+</section>
+<section id="counterfactual-cam-exploring-what-if-p-was-not-in-the-image" data-number="0.2.3">
+<h3 data-number="1.2.3"><span class="header-section-number">1.2.3</span> Counterfactual-CAM: Exploring "What if P was not in the image?</h3>
+<p>Counterfactual-CAM extends Grad-CAM by addressing counterfactual scenarios. Instead of explaining why the model predicts a particular class <span class="math inline">\(P\)</span>, it examines what features would be emphasized if <span class="math inline">\(P\)</span> were absent from the image. This provides insights into the negative influence of features related to <span class="math inline">\(P\)</span> on the model’s decision-making.</p>
+<h4 class="unnumbered" id="counterfactual-cam-process">Counterfactual-CAM Process</h4>
+<p>Counterfactual-CAM modifies Grad-CAM to suppress features related to a specific class <span class="math inline">\(P\)</span>, effectively answering, <em>“What if <span class="math inline">\(P\)</span> was not in the image?”</em> The process involves:</p>
+<ol>
+<li><p><strong>Gradient Negation</strong>: Instead of directly using the gradients <span class="math inline">\(\frac{\partial y^c}{\partial A^k}\)</span>, their negatives are used: <span class="math display">\[\alpha_k^c = -\frac{1}{Z} \sum_{i} \sum_{j} \frac{\partial y^c}{\partial A^k_{ij}}\]</span></p></li>
+<li><p><strong>Suppressing Influence</strong>: By using these negated gradients, the method removes the influence of features contributing positively to class <span class="math inline">\(P\)</span>.</p></li>
+<li><p><strong>Activation Map Computation</strong>: The resultant activation map highlights regions that would be important if class <span class="math inline">\(P\)</span> were absent: <span class="math display">\[L^c_{\text{Counterfactual-CAM}} = \text{ReLU} \left( \sum_k \alpha_k^c A^k \right)\]</span></p></li>
+<li><p><strong>Normalization and Visualization</strong>: The map is upsampled to match the input image size and normalized for interpretation.</p></li>
+</ol>
+<p>Please refer to Figure 23.7 for a depiction of this process.</p>
+<div class="center">
+<figure>
+<img src="img/lecture23/net15.png" id="fig:figure1" style="width:4in" alt="Counterfactual-CAM process" /><figcaption aria-hidden="true">Counterfactual-CAM process</figcaption>
+</figure>
+</div>
+<p>Example: “What if Bullmastiff was not in the image?” Input an image of a Bullmastiff, which the model correctly classifies as "Bullmastiff." The Counterfactual-CAM can be used to simulate the absence of features related to the Bullmastiff. The resulting heatmap suppresses regions such as the dog’s head, body, and ears, which are crucial for the Bullmastiff class. Instead, the map highlights features that might support other plausible classes (e.g., background objects or general shapes). This process effectively removes the Bullmastiff’s influence and showcases alternate features the model considers for prediction. It helps debug the model’s reliance on specific features and understand secondary feature hierarchies.</p>
+<section id="contrast-cam" data-number="0.2.3.1">
+<h4 data-number="1.2.3.1"><span class="header-section-number">1.2.3.1</span> Contrast CAM</h4>
+<p>Contrast-CAM is a class activation mapping technique that extends the conventional Grad-CAM approach to compare the network’s decision between two classes: the predicted class <span class="math inline">\(P\)</span> and a contrast class <span class="math inline">\(Q\)</span>. By focusing on the differences between the two classes, Contrast-CAM helps to highlight regions in the image that differentiate the predicted class from an alternative class, offering valuable insights into model behavior, feature dependencies, and biases. It is particularly useful for answering questions like “Why Bullmastiff, rather than a Boxer?” and for identifying regions that cause confusion between two different classes.</p>
+</section>
+<h4 class="unnumbered" id="contrast-cam-process">Contrast-CAM Process</h4>
+<p>Contrast-CAM adapts the Grad-CAM method by comparing two classes: the predicted class <span class="math inline">\(P\)</span> and a contrast class <span class="math inline">\(Q\)</span>. This comparison enables the model to distinguish what features contribute to the prediction of <span class="math inline">\(P\)</span> versus those that contribute to class <span class="math inline">\(Q\)</span>.</p>
+<ol>
+<li><p><strong>Forward Pass</strong>: As in Grad-CAM, the image is passed through the CNN to obtain the feature maps from the final convolutional layer.</p></li>
+<li><p><strong>Backward Pass with Loss Between <span class="math inline">\(P\)</span> and <span class="math inline">\(Q\)</span></strong>:</p>
+<ul>
+<li><p>Instead of focusing on the logit for the predicted class <span class="math inline">\(P\)</span>, Contrast-CAM backpropagates the loss between the predicted class <span class="math inline">\(P\)</span> and a contrast class <span class="math inline">\(Q\)</span>.</p></li>
+<li><p>This backward pass computes the gradients <span class="math inline">\(\frac{\partial J(P, Q)}{\partial A^k}\)</span>, where <span class="math inline">\(J(P, Q)\)</span> is the loss function that captures the difference between class <span class="math inline">\(P\)</span> and contrast class <span class="math inline">\(Q\)</span>. The gradients indicate how much each kernel in the final convolutional layer contributes to distinguishing class <span class="math inline">\(P\)</span> from class <span class="math inline">\(Q\)</span>.</p></li>
+</ul></li>
+<li><p><strong>Global Average Pooling of Negative Gradients</strong>: The negative of these gradients is aggregated using global average pooling to obtain weights <span class="math inline">\(\alpha_k^c\)</span> for each kernel <span class="math inline">\(k\)</span>. These weights indicate the degree to which each feature map contributes to distinguishing between class <span class="math inline">\(P\)</span> and contrast class <span class="math inline">\(Q\)</span>.</p></li>
+<li><p><strong>Weighted Activation Map</strong>: As with Grad-CAM, the activation maps <span class="math inline">\(A_k\)</span> are weighted by the corresponding <span class="math inline">\(\alpha_k^c\)</span>, and the results are summed together: <span class="math display">\[L^c_{\text{Contrast-CAM}} = \text{ReLU} \left( \sum_k \alpha_k^c A^k \right)\]</span> This weighted map highlights the areas of the image that are critical for differentiating class <span class="math inline">\(P\)</span> from contrast class <span class="math inline">\(Q\)</span>.</p></li>
+<li><p><strong>Upsampling and Normalization</strong>: The final map is upsampled to the size of the original image and normalized, resulting in a heatmap that shows the regions where the model distinguishes between the two classes.</p></li>
+</ol>
+<div class="center">
+<figure>
+<img src="img/lecture23/net19.png" id="fig:figure1" style="width:4in" alt="Different categories of explanations for a given input" /><figcaption aria-hidden="true">Different categories of explanations for a given input</figcaption>
+</figure>
+</div>
+<p>For instance - <strong>“Why Bullmastiff, rather than a Boxer?”</strong> The objective here is to understand why the model classifies the image as “Bullmastiff" instead of “Boxer". The loss function compares the predicted class (Bullmastiff) with the contrast class (Boxer). The gradients reveal the key features that help the network distinguish a Bullmastiff from a Boxer, such as the Bullmastiff’s distinctive body shape, coat color, and facial features. The regions that are crucial for distinguishing between these two breeds are highlighted, and the Contrast-CAM heatmap shows areas where the Bullmastiff and Boxer look similar, helping to identify the features that confuse the model.</p>
+<p>Example 2: <strong>“Why not Bullmastiff with 100% confidence?”</strong> The objective here is to analyze why the model doesn’t classify the image with 100% confidence as Bullmastiff. The loss function in this case backpropagates the difference between the logit for the Bullmastiff class and the confidence of other classes (e.g., the model’s uncertainty in classifying the image). The Contrast-CAM map will highlight areas in the image that cause confusion or uncertainty in the network’s decision-making process. These are typically ambiguous or overlapping features, like similar textures or colors, which contribute to the model’s inability to classify the image with high confidence.</p>
+</section>
+</section>
+<section id="explanatory-evaluation-what-makes-some-explanations-better-than-others" data-number="0.3">
+<h2 data-number="1.3"><span class="header-section-number">1.3</span> Explanatory Evaluation: What Makes Some Explanations Better Than Others?</h2>
+<p>Visualizing activations is often considered a better explanation compared to visualizing weights in intermediate layers. Activations provide more interpretable insights because they show which features of the input directly contribute to the network’s predictions, making the explanation more intuitive.</p>
+<p>Pixel saliency (highlighting important pixels) is a useful technique for explaining model decisions, as it shows which parts of the input image the model considers most significant. Techniques that focus on pixel saliency or feature importance are often computationally less expensive than more complex methods like backpropagation of gradients, making them faster and easier to implement without compromising too much on interpretability.</p>
+<section id="explanatory-evaluation-taxonomy" data-number="0.3.1">
+<h3 data-number="1.3.1"><span class="header-section-number">1.3.1</span> Explanatory Evaluation Taxonomy</h3>
+<p>Explanatory evaluation can be categorized into three distinct types based on the nature of the tasks and the role of human involvement. The first type is Human Evaluation, where explanations are directly assessed by humans to determine their quality and usefulness. For example, a person might compare two explanations to decide which one better answers the question, "Why Spoonbill?". This type of evaluation is critical for ensuring that explanations are intuitive and align with human reasoning.</p>
+<p>The second type is Application Evaluation, which focuses on tasks intersecting with explainability but does not require humans for evaluation. Instead, the quality of the explanation is inferred through its impact on application-level metrics. For instance, one might test whether a noisy image is still classified as a Spoonbill to evaluate the robustness of neural networks in ambiguous scenarios.</p>
+<p>Lastly, Network Evaluation involves humans indirectly by using tools or observations rather than directly measuring explainability. For example, gaze tracking can be used to identify regions in an image that are salient to the human visual system, providing insights into how closely the network’s focus aligns with human attention. This type of evaluation bridges the gap between computational insights and human interpretability by assessing alignment with cognitive processes.</p>
+<div class="center">
+<figure>
+<img src="img/lecture23/net8.png" id="fig:figure1" style="width:4in" alt="Types of explanatory evaluation" /><figcaption aria-hidden="true">Types of explanatory evaluation</figcaption>
+</figure>
+</div>
+</section>
+<section id="human-evaluation-of-explanatory-techniques" data-number="0.3.2">
+<h3 data-number="1.3.2"><span class="header-section-number">1.3.2</span> Human Evaluation of Explanatory Techniques</h3>
+<p>Human Evaluation focuses on directly involving humans in assessing the quality and effectiveness of different explanatory techniques. In this approach, individuals are presented with visualizations generated by methods such as Backpropagation, Deconvolution, and Guided Backpropagation and are asked to determine which technique provides a better explanation for the model’s decision. For example, they might compare whether one technique produces a "cleaner explanation" or a "class-discriminative explanation" that focuses more accurately on the relevant features. The subjectivity inherent in human evaluation arises from varied interpretations - should the explanation highlight the entire object (e.g., the whole cat) or just the salient features (e.g., the face)? These subjective preferences make human evaluation both insightful and challenging.</p>
+<div class="center">
+<figure>
+<img src="img/lecture23/net9.png" id="fig:figure1" style="width:4in" alt="Types of explanatory evaluation" /><figcaption aria-hidden="true">Types of explanatory evaluation</figcaption>
+</figure>
+</div>
+<p>To address these challenges, it is important to mitigate biases and increase reliability. One effective method is to involve a large number of evaluators to reduce individual biases and improve generalizability. Additionally, evaluators should remain unaware of the researchers’ objectives to avoid influencing their responses. Guiding evaluators through structured questions helps focus their attention on specific aspects of the explanation while ensuring consistency across evaluations. For instance, asking, "Does this explanation highlight the most important features for the predicted class?" ensures clarity and uniformity in the assessment process. This structured approach helps balance subjectivity while preserving the human-centric focus of the evaluation.</p>
+<section id="expanding-human-evaluation" data-number="0.3.2.1">
+<h4 data-number="1.3.2.1"><span class="header-section-number">1.3.2.1</span> Expanding Human Evaluation</h4>
+<p>To improve the reliability of human evaluation, it is essential to address inherent subjectivity by employing a structured methodology. For example, researchers can provide two explanations for the same input image, generated by different techniques, and ask participants to evaluate them based on specific criteria. In a study, 43 Amazon Mechanical Turk (AMT) workers were asked to compare two explanations for a series of 90 image-question pairs, evaluating aspects like whether the explanation is more aesthetically pleasing or class-discriminative. This setup ensures that human responses are systematically gathered and analyzed.</p>
+<p>However, human evaluation comes with challenges such as bias introduced by the framing of questions and determining how many participants are sufficient to achieve reliable results. Additionally, the definition of explainability itself plays a critical role—participants may interpret questions differently depending on their understanding of what makes an explanation effective. To overcome these limitations, researchers can design unbiased, clear, and goal-oriented questions, ensure the sample size is representative, and anchor evaluations in specific attributes like clarity, relevance, and discriminativeness. This structured approach evaluates explanations through human responses, aligning outcomes with a human-centric perspective on explainability.</p>
+</section>
+</section>
+<section id="application-evaluation" data-number="0.3.3">
+<h3 data-number="1.3.3"><span class="header-section-number">1.3.3</span> Application Evaluation</h3>
+<p>Application evaluation involves humans in the evaluation loop without directly assessing explainability. Instead, explanations are indirectly evaluated through applications like gaze tracking or the pointing game. These methods analyze how humans interact with visual data and leverage this behavior to assess the effectiveness of explanatory models.</p>
+<section id="salient-regions-and-gaze-tracking" data-number="0.3.3.1">
+<h4 data-number="1.3.3.1"><span class="header-section-number">1.3.3.1</span> Salient Regions and Gaze Tracking</h4>
+<p>Humans naturally focus on salient regions in an image. From a Neuroscience perspective, the brain, functioning as an inference engine, relies on these regions to draw conclusions. Thus, these regions serve as an implicit explanation for any inference.</p>
+<div class="center">
+<figure>
+<img src="img/lecture23/net6.png" id="fig:figure1" style="width:4in" alt="Gaze tracking - how humans focus on salient regions in an image" /><figcaption aria-hidden="true">Gaze tracking - how humans focus on salient regions in an image</figcaption>
+</figure>
+</div>
+<p>There are several metrics used to compare explanations generated by various methods against this ground truth of salient regions such as -</p>
+<p>1. <strong>Mean Intersection over Union (IoU)</strong>: Measures the pixel-area overlap between predicted and ground truth segmentation masks divided by their union.</p>
+<p>2. <strong>Correlation Coefficient</strong>: Evaluates the linear relationship between variables, helping assess similarity between human-identified salient regions and model outputs.</p>
+<p>3. <strong>Pixel Accuracy</strong>: Computes the fraction of correctly predicted pixels relative to the total pixels in the ground truth mask.</p>
+</section>
+<section id="methods-for-application-evaluation" data-number="0.3.3.2">
+<h4 data-number="1.3.3.2"><span class="header-section-number">1.3.3.2</span> Methods for Application Evaluation</h4>
+<p>1. <strong>Gaze Tracking</strong> - This technique tracks salient regions in an image by monitoring human visual attention without introducing biases from specific questions. Since it is based on natural gaze behavior, it is an unbiased saliency detection technique. However, it comes with limitations such as requiring expensive eye-tracking equipment, making it less accessible.It also introduces potential noise and center-bias, where humans focus on central areas regardless of relevance. It also does not provide targeted answers or explainability insights.</p>
+<p>2. <strong>Pointing Game</strong> - This technique requires participants to refine a blurred image to make objects distinguishable, implicitly indicating areas they consider important. The pointing game method avoids the need for specialized equipment and can be conducted using platforms like the Amazon Mechanical Turk. It produces clean results as participants focus on sharpening specific regions of interest. It also facilitates obtaining targeted explanations based on precise questions. However, it might introduce bias by influencing the focus of participants through highly tailored instructions.</p>
+<div class="center">
+<figure>
+<img src="img/lecture23/net7.png" id="fig:figure1" style="width:4in" alt="Pointing game - visualizing human attention" /><figcaption aria-hidden="true">Pointing game - visualizing human attention</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<h3 class="unnumbered" id="network-evaluation-in-explanatory-evaluation">Network Evaluation in Explanatory Evaluation</h3>
+<p>Network evaluation assesses the quality and robustness of explanations provided by neural networks without relying on human intervention. This method focuses on tasks intersecting with explainability, such as evaluating how well explanations justify a network’s decisions. Unlike human or application evaluation, network evaluation operates on the assumption that networks inherently provide explanations through their behavior. In other words, the idea revolves around the fact that networks perform certain tasks that are inherently explanatory. A common approach is to evaluate explanations using <strong>masking</strong> or <strong>progressive pixel-wise insertion and deletion</strong> techniques, which measure the contribution of specific regions in the input image to the network’s predictions.</p>
+<h4 class="unnumbered" id="explanation-evaluation-via-masking">Explanation Evaluation via Masking</h4>
+<p>Masking techniques involve analyzing the network’s response using regions deemed important by explanation methods, such as <em>Guided Backpropagation</em> or <em>Grad-CAM</em>.</p>
+<div class="center">
+<figure>
+<img src="img/lecture23/net2.png" id="fig:figure1" style="width:4in" alt="Masking using explanation heatmap" /><figcaption aria-hidden="true">Masking using explanation heatmap</figcaption>
+</figure>
+</div>
+<p>The primary idea is to mask the regions identified as important and observe if the predictions of the network change. The goal is to evaluate how effectively the explanations align with the importance of image regions for the network’s predictions. The performance of this type of masking is usually measured using metrics such as the <strong>expectation of class predictions</strong> (<span class="math inline">\(E(Y|Sx)\)</span>), where <span class="math inline">\(Sx\)</span> represents the masked data based on explanations. In Figure 23.13, we see that image to the right depicts a larger explanation when compared to the one on the left, and hence retains more unmasked features leading to increased likelihood of correct prediction. Quantitatively this means that <span class="math display">\[E(Y|Sx_2) &gt; E(Y|Sx_1) \implies \text{Explanation technique 2 is better than technique 1.}\]</span> where <span class="math inline">\(Y\)</span> is the prediction, Prediction, <span class="math inline">\(Sx\)</span> is the explanation masked data and <span class="math inline">\(E(Y|Sx)\)</span> is the expectation of class given <span class="math inline">\(Sx\)</span>. However, a key challenge while larger explanations might lead to better performance, it does not promote minimal, fine-grained explanations that are often more desirable.</p>
+<h4 class="unnumbered" id="progressive-pixel-wise-insertion-and-deletion">Progressive Pixel-wise Insertion and Deletion</h4>
+<p>Progressive techniques offer insights into the role of specific pixels that contribute to the network’s predictions.</p>
+<h4 class="unnumbered" id="pixel-wise-deletion">Pixel-wise Deletion</h4>
+<p>This method involves sequentially removing (masking) pixels based on their explanation assigned importance scores (or in decreasing order of their importance).</p>
+<div class="center">
+<figure>
+<img src="img/lecture23/net3.png" id="fig:figure1" style="width:4in" alt="Masking using pixel-wise deletion" /><figcaption aria-hidden="true">Masking using pixel-wise deletion</figcaption>
+</figure>
+</div>
+<p>The general idea (as depicted in Figure 23.14) is as follows -</p>
+<ol>
+<li><p>The most important pixel is masked first, and the image is passed through the network.</p></li>
+<li><p>The second most important pixel is masked, and the process repeats until all pixels are masked.</p></li>
+</ol>
+<p>The central idea is to determine if masking the most important pixels significantly alters the prediction, then the explanation is deemed strong. A good explanation results in a low <strong>Area Under Curve (AUC)</strong> for deletion (as shown in Figure 23.15), as the network performance drops when important pixels are removed. This approach promotes fine-grained explanations that focus on the most relevant pixels.</p>
+<div class="center">
+<figure>
+<img src="img/lecture23/net4.png" id="fig:figure1" style="width:4in" alt="Masking using pixel-wise deletion" /><figcaption aria-hidden="true">Masking using pixel-wise deletion</figcaption>
+</figure>
+</div>
+<div class="center">
+<figure>
+<img src="img/lecture23/net5.png" id="fig:figure1" style="width:4in" alt="Masking using pixel-wise deletion" /><figcaption aria-hidden="true">Masking using pixel-wise deletion</figcaption>
+</figure>
+</div>
+<h4 class="unnumbered" id="pixel-wise-insertion">Pixel-wise Insertion</h4>
+<p>This method is complementary to pixel-wise deletion by sequentially adding pixels to a grayscale image. The basic idea of pixel-wise insertion is as follows -</p>
+<ol>
+<li><p>The most important pixel is added to the image first, followed by the second most important pixel, and so on.</p></li>
+<li><p>At each step, the modified image is passed through the network to observe changes in predictions.</p></li>
+</ol>
+<p>A good explanation should enable the network to perform better as important pixels are added. High <strong>AUC</strong> (as depicted in Figure 23.16) for insertion indicates strong explanations, as predictions improve with the inclusion of relevant features. While network evaluation offers robust, human-independent methods for assessing explanations, it has limitations such as bias towards larger explanations. Fine-grained explanations still remains a challenge, especially when balancing prediction accuracy and explanation scope.</p>
+</section>
+</body>
+</html>
+
+</main>
+</body>
+</html>
