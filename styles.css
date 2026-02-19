@@ -262,6 +262,8 @@ a {
 .content {
   display: grid;
   gap: 28px;
+  min-height: calc(100vh - 180px);
+  grid-template-rows: auto 1fr auto;
 }
 
 .viewer-header {
@@ -294,13 +296,15 @@ a {
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   overflow: hidden;
-  min-height: 70vh;
+  min-height: 60vh;
+  height: 100%;
 }
 
 .lecture-frame {
   border: none;
   width: 100%;
-  height: 72vh;
+  height: 100%;
+  display: block;
 }
 
 .viewer-foot {

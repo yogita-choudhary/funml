@@ -2,6 +2,7 @@ const navToggle = document.querySelector('.nav-toggle');
 const navMenu = document.querySelector('.nav-menu');
 const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
 const lectureItems = document.querySelectorAll('.lecture-item');
+const lectureList = document.querySelector('.lecture-list');
 const lectureFrame = document.getElementById('lecture-frame');
 const lectureTitle = document.getElementById('lecture-title');
 const lectureMeta = document.getElementById('lecture-meta');
@@ -37,12 +38,14 @@ const setActiveLecture = (item) => {
   if (openLecture) openLecture.setAttribute('href', src);
 };
 
-lectureItems.forEach((item) => {
-  item.addEventListener('click', (event) => {
+if (lectureList) {
+  lectureList.addEventListener('click', (event) => {
+    const item = event.target.closest('.lecture-item');
+    if (!item) return;
     event.preventDefault();
     setActiveLecture(item);
   });
-});
+}
 
 const defaultLecture = document.querySelector('.lecture-item.active') || lectureItems[0];
 if (defaultLecture) {
