@@ -288,12 +288,12 @@ a {
 }
 
 .viewer-actions {
-  width: min(380px, 100%);
+  width: min(820px, 100%);
 }
 
 .viewer-actions .viewer-foot {
   display: grid;
-  grid-template-columns: repeat(2, minmax(160px, 1fr));
+  grid-template-columns: repeat(4, minmax(130px, 1fr));
   gap: 8px;
 }
 
@@ -603,5 +603,11 @@ button {
 
   .lecture-frame {
     height: 60vh;
+  }
+}
+
+@media (max-width: 1200px) {
+  .viewer-actions .viewer-foot {
+    grid-template-columns: repeat(2, minmax(140px, 1fr));
   }
 }
