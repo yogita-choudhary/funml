@@ -264,13 +264,13 @@ a {
   display: grid;
   gap: 28px;
   min-height: calc(100vh - 180px);
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto 1fr;
 }
 
 .viewer-header {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: 16px;
   flex-wrap: wrap;
 }
@@ -288,8 +288,13 @@ a {
 }
 
 .viewer-actions {
-  display: flex;
-  gap: 12px;
+  width: min(380px, 100%);
+}
+
+.viewer-actions .viewer-foot {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(160px, 1fr));
+  gap: 8px;
 }
 
 .viewer-frame-wrap {
@@ -297,7 +302,7 @@ a {
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   overflow: hidden;
-  min-height: 60vh;
+  min-height: 72vh;
   height: 100%;
 }
 
@@ -316,25 +321,26 @@ a {
 
 .foot-card {
   background: rgba(255, 255, 255, 0.9);
-  border-radius: 18px;
-  padding: 14px 16px;
+  border-radius: 14px;
+  padding: 10px 12px;
   box-shadow: var(--soft-shadow);
 }
 
 .foot-label {
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  font-size: 0.7rem;
+  font-size: 0.62rem;
   color: var(--muted);
 }
 
 .foot-value {
   font-weight: 600;
-  margin-top: 6px;
+  margin-top: 4px;
+  font-size: 0.92rem;
 }
 
 .foot-sub {
-  font-size: 0.82rem;
+  font-size: 0.75rem;
   color: var(--muted);
 }
 
@@ -589,7 +595,10 @@ button {
 
   .viewer-actions {
     width: 100%;
-    flex-wrap: wrap;
+  }
+
+  .viewer-actions .viewer-foot {
+    grid-template-columns: 1fr;
   }
 
   .lecture-frame {

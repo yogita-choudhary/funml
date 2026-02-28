@@ -10,28 +10,57 @@ import json
 PROJECT_TITLE = "ECE 4252/6252 – FunML Lecture Notes"
 
 CSS = """
-body {
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+html, body {
   margin: 0;
   padding: 0;
+  width: 100%;
+  overflow-x: hidden;
 }
+
+body {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+}
+
 main {
-  max-width: 1000px;
-  padding: 32px;
-  margin: auto;
+  width: 100%;
+  max-width: none;
+  padding: 20px 24px;
+  margin: 0;
+  overflow-x: hidden;
 }
+
 h1, h2, h3 {
   line-height: 1.25;
 }
+
 nav {
   background: #f6f8fa;
-  padding: 16px;
+  padding: 12px 16px;
   border-bottom: 1px solid #ddd;
 }
+
 nav a {
   margin-right: 12px;
   text-decoration: none;
   font-weight: 500;
+}
+
+img, video, svg, canvas, iframe, embed, object {
+  max-width: 100%;
+  height: auto;
+}
+
+table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+pre, code {
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 """
 
@@ -104,7 +133,8 @@ def build_single_html(tex: Path, out_html_path: Path, out_root: Path, title: str
     "pandoc",
     str(tmp_tex),
     "--mathjax",
-    "--standalone",
+    "--from=latex",
+    "--to=html5",
     "--number-sections",
     "--shift-heading-level-by=1",
     "--number-offset=1",
