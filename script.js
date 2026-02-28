@@ -41,6 +41,28 @@ const updateLectureResources = (src) => {
   updateResourceLink(solutionLink, resource.solution, resource.solution ? 'Open exercise solutions' : 'No solutions posted');
 };
 
+const getActiveLectureContext = () => {
+  const activeItem = document.querySelector('.lecture-item.active');
+  if (!activeItem) return { title: 'Lecture', meta: '' };
+  return {
+    title: activeItem.dataset.title || activeItem.querySelector('.lecture-title')?.textContent || 'Lecture',
+    meta: activeItem.dataset.meta || activeItem.querySelector('.lecture-meta')?.textContent || '',
+  };
+};
+
+const openResourceInViewer = (event, kindLabel) => {
+  const linkEl = event.currentTarget;
+  event.preventDefault();
+  if (!linkEl || linkEl.classList.contains('disabled')) return;
+  const href = linkEl.getAttribute('href');
+  if (!href || href === '#') return;
+  const context = getActiveLectureContext();
+  if (lectureFrame) lectureFrame.src = href;
+  if (lectureTitle) lectureTitle.textContent = `${context.title} - ${kindLabel}`;
+  if (lectureMeta) lectureMeta.textContent = context.meta ? `${context.meta} · ${kindLabel} loaded.` : `${kindLabel} loaded.`;
+  if (openLecture) openLecture.setAttribute('href', href);
+};
+
 if (navToggle && navMenu) {
   navToggle.addEventListener('click', () => {
     const isOpen = navMenu.classList.toggle('open');
@@ -90,6 +112,14 @@ fetch('lectures/resources.json')
     const currentSrc = lectureFrame?.getAttribute('src');
     updateLectureResources(currentSrc);
   });
+
+if (exerciseLink) {
+  exerciseLink.addEventListener('click', (event) => openResourceInViewer(event, 'In-class Exercise'));
+}
+
+if (solutionLink) {
+  solutionLink.addEventListener('click', (event) => openResourceInViewer(event, 'Exercise Solutions'));
+}
 
 dropdownToggles.forEach((toggle) => {
   toggle.addEventListener('click', (event) => {

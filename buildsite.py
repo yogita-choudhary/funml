@@ -43,14 +43,14 @@ def run(cmd):
 
 def extract_title(tex_path):
   text = tex_path.read_text(errors="ignore")
-  m = re.search(r"Lecture\\s+\\d+[:\\-]?\\s*(.*)", text)
+  m = re.search(r"Lecture\s+\d+[:\-]?\s*(.*)", text)
   if m:
     return m.group(0)
   return tex_path.stem
 
 
 def lecture_number_from_dir(lec_dir: Path):
-  m = re.search(r"lecture\\s*(\\d+)", lec_dir.name, re.IGNORECASE)
+  m = re.search(r"lecture\s*(\d+)", lec_dir.name, re.IGNORECASE)
   return m.group(1) if m else ""
 
 
@@ -60,12 +60,14 @@ def pick_main_tex(tex_files, lecture_number: str):
     points = 0
     if "in-class" in name or "exercise" in name or "solution" in name:
       points -= 100
+    if "add-on" in name or "addon" in name:
+      points -= 60
     if name == "main":
       points += 60
     if lecture_number:
       if f"lecture{lecture_number}" in name:
         points += 40
-      if re.search(rf"\\bl{lecture_number}\\b", name):
+      if re.search(rf"\bl{lecture_number}\b", name):
         points += 35
       if f"l{lecture_number}_" in name:
         points += 35
@@ -92,7 +94,7 @@ def find_extras(tex_files):
 
 def build_single_html(tex: Path, out_html_path: Path, out_root: Path, title: str):
   tex_text = tex.read_text(errors="ignore")
-  tex_text = re.sub(r"\\{\\\\bf\\s+([^}]+)\\}", r"\\\\textbf{\\1}", tex_text)
+  tex_text = re.sub(r"\{\\bf\s+([^}]+)\}", r"\\textbf{\1}", tex_text)
   tmp_tex = out_root / f"_{out_html_path.stem}.tex"
   tmp_tex.write_text(tex_text)
 
