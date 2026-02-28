@@ -7,6 +7,9 @@ const lectureFrame = document.getElementById('lecture-frame');
 const lectureTitle = document.getElementById('lecture-title');
 const lectureMeta = document.getElementById('lecture-meta');
 const openLecture = document.getElementById('open-lecture');
+const exerciseLink = document.getElementById('exercise-link');
+const solutionLink = document.getElementById('solution-link');
+let lectureResources = {};
 
 const closeAllDropdowns = () => {
   dropdownToggles.forEach((toggle) => {
@@ -14,6 +17,28 @@ const closeAllDropdowns = () => {
     const menu = toggle.parentElement.querySelector('.dropdown-menu');
     if (menu) menu.style.display = 'none';
   });
+};
+
+const updateResourceLink = (linkEl, href, label) => {
+  if (!linkEl) return;
+  if (href) {
+    linkEl.classList.remove('disabled');
+    linkEl.setAttribute('href', href);
+    linkEl.textContent = label;
+    return;
+  }
+  linkEl.classList.add('disabled');
+  linkEl.setAttribute('href', '#');
+  linkEl.textContent = label;
+};
+
+const updateLectureResources = (src) => {
+  if (!src) return;
+  const match = src.match(/([^/]+)\.html$/);
+  const lectureKey = match ? match[1] : '';
+  const resource = lectureResources[lectureKey] || {};
+  updateResourceLink(exerciseLink, resource.exercise, resource.exercise ? 'Open in-class exercise' : 'No in-class exercise');
+  updateResourceLink(solutionLink, resource.solution, resource.solution ? 'Open exercise solutions' : 'No solutions posted');
 };
 
 if (navToggle && navMenu) {
@@ -36,6 +61,7 @@ const setActiveLecture = (item) => {
   if (lectureTitle) lectureTitle.textContent = title;
   if (lectureMeta) lectureMeta.textContent = meta ? `${meta} · Loaded` : 'Lecture selected.';
   if (openLecture) openLecture.setAttribute('href', src);
+  updateLectureResources(src);
 };
 
 if (lectureList) {
@@ -51,6 +77,19 @@ const defaultLecture = document.querySelector('.lecture-item.active') || lecture
 if (defaultLecture) {
   setActiveLecture(defaultLecture);
 }
+
+fetch('lectures/resources.json')
+  .then((response) => (response.ok ? response.json() : {}))
+  .then((data) => {
+    lectureResources = data || {};
+    const currentSrc = lectureFrame?.getAttribute('src');
+    updateLectureResources(currentSrc);
+  })
+  .catch(() => {
+    lectureResources = {};
+    const currentSrc = lectureFrame?.getAttribute('src');
+    updateLectureResources(currentSrc);
+  });
 
 dropdownToggles.forEach((toggle) => {
   toggle.addEventListener('click', (event) => {

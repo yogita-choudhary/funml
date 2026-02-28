@@ -1,0 +1,208 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Lecture27 In-class Exercise</title>
+  <link rel="stylesheet" href="../assets/style.css"/>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<nav>
+  <a href="../index.html">Home</a>
+</nav>
+<main>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>_Lecture27_exercise</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="center">
+<p><span><strong>In-Class Exercise (Canvas Quiz) — 10 minutes</strong></span><br />
+<span><strong>Lecture 27: Uncertainty Quantification in Neural Networks</strong></span></p>
+</div>
+<p>This in-class quiz is based on Lecture 27 topics: aleatoric vs epistemic uncertainty, iterative methods (deep ensembles / MC-dropout), and evaluation metrics. You may assume natural log (<span class="math inline">\(\ln\)</span>) is used unless otherwise stated.</p>
+<p><strong>Reminder:</strong> Entropy for a categorical distribution <span class="math inline">\(p\)</span> over classes: <span class="math display">\[H(p) = -\sum_{i} p_i \ln(p_i)\]</span></p>
+<p><strong>Tasks:</strong> (Answer types: MC / True-False / Numeric)</p>
+<ol>
+<li><p><strong>(MC) Identify uncertainty type.</strong><br />
+A neural network classifier performs poorly because input images have heavy snow/rain distortions during acquisition. Even with more training, predictions remain unreliable. Which uncertainty is this?</p>
+<ul>
+<li><p>Epistemic uncertainty</p></li>
+<li><p>Aleatoric uncertainty</p></li>
+<li><p>Neither (not uncertainty-related)</p></li>
+<li><p>Both equally</p></li>
+</ul></li>
+<li><p><strong>(True/False) Reducibility of uncertainty.</strong><br />
+<em>Epistemic uncertainty can often be reduced by collecting more data or improving the model.</em> <span class="math display">\[\text{True or False?}\]</span></p></li>
+<li><p><strong>(MC) Iterative uncertainty estimation methods.</strong><br />
+Which method applies dropout <em>at test time</em> and averages multiple stochastic forward passes?</p>
+<ul>
+<li><p>Standard Dropout</p></li>
+<li><p>Monte Carlo Dropout (MC-Dropout)</p></li>
+<li><p>Deterministic single-pass entropy</p></li>
+<li><p>Brier Score</p></li>
+</ul></li>
+<li><p><strong>(Numeric) Entropy of a mean prediction.</strong><br />
+Suppose deep ensembles produces the following <strong>mean predicted probabilities</strong> for a 3-class problem: <span class="math display">\[\bar{p} = [0.70,\;0.20,\;0.10]\]</span> Compute the entropy: <span class="math display">\[H(\bar{p}) = -\sum_{i=1}^3 \bar{p}_i \ln(\bar{p}_i)\]</span> Round your final answer to <strong>2 decimals</strong>.</p></li>
+<li><p><strong>(MC) Performance metric category.</strong><br />
+Negative Log-Likelihood (NLL) and Brier Score are examples of:</p>
+<ul>
+<li><p>Per-sample uncertainty metrics</p></li>
+<li><p>Per-dataset uncertainty metrics</p></li>
+<li><p>Active learning metrics</p></li>
+<li><p>Calibration-free metrics</p></li>
+</ul></li>
+</ol>
+<p><strong>Round all final numeric answers to 2 decimals.</strong></p>
+</body>
+</html>
+
+</main>
+</body>
+</html>

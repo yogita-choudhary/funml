@@ -1,0 +1,226 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Lecture26 In-class Exercise Solutions</title>
+  <link rel="stylesheet" href="../assets/style.css"/>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<nav>
+  <a href="../index.html">Home</a>
+</nav>
+<main>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>_Lecture26_exercise_solutions</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="center">
+<p><span><strong>In-Class Exercise — Questions + Solutions</strong></span><br />
+<span><strong>Lecture 26: Self-Supervised Learning</strong></span></p>
+</div>
+<ol>
+<li><p><strong>Core SSL idea (pseudo-labels).</strong><br />
+A pre-text task <span class="math inline">\(P(\cdot)\)</span> transforms an unlabeled input <span class="math inline">\(\boldsymbol{x}\)</span> into a pseudo-label. Which option best describes <em>why</em> pseudo-labels are useful in SSL?</p>
+<ol>
+<li><p>They replace ground-truth labels and guarantee perfect downstream accuracy.</p></li>
+<li><p>They create a training signal that encourages learning features that transfer to downstream tasks.</p></li>
+<li><p>They are only used to compress data and are not used for representation learning.</p></li>
+<li><p>They remove the need for augmentations in contrastive learning.</p></li>
+</ol>
+<p><strong>Solution.</strong><br />
+Pseudo-labels are not “true” labels; their purpose is to define a learnable objective that forces the network to extract structure from unlabeled data in a way that can transfer to downstream tasks.</p></li>
+<li><p><strong>Representation vs embedding (SimCLR design choice).</strong><br />
+SimCLR uses <span class="math inline">\(\boldsymbol{h}=f_\theta(\boldsymbol{x})\)</span> and then <span class="math inline">\(\boldsymbol{z}=g_\phi(\boldsymbol{h})\)</span> for the contrastive loss. Why is it beneficial to apply the contrastive objective on <span class="math inline">\(\boldsymbol{z}\)</span> rather than directly on <span class="math inline">\(\boldsymbol{h}\)</span>?</p>
+<ol>
+<li><p>It prevents the encoder from learning any transferable information.</p></li>
+<li><p>It lets the encoder representation <span class="math inline">\(\boldsymbol{h}\)</span> remain useful for downstream tasks while <span class="math inline">\(\boldsymbol{z}\)</span> specializes for the contrastive objective.</p></li>
+<li><p>It is required because cosine similarity cannot be computed on <span class="math inline">\(\boldsymbol{h}\)</span>.</p></li>
+<li><p>It makes positive pairs become negatives during training.</p></li>
+</ol>
+<p><strong>Solution.</strong><br />
+The projection head <span class="math inline">\(g_\phi\)</span> can absorb task-specific distortions needed to optimize contrastive separation, while the encoder output <span class="math inline">\(\boldsymbol{h}\)</span> is kept as a more general representation for downstream use.</p></li>
+<li><p><strong>What the loss is pushing (conceptual geometry).</strong><br />
+For an anchor view <span class="math inline">\(i\)</span>, SimCLR treats its paired view <span class="math inline">\(j\)</span> as positive and all other views as negatives. Which statement best matches the intended effect of the contrastive loss on the embeddings?</p>
+<ol>
+<li><p>Increase <span class="math inline">\(\mathrm{sim}(\boldsymbol{z}_i,\boldsymbol{z}_j)\)</span> and decrease <span class="math inline">\(\mathrm{sim}(\boldsymbol{z}_i,\boldsymbol{z}_k)\)</span> for negatives <span class="math inline">\(k\)</span>.</p></li>
+<li><p>Decrease all similarities so embeddings become orthogonal to everything.</p></li>
+<li><p>Increase similarity to all views so all embeddings collapse to the same point.</p></li>
+<li><p>Maximize the norm <span class="math inline">\(\|\boldsymbol{z}_i\|\)</span> while ignoring pairwise similarities.</p></li>
+</ol>
+<p><strong>Solution.</strong><br />
+The core contrastive goal is <em>relative</em>: pull positives closer while pushing negatives away, so the embedding space separates instances by identity under augmentation.</p></li>
+<li><p><strong>Negatives and batch effects (reasoning).</strong><br />
+Consider a fixed augmentation pipeline and a fixed encoder <span class="math inline">\(f_\theta\)</span>. If you increase the batch size <span class="math inline">\(N\)</span> (so there are more views and thus more negatives per anchor), which outcome is the most accurate <em>conceptual</em> expectation?</p>
+<ol>
+<li><p>The task becomes strictly easier because positives become more similar automatically.</p></li>
+<li><p>The contrastive task typically becomes harder/more demanding because each anchor must be distinguished from more negatives.</p></li>
+<li><p>The number of positives per anchor increases linearly with <span class="math inline">\(N\)</span>.</p></li>
+<li><p>The model no longer needs the projection head <span class="math inline">\(g_\phi\)</span>.</p></li>
+</ol>
+<p><strong>Solution.</strong><br />
+More negatives means the anchor must remain close to its positive <em>while staying separated from a larger set of alternatives</em>, which typically makes the discrimination problem more demanding.</p></li>
+<li><p><strong>One quick sanity check (minimal counting).</strong><br />
+In SimCLR with <span class="math inline">\(N=4\)</span> original inputs, there are <span class="math inline">\(2N=8\)</span> total views. For a given anchor view, how many positives and how many negatives are used in the denominator of the contrastive objective?</p>
+<ol>
+<li><p>1 positive, 5 negatives</p></li>
+<li><p>1 positive, 6 negatives</p></li>
+<li><p>2 positives, 5 negatives</p></li>
+<li><p>2 positives, 6 negatives</p></li>
+</ol>
+<p><strong>Solution.</strong><br />
+Each anchor has exactly 1 positive (the other view of the same instance). Excluding the anchor itself and its positive leaves <span class="math inline">\(2N-2 = 6\)</span> negatives.</p></li>
+</ol>
+</body>
+</html>
+
+</main>
+</body>
+</html>

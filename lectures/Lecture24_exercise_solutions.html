@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Lecture24 In-class Exercise Solutions</title>
+  <link rel="stylesheet" href="../assets/style.css"/>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<nav>
+  <a href="../index.html">Home</a>
+</nav>
+<main>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>_Lecture24_exercise_solutions</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="center">
+<p><span><strong>In-Class Exercise — Solutions</strong></span><br />
+<span><strong>Lecture 24: Anomaly Detection</strong></span></p>
+</div>
+<p>Given: <span class="math display">\[\#\text{Anomalies}=20,\qquad \#\text{Normal}=80\]</span> <span class="math display">\[\text{TPR}=\frac{\text{TP}}{\text{TP}+\text{FN}}=\frac{\text{TP}}{\#\text{Anomalies}},
+\qquad
+\text{FPR}=\frac{\text{FP}}{\text{FP}+\text{TN}}=\frac{\text{FP}}{\#\text{Normal}}\]</span></p>
+<p><strong>Solutions:</strong></p>
+<ol>
+<li><p><strong>At <span class="math inline">\(\gamma_1\)</span>:</strong> <span class="math inline">\(\text{TP}=16\)</span>, <span class="math inline">\(\text{FP}=12\)</span> <span class="math display">\[\text{TPR}_1=\frac{16}{20}=0.80
+\qquad
+\text{FPR}_1=\frac{12}{80}=0.15\]</span> <span class="math display">\[\boxed{\text{TPR}_1=0.80,\;\text{FPR}_1=0.15}\]</span></p></li>
+<li><p><strong>At <span class="math inline">\(\gamma_2\)</span>:</strong> <span class="math inline">\(\text{TP}=12\)</span>, <span class="math inline">\(\text{FP}=4\)</span> <span class="math display">\[\text{TPR}_2=\frac{12}{20}=0.60
+\qquad
+\text{FPR}_2=\frac{4}{80}=0.05\]</span> <span class="math display">\[\boxed{\text{TPR}_2=0.60,\;\text{FPR}_2=0.05}\]</span></p></li>
+<li><p><strong>More conservative threshold (fewer false positives):</strong> <span class="math display">\[\text{FP}_2=4 &lt; \text{FP}_1=12
+\Rightarrow \boxed{\gamma_2}\]</span></p></li>
+<li><p><strong>True/False:</strong> Increasing <span class="math inline">\(\gamma\)</span> typically decreases both TPR and FPR. <span class="math display">\[\boxed{\text{True}}\]</span> (As threshold increases, detector flags fewer points as anomalies.)</p></li>
+<li><p><strong>ROC point closer to ideal (0,1):</strong> Ideal is low FPR and high TPR. Point A has both higher TPR and moderate FPR; point B has low FPR but much lower TPR. Using Euclidean distance to (0,1): <span class="math display">\[d_A=\sqrt{(0.15)^2+(1-0.80)^2}=\sqrt{0.0225+0.04}\approx 0.25\]</span> <span class="math display">\[d_B=\sqrt{(0.05)^2+(1-0.60)^2}=\sqrt{0.0025+0.16}\approx 0.40\]</span> <span class="math display">\[\boxed{\text{A is closer}}\]</span></p></li>
+</ol>
+<p><strong>Final answers:</strong> <span class="math display">\[\boxed{
+\text{TPR}_1=0.80,\;\text{FPR}_1=0.15,\;
+\text{TPR}_2=0.60,\;\text{FPR}_2=0.05,\;
+\gamma_2,\;
+\text{True},\;
+A
+}\]</span></p>
+</body>
+</html>
+
+</main>
+</body>
+</html>

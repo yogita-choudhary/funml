@@ -1,0 +1,244 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Lecture22 In-class Exercise</title>
+  <link rel="stylesheet" href="../assets/style.css"/>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<nav>
+  <a href="../index.html">Home</a>
+</nav>
+<main>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>_Lecture22_exercise</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="center">
+<p><span><strong>In-Class Exercise (Canvas Quiz) — 10 minutes</strong></span><br />
+<span><strong>Lecture 22: Explainability in Neural Networks</strong></span></p>
+</div>
+<p>We study explanation methods for CNN classifiers:</p>
+<ul>
+<li><p><strong>Occlusion saliency:</strong> mask a region and observe the drop in class probability.</p></li>
+<li><p><strong>Gradient saliency:</strong> use <span class="math inline">\(\frac{\partial y_c}{\partial \mathbf{x}}\)</span> as pixel importance.</p></li>
+<li><p><strong>Grad-CAM:</strong> uses gradients w.r.t. the last convolutional feature maps <span class="math inline">\(\mathbf{A}^k\)</span>: <span class="math display">\[\alpha_k^c = \frac{1}{Z}\sum_i\sum_j \frac{\partial y_c}{\partial A_{ij}^k},
+\qquad
+L_{\text{Grad-CAM}}^{c} = \mathrm{ReLU}\!\left(\sum_k \alpha_k^c \mathbf{A}^k\right).\]</span></p></li>
+</ul>
+<p><strong>Given:</strong> A classifier predicts class <span class="math inline">\(c\)</span> with probability <span class="math inline">\(p=0.85\)</span>. Masking three patches gives probabilities: <span class="math display">\[p_1=0.60,\qquad p_2=0.82,\qquad p_3=0.30.\]</span></p>
+<p>For Grad-CAM, suppose the last convolutional layer has two feature maps: <span class="math display">\[\mathbf{A}^1=
+\begin{bmatrix}
+1 &amp; 2\\
+0 &amp; 1
+\end{bmatrix},
+\qquad
+\mathbf{A}^2=
+\begin{bmatrix}
+2 &amp; 1\\
+1 &amp; 0
+\end{bmatrix},
+\qquad
+\alpha_1^c=0.50,\quad \alpha_2^c=-0.25.\]</span></p>
+<ol>
+<li><p><strong>Occlusion Saliency (Most Important Patch)</strong><br />
+Which patch is <strong>most important</strong> for predicting class <span class="math inline">\(c\)</span> (largest probability drop)?</p>
+<ol>
+<li><p>Patch 1</p></li>
+<li><p>Patch 2</p></li>
+<li><p>Patch 3</p></li>
+<li><p>All patches are equally important</p></li>
+</ol></li>
+<li><p><strong>Faithfulness vs Cost (Occlusion)</strong><br />
+Why is occlusion saliency considered <strong>computationally expensive</strong>?</p>
+<ol>
+<li><p>It requires retraining the model.</p></li>
+<li><p>It requires many forward passes with masked inputs.</p></li>
+<li><p>It needs gradients of all layers.</p></li>
+<li><p>It increases the number of model parameters.</p></li>
+</ol></li>
+<li><p><strong>Gradient Saliency (Concept)</strong><br />
+Why do input gradients approximate pixel importance?</p>
+<ol>
+<li><p>They linearize the model locally around the input.</p></li>
+<li><p>They guarantee causal explanations.</p></li>
+<li><p>They remove nonlinearities from the network.</p></li>
+<li><p>They compute feature correlations.</p></li>
+</ol></li>
+<li><p><strong>Why the Last Convolutional Layer?</strong><br />
+Grad-CAM uses the <strong>last convolutional layer</strong> because it:</p>
+<ol>
+<li><p>Has the largest number of parameters.</p></li>
+<li><p>Preserves spatial structure and captures high-level semantics.</p></li>
+<li><p>Produces the final class probabilities.</p></li>
+<li><p>Eliminates the need for backpropagation.</p></li>
+</ol></li>
+<li><p><strong>Grad-CAM (After ReLU)</strong><br />
+Let <span class="math inline">\(S=\alpha_1^c\mathbf{A}^1+\alpha_2^c\mathbf{A}^2\)</span>. After applying <span class="math inline">\(L_{\text{Grad-CAM}}^{c}=\mathrm{ReLU}(S)\)</span>, what happens to <strong>negative</strong> entries of <span class="math inline">\(S\)</span>?</p>
+<ol>
+<li><p>They become positive.</p></li>
+<li><p>They remain negative.</p></li>
+<li><p>They become zero.</p></li>
+<li><p>They are doubled in magnitude.</p></li>
+</ol></li>
+<li><p><strong>Concept Check (True/False)</strong><br />
+Guided Backpropagation can produce sharp visual explanations but may fail to be <strong>class-discriminative</strong>.</p>
+<ol>
+<li><p>True</p></li>
+<li><p>False</p></li>
+</ol></li>
+</ol>
+</body>
+</html>
+
+</main>
+</body>
+</html>

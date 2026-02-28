@@ -1,0 +1,227 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Lecture11 In-class Exercise</title>
+  <link rel="stylesheet" href="../assets/style.css"/>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<nav>
+  <a href="../index.html">Home</a>
+</nav>
+<main>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>_Lecture11_exercise</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="center">
+<p><span><strong>In-Class Exercise (Canvas Quiz) — 10 minutes</strong></span><br />
+<span><strong>Lecture 11: Clustering (k-Means)</strong></span></p>
+</div>
+<p>In k-Means, we assign each point to its closest centroid (Euclidean distance). Equivalently, we can compare <strong>squared distances</strong> (to avoid square roots): <span class="math display">\[d(\bm{x},\bm{m}_j)^2 = (x_1-m_{j1})^2 + (x_2-m_{j2})^2,
+\qquad
+\text{Cluster}(\bm{x})=\arg\min_j d(\bm{x},\bm{m}_j)^2.\]</span> Tie-breaking rule: if there is a tie, choose the cluster with the <strong>smallest index</strong>.</p>
+<p><strong>Given centroids:</strong> <span class="math display">\[\bm{m}_1 = (2,3),\quad \bm{m}_2 = (7,8),\quad \bm{m}_3=(5,2)\]</span> <strong>New data point:</strong> <span class="math display">\[\bm{x}_{\text{new}} = (4,4)\]</span></p>
+<p><strong>Questions (multiple choice):</strong></p>
+<ol>
+<li><p>Which statement is correct?</p>
+<ul>
+<li><p>Minimizing <span class="math inline">\(d(\bm{x},\bm{m}_j)\)</span> is different from minimizing <span class="math inline">\(d(\bm{x},\bm{m}_j)^2\)</span>.</p></li>
+<li><p>Minimizing <span class="math inline">\(d(\bm{x},\bm{m}_j)\)</span> is equivalent to minimizing <span class="math inline">\(d(\bm{x},\bm{m}_j)^2\)</span>.</p></li>
+<li><p>Squaring the distance changes the nearest centroid whenever distances are <span class="math inline">\(&lt;1\)</span>.</p></li>
+</ul></li>
+</ol>
+<ol>
+<li><p>Compute the <strong>squared distances</strong> from <span class="math inline">\(\bm{x}_{\text{new}}\)</span> to each centroid. Which option matches <span class="math inline">\((d_1^2,d_2^2,d_3^2)\)</span>?</p>
+<ul>
+<li><p><span class="math inline">\((5,\;25,\;5)\)</span></p></li>
+<li><p><span class="math inline">\((25,\;5,\;5)\)</span></p></li>
+<li><p><span class="math inline">\((5,\;20,\;4)\)</span></p></li>
+</ul></li>
+</ol>
+<ol>
+<li><p>Which cluster should <span class="math inline">\(\bm{x}_{\text{new}}\)</span> be assigned to (using the given tie-breaking rule)?</p>
+<ul>
+<li><p>Cluster 1</p></li>
+<li><p>Cluster 2</p></li>
+<li><p>Cluster 3</p></li>
+</ul></li>
+</ol>
+<ol>
+<li><p><strong>Update step (centroid intuition).</strong> After assignment, k-Means recomputes each centroid as the mean of points in that cluster. If Cluster 1 currently contains exactly two points: <span class="math inline">\(\bm{x}^{(1)}=(2,3)\)</span> and <span class="math inline">\(\bm{x}^{(2)}=(4,4)\)</span>, what is the updated centroid <span class="math inline">\(\bm{m}_1\)</span>?</p>
+<ul>
+<li><p><span class="math inline">\((3,3.5)\)</span></p></li>
+<li><p><span class="math inline">\((3,4)\)</span></p></li>
+<li><p><span class="math inline">\((4,3.5)\)</span></p></li>
+</ul></li>
+</ol>
+<ol>
+<li><p><strong>Convergence criterion.</strong> Which condition indicates k-Means has converged (per lecture)?</p>
+<ul>
+<li><p>Centroids stop changing (or change is negligible), so assignments also stop changing.</p></li>
+<li><p>Centroids keep changing but assignments stop changing.</p></li>
+<li><p>Assignments keep changing but centroids stop changing.</p></li>
+</ul></li>
+</ol>
+<ol>
+<li><p><strong>Sensitivity / initialization (conceptual).</strong> Which statement is true about k-Means?</p>
+<ul>
+<li><p>k-Means always finds the global optimum regardless of initialization.</p></li>
+<li><p>k-Means can converge to a poor local solution depending on initialization.</p></li>
+<li><p>k-Means is not affected by outliers because it uses Euclidean distance.</p></li>
+</ul></li>
+</ol>
+</body>
+</html>
+
+</main>
+</body>
+</html>

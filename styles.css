@@ -338,6 +338,18 @@ a {
   color: var(--muted);
 }
 
+.resource-link {
+  color: var(--teal);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.resource-link.disabled {
+  color: var(--muted);
+  text-decoration: none;
+  pointer-events: none;
+}
+
 .hero {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));

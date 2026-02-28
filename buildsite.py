@@ -4,6 +4,7 @@ import argparse
 import subprocess
 import shutil
 import re
+import json
 
 
 PROJECT_TITLE = "ECE 4252/6252 – FunML Lecture Notes"
@@ -48,56 +49,69 @@ def extract_title(tex_path):
   return tex_path.stem
 
 
-def build_site(src_root: Path, out_root: Path, write_index: bool):
-  lectures_out = out_root / "lectures"
-  assets_out = out_root / "assets"
+def lecture_number_from_dir(lec_dir: Path):
+  m = re.search(r"lecture\\s*(\\d+)", lec_dir.name, re.IGNORECASE)
+  return m.group(1) if m else ""
 
-  lectures_out.mkdir(parents=True, exist_ok=True)
-  assets_out.mkdir(parents=True, exist_ok=True)
 
-  # CSS for lecture pages
-  (assets_out / "style.css").write_text(CSS)
+def pick_main_tex(tex_files, lecture_number: str):
+  def score(tex_path: Path):
+    name = tex_path.stem.lower()
+    points = 0
+    if "in-class" in name or "exercise" in name or "solution" in name:
+      points -= 100
+    if name == "main":
+      points += 60
+    if lecture_number:
+      if f"lecture{lecture_number}" in name:
+        points += 40
+      if re.search(rf"\\bl{lecture_number}\\b", name):
+        points += 35
+      if f"l{lecture_number}_" in name:
+        points += 35
+    if "notes" in name:
+      points += 20
+    if "template" in name:
+      points += 10
+    return points
 
-  # Copy images
-  img_dir = src_root / "img"
-  if img_dir.exists():
-    shutil.copytree(img_dir, lectures_out / "img", dirs_exist_ok=True)
+  return sorted(tex_files, key=lambda p: (-score(p), p.name.lower()))[0]
 
-  lecture_pages = []
 
-  for lec_dir in sorted(src_root.glob("Lecture*")):
-    if not lec_dir.is_dir():
-      continue
+def find_extras(tex_files):
+  exercise_tex = None
+  solution_tex = None
+  for tex in tex_files:
+    name = tex.stem.lower()
+    if "in-class exercise solution" in name or ("solution" in name and "exercise" in name):
+      solution_tex = tex
+    elif "in-class exercise" in name:
+      exercise_tex = tex
+  return exercise_tex, solution_tex
 
-    tex_files = list(lec_dir.glob("*.tex"))
-    if not tex_files:
-      continue
 
-    tex = tex_files[0]
-    title = extract_title(tex)
-    out_html = f"{lec_dir.name}.html"
+def build_single_html(tex: Path, out_html_path: Path, out_root: Path, title: str):
+  tex_text = tex.read_text(errors="ignore")
+  tex_text = re.sub(r"\\{\\\\bf\\s+([^}]+)\\}", r"\\\\textbf{\\1}", tex_text)
+  tmp_tex = out_root / f"_{out_html_path.stem}.tex"
+  tmp_tex.write_text(tex_text)
 
-    tex_text = tex.read_text(errors="ignore")
-    tex_text = re.sub(r"\\{\\\\bf\\s+([^}]+)\\}", r"\\\\textbf{\\1}", tex_text)
-    tmp_tex = out_root / f"_{lec_dir.name}.tex"
-    tmp_tex.write_text(tex_text)
+  tmp_html = out_root / f"_{out_html_path.stem}.html"
 
-    tmp_html = out_root / f"_{lec_dir.name}.html"
+  run([
+    "pandoc",
+    str(tmp_tex),
+    "--mathjax",
+    "--standalone",
+    "--number-sections",
+    "--shift-heading-level-by=1",
+    "--number-offset=1",
+    "-o", str(tmp_html),
+  ])
 
-    run([
-      "pandoc",
-      str(tmp_tex),
-      "--mathjax",
-      "--standalone",
-      "--number-sections",
-      "--shift-heading-level-by=1",
-      "--number-offset=1",
-      "-o", str(tmp_html),
-    ])
+  body = tmp_html.read_text(errors="ignore")
 
-    body = tmp_html.read_text(errors="ignore")
-
-    final_html = f"""<!doctype html>
+  final_html = f"""<!doctype html>
 <html>
 <head>
   <meta charset="utf-8"/>
@@ -116,11 +130,70 @@ def build_site(src_root: Path, out_root: Path, write_index: bool):
 </html>
 """
 
-    (lectures_out / out_html).write_text(final_html)
-    tmp_html.unlink()
-    tmp_tex.unlink()
+  out_html_path.write_text(final_html)
+  tmp_html.unlink()
+  tmp_tex.unlink()
+
+
+def build_site(src_root: Path, out_root: Path, write_index: bool):
+  lectures_out = out_root / "lectures"
+  assets_out = out_root / "assets"
+
+  lectures_out.mkdir(parents=True, exist_ok=True)
+  assets_out.mkdir(parents=True, exist_ok=True)
+
+  # CSS for lecture pages
+  (assets_out / "style.css").write_text(CSS)
+
+  # Copy images
+  img_dir = src_root / "img"
+  if img_dir.exists():
+    shutil.copytree(img_dir, lectures_out / "img", dirs_exist_ok=True)
+
+  lecture_pages = []
+  resources = {}
+
+  for lec_dir in sorted(src_root.glob("Lecture*")):
+    if not lec_dir.is_dir():
+      continue
+
+    tex_files = list(lec_dir.glob("*.tex"))
+    if not tex_files:
+      continue
+
+    lecture_number = lecture_number_from_dir(lec_dir)
+    tex = pick_main_tex(tex_files, lecture_number)
+    title = extract_title(tex)
+    out_html = f"{lec_dir.name}.html"
+    build_single_html(tex, lectures_out / out_html, out_root, title)
+
+    exercise_tex, solution_tex = find_extras(tex_files)
+    lecture_key = lec_dir.name
+    resources[lecture_key] = {}
+
+    if exercise_tex:
+      exercise_out = f"{lecture_key}_exercise.html"
+      build_single_html(
+        exercise_tex,
+        lectures_out / exercise_out,
+        out_root,
+        f"{lecture_key} In-class Exercise",
+      )
+      resources[lecture_key]["exercise"] = f"lectures/{exercise_out}"
+
+    if solution_tex:
+      solution_out = f"{lecture_key}_exercise_solutions.html"
+      build_single_html(
+        solution_tex,
+        lectures_out / solution_out,
+        out_root,
+        f"{lecture_key} In-class Exercise Solutions",
+      )
+      resources[lecture_key]["solution"] = f"lectures/{solution_out}"
 
     lecture_pages.append((title, out_html))
+
+  (lectures_out / "resources.json").write_text(json.dumps(resources, indent=2))
 
   if write_index:
     links = "\\n".join(

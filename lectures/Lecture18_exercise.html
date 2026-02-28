@@ -1,0 +1,211 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Lecture18 In-class Exercise</title>
+  <link rel="stylesheet" href="../assets/style.css"/>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<nav>
+  <a href="../index.html">Home</a>
+</nav>
+<main>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>_Lecture18_exercise</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="center">
+<p><span><strong>In-Class Exercise (Canvas Quiz) — 10 minutes</strong></span><br />
+<span><strong>Lecture 18: Autoencoders</strong></span></p>
+</div>
+<p>We study an <strong>autoencoder</strong> with encoder and decoder <span class="math display">\[\mathbf{z} = f(\mathbf{x}), \qquad \hat{\mathbf{x}} = g(\mathbf{z}),\]</span> trained using <strong>MSE reconstruction loss</strong> <span class="math display">\[L(\mathbf{x},\hat{\mathbf{x}})=\frac{1}{n}\sum_{i=1}^{n}(x_i-\hat{x}_i)^2.\]</span></p>
+<ol>
+<li><p><strong>What does the bottleneck enforce?</strong><br />
+Suppose the latent dimension is smaller than the input dimension: <span class="math inline">\(\dim(\mathbf{z}) \ll \dim(\mathbf{x})\)</span>. What is the <strong>most accurate</strong> interpretation of what this “bottleneck” forces the model to do?</p>
+<ol>
+<li><p>Memorize <span class="math inline">\(\mathbf{x}\)</span> exactly, since reconstruction is always perfect.</p></li>
+<li><p>Learn a compressed representation that preserves information useful for reconstructing <span class="math inline">\(\mathbf{x}\)</span>.</p></li>
+<li><p>Perform supervised classification of <span class="math inline">\(\mathbf{x}\)</span> into labels.</p></li>
+<li><p>Guarantee the learned features are invariant to all transformations of the input.</p></li>
+</ol></li>
+<li><p><strong>Effect of increasing latent dimension</strong><br />
+If we <em>increase</em> <span class="math inline">\(\dim(\mathbf{z})\)</span> while keeping the model class flexible enough, which outcome is <strong>most likely</strong>?</p>
+<ol>
+<li><p>Reconstruction error on the training set tends to decrease (or stay the same).</p></li>
+<li><p>Reconstruction error on the training set must increase.</p></li>
+<li><p>The encoder and decoder become exact inverses of each other.</p></li>
+<li><p>The model becomes supervised.</p></li>
+</ol></li>
+<li><p><strong>What does MSE encourage?</strong><br />
+For image reconstruction, MSE tends to produce reconstructions that are:</p>
+<ol>
+<li><p>Sharper, since it strongly rewards high-frequency details.</p></li>
+<li><p>Often blurrier, because it averages over plausible pixel values.</p></li>
+<li><p>Always identical to the input, regardless of model capacity.</p></li>
+<li><p>Invariant to translation by design.</p></li>
+</ol></li>
+<li><p><strong>Why convolutional autoencoders for images? (True/False)</strong><br />
+A convolutional autoencoder is usually preferred over a fully-connected autoencoder for image data because it preserves <em>spatial locality</em> and uses <em>weight sharing</em>, which reduces parameters and exploits image structure.</p></li>
+<li><p><strong>Decoder intuition (best statement)</strong><br />
+Which statement best describes the decoder <span class="math inline">\(g(\cdot)\)</span> in an autoencoder?</p>
+<ol>
+<li><p>It is a guaranteed mathematical inverse of the encoder.</p></li>
+<li><p>It learns a mapping from the latent code back to the input space to approximate reconstruction.</p></li>
+<li><p>It only works if <span class="math inline">\(\dim(\mathbf{z})=\dim(\mathbf{x})\)</span>.</p></li>
+<li><p>It computes labels for classification.</p></li>
+</ol></li>
+</ol>
+</body>
+</html>
+
+</main>
+</body>
+</html>

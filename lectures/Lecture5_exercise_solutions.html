@@ -1,0 +1,194 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>Lecture5 In-class Exercise Solutions</title>
+  <link rel="stylesheet" href="../assets/style.css"/>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+<nav>
+  <a href="../index.html">Home</a>
+</nav>
+<main>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>_Lecture5_exercise_solutions</title>
+  <style>
+    html {
+      line-height: 1.5;
+      font-family: Georgia, serif;
+      font-size: 20px;
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      word-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 1em;
+      }
+    }
+    @media print {
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, 'Lucida Console', Consolas, monospace;
+      font-size: 85%;
+      margin: 0;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<div class="center">
+<p><span><strong>In-Class Exercise — Solutions</strong></span><br />
+<span><strong>Lecture 5: Introduction to Neural Networks (Single-Layer Perceptron)</strong></span></p>
+</div>
+<p><strong>Question 1</strong> Is the following statement True or False?</p>
+<p><em>“In an SLP, If <span class="math inline">\(\mathbf{x} = \begin{bmatrix} 1 \\ 1 \end{bmatrix}\)</span> and both components of <span class="math inline">\(\mathbf{w}\)</span> are positive, then both weights will always increase during training.”</em></p>
+<p><strong>Solutions:</strong></p>
+<p>The statement is <strong>False</strong>.</p>
+<p>Consider the following scenario: True label: <span class="math inline">\(y = 0\)</span>, Input: <span class="math inline">\(\mathbf{x} = \begin{bmatrix} 1 \\ 1 \end{bmatrix}\)</span>, Weights: <span class="math inline">\(\mathbf{w} = \begin{bmatrix} 1 \\ 1 \end{bmatrix}\)</span> (both positive), and Bias: <span class="math inline">\(b = 0\)</span>.</p>
+<p>The neuron input is: <span class="math display">\[h = \mathbf{w}^T \mathbf{x} + b = (1)(1) + (1)(1) + 0 = 2\]</span></p>
+<p>With <span class="math inline">\(h = 2 &gt; 0\)</span>, we get: <span class="math display">\[\hat{y} = \sigma(2) \approx 0.88 &gt; 0.5\]</span></p>
+<p>The error becomes: <span class="math display">\[\delta = y - \hat{y} = 0 - 0.88 = -0.88 &lt; 0\]</span></p>
+<p>Finally, the weight update is: <span class="math display">\[\Delta \mathbf{w} = \alpha \mathbf{x} \delta = \alpha \begin{bmatrix} 1 \\ 1 \end{bmatrix} \times (-0.88) = \begin{bmatrix} -0.88\alpha \\ -0.88\alpha \end{bmatrix} &lt; \mathbf{0}\]</span></p>
+<p>Both weights <strong>decrease</strong>, not increase, contradicting the statement.</p>
+<p>In general, the direction of weight change depends on the <strong>error</strong> <span class="math inline">\(\delta = y - \hat{y}\)</span>, not just the signs of <span class="math inline">\(\mathbf{x}\)</span> and <span class="math inline">\(\mathbf{w}\)</span>. If the model <strong>over-predicts</strong> (<span class="math inline">\(\hat{y} &gt; y\)</span>), then <span class="math inline">\(\delta &lt; 0\)</span>, and weights move in the <strong>opposite</strong> direction of <span class="math inline">\(\mathbf{x}\)</span>. But if the model <strong>under-predicts</strong> (<span class="math inline">\(\hat{y} &lt; y\)</span>), then <span class="math inline">\(\delta &gt; 0\)</span>, and weights move in the <strong>same</strong> direction of <span class="math inline">\(\mathbf{x}\)</span>. Even with positive weights and positive inputs, the weights can decrease if the model over-predicts the target.</p>
+<p><strong>Question 2</strong> Consider two training samples for a binary classifier:</p>
+<p><strong>Sample A:</strong> <span class="math display">\[\mathbf{x}_A = \begin{bmatrix} 0.1 \\ 0.1 \end{bmatrix}, \quad y_A = 1\]</span></p>
+<p><strong>Sample B:</strong> <span class="math display">\[\mathbf{x}_B = \begin{bmatrix} 10 \\ 10 \end{bmatrix}, \quad y_B = 1\]</span></p>
+<p>Assume both samples produce the same error <span class="math inline">\(\delta = 0.5\)</span> (same under-prediction). Is the following statement True or False?</p>
+<p>Since both samples have the same error, they will cause the same weight updates and contribute equally to learning.</p>
+<p><strong>Solutions:</strong></p>
+<p>The statement is <strong>False</strong>.</p>
+<p>Sample B causes weight changes that are <strong>100 times larger</strong> than Sample A, even though both have identical errors.</p>
+<p>In general, Gradient magnitude depends on input magnitude. In other words, weight updates scale with input feature values, not just the error. Hence, feature scaling is critical. Features with large values dominate weight updates while features with small values barely influence learning. Therefore, without normalization, the model learns some features much faster than others. Similarly, large input values can cause large weight swings and it may lead to oscillating or divergent training.</p>
+</body>
+</html>
+
+</main>
+</body>
+</html>
