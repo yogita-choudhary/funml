@@ -1,0 +1,921 @@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% All content of these notes are part of a textbook that is being %%printed and is planned to be published in 2025/26. 
+%% All these notes belong to, created by, and copyrighted for 
+%% Ghassan AlRegib and Mohit Prabhushankar
+%% Georgia Tech, 2024-2025
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%PLEASE CONSIDER CORRECTIONS AT PLACES INDICATED%%%%%%%%
+\documentclass{article}
+%%%%%Packages Used, add more if necessary%%%%
+\usepackage{amsmath,amsfonts,amssymb,graphicx,fullpage}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\usepackage{mdframed}
+\usepackage{multicol}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+%%%%% NO NEED TO EDIT THIS PREAMBLE %%%%%%%%
+%%% PREAMBLE %%%
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+\newcommand{\lecture}[4]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+      
+      \hbox to 6.28in { 
+      {\bf ECE 4252/6252 (FunML) Fundamentals of Machine Learning \hfill 2021--2028} }
+      
+      \vspace{2mm}
+      \hbox to 6.28in { 
+      {Courses developed by Professor Ghassan AlRegib 
+      (\href{https://alregib.ece.gatech.edu/}{alregib.ece.gatech.edu}) 
+      \hfill For inquiries: \href{mailto:alregib@gatech.edu}{alregib@gatech.edu}} }
+      
+      \vspace{3mm}
+      \hbox to 6.28in { {\Large \hfill Lecture #1: #2 \hfill} }
+      
+      \vspace{2mm}
+      \hbox to 6.28in { {\it Co-Instructors: #3 \hfill #4} }
+      
+      \vspace{2mm}}
+   }
+   \end{center}
+
+   % -------- PEOPLE OUTSIDE BOX --------
+   \vspace{2mm}
+   \noindent{\bf Contributors:} Dr. Ahmad Mustafa, Dr. Motaz Alfarraj, Dr. Ashraf Alattar, Dr. Chen Zhou
+
+   \vspace{1mm}
+   \noindent{\bf Teaching Assistants} with remarkable contributions include: Kuo-Wei Lai, Wuyang Du, Shiva Mahato, Michael Zhou, Ninghan Zhong
+
+   \markboth{Lecture #1: #2}{Lecture #1: #2}
+
+      \vspace{3mm}
+   \noindent {\bf Disclaimer}: 
+   {All content of these notes are part of this course at Georgia Tech. Any re-use or distribution is not permitted without pre-approved permission. All these notes belong to, created by, and copyrighted for Ghassan AlRegib and Mohit Prabhushankar, Georgia Tech, 2021--2028.}
+
+      \vspace{2mm}
+    \noindent {\bf License}: 
+    {These lecture notes are licensed under the 
+    \href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License}.}
+
+
+   \vspace{2mm}
+   \noindent {\bf Errata}: 
+   {\it Please submit any errata you find using the following form: 
+   \href{https://forms.office.com/r/fbg9dMWPgY}{Errata Form for FunML Textbook} 
+   or visit: \url{https://forms.office.com/r/fbg9dMWPgY}}
+
+   \vspace*{4mm}
+}
+\renewcommand{\cite}[1]{[#1]}
+\def\beginrefs{\begin{list}
+        {[\arabic{equation}]}{\usecounter{equation}
+         \setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}%
+         \setlength{\labelwidth}{1.6truecm}}}
+\def\endrefs{\end{list}}
+\def\bibentry#1{\item[\hbox{[#1]}]}
+
+\newcommand{\challenge}[2]{\noindent \textbf{(Challenge Problem)} \emph{#1}: #2 }
+
+\newcommand{\exercise}[1]{\noindent \textbf{(Exercise)} #1 }
+
+\newcommand{\fig}[3]{
+			\vspace{#2}
+			\begin{center}
+			Figure \thelecnum.#1:~#3
+			\end{center}
+	}
+%%% END_OF_PREAMBLE %%%
+
+
+	
+%%%%You may add more \newtheorem if necessary%%%%%%
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+
+
+\newcommand{\dom}{\mathrm{dom}}
+\begin{document}
+
+%%%%%CHANGE HERE%%%%%%%
+%%%%%\section{title of the section} similarly with the rest \section{} or \subsection{} or \subsubsection{} etc
+
+
+%%%%%CHANGE HERE%%%%%%%%%
+%%%%%\lecture{the ordinal number of the lecture}{lecture title}{Jacob Abernethy}{scriber's name}%%%%%%%%
+\lecture{2}{Naive Bayes}{Ghassan AlRegib and Mohit Prabhushankar}{}%%{Fahd Aly, Nikolaos Komianos}
+
+\section{Lecture Objectives}
+
+\begin{enumerate}
+    \item Provide an overview of classification in machine learning
+
+        \begin{itemize}
+        \item Distinguish between supervised and unsupervised learning.
+        \item Comprehend how learning algorithms work by leveraging experience (data) to improve predictions.
+    \end{itemize}
+    
+    \item Introduce the key challenges involved in classification tasks
+
+        \begin{itemize}
+        \item Define the classification task, including how to map inputs \( X \) to discrete outputs \( Y \).
+        \item Understand the challenges associated with classification, such as identifying decision boundaries.
+    \end{itemize}
+    
+    \item Explain predictor classifier modeling and the general process
+    
+    \item Discuss different types of classification models:
+    \begin{itemize}
+        \item Case-based vs. Model-based
+        \item Feature-based vs. End-to-end
+        \item Binary, Multi-class, Multi-label, and Multi-output classification
+    \end{itemize}
+    
+    \item Introduce and explain two specific classification algorithms:
+    \begin{itemize}
+        \item $k$-Nearest Neighbor ($k$-NN) Classifier
+        \item Naïve Bayes Classifier
+    \end{itemize}
+    
+    \item Provide examples and case studies to illustrate the application of these classification techniques
+\end{enumerate}
+
+\section{The Learning Algorithm} 
+
+There are 2 types of learning algorithms
+% \begin{itemize}
+% \item Supervised Learning 
+% \end{itemize}
+
+\begin{itemize}
+    \item \textbf{Unsupervised Learning} - there is no target label; the algorithm tries to discover structure (e.g., clusters) from $x$ alone
+    \begin{itemize}
+        \item[$\bullet$] Unsupervised learning algorithms:
+        \begin{itemize}
+            \item[$\bullet$] Work with datasets containing multiple features but lacking labeled outputs.
+            \item[$\bullet$] Aim to learn useful properties about the structure of the data.
+            \item[$\bullet$] A common goal is clustering similar examples together.
+        \end{itemize}
+
+        \item[$\bullet$] \textbf{Key Application:}
+        \begin{itemize}
+            \item[$\bullet$] Discover hidden patterns in data.
+        \end{itemize}
+    
+        \item[$\bullet$] \textbf{Example Algorithms:}
+        \begin{itemize}
+            \item[$\bullet$] K-means clustering
+            \item[$\bullet$] Hierarchical (agglomerative) clustering
+            \item[$\bullet$] Gaussian mixture models (GMMs)
+            \item[$\bullet$] Principal component analysis (PCA)
+            \item[$\bullet$] Autoencoders
+        \end{itemize}
+    \end{itemize}
+
+    \item \textbf{Supervised Learning} - there is a target label $y$; the algorithm learns a mapping from inputs $x$ to outputs $y$ (i.e., $p(y \mid x)$)
+    \begin{itemize}
+        \item[$\bullet$] Supervised learning algorithms:
+        \begin{itemize}
+            \item[$\bullet$] Work with datasets where each example is associated with a label or target.
+            \item[$\bullet$] Learn a mapping function \( p(y|\mathbf{x}) \) based on labeled instances \( \mathbf{x} \) and their corresponding labels \( y \).
+        \end{itemize}
+        \item[$\bullet$] \textbf{Example:}
+        \begin{itemize}
+            \item[$\bullet$] The Iris dataset, where measurements of iris plants are annotated with species labels. 
+            
+            A supervised learning algorithm can study this dataset and learn to classify iris plants into three different species based on their measurements.
+        \end{itemize}
+        \item[$\bullet$] \textbf{Key Idea:}
+        \begin{itemize}
+            \item[$\bullet$] The term "supervised" reflects the role of an instructor providing correct labels to guide the learning process.
+        \end{itemize}
+
+        \item[$\bullet$] \textbf{Example Algorithms:}
+        \begin{itemize}
+            \item[$\bullet$] Logistic regression
+            \item[$\bullet$] Decision trees / random forests
+            \item[$\bullet$] Support vector machines (SVMs)
+            \item[$\bullet$] k-NN classifier
+            \item[$\bullet$] Neural networks (CNNs, RNNs, MLPs, etc.)
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\section{Classification}
+
+Classification is the task of approximating a mapping function \( f: X \rightarrow Y \), where \( X \) is the set of input variables, and \( Y \) is the set of discrete output variables (classes). The goal is to label objects in \( X \) with their correct class in \( Y \). The process of classification finds decision boundaries between labeled data and uses that boundary to label new, unseen data. 
+
+In 2D, a decision boundary is typically a curve (or line) that separates regions assigned to different classes; in higher dimensions it becomes a separating surface. Once a boundary is learned from labeled data, predicting a new data point reduces to determining which side of the boundary it lies on.
+
+\subsection{Classification vs Regression vs Clustering}
+\begin{itemize}
+    \item[$\bullet$] \textbf{Classification:} Finds decision boundary(ies) between labeled data and uses that boundary to label new objects.
+    \item[$\bullet$] \textbf{Regression:} Finds a linear or non-linear real-valued function to predict mapping to a single value.
+    \item[$\bullet$] \textbf{Clustering:} Groups similar non-labeled data into clusters. The number of clusters is generally pre-determined, but it could be estimated by the clustering method.
+\end{itemize}
+
+\subsection{Types of Classification Models}
+
+\begin{itemize}
+    \item[$\bullet$] \textbf{Case-based vs. Model-based}
+    \begin{itemize}
+        \item[$\bullet$] \textbf{Case-based}:
+        \begin{itemize}
+            \item[$\circ$] Does not explicitly learn a parametric model during training (stores the data instead).
+            \item[$\circ$] Accumulates data and processes it only during query time to predict the class of new data.
+            
+            – Example: k-Nearest Neighbor (k-NN) assigns a label to new data based on the most related data in the stored training data.
+        \end{itemize}
+        \item[$\bullet$] \textbf{Model-based}:
+        \begin{itemize}
+            \item[$\circ$] Creates a classification model based on the given training data before receiving new data.
+            \item[$\circ$] The model is then used for quick predictions later.
+           
+            - Example: Decision Tree, Naive Bayes, Artificial Neural Networks.
+        \end{itemize}
+    \end{itemize}
+
+    \item[$\bullet$] \textbf{Feature-based vs. End-to-End}
+    \begin{itemize}
+        \item[$\bullet$] \textbf{Feature-based models} require extracting a set of features (feature vectors) from each data item in the raw dataset.
+        \item[$\bullet$] \textbf{End-to-end models} train directly on inputs, learning features automatically.
+    \end{itemize}
+
+    \item[$\bullet$] \textbf{Binary vs. Multi-class vs. Multi-label Classification}
+    \begin{itemize}
+        \item[$\circ$] \textbf{Binary Classification}: Distinguishes between two classes, often as a specific class vs. the rest.
+
+        \begin{itemize}
+            \item[$\circ$] Example: Support Vector Machines (SVM).
+        \end{itemize}
+        
+        \item[$\circ$] \textbf{Multi-class Classification}: Handles more than two classes.
+
+        \begin{itemize}
+            \item[$\circ$] Example: Random Forest.
+        \end{itemize}
+        
+        \item[$\circ$] \textbf{Multi-label Classification}: Classifies a single instance into multiple classes simultaneously.
+        \begin{itemize}
+            \item[$\circ$] Suitable for cases where multiple objects of interest are present in a single input.
+        \end{itemize}
+    \end{itemize}
+
+    \item[$\bullet$] \textbf{Multi-output Classification}
+    \begin{itemize}
+        \item[$\circ$] Predicts multiple target variables simultaneously (each output may be binary or multi-class).
+    \end{itemize}
+\end{itemize}
+
+\section{k-Nearest Neighbor (k-NN) Classifier}
+
+The \( k \)-Nearest Neighbor (k-NN) classifier is a non-parametric learning algorithm used for both classification and regression. Its strength lies in the simplicity of the algorithm and the fact that it doesn't require model training but instead relies on the entire dataset at prediction time.
+
+\subsection{Overview}
+\begin{itemize}
+    \item \( k \)-NN is considered a \textbf{lazy learner}, meaning it does not build a model during the training phase. Instead, all computations are postponed until a prediction is made.
+    \item The classifier was first used in the 1970s and has since been applied in various fields, particularly in pattern recognition and statistical estimation.
+    \item It is considered a \textbf{non-parametric} technique, where the only adjustable parameter is \( k \), the number of neighbors considered.
+\end{itemize}
+
+\subsection{Algorithm}
+Given a dataset of labeled samples and a new sample to be classified:
+\begin{enumerate}
+     
+    \item Calculate the distance between the new sample and all stored samples in the dataset using a chosen distance metric.
+    \item Identify the \( k \) samples with the smallest distances (nearest neighbors).
+    \item Assign the class label of the new sample based on the majority class among the \( k \) nearest neighbors.
+\end{enumerate}
+\textbf{Special case:} When \( k = 1 \), the new sample is classified based on its nearest neighbor, which can increase variance.
+
+\subsection{Distance Metrics}
+In \( k \)-NN, the distance between data points is a key factor. Here, $\mathbf{x}, \mathbf{y} \in \mathbb{R}^d$, and $d$ is the number of features (dimensions). Common distance metrics include:
+
+\begin{itemize}
+    \item \textbf{Euclidean Distance}:
+    \[
+    d(\mathbf{x}, \mathbf{y}) = \sqrt{\sum_{i=1}^{d} (x_i - y_i)^2}
+    \]
+    - Measures the straight-line distance between two points in \( d \)-dimensional space.
+    
+- Suitable for continuous variables with similar scales.
+
+    \item \textbf{Manhattan Distance}:
+    \[
+    d(\mathbf{x}, \mathbf{y}) = \sum_{i=1}^{d} |x_i - y_i|
+    \]
+    - Measures the sum of absolute differences between feature values.
+    
+- Useful for minimizing linear distances, more robust to outliers than Euclidean.
+
+    \item \textbf{Minkowski Distance}:
+    \[
+    d(\mathbf{x}, \mathbf{y}) = \left( \sum_{i=1}^{d} |x_i - y_i|^q \right)^{\frac{1}{q}}
+    \]
+    - Generalizes Euclidean (when \( q = 2 \)) and Manhattan (when \( q = 1 \)) distances, where $q \geq 1$ is the order parameter.
+    
+ - Flexible, allowing adjustment based on problem specifics.
+
+    \item \textbf{Hamming Distance} (for categorical variables):
+    \[
+    d(\mathbf{x}, \mathbf{y}) = \sum_{i=1}^{d} \mathbf{1}[x_i \neq y_i]
+    \]
+    - Counts the number of differing attributes between two categorical samples.
+   
+ - Ideal for comparing binary/categorical feature vectors (e.g., strings).
+\end{itemize}
+
+\subsection{Example 1: Classification Using Euclidean Distance}
+
+\noindent Consider a dataset where we need to classify a new data point based on its nearest neighbors. The dataset consists of the following labeled data points:
+
+\begin{minipage}{0.4\textwidth}
+\begin{itemize}
+    \item Data Point A: \( (1, 2) \) - Class 0
+    \item Data Point B: \( (2, 3.5) \) - Class 0
+    \item Data Point C: \( (4, 1) \) - Class 1
+    \item Data Point D: \( (4, 4) \) - Class 1
+    \item Data Point E: \( (1.5, 4) \) - Class 0
+    \item Data Point F: \( (3.5, 2) \) - Class 1
+\end{itemize}
+\noindent The new data point to classify is \( (3, 2.5) \).
+\end{minipage}
+\begin{minipage}{0.5\textwidth}\raggedleft
+\includegraphics[width=\linewidth]{img/lecture2/example1.png}
+\end{minipage}
+
+\noindent \textbf{Step 1: Calculate Euclidean Distances}
+
+\begin{itemize}
+    \item \( d(\text{New Point}, A) = \sqrt{(3 - 1)^2 + (2.5 - 2)^2} = \sqrt{2^2 + 0.5^2} = \sqrt{4.25} \approx 2.06 \)
+    \item \( d(\text{New Point}, B) = \sqrt{(3 - 2)^2 + (2.5 - 3.5)^2} = \sqrt{1^2 + (-1)^2} = \sqrt{2} \approx 1.41 \)
+    \item \( d(\text{New Point}, C) = \sqrt{(3 - 4)^2 + (2.5 - 1)^2} = \sqrt{(-1)^2 + 1.5^2} = \sqrt{3.25} \approx 1.80 \)
+    \item \( d(\text{New Point}, D) = \sqrt{(3 - 4)^2 + (2.5 - 4)^2} = \sqrt{(-1)^2 + (-1.5)^2} = \sqrt{3.25} \approx 1.80 \)
+    \item \( d(\text{New Point}, E) = \sqrt{(3 - 1.5)^2 + (2.5 - 4)^2} = \sqrt{1.5^2 + (-1.5)^2} = \sqrt{4.5} \approx 2.12 \)
+    \item \( d(\text{New Point}, F) = \sqrt{(3 - 3.5)^2 + (2.5 - 2)^2} = \sqrt{(-0.5)^2 + 0.5^2} = \sqrt{0.5} \approx 0.71 \)
+\end{itemize}
+
+\noindent \textbf{Step 2: Identify Nearest Neighbors}
+
+\noindent For \( k = 3 \), the nearest neighbors are:
+\begin{itemize}
+    \item Points F, B, and C (tie with D; choose C by index order), since these have the smallest distances.
+\end{itemize}
+
+\noindent \textbf{Step 3: Assign Class Label}
+
+\noindent The majority class among the nearest neighbors is:
+\begin{itemize}
+    \item 2 neighbors from Class 1 (F and C), 1 from Class 0 (B). \textbf{Class 1 is assigned}.
+\end{itemize}
+
+\subsection{Example 2: Classification with an Outlier Using Manhattan Distance}
+
+\noindent Consider a dataset with an outlier, appearing to be misclassified or on the wrong side of the decision boundary:
+
+\begin{minipage}{0.4\textwidth}
+\begin{itemize}
+    \item Data Point A: \( (1.2, 2.8) \) - Class 0
+    \item Data Point B: \( (3.7, 4.1) \) - Class 0
+    \item Data Point C: \( (6.2, 5.0) \) - Class 1
+    \item Data Point D: \( (7.5, 3.8) \) - Class 1
+    \item Data Point E: \( (7.2, 4.7) \) - Class 0 \\ (Outlier)
+\end{itemize}
+\noindent The new data point to classify is \( (7.5, 4.5) \) (we'll call it F).
+\end{minipage}
+\begin{minipage}{0.5\textwidth}\raggedleft
+\includegraphics[width=\linewidth]{img/lecture2/example2.png}
+\end{minipage}
+
+\noindent \textbf{Step 1: Calculate Manhattan Distances}
+
+\begin{itemize}
+    \item \( d(\text{New Point}, A) = |7.5 - 1.2| + |4.5 - 2.8| = 6.3 + 1.7 = 8.0 \)
+    \item \( d(\text{New Point}, B) = |7.5 - 3.7| + |4.5 - 4.1| = 3.8 + 0.4 = 4.2 \)
+    \item \( d(\text{New Point}, C) = |7.5 - 6.2| + |4.5 - 5.0| = 1.3 + 0.5 = 1.8 \)
+    \item \( d(\text{New Point}, D) = |7.5 - 7.5| + |4.5 - 3.8| = 0.0 + 0.7 = 0.7 \)
+    \item \( d(\text{New Point}, E) = |7.5 - 7.2| + |4.5 - 4.7| = 0.3 + 0.2 = 0.5 \)
+\end{itemize}
+
+\noindent \textbf{Scenario 1: k = 1, Including Outlier}
+
+\noindent With \( k = 1 \) and the outlier included, the nearest neighbor is:
+
+\begin{itemize}
+    \item Point E (the outlier), which is closest with a distance of 0.5.
+\end{itemize}
+
+\noindent Since Point E is labeled as Class 0, the new point is \textbf{classified as Class 0}.
+
+\noindent \textbf{Scenario 2: k = 1, Removing Outlier}
+
+\noindent If we remove the outlier (Point E), the new nearest neighbor is:
+
+\begin{itemize}
+    \item Point D, with a distance of 0.7.
+\end{itemize}
+
+\noindent Since Point D is labeled as Class 1, the new point is \textbf{classified as Class 1}.
+
+\noindent \textbf{Scenario 3: k = 3, Including Outlier}
+
+\noindent With \( k = 3 \) and the outlier included, the three nearest neighbors are:
+
+\begin{itemize}
+    \item Point E (Class 0) with a distance of 0.5
+    \item Point D (Class 1) with a distance of 0.7
+    \item Point C (Class 1) with a distance of 1.8
+\end{itemize}
+
+\noindent The majority class among these neighbors is Class 1 (2 neighbors from Class 1 and 1 from Class 0), so the new point is \textbf{classified as Class 1}.
+
+Here we see how having outliers, e.g. due to noisy data, can affect the k-NN algorithm. We can see from this example that increasing $k$ made the model less sensitive to the outlier, but if we were to increase $k$ too much then it could lead to underfitting (see below).
+
+
+\subsection{Choosing the Value of \( k \)}
+\begin{itemize}
+    \item Selecting \( k \) is crucial:
+    \begin{itemize}
+        \item Small \( k \) values lead to high variance (overfitting).
+        \item Larger \( k \) values reduce variance but can introduce bias (underfitting).
+    \end{itemize}
+    \item Cross-validation can be used to determine the optimal \( k \) by evaluating performance on validation sets.
+\end{itemize}
+
+\subsection{Feature Scaling}
+
+\subsubsection{Min-Max Normalization}
+
+\begin{itemize}
+    \item Distance metrics can be biased if features have different scales.
+    \item For example, in the scenario covered in class, loan amounts (in dollars) may dominate the distance calculation compared to age (in years).
+    \item To address this, features should be normalized:
+    \[
+    x'_{i,j} = \frac{x_{i,j} - \min(x_{:,j})}{\max(x_{:,j}) - \min(x_{:,j})}
+    \]
+\end{itemize}
+
+Where:
+\begin{itemize}
+    \item \( x'_{i,j} \) is the normalized value of the feature.
+    \item \( x_{i,j} \) is the original value of the feature.
+    \item \( \min(x_{:,j}) \) and \( \max(x_{:,j}) \) are the minimum and maximum values of the feature across the dataset.
+\end{itemize}
+
+Here we use \textbf{min–max normalization} (scales to [0, 1]). This transformation scales all features to a [0, 1] range, preventing any single feature from dominating the distance computation.
+
+\subsubsection{Z-Score Standardization}
+
+\begin{itemize}
+    \item Another common feature scaling method is \textbf{z-score standardization}, which centers the data to mean 0 and scales it to unit variance.
+    \item Useful when features have different spreads/variances and when outliers may affect min–max scaling.
+    \[
+    x'_{i,j} = \frac{x_{i,j} - \mu_j}{\sigma_j}
+    \]
+\end{itemize}
+
+Where:
+\begin{itemize}
+    \item \( x'_{i,j} \) is the standardized value of feature $j$ for sample $i$.
+    \item \( \mu_j \) is the mean of feature $j$ across the dataset.
+    \item \( \sigma_j \) is the standard deviation of feature $j$ across the dataset.
+\end{itemize}
+
+Z-score standardization ensures features have comparable scale (mean 0, variance 1), which improves distance-based methods like $k$-NN.
+
+
+\section{Naïve Bayes Classifier}
+
+The Naïve Bayes classifier is a probabilistic model based on applying Bayes' theorem with the “naïve” assumption that the features are conditionally independent given the class label and performs surprisingly well for certain tasks, particularly in text classification.
+
+\subsection{Overview}
+\begin{itemize}
+    \item The Naïve Bayes classifier assumes that all features are \textbf{conditionally independent} given the class label. 
+    \item It is a \textbf{generative model}, meaning it models $P(x \mid y)$ and $P(y)$.
+    \item This method is well-suited for high-dimensional data and performs well even with a small amount of training data.
+\end{itemize}
+
+\subsection{Bayes' Theorem}
+The Naïve Bayes classifier uses Bayes’ theorem:
+\[
+P(y \mid \mathbf{x}) = \frac{P(\mathbf{x} \mid y)P(y)}{P(\mathbf{x})}
+\]
+Where:
+\begin{itemize}
+    \item \( P(y \mid \mathbf{x}) \) is the posterior probability of class \( y \) given the feature vector \( \mathbf{x} \).
+    \item \( P(\mathbf{x} \mid y) \) is the likelihood of the feature vector \( \mathbf{x} \) given class \( y \).
+    \item \( P(y) \) is the prior probability of class \( y \).
+    \item \( P(\mathbf{x}) \) is the evidence or the marginal likelihood.
+\end{itemize}
+
+\noindent The “naïve” assumption imposes the condition that the features $x_i$ are conditionally independent on the class label $y$. Given this assumption, the likelihood \( P(\mathbf{x} \mid y) \) can be simplified as:
+\[
+P(\mathbf{x} \mid y) = \ \prod_{i=1}^{d} P(x_i \mid y)
+\]
+\noindent where \( x_i \) represents individual features. Note that this is a strong assumption, but even if it's not totally accurate for a given dataset, it turns out to work very well in practice.
+
+\subsection{Types of Naïve Bayes Models}
+There are several variants of the Naïve Bayes classifier depending on the nature of the features:
+\begin{itemize}
+    \item \textbf{Gaussian Naïve Bayes}:
+    \begin{itemize}
+        \item Assumes that continuous features follow a normal distribution.
+        \item For each class $y$, we estimate $\mu_y$ and $\sigma_y$ from the training examples belonging to that class (and typically separately for each feature).
+        \item The likelihood is computed using:
+        \[
+P(x_i \mid y) = \frac{1}{\sqrt{2\pi\sigma_y^2}} \mathrm{e}^{-\frac{(x_i - \mu_y)^2}{2\sigma_y^2}}
+\]  
+
+        \[
+        P(x \mid y) = \prod_{i=1}^d P(x_i \mid y)
+        \]
+
+        \item Here, \( \mu_y \) and \( \sigma_y \) are the mean and standard deviation of the feature \( x_i \) for class \( y \) (typically separately for each feature).
+    \end{itemize}
+
+    \item \textbf{Multinomial Naïve Bayes}:
+    \begin{itemize}
+        \item Used for discrete count features (e.g., text classification).
+        \item Likelihood:
+        \[
+        P(x \mid y)= \frac{\left(\sum_{j=1}^d x_j\right)!}{\prod_{j=1}^d x_j!}
+        \prod_{j=1}^d \theta_{y,j}^{\,x_j}
+        \]
+        \item Here, $\theta_{y,j} = P(\text{feature }j \mid y)$.
+        \item \textit{The multinomial coefficient is constant w.r.t.\ $y$ and is often ignored in prediction.}
+    \end{itemize}
+    
+    
+    \item \textbf{Bernoulli Naïve Bayes}:
+    \begin{itemize}
+        \item Suitable for binary/boolean features.
+         \item The model assumes that features are binary indicators ($x_j \in \{0,1\}$; e.g., presence or absence of a word in a document).
+        \item Likelihood:
+        \[
+        P(x \mid y)=\prod_{j=1}^d p_{y,j}^{\,x_j}(1-p_{y,j})^{(1-x_j)}
+        \]
+    \end{itemize}
+
+\end{itemize}
+
+\subsection{Advantages and Disadvantages}
+\begin{itemize}
+    \item \textbf{Advantages}:
+    \begin{itemize}
+        \item \textbf{Fast}: Naïve Bayes is computationally efficient and works well with large datasets.
+        \item \textbf{Multi-class prediction}: It handles multiple classes naturally.
+        \item \textbf{Low storage requirements}: It only needs to store a small set of parameters per class (e.g., feature statistics/probabilities).
+    \end{itemize}
+
+    \item \textbf{Disadvantages}:
+    \begin{itemize}
+        \item \textbf{Zero-frequency problem}: If a class-feature combination is not observed in training data, the model assigns zero probability. Smoothing techniques like Laplace smoothing can help mitigate this.
+        \item \textbf{Strong independence assumption}: The naive assumption of independence is often unrealistic, which can lead to lower accuracy.
+        \item \textbf{Poor probability calibration}: Predicted probabilities can be overconfident (especially when independence assumption fails).
+    \end{itemize}
+\end{itemize}
+
+\subsection{Applications}
+Naïve Bayes is commonly applied in:
+\begin{itemize}
+    \item \textbf{Text Classification}: Including spam detection and sentiment analysis.
+    \item \textbf{Real-time prediction}: Due to its efficiency, it is well-suited for real-time applications.
+    \item \textbf{Recommendation Systems}: Used in content-based recommendation (e.g., modeling user/item attributes, collaborative filtering, etc.).
+\end{itemize}
+
+\subsection{Example (done in class \& available in lecture slides)}
+Consider a weather dataset where the goal is to predict if a game will be played based on weather conditions (e.g., sunny, rainy) and wind conditions (e.g., strong, weak). Using the Naïve Bayes approach, we would:
+\begin{enumerate}
+    \item Convert the dataset into a frequency table.
+    \item Build a likelihood table by determining the likelihoods for each feature given the class.
+    \item Use Bayes' theorem to compute the posterior probabilities and predict the class with the highest probability.
+\end{enumerate}
+
+\subsection{Another Example: Email Spam Classification}
+
+In this example, we develop a spam filter using the (Bernoulli) Naïve Bayes classifier to classify emails as either ``Spam" or ``Not Spam" based on the presence or absence of certain keywords.
+
+\noindent \textbf{Step 1: Dataset}
+
+\noindent Consider the following dataset of emails, with features indicating the presence (1) or absence (0) of specific keywords:
+
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Email} & \textbf{Contains ``offer"} & \textbf{Contains ``free"} & \textbf{Contains ``win"} & \textbf{Class} \\
+\hline
+1 & 1 & 1 & 1 & Spam \\
+2 & 1 & 0 & 1 & Spam \\
+3 & 0 & 1 & 1 & Spam \\
+4 & 0 & 1 & 0 & Not Spam \\
+5 & 1 & 0 & 0 & Not Spam \\
+6 & 0 & 0 & 1 & Spam \\
+7 & 0 & 0 & 0 & Not Spam \\
+\hline
+\end{tabular}
+\end{center}
+
+\noindent The goal is to classify a new email with the following feature vector: \( (1, 1, 0) \) (i.e., it contains ``offer" and ``free", but not ``win").
+
+\noindent \textbf{Step 2: Convert the Dataset into a Frequency Table}
+
+\noindent First, we compute the frequencies of each feature for the classes ``Spam" and ``Not Spam". \\
+
+\noindent \textbf{Feature}: contains ``offer"\\ \\
+\begin{tabular}{|c|cc|c|}
+\hline
+ & Spam & Not Spam & Total \\
+\hline
+Yes (1) & 2 & 1 & 3 \\
+No (0) & 2 & 2 & 4 \\
+\hline
+Total & 4 & 3 & 7 \\
+\hline
+\end{tabular} \\ \\
+
+\noindent \textbf{Feature}: contains ``free"\\ \\
+\begin{tabular}{|c|cc|c|}
+\hline
+ & Spam & Not Spam & Total \\
+\hline
+Yes (1) & 2 & 1 & 3 \\
+No (0) & 2 & 2 & 4 \\
+\hline
+Total & 4 & 3 & 7 \\
+\hline
+\end{tabular} \\ \\
+
+\noindent \textbf{Feature}: contains ``win"\\ \\
+\begin{tabular}{|c|cc|c|}
+\hline
+ & Spam & Not Spam & Total \\
+\hline
+Yes (1) & 4 & 0 & 4 \\
+No (0) & 0 & 3 & 3 \\
+\hline
+Total & 4 & 3 & 7 \\
+\hline
+\end{tabular} \\ \\
+
+\noindent \textbf{Step 3: Build the Likelihood Table}
+
+\noindent Using the frequency tables above, we calculate the likelihood of each feature given the class. \\
+
+\noindent \textbf{Likelihood}: \\ \\
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Feature} & \textbf{P(Feature $\mid$ Spam)} & \textbf{P(Feature $\mid$ Not Spam)} \\
+\hline
+Contains ``offer" (1) & 2/4 & 1/3 \\
+Does not contain ``offer" (0) & 2/4 & 2/3 \\
+\hline
+Contains ``free" (1) & 2/4 & 1/3 \\
+Does not contain ``free" (0) & 2/4 & 2/3 \\
+\hline
+Contains ``win" (1) & 4/4 & 0/3 \\
+Does not contain ``win" (0) & 0/4 & 3/3 \\
+\hline
+\end{tabular} \\ \\
+
+\noindent \textbf{Step 4: Apply Bayes' Theorem and Make a Prediction}
+
+\noindent Now, we calculate the posterior probability for each class (Spam and Not Spam) using Bayes' theorem. We multiply the prior probability of each class by the likelihood of the features given that class.
+
+\noindent The prior probabilities are calculated as follows:
+\[
+P(\text{Spam}) = \frac{4}{7}, \quad P(\text{Not Spam}) = \frac{3}{7}
+\]
+
+\noindent For the new email with the feature vector \( (1, 1, 0) \):
+
+\[
+P(\text{Spam $\mid$ (1, 1, 0)}) \propto P(\text{Spam}) \times P(\text{cont. offer $\mid$ Spam}) \times P(\text{cont. free $\mid$ Spam}) \times P(\text{not cont. win $\mid$ Spam})
+\]
+\[
+= \frac{4}{7} \times \frac{2}{4} \times \frac{2}{4} \times \frac{0}{4} = 0
+\]
+
+\[
+P(\text{Not Spam $\mid$ (1, 1, 0)}) \propto P(\text{Not Spam}) \times P(\text{offer $\mid$ Not Spam}) \times P(\text{free $\mid$ Not Spam}) \times P(\text{not win $\mid$ Not Spam})
+\]
+\[
+= \frac{3}{7} \times \frac{1}{3} \times \frac{1}{3} \times \frac{3}{3} = \frac{3}{63} = \frac{1}{21}
+\]
+
+\noindent Since \( P(\text{Spam $\mid$ (1, 1, 0)}) = 0 \) and \( P(\text{Not Spam $\mid$ (1, 1, 0)}) = \frac{1}{21} \), the classifier predicts that the email is \textbf{Not Spam}. Notice that the model we constructed was sensitive to the $0/4$ probability for not containing ``win" given it's spam. Hence the other likelihoods were disregarded. This is an example of the zero-frequency problem, and could be mitigated using Laplace smoothing.
+
+\section{Additional Details}
+
+\begin{itemize}
+    \item \textbf{Samples:} A sample is a data item to be processed (e.g., classified). It can be a document, a picture, an audio clip, a video, a row in a database or CSV file, or anything describable with a fixed set of quantitative traits.
+
+    \item \textbf{Features:} Features are the distinct traits or properties used to describe each data item quantitatively. These traits can include measurements, attributes, or other characteristics that represent the data item.
+
+    \item \textbf{Feature Vector:} A feature vector is an \( n \)-dimensional vector that contains the concatenation of all features representing a sample. It is used as input to machine learning models.
+
+    \item \textbf{Feature Extraction:} Feature extraction is the process of transforming raw data into a feature vector, typically reducing the dimensionality. It transforms the raw data into more manageable inputs for the model.
+
+    \item \textbf{Target Class:} The target class refers to the correct label or category that the model is trying to predict. For example, in classification tasks, it could be the species of a plant or whether an email is spam or not.
+
+    \item \textbf{Learning Model:} A learning model is a class of functions that an algorithm searches to find one that best estimates the mapping between input data and the target output. The model includes both the computational structure (e.g., decision tree) and the learned parameters (weights and biases).
+
+    \item \textbf{Training Algorithm:} The training algorithm is the procedure that adjusts the model’s parameters based on the training data to optimize its performance in mapping inputs to correct outputs. Examples include gradient descent and backpropagation.
+
+    \item \textbf{Training/Evaluation Set:} The training set is the portion of data used to train the model, while the evaluation (or test) set is used to assess the model’s performance on unseen data. The evaluation set helps to measure the generalization ability of the model.
+\end{itemize}
+
+\section{Q\&A Section}
+
+\begin{enumerate}
+
+\item Assume that you are given the Iris dataset, consisting of flower measurements. Recall that each measurement is comprised of four variables, denoted by \([x_1 x_2 x_3 x_4]\). Here \(x_1\) is the sepal length, \(x_2\) is the sepal width, \(x_3\) is the petal length, and \(x_4\) is the petal width. All the measurements are continuous variables in centimeter units. A machine learning model \(f(\cdot)\) is trained to estimate \(x_4\) given \([x_1 x_2 x_3]\) as the inputs. Which one of the following tasks does \(f(\cdot)\) perform?
+
+\begin{enumerate}
+    \item Classification
+    \item Regression
+\end{enumerate}
+
+\textbf{Solution:} \\
+b) Regression
+
+\textbf{Explanation:} \\
+The model \(f(\cdot)\) is predicting a continuous variable \(x_4\) based on other continuous variables \([x_1 x_2 x_3]\). Therefore, it is performing a regression task.
+
+\item \textbf{Question:} \\
+You are given a dataset of handwritten digit images. Each image has been labeled with the correct digit (0-9). However, you are asked to develop a system that groups the images based on similarity, without using the provided labels during the training process.
+
+Which type of learning approach should you use for this task?
+
+\begin{enumerate}
+    \item Supervised Learning
+    \item Unsupervised Learning
+\end{enumerate}
+
+\textbf{Solution:} \\
+b) Unsupervised Learning
+
+\textbf{Explanation:} \\
+Even though the dataset comes with labels, the task is to group the images based on their similarity without using these labels during the training process.
+
+\item Given the following four points in a 2D space:
+
+\[
+P_1 = (1, 2), \quad P_2 = (3, 4), \quad P_3 = (5, 1), \quad P_4 = (7, 3)
+\]
+
+Calculate the \( k=2 \) nearest neighbors to the new point \( P_{\text{new}} = (4, 2) \) using the Manhattan distance metric.
+
+\textbf{Solution:} \\
+\( P_3 \) and one of \{\( P_1 \), \( P_2 \)\}
+
+\textbf{Explanation:} \\
+First, compute the Manhattan distances between \( P_{\text{new}} \) and each of the four points:
+
+\[
+\text{Distance to } P_1 = |4 - 1| + |2 - 2| = 3 + 0 = 3
+\]
+\[
+\text{Distance to } P_2 = |4 - 3| + |2 - 4| = 1 + 2 = 3
+\]
+\[
+\text{Distance to } P_3 = |4 - 5| + |2 - 1| = 1 + 1 = 2
+\]
+\[
+\text{Distance to } P_4 = |4 - 7| + |2 - 3| = 3 + 1 = 4
+\]
+
+The two nearest neighbors to \( P_{\text{new}} \) are \( P_3 \) with a distance of 2, and either \( P_1 \) or \( P_2 \), both with a distance of 3.
+
+\item Given the following feature values for a dataset (feature 1):
+
+\[
+\mathbf{x}_{:,1} = [42, 23, 4, 16, 15, 8]
+\]
+
+Standardize the data using min-max normalization to scale the features to the range [0, 1]. Provide the standardized value for \( x_{4,1} = 16 \).
+
+\textbf{Solution:} \\
+0.316
+
+\textbf{Explanation:} \\
+First, calculate the minimum and maximum values of the dataset:
+
+\[
+\min(\mathbf{x}_{:,1}) = 4, \quad \max(\mathbf{x}_{:,1}) = 42
+\]
+
+Apply the min-max normalization formula:
+
+\[
+x_{4,1} := \frac{x_{4,1} - \min(\mathbf{x}_{:,1})}{\max(\mathbf{x}_{:,1}) - \min(\mathbf{x}_{:,1})} = \frac{16 - 4}{42 - 4} = \frac{12}{38} \approx 0.316
+\]
+
+The min-max normalization scales the value \( x_{4,1} = 16 \) to approximately 0.316.
+
+\item In a Na\"ive Bayes classifier, you are given the following prior probabilities and likelihoods for two binary features ``free'' and ``win'':
+
+\[
+P(\text{Spam}) = 0.5, \qquad P(\text{Not Spam}) = 0.5
+\]
+\[
+P(\text{``free''}=1 \mid \text{Spam}) = 0.6, \qquad
+P(\text{``free''}=1 \mid \text{Not Spam}) = 0.3
+\]
+\[
+P(\text{``win''}=1 \mid \text{Spam}) = 0.7, \qquad
+P(\text{``win''}=1 \mid \text{Not Spam}) = 0.2
+\]
+
+\textbf{(i)} Calculate the \textbf{unnormalized Na\"ive Bayes score} for the email being ``Spam'' given that it contains the words ``free'' and ``win'' (i.e., $\text{``free''}=1$ and $\text{``win''}=1$).
+
+\textbf{Solution:} \\
+$0.21$
+
+\textbf{Explanation:} \\
+Using the Na\"ive Bayes conditional independence assumption,
+\[
+P(\text{``free''}=1,\,\text{``win''}=1 \mid \text{Spam})
+= P(\text{``free''}=1 \mid \text{Spam})P(\text{``win''}=1 \mid \text{Spam})
+= 0.6 \times 0.7 = 0.42.
+\]
+
+Multiplying by the prior gives the unnormalized posterior score:
+\[
+P(\text{Spam} \mid \text{``free''}=1,\,\text{``win''}=1)
+\propto P(\text{``free''}=1,\,\text{``win''}=1 \mid \text{Spam})P(\text{Spam})
+= 0.42 \times 0.5 = 0.21.
+\]
+
+\textbf{(ii)} Compute the \textbf{normalized posterior probability}
+\[
+P(\text{Spam}\mid \text{``free''}=1,\text{``win''}=1).
+\]
+(Compute the corresponding unnormalized score for \text{Not Spam} and normalize.)
+
+\textbf{Solution:} \\
+\[
+P(\text{Spam}\mid \text{``free''}=1,\text{``win''}=1) = \frac{0.21}{0.21 + 0.03} = 0.875.
+\]
+
+\textbf{Explanation:} \\
+First compute the unnormalized Na\"ive Bayes score for \text{Not Spam}:
+\[
+P(\text{``free''}=1,\,\text{``win''}=1 \mid \text{Not Spam})
+= 0.3 \times 0.2 = 0.06,
+\]
+\[
+\text{Score}(\text{Not Spam})
+= P(\text{``free''}=1,\,\text{``win''}=1 \mid \text{Not Spam})P(\text{Not Spam})
+= 0.06 \times 0.5 = 0.03.
+\]
+
+Now normalize:
+\[
+P(\text{Spam}\mid x)
+=
+\frac{\text{Score}(\text{Spam})}
+{\text{Score}(\text{Spam}) + \text{Score}(\text{Not Spam})}
+=
+\frac{0.21}{0.21+0.03}
+=
+0.875,
+\]
+where $x=(\text{``free''}=1,\text{``win''}=1)$.
+
+
+\textbf{(iii)} Based on your result in (ii), classify the email as Spam or Not Spam.
+
+\textbf{Solution:} \\
+Spam
+
+\textbf{Explanation:} \\
+Since $P(\text{Spam}\mid x)=0.875 > P(\text{Not Spam}\mid x)=1-0.875=0.125$, we classify the email as \textbf{Spam}.
+
+
+
+\end{enumerate}
+
+\end{document}

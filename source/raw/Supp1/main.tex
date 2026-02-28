@@ -1,0 +1,589 @@
+%% Adapted from GaTech CS 7545 Machine Learning Theory given by Prof. Jacob Abernathy Fall 2018. Original latex file: https://github.com/mltheory/CS7545/blob/master/scribe/CS7545scribe_template.tex 
+
+
+
+%%%%%PLEASE CONSIDER CORRECTIONS AT PLACES INDICATED%%%%%%%%
+\documentclass{article}
+%%%%%Packages Used, add more if necessary%%%%
+\usepackage{amsmath,amsfonts,amssymb,graphicx,fullpage}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\usepackage{mdframed}
+\usepackage{multicol}
+\usepackage{microtype}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{tcolorbox}
+\tcbuselibrary{minted,breakable,xparse,skins}
+\usepackage{pythonhighlight}
+
+
+%%%%% NO NEED TO EDIT THIS PREAMBLE %%%%%%%%
+%%% PREAMBLE %%%
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+\newcommand{\lecture}[4]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+      
+      \hbox to 6.28in { 
+      {\bf ECE 4252/6252 (FunML) Fundamentals of Machine Learning \hfill 2021--2028} }
+      
+      \vspace{2mm}
+      \hbox to 6.28in { 
+      {Courses developed by Professor Ghassan AlRegib 
+      (\href{https://alregib.ece.gatech.edu/}{alregib.ece.gatech.edu}) 
+      \hfill For inquiries: \href{mailto:alregib@gatech.edu}{alregib@gatech.edu}} }
+      
+      \vspace{3mm}
+      \hbox to 6.28in { {\Large \hfill Supplementary #1: #2 \hfill} }
+      
+      \vspace{2mm}
+      \hbox to 6.28in { {\it Co-Instructors: #3 \hfill #4} }
+      
+      \vspace{2mm}}
+   }
+   \end{center}
+
+   % -------- PEOPLE OUTSIDE BOX --------
+   \vspace{2mm}
+   \noindent{\bf Contributors:} Dr. Ahmad Mustafa, Dr. Motaz Alfarraj, Dr. Ashraf Alattar, Dr. Chen Zhou
+
+   \vspace{1mm}
+   \noindent{\bf Teaching Assistants} with remarkable contributions include: Kuo-Wei Lai, Wuyang Du, Shiva Mahato, Michael Zhou, Ninghan Zhong
+
+   \markboth{Lecture #1: #2}{Lecture #1: #2}
+
+   \vspace{2mm}
+\noindent {\bf Disclaimer}: 
+{All content of these notes are part of this course at Georgia Tech. Any re-use or distribution is not permitted without pre-approved permission. All these notes belong to, created by, and copyrighted for Ghassan AlRegib and Mohit Prabhushankar, Georgia Tech, 2021--2028.}
+
+\vspace{2mm}
+\noindent {\bf License}: 
+{These lecture notes are licensed under the 
+\href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License}.}
+
+   \vspace{2mm}
+   \noindent {\bf Errata}: 
+   {\it Please submit any errata you find using the following form: 
+   \href{https://forms.office.com/r/fbg9dMWPgY}{Errata Form for FunML Textbook} 
+   or visit: \url{https://forms.office.com/r/fbg9dMWPgY}}
+
+   \vspace*{4mm}
+}
+\renewcommand{\cite}[1]{[#1]}
+\def\beginrefs{\begin{list}
+        {[\arabic{equation}]}{\usecounter{equation}
+         \setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}%
+         \setlength{\labelwidth}{1.6truecm}}}
+\def\endrefs{\end{list}}
+\def\bibentry#1{\item[\hbox{[#1]}]}
+
+\newcommand{\challenge}[2]{\noindent \textbf{(Challenge Problem)} \emph{#1}: #2 }
+
+\newcommand{\exercise}[1]{\noindent \textbf{(Exercise)} #1 }
+
+\newcommand{\fig}[3]{
+			\vspace{#2}
+			\begin{center}
+			Figure \thelecnum.#1:~#3
+			\end{center}
+	}
+%%% END_OF_PREAMBLE %%%
+
+\definecolor{bg}{gray}{0.95}
+\DeclareTCBListing{mintedbox}{O{}m!O{}}{%
+  breakable=true,
+  listing engine=minted,
+  listing only,
+  minted language=#2,
+  minted style=default,
+  minted options={%
+    linenos,
+    gobble=0,
+    breaklines=true,
+    breakafter=,,
+    fontsize=\small,
+    numbersep=8pt,
+    #1},
+  boxsep=0pt,
+  left skip=0pt,
+  right skip=0pt,
+  left=25pt,
+  right=0pt,
+  top=3pt,
+  bottom=3pt,
+  arc=5pt,
+  leftrule=0pt,
+  rightrule=0pt,
+  bottomrule=2pt,
+  toprule=2pt,
+  colback=bg,
+  colframe=orange!70,
+  enhanced,
+  overlay={%
+    \begin{tcbclipinterior}
+    \fill[orange!20!white] (frame.south west) rectangle ([xshift=20pt]frame.north west);
+    \end{tcbclipinterior}},
+  #3}
+	
+%%%%You may add more \newtheorem if necessary%%%%%%
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+
+
+\newcommand{\dom}{\mathrm{dom}}
+\begin{document}
+
+%%%%%CHANGE HERE%%%%%%%
+%%%%%\section{title of the section} similarly with the rest \section{} or \subsection{} or \subsubsection{} etc
+
+
+%%%%%CHANGE HERE%%%%%%%%%
+%%%%%\lecture{the ordinal number of the lecture}{lecture title}{Jacob Abernethy}{scriber's name}%%%%%%%%
+\lecture{1}{Intro to PyTorch}{Ghassan AlRegib and Mohit Prabhushankar}{}
+
+%%%%%CHANGE HERE%%%%%%%
+%%%%%\section{title of the section} similarly with the rest \section{} or \subsection{} or \subsubsection{} etc
+
+\section{Notes Objectives}
+These notes introduce PyTorch, focusing on the preliminary aspects of the general training pipeline and the practical use of pretrained models for classification. Key topics include data loading in PyTorch and insights into transfer learning.
+
+
+\section{Basic Operations in PyTorch}
+PyTorch is an open-source deep learning framework that offers flexibility and ease of use for building neural networks. It provides a dynamic computation graph and supports GPU acceleration, making it a popular choice among researchers and practitioners.
+
+\subsection{Tensors}
+Tensors are the core data structures in PyTorch, analogous to NumPy arrays but with additional capabilities for GPU acceleration. They are used to encode the inputs and outputs of a model, as well as its parameters. In practice they are treated as your usual matrix when you are preforming math on them.
+
+\subsubsection{Creating Tensors}
+Tensors can be created in PyTorch using various techniques,such as creating them from python lists, numpy arrays or other tensors. Examples of these types of tensor creation are shown below:
+
+\begin{python}
+import torch
+# Creating a Tensor from a Python List 
+data = [[1, 2], [3, 4]]
+x_data = torch.tensor(data)
+
+# Creating a Tensor from a NumPy array
+import numpy as np
+np_array = np.array(data)
+x_np = torch.from_numpy(np_array)
+
+# Creating a tensor from another tensor
+x_ones = torch.ones_like(x_data)  # retains the properties of x_data
+x_rand = torch.rand_like(x_data, dtype=torch.float)  # overrides the datatype
+\end{python}
+
+\subsubsection{Tensor Attributes}
+Tensors also have attributes that describe their overall shape, datatype for their values, and the device on which they are stored.
+
+\begin{python}
+tensor = torch.rand(3, 4)
+
+Tensor_Shape = tensor.shape #Allows access to tensor shape info
+Tensor_Datatype = tensor.dtype #Allows access to tensor datatype info
+Tesnor_Device = tensor.device #Allows access to tensor device info
+\end{python}
+
+Especially when working with large datasets, it's crucial to use GPU acceleration to train models efficiently. Since PyTorch defaults to the CPU, it's necessary to move tensors and models to the GPU. 
+\begin{python}
+# Check if a GPU is available
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+# Move tensors and models to the device
+tensor = tensors.to(device)
+model = MyModel().to(device)
+\end{python}
+
+
+\subsubsection{Operations on Tensors}
+PyTorch supports a large variety of tensor operations, including arithmetic, linear algebra, and random sampling. Most operations that can be done on a NumPy array can also be done on a Tensor, giving the tensor all of the functionality of a matrix. Some tensor operation that can be done are:
+\begin{itemize}
+    \item matrix multiplication
+    \item computing eigenvectors and eigenvalues
+    \item sorting
+    \item indexing, slicing, joining
+\end{itemize}\
+
+
+\begin{python}
+tensor = torch.rand(3, 4)
+
+# Addition
+y1 = tensor + tensor
+y2 = torch.add(tensor, tensor)
+
+# Matrix multiplication
+y = torch.matmul(tensor, tensor.T)
+
+# Finding eigenvalues and vectors
+eigenvalues, eigenvectors = torch.linalg.eig(tensor)
+
+# Sorting Tensor
+sorted_B, indices = torch.sort(tensor) # sorted tensor, original indicies
+
+# Indexing: Access the element at row 1, column 2
+element = tensor[1, 2]
+
+# Slicing: Get the first two rows
+slice_tensor = tensor[:2, :]
+
+# Joining tensors: Concatenate two tensors along a specific dimension
+tensor_2 = torch.tensor([[10, 11, 12]])
+joined_tensors = torch.cat((tensor, tensor_2), dim=0)
+\end{python}
+
+\subsection{Bridge with NumPy}
+Tensors can be converted to NumPy arrays and vice versa. This interoperability facilitates integration with other libraries.
+
+\begin{python}
+# Tensor to NumPy array
+n = tensor.numpy()
+
+# NumPy array to tensor
+t = torch.from_numpy(np_array)
+\end{python}
+
+\section{Building a Neural Network}
+This section goes over all of the steps to create and train a neural network from scratch using PyTorch methodology.
+
+\subsection{Data Preparation} \label{sec:DataPrep}
+
+PyTorch provides efficient tools for importing and managing data when training neural networks. The key components are the \texttt{Dataset} and \texttt{DataLoader} classes from the \texttt{torch.utils.data} module. The \texttt{Dataset} class provides an interface for accessing data and allows the creation of custom datasets.
+\begin{comment}
+\begin{python}
+import torch
+from torch.utils.data import DataLoader, Dataset
+
+# Create dataset and dataloader
+data = torch.randn(100, 3)  # 100 samples with 3 features
+labels = torch.randint(0, 2, (100,))  # 100 labels (binary classification)
+dataset = CustomDataset(data, labels)
+\end{python}
+\end{comment}
+When importing data into a model it is important to ensure the data is in a standardized format that allows the model to analyze it properly and make predictions. Proper formatting guarantees that the model can effectively learn from the data without errors due to inconsistent structures. It can also helps with convergence, stability, and prevents issues like vanishing gradients.
+
+In the example below we import the Hymenoptera Dataset, which contains images of bees and ants. The directory structure is compatible with PyTorch’s \texttt{datasets.ImageFolder} class which allows an easy and straightforward import. In addition to specifying the data location we also apply a transformation to the data. For the training dataset the images are randomly resized and cropped to 224x224 pixels. After a random horizontal flip we convert the image to a tensor and normalize it using a defined mean and standard derivation. The validation dataset doesn't include any randomized augmentation techniques but also transforms the data to the same size as the training dataset.
+\begin{python}
+from torchvision import datasets, transforms
+from torch.utils.data import DataLoader
+
+# Used for normalization
+mean = np.array([0.5, 0.5, 0.5])
+std = np.array([0.5, 0.5, 0.5])
+
+train_transformers = transforms.Compose([
+    transforms.RandomResizedCrop(224),
+    transforms.RandomHorizontalFlip(),
+    transforms.ToTensor(),
+    transforms.Normalize(mean, std)
+])
+
+val_transformers = transforms.Compose([
+    transforms.Resize(256),
+    transforms.CenterCrop(224),
+    transforms.ToTensor(),
+    transforms.Normalize(mean, std)
+])
+
+# Load datasets
+train_dataset = datasets.ImageFolder(root="hymenoptera_data/train", transform=train_transforms)
+val_dataset = datasets.ImageFolder(root="hymenoptera_data/val", transform=val_transforms)
+
+\end{python}
+
+
+\subsection{Defining a Model}
+The \texttt{torch.nn} module provides tools to build neural networks. A typical workflow involves defining a model, specifying a loss function, and optimizing the model parameters.
+Models are defined by subclassing \texttt{nn.Module} and defining the layers and forward pass. The initialization step is where the initial layers and methods are saved for the system. The forward pass is what defines the behavior of the system, i.e. how the layers and methods in the systems are arranged, and this is the method that defines an output tensor from an input tensor.
+
+\begin{python}
+import torch.nn as nn
+import torch.nn.functional as F
+
+class model(nn.Module):
+    def __init__(self):
+        super(model, self).__init__()
+        # Define the first fully connected layer (input: 784, output: 128)
+        self.fc1 = nn.Linear(784, 128)
+        # Define the second fully connected layer (input: 784, output: 2)
+        self.fc2 = nn.Linear(128, 2)
+
+    def forward(self, x):
+        # Apply ReLU activation after the first layer
+        x = F.relu(self.fc1(x))
+        # Pass through the second layer without activation
+        x = self.fc2(x)
+        return x
+\end{python}
+
+\subsection{Training a Neural Network} \label{sec:NN_training}
+After establishing the structure of the neural network we have to train it. This is accomplished by defining a loss function and optimizer for the system. Then running a loop (looping through training epochs) and allowing the optimizer to update the system from the output of the loss function.
+
+\subsubsection{Loss Function and Optimizer}
+Specify a loss function and an optimizer to update the model parameters. An overview of pytorch loss fucntions can be found \href{https://neptune.ai/blog/pytorch-loss-functions}{here}. An overview of the various optimizer functions can be found  \href{https://pytorch.org/docs/main/optim.html}{here}.
+
+In the following example, cross-entropy loss measures the difference between predicted probabilities and true labels. It penalizes incorrect predictions, guiding the model towards more accurate outputs during training. The cross-entropy loss function is defined as:
+
+\[
+L = -\sum_{i=1}^C y_i \log(p_i)
+\]
+
+where $C$ is the number of classes, $y_i$ is the true label (0 or 1 for each class), and $p_i$ is the predicted probability for each class.
+
+Stochastic Gradient Descent (SGD) is an optimization algorithm used to minimize the loss function during training. Unlike standard gradient descent, which uses the entire dataset, SGD updates model parameters using small mini-batches, making it faster and suitable for large datasets.
+\begin{python}
+#Example of declaring a loss function and optimizer in a pytorch model
+import torch.optim as optim
+
+# Define the loss function for classification
+loss_fn = nn.CrossEntropyLoss()
+
+# Define the optimizer to update model parameters
+optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.9)
+\end{python}
+
+\subsubsection{Gradients}
+The \texttt{autograd} package in PyTorch provides automatic differentiation for all operations on tensors. This feature is essential for training neural networks as it allows for computation of the gradients during the training cycle.
+
+By setting the \texttt{requires\_grad} attribute of a tensor to true PyTorch will start tracking all operations on it. To compute the gradients, call \texttt{backward()} on the final tensor.
+
+\begin{python}
+# Create a tensor and perform a simple operation
+x = torch.ones(2, 2, requires_grad=True)
+y = x + 2
+
+# Compute the mean and backpropagate to calculate gradients
+out = y.mean()
+out.backward()
+print(x.grad)
+\end{python}
+
+
+\subsection{Training Loop}
+The training loop is where the model is optimized (trained) on the dataset to produce accurate prediction. The first step is to calculate the prediction of the current model on the input and to save the prediction value (output). The loss is then calculated using the output and the ground truth label for the input. Once loss is calculated, \texttt{loss.backward()} is called to produce the gradients for the model via backpropagation. Finally, \texttt{optimizer.step()} is called to increment the model based upon the previously calculated gradients. This general process is then repeated for however many epochs are desired.
+
+\begin{python}
+# Train the model for 2 epochs using the dataloader
+for epoch in range(2):
+    for inputs, labels in train_loader:
+        # Reset gradients from the previous step
+        optimizer.zero_grad()
+        
+        # Perform a forward pass through the model
+        outputs = model(inputs)
+        
+        # Compute the loss for the current batch
+        loss = loss_fn(outputs, labels)
+        
+        # Perform backpropagation to calculate gradients
+        loss.backward()
+        
+        # Update model parameters using the optimizer
+        optimizer.step()
+\end{python}
+
+\section{Data Loading in PyTorch}
+Since neural networks work best with smaller batches of data we can use dataloaders to process the dataset for the training process. Dataloaders slice the dataset into mini-batches before handing them over to the training loop which speeds up the process. So instead of training the model with the entire dataset, we instead feed it with a smaller batch of variable size. They further are able to shuffle data, which prevents that the model gets trained with an uneven distribution of samples. In a dataset that has all samples sorted according to their label, not shuffling the dataset before slicing it in mini-batches results in batches without the full range of available labels. Therefore the model can't be trained properly. In addition to that a dataloader can speed up the training or testing loop by running multiple data loading tasks from the disk to the CPU, GPU or TPU in parallel.
+
+% \subsection{Key Features of DataLoader}
+
+\subsection{Creating a DataLoader}
+A dataloader can be created in PyTorch using the \texttt{DataLoader} function, which includes the following options:
+\begin{itemize}
+\item \texttt{dataset} - The dataset itself that should be processed.
+\item \texttt{batch\_size} - Number of samples that get loaded into the training loop at each iteration.
+\item \texttt{shuffle} - Shuffle the data during each epoch.
+\item \texttt{num\_workers} - Control how many parallel subprocesses are being used. Speeds up the training and testing loop by running multiple instances at once. With the default 0 the data will be loaded in the main process.
+\item \texttt{pin\_memory} - Copy tensors into the \texttt{cuda} pinned memory before returning them. This speeds up loading by removing a copy during the loading operation. Only when a \texttt{cuda} device or \texttt{GPU} is being used.
+\item \texttt{drop\_last} - Drop the last batch. If the total dataset size can't be evenly divided by the batch size, the last batch will be smaller than the \texttt{batch\_size}. This makes sure all batches have the same size.
+\end{itemize}
+
+The following example creates a dataloader for training purposes which splits the \texttt{train\_dataset} into batches of 64 while shuffeling the data too. This uses 2 subprocesses and copies the tensors into the pinned memory while also dropping the last batch.
+
+\begin{python}
+from torch.utils.data import DataLoader
+
+# Create the dataloader
+train_loader = DataLoader(dataset=train_dataset, batch_size=64, shuffle=True, num_workers=2, pin_memory=True, drop_last=True)
+
+\end{python}
+
+\begin{comment}
+\subsection{Example}
+This doesn't have its own subsection but it would make sense to have an example with a proper flow linking the elements introduced before together.
+\begin{python}
+# Grab the CIFAR10 Dataset split in its train and test sets
+train_dataset = datasets.MNIST(root='./data', train=True, download=True, transform=transforms.Compose([transforms.ToTensor()]))
+val_dataset = datasets.MNIST(root='./data', train=false, download=True, transform=transforms.Compose([transforms.ToTensor()]))
+
+# Create the dataloaders
+train_loader = DataLoader(dataset=train_dataset, batch_size=64, shuffle=True, num_workers=2)
+val_loader = DataLoader(dataset=val_dataset, batch_size=64, shuffle=False, num_workers=2)
+
+# Training loop
+
+# Test loop
+
+\end{python}
+\end{comment}
+
+
+\section{Transfer Learning} 
+Instead of training the entire model from scratch - which is computationally expensive and requires a lot of data - we can modify an already pre-trained model. For many tasks, similar models that have been extensively tested are already available. Transfer learning allows us to use pre-trained weights as feature extractors and fine-tune the model for a specific task by modifying only a small portion of its architecture.
+
+\subsection{Transfer Learning vs Training from Scratch}
+Training from scratch involves initializing a model with random weights and training it on a large dataset. This process requires significant computational resources and a vast amount of labeled data to achieve good performance. The model learns from the data and adjusts its full set of parameters during training. This approach can produce great results for specific tasks if a suitable model is used, with the downside of being very time consuming and resource intensive.
+
+On the other hand, a pre-trained model was already trained on a large dataset. During that training it learned to recognize general features that are helpful for a variety of similar datasets. Instead of starting from scratch, you can fine-tune this pre-trained model for your particular task. General feature extractions are conserved by only modifying the model slightly, e.g. by only adjusting the final layer. This allows a suitable training of a larger, more complex model using a smaller, task-specific dataset. Therefore we can significantly reduce the training time, as well as data requirements and the computational costs.
+
+
+\subsection{Using a Pre-Trained ResNet18 Model}
+One example of a pre-trained model that can be used for image classification is ResNet18. It consits of 18 layers capable of recognizing 1,000 different classes. In a pre-training with the ImageNet dataset, which contains over 1.2 million training images, this model already learned to recognize features such as edges, corners, and textures, which are helpful for a wide range of image classification tasks. By modifying the final layer to fit the amount of labels of our dataset we adapt the pre-trained model to the given task.
+
+After importing the hymenoptera dataset in \ref{sec:DataPrep} we want to use a pre-trained ResNet18 model to predict the 2 classes bees and ants. First we load the pre-trained model from \texttt{torchvision}. 
+\begin{python}
+import torch
+from torchvision import datasets, models, transforms
+from torch.utils.data import DataLoader
+
+# Load a pretrained ResNet18 model
+model = models.resnet18(pretrained=True)
+\end{python}
+The only modification we have to apply to the model is changing the output of the final layer to two nodes, since we have two prediction labels. Shifting the model to \texttt{cuda} utilizes the computational power of our GPU.
+\begin{python}
+# Replace last layer
+model.fc = nn.Linear(model.fc.in_features, 2)
+
+# Shift model to cuda
+device = torch.device('cuda' if torch.cuda.is_available() else 'cpu') #use CUDA if exists
+model.to(device)
+\end{python}
+When initializing our optimizer it is important that it only modifies the final layer. We don't want to overwrite any of the training done for the rest of the model.
+\begin{python}
+# Define loss function
+loss_fn = nn.CrossEntropyLoss()
+
+# Define optimizer exclusively for the final layer
+optimizer = optim.SGD(model.fc.parameters(), lr=0.001, momentum=0.9)
+\end{python}
+The following training is identical to the training of a model built from scratch explained in \ref{sec:NN_training}.
+\begin{python}
+# Create the dataloaders
+train_loader = DataLoader(dataset=train_dataset, batch_size=64, shuffle=True, num_workers=2)
+val_loader = DataLoader(dataset=val_dataset, batch_size=64, shuffle=False, num_workers=2)
+
+# Train the model for 2 epochs using the dataloader
+for epoch in range(2):
+    for inputs, labels in train_loader:
+        # Reset gradients from the previous step
+        optimizer.zero_grad()
+        
+        # Perform a forward pass through the model
+        outputs = model(inputs)
+        
+        # Compute the loss for the current batch
+        loss = loss_fn(outputs, labels)
+        
+        # Perform backpropagation to calculate gradients
+        loss.backward()
+        
+        # Update model parameters using the optimizer
+        optimizer.step()
+\end{python}
+To test our trained model we can use the following validation loop which uses its own dataloader and accumulates the total loss.
+\begin{python}
+# Test the model
+for inputs, labels in val_loader:
+    # Perform a forward pass through the model
+    prediciton = model(inputs)
+    
+    # Compute the loss for the current batch
+    loss = loss_fn(prediciton, labels)
+    
+    # Accumulate the total loss
+    lossTotal += loss.item()
+\end{python}
+
+\section{References}
+For an introduction to Pytorch visit \href{https://towardsdatascience.com/intro-to-pytorch-part-1-663574fb9675}{this website} [accessed 17 Nov 2025]. \\
+For an overview of data loading in PyTorch watch \href{https://www.youtube.com/watch?v=eGch5tZry84}{this video} [accessed 17 Nov 2025]. \\
+Finally, to further understand transfer learning check out \href{https://blog.demir.io/understanding-transfer-learning-unlocking-the-power-of-pre-trained-models-885e4775d8bb}{this website} [accessed 17 Nov 2025].
+
+\begin{comment}
+\section{Common Notations}
+
+\begin{multicols}{2}
+\begin{itemize}
+\item $\mathbf{b}$: Bias vector
+\item $C_k$: K-th cluster
+\item $d(\mathbf{x_j, x_k})$: Dissimilarity between $\mathbf{x_j, x_k}$
+\item $E_\theta$: Encoding function
+\item $f(\cdot)$: Trained neural network
+\item $\mathbf{G}(t)$: Second moment at time t
+\item $G_\Phi$: Decoding function
+\item $\mathbf{H(\theta)}$: Hessian matrix
+\item $h_i, h_j$: Representation space vectors
+\item $k^{(i)}$: Number of neurons in the $i^{th}$ layer
+\item $M$: Number of features in a feature vector
+\item $m$: Degree of polynomial
+\item $m_j$: J-th centroid
+\item $N$: Number of data samples
+\item $P$: Predicted class
+\item $P^{(k)}$: The number of neurons in layer k
+\item $Q$: Contrast class
+\item $Q_k$: Computed clustering for k-th cluster
+\item $R_k$: Ground truth clustering for k-th cluster
+\item $s(\mathbf{x_j, x_k})$: Similarity between $\mathbf{x_j, x_k}$
+\item $v(t)$: First moment at time t
+\item $\mathbf{W}$: Weight matrix
+\item $w_{ij}$: Degree of membership of $\mathbf{x_i}$ in $C_j$
+\item $\mathbf{X}$: Matrix of feature vectors (dataset)
+\item $\mathbf{\hat{X}}$: Reconstruction of data
+\item $\widetilde{\mathbf{X}}$: Corrupted input
+\item $\mathbf{x_i}$: Feature vector (a data sample)
+\item $\mathbf{x_{:,i}}$: Feature vector of all data samples
+\item $x_i$: A single feature
+\item $\mathbf{Y}$: Output matrix
+\item $y_i$: Target class
+\item $y^{c}$: Predicted logit for class P
+\item $y^{i}$: Logit for any class i
+\item $\mathbf{Z}$: Latent representation
+\item \textls[-20]{$z_i$: Latent variables representing the embedding of $\mathbf{x_i}$}
+\item $\alpha$: Learning rate
+\item $\gamma$: Bias factor
+\item $\gamma_i^j$: Posterior of $\mathbf{x_i}$ coming from cluster j
+\item $\epsilon$: Error margin
+\item $\tilde{\lambda_j}$: Average activation of neuron $z_{ij}$
+\item $\boldsymbol{\theta}$: Coefficient vector
+\item $\theta_i$: A single model coefficient (parameter)
+\item $\hat{\rho_j}$: Average activation of neuron $z_{ij}$
+\item $\mathbf{\Omega(Z)}$: Sparsity constraint
+
+\end{itemize}
+\end{multicols}
+    
+\end{comment}
+
+\end{document}

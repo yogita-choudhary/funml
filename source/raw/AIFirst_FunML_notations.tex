@@ -1,0 +1,137 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Drafted by Seulgi Kim in 2024 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% 
+%%
+
+\documentclass{article}
+
+% Language setting
+\usepackage[english]{babel}
+
+% Set page size and margins
+\usepackage[letterpaper,top=1.5cm,bottom=2cm,left=1.6cm,right=1.6cm,marginparwidth=1cm]{geometry}
+\usepackage{setspace}
+\setstretch{1.5}
+
+% Other packages
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+\usepackage{mdframed}
+\usepackage{multicol}
+\usepackage{microtype}
+
+% Title
+\title{\textbf{Notation for AI First and FunML Classes}}
+\date{} 
+\begin{document}
+\maketitle
+\vspace{-1.7cm}
+
+\textit{Drafted by Seulgi Kim in 2024.
+Revised by the following instructors in 2026: }
+% Box Frame
+\begin{mdframed}[innertopmargin=10pt,innerbottommargin=10pt,innerleftmargin=10pt,innerrightmargin=10pt]
+\begin{itemize}
+\item \textbf{Bold letter/symbol} = Vector
+\item \textbf{Bold capital letters/symbol} = Matrix
+\end{itemize}
+\end{mdframed}
+
+\vspace{0.1cm}
+
+% Items
+\begin{multicols}{2}
+\begin{itemize}
+\item $\mathbf{b}$: Bias vector
+\item $C_k$: k-th cluster
+\item $D$: Number of features in a feature vector
+\item $d(\mathbf{x}_j,\mathbf{x}_k)$: Dissimilarity between two samples
+\item $E_\theta$: Encoding function
+\item $f(\cdot)$: Trained neural network
+\item $\mathbf{G}(t)$: Second moment at time t
+\item $G_\Phi$: Decoding function
+\item $\mathbf{H(\theta)}$: Hessian matrix
+\item $h_i, h_j$: Representation space vectors
+\item $k^{(i)}$: Number of neurons in the $i^{th}$ layer
+\item $m$: Degree of polynomial
+\item $m_j$: $j$-th centroid
+\item $N$: Number of data samples
+\item $P$: Predicted class
+\item $P^{(k)}$: The number of neurons in layer k
+\item $Q$: Contrast class
+\item $Q_k$: Computed clustering for k-th cluster
+\item $R_k$: Ground truth clustering for k-th cluster
+\item $s(\mathbf{x}_j,\mathbf{x}_k)$: Similarity between two samples
+\item $v(t)$: First moment at time t
+\item $\mathbf{W}$: Weight matrix
+\item $w_{ij}$: Degree of membership of $\mathbf{x_i}$ in $C_j$
+\item $\mathbf{X}$: Matrix of feature vectors (dataset)
+\item $\mathbf{\hat{X}}$: Reconstruction of data
+\item $\widetilde{\mathbf{X}}$: Corrupted input
+\item $\mathbf{x_i}$: Feature vector (a data sample)
+\item $\mathbf{x_{:,i}}$: Feature vector of all data samples
+\item $x_i$: A single feature
+\item $\mathbf{Y}$: Output matrix
+\item $y_i$: Target class
+\item $y^{c}$: Predicted logit for class P
+\item $y^{i}$: Logit for any class i
+\item $\mathbf{Z}$: Latent representation
+\item \textls[-20]{$z_i$: Latent variables representing the embedding of $\mathbf{x_i}$}
+\item $\alpha$: Learning rate
+\item $\gamma$: Exponential decay / momentum factor
+\item $\gamma_i^j$: Posterior of $\mathbf{x_i}$ coming from cluster j
+\item $\epsilon$: Error margin
+\item $\tilde{\lambda_j}$: Average activation of neuron $z_{ij}$
+\item $\boldsymbol{\theta}$: Coefficient vector
+\item $\theta_i$: A single model coefficient (parameter)
+\item $\hat{\rho_j}$: Average activation of neuron $z_{ij}$
+\item $\boldsymbol{\Omega}(\mathbf{Z})$: Sparsity constraint
+
+% ---------- NEW SYMBOLS ADDED BELOW ----------
+
+\item $\boldsymbol{\phi}(\mathbf{x})$: Feature map / basis expansion of input $\mathbf{x}$
+\item $\boldsymbol{\Phi}$: Design matrix after feature mapping
+\item $\lambda$: Regularization strength (ridge regression)
+\item $\sigma^2$: Variance of noise
+\item $\hat{f}(\mathbf{x})$: Model prediction
+\item $\mathrm{Bias}^2$: Squared bias of a model
+\item $\mathrm{Var}$: Variance of a model
+\item $\sigma_e^2$: Irreducible noise variance
+\item $f(\boldsymbol{\theta})$: Objective (loss) function
+\item $\mathrm{dom}(f)$: Domain of function $f$
+\item $k$: Number of clusters
+\item $J$: Clustering objective (total cost)
+\item $\|\cdot\|_1$: Manhattan (L1) norm
+\item $\|\cdot\|_2$: Euclidean (L2) norm
+\item $\mathbf{m}$: Geometric median
+\item $M$: Set of cluster centers (centroids/medians/medoids)
+\item $d(\mathbf{x},\mathbf{y})$: Distance metric between two samples
+\item $K(\mathbf{x},\mathbf{x}')$: Kernel function (similarity in feature space), e.g. $K(\mathbf{x},\mathbf{x}')=\phi(\mathbf{x})^T\phi(\mathbf{x}')$
+\item $\mathbf{K}$: Kernel (Gram) matrix with entries $K_{ij}=K(\mathbf{x}_i,\mathbf{x}_j)$
+\item $\phi(\mathbf{x})$: Implicit feature mapping used by kernels
+
+
+% ---------- LECTURE 19: AUTOENCODER NOTATION ----------
+
+% \item $\tilde{\mathbf{X}}$: Noisy / corrupted input (denoising autoencoder)
+\item $\mathcal{L}_{\text{recon}}$: Reconstruction loss
+\item $\mathcal{L}_{\text{ELBO}}$: Evidence Lower Bound objective (VAE)
+\item $p(\mathbf{Z})$: Prior distribution over latent variables (typically Gaussian)
+\item $q_{\boldsymbol{\theta}}(\mathbf{Z}|\mathbf{X})$: Encoder / variational posterior
+\item $p_{\boldsymbol{\phi}}(\mathbf{X}|\mathbf{Z})$: Decoder likelihood model
+\item $\boldsymbol{\mu}, \boldsymbol{\sigma}^2$: Mean and variance of latent Gaussian
+\item $\epsilon \sim \mathcal{N}(0,1)$: Noise variable used in reparameterization trick
+\item $D_{KL}(q(z|x)\|p(z))$: Kullback--Leibler divergence between approximate posterior and prior
+\item $\rho$: Desired sparsity level in sparse autoencoders
+% \item $\hat{\rho}_j$: Empirical average activation of latent neuron $j$
+\item $\Omega(\mathbf{Z})$: Regularization penalty applied to latent activations
+
+\end{itemize}
+\end{multicols}
+\end{document}

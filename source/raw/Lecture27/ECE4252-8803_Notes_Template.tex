@@ -1,0 +1,376 @@
+%% Adapted from GaTech CS 7545 Machine Learning Theory given by Prof. Jacob Abernathy Fall 2018. Original latex file: https://github.com/mltheory/CS7545/blob/master/scribe/CS7545scribe_template.tex 
+
+
+
+%%%%%PLEASE CONSIDER CORRECTIONS AT PLACES INDICATED%%%%%%%%
+\documentclass{article}
+%%%%%Packages Used, add more if necessary%%%%
+\usepackage{amsmath,amsfonts,amssymb,graphicx,fullpage,float}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\usepackage{mdframed}
+\usepackage{multicol}
+\usepackage{microtype, hyperref}
+
+
+%%%%% NO NEED TO EDIT THIS PREAMBLE %%%%%%%%
+%%% PREAMBLE %%%
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+\newcommand{\lecture}[4]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+      
+      \hbox to 6.28in { 
+      {\bf ECE 4252/6252 (FunML) Fundamentals of Machine Learning \hfill 2021--2028} }
+      
+      \vspace{2mm}
+      \hbox to 6.28in { 
+      {Courses developed by Professor Ghassan AlRegib 
+      (\href{https://alregib.ece.gatech.edu/}{alregib.ece.gatech.edu}) 
+      \hfill For inquiries: \href{mailto:alregib@gatech.edu}{alregib@gatech.edu}} }
+      
+      \vspace{3mm}
+      \hbox to 6.28in { {\Large \hfill Lecture #1: #2 \hfill} }
+      
+      \vspace{2mm}
+      \hbox to 6.28in { {\it Co-Instructors: #3 \hfill #4} }
+      
+      \vspace{2mm}}
+   }
+   \end{center}
+
+   % -------- PEOPLE OUTSIDE BOX --------
+   \vspace{2mm}
+   \noindent{\bf Contributors:} Dr. Ahmad Mustafa, Dr. Motaz Alfarraj, Dr. Ashraf Alattar, Dr. Chen Zhou
+
+   \vspace{1mm}
+   \noindent{\bf Teaching Assistants} with remarkable contributions include: Kuo-Wei Lai, Wuyang Du, Shiva Mahato, Michael Zhou, Ninghan Zhong
+
+   \markboth{Lecture #1: #2}{Lecture #1: #2}
+
+   \vspace{2mm}
+\noindent {\bf Disclaimer}: 
+{All content of these notes are part of this course at Georgia Tech. Any re-use or distribution is not permitted without pre-approved permission. All these notes belong to, created by, and copyrighted for Ghassan AlRegib and Mohit Prabhushankar, Georgia Tech, 2021--2028.}
+
+\vspace{2mm}
+\noindent {\bf License}: 
+{These lecture notes are licensed under the 
+\href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License}.}
+
+   \vspace{2mm}
+   \noindent {\bf Errata}: 
+   {\it Please submit any errata you find using the following form: 
+   \href{https://forms.office.com/r/fbg9dMWPgY}{Errata Form for FunML Textbook} 
+   or visit: \url{https://forms.office.com/r/fbg9dMWPgY}}
+
+   \vspace*{4mm}
+}
+\renewcommand{\cite}[1]{[#1]}
+\def\beginrefs{\begin{list}
+        {[\arabic{equation}]}{\usecounter{equation}
+         \setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}%
+         \setlength{\labelwidth}{1.6truecm}}}
+\def\endrefs{\end{list}}
+\def\bibentry#1{\item[\hbox{[#1]}]}
+
+\newcommand{\challenge}[2]{\noindent \textbf{(Challenge Problem)} \emph{#1}: #2 }
+
+\newcommand{\exercise}[1]{\noindent \textbf{(Exercise)} #1 }
+
+\newcommand{\fig}[3]{
+			\vspace{#2}
+			\begin{center}
+			Figure \thelecnum.#1:~#3
+			\end{center}
+	}
+%%% END_OF_PREAMBLE %%%
+
+
+	
+%%%%You may add more \newtheorem if necessary%%%%%%
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+
+
+\newcommand{\dom}{\mathrm{dom}}
+\begin{document}
+
+%%%%%CHANGE HERE%%%%%%%
+%%%%%\section{title of the section} similarly with the rest \section{} or \subsection{} or \subsubsection{} etc
+
+
+%%%%%CHANGE HERE%%%%%%%%%
+%%%%%\lecture{the ordinal number of the lecture}{lecture title}{Jacob Abernethy}{scriber's name}%%%%%%%%
+\lecture{27}{Uncertainty Quantification in Neural Networks}{Ghassan AlRegib and Mohit Prabhushankar}{}
+
+%%%%%CHANGE HERE%%%%%%%
+%%%%%\section{title of the section} similarly with the rest \section{} or \subsection{} or \subsubsection{} etc
+
+\section{Lecture Objectives}
+
+In this lecture, we will explore the uncertainty quantification in neural networks. We begin with an introduction and motivation for the topic, followed by a discussion of the two main types of uncertainty: aleatoric uncertainty, which is associated with inherent noise in observations, and epistemic uncertainty, which stems from a lack of knowledge about the model or data. Next, we delve into methods for estimating uncertainty, including iterative uncertainty estimation and single-pass uncertainty estimation. Finally, we conclude by examining performance metrics used to evaluate the effectiveness of these approaches.
+
+
+\section{Introduction and Motivation}
+Uncertainty is an inherent part of both human decision-making and machine learning systems. It is important to understand and manage uncertainty, and this lecture explores how uncertainty is quantified, categorized, and applied to neural networks.
+
+\subsection{Human Uncertainty}
+For humans, uncertainty is frequently associated with imperfect decisions.
+Here we have two examples:
+
+\begin{itemize}
+    \item The viral “Blue or Gold Dress” image demonstrates how human perception can vary significantly. Some see blue and black, while others perceive white and gold. This phenomenon underscores that uncertainty is not just a computational challenge but is also deeply embedded in human cognition.
+    \item In a critical context, such as reading x-rays, non-experts might face uncertainty in distinguishing pneumonia from a healthy chest. Uncertainty often arises from a lack of expertise or ambiguous data. For humans, the ideal approach in such cases is to consult an expert.
+\end{itemize}
+ 
+\subsection{Uncertainty Quantification in Neural Networks}
+Uncertainty is not confined to human decision-making; it is also a critical consideration in machine learning models, particularly neural networks. In neural networks, uncertainty quantification is a way to understand how confident the model is in its predictions. For instance, when processing an image, a neural network may generate a segmentation map as its output. However, this map alone does not provide information about the reliability of the predictions. To address this, an uncertainty heatmap can be produced, which highlights areas where the model’s predictions are less confident.
+
+Uncertainty quantification is crucial in real-world deployment. A notable example is a fatal Tesla crash where the autopilot system failed to detect a truck, resulting in a collision. The model’s inability to quantify its uncertainty about the truck’s presence led to a critical failure.
+Knowing what a model does not know is essential for establishing reliability.
+
+\section{Factors that cause uncertainty}
+\label{sec:27.3}
+Uncertainty arises in machine learning due to various factors. Understanding these factors helps in identifying their origins and addressing them effectively. 
+
+\begin{itemize}
+    \item \textbf{Noise during Data Acquisition and Measurement:} Noise is one of the most common causes of uncertainty in data. It can originate from the data collection process or from inaccuracies in labeling. For instance, visual data can be affected by distortions such as Gaussian blur, noise, rain, shadows, or snow. These distortions lead to inconsistencies in the input, making it challenging for models to generate reliable outputs. Similarly, errors in labeling—where data points are assigned incorrect labels—also contribute to uncertainty. 
+    \item \textbf{Variations among Model Configurations:} Different configurations of a model, including variations in parameters or training procedures can result in different outputs for the same input data. For example, two models trained on similar datasets might produce different decision boundaries as shown in Fig. \ref{fig:factors_uncertainty}.
+    \item \textbf{Unknown data:} 
+    The presence of unknown or out-of-distribution data also introduces uncertainty. For instance, a model trained on a dataset of two classes might encounter a sample from a third, unknown class as visualized in Fig. \ref{fig:factors_uncertainty}. This lack of knowledge about the input space can lead to unreliable predictions.
+\end{itemize}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{img/lecture27/factors_uncer.png}
+    \caption{Factors that Cause Uncertainty. (left) Variations among Model Configurations, (right) Unknown Data}
+    \label{fig:factors_uncertainty}
+\end{figure}
+
+\section{Two Main types of Uncertainty}
+The study of uncertainty is typically divided into two categories based on its source: aleatoric uncertainty and epistemic uncertainty.
+
+\subsection{Aleatoric Uncertainty}
+\textbf{Aleatoric uncertainty} arises from inherent noise in the observation data. It is often referred to as \textit{irreducible uncertainty} because it is tied to the variability within the data itself. This includes the first factor mentioned in section~\ref{sec:27.3}.
+
+\subsection{Epistemic Uncertainty }
+\textbf{Epistemic uncertainty} stems from a lack of knowledge about the model. Unlike aleatoric uncertainty, epistemic uncertainty can be reduced by improving the model design, incorporating additional training data, or exploring better configurations. It reflects the model’s limited understanding of the input space.
+This includes the second and the third factor mentioned in section~\ref{sec:27.3}.
+
+\section{Iterative Uncertainty Estimation}
+
+Epistemic uncertainty refers to the uncertainty arising from a model’s lack of knowledge. It can be reduced by improving the model's design or exploring the parameter space. Iterative uncertainty methods provide a framework for quantifying epistemic uncertainty.
+
+\subsection{Definition}
+Iterative uncertainty methods generate multiple outputs by varying model parameters and then combine them to produce a single uncertainty score. This approach explores the parameter space to better understand the model’s predictions. Key steps in these methods include following:
+
+\begin{itemize}
+    \item[1.] Iteratively generate multiple model outputs with different parameter constellations.
+    \item[2.] Combine these outputs into a single uncertainty score.
+    \item[3.] This process can be interpreted as exploration of the model's parameter space.
+\end{itemize}
+
+\noindent Next, we will see two examples of iterative uncertainty methods: Deep ensembles (Sec~\ref{sec:ensemble}) and Monte Carlo dropout (Sec~\ref{sec:mc-dropout}).
+
+\subsection{[Example 1] Deep Ensembles}
+\label{sec:ensemble}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/lecture27/deep-ensembles.jpg}
+    \caption{Deep Ensembles}
+    \label{fig:deep-ensembles}
+\end{figure}
+
+Deep ensembles involve training multiple neural networks with different initialization parameters. Each network produces its own prediction, and these predictions are combined to estimate uncertainty. Fig~\ref{fig:deep-ensembles} shows the overall structure of deep ensembles. More details are summarized below.
+
+\begin{itemize}
+    \item Different initialization parameters lead to diverse network configurations and outputs..
+    \item The final prediction is the average of predictions across all networks.
+    \item Uncertainty scores are computed using entropy and mean of predictions.
+    \item Randomness is introduced in initialization and/or training data. A commonly used method is to initialize weights with different random seeds, while a less common method involves randomly dividing the data into different partitions to train the same network parameters.
+    \item Deep ensembles require training multiple networks, which makes the method computationally expensive and often infeasible for resource-constrained scenarios.
+\end{itemize}
+
+
+\noindent\textit{Approximating} deep ensembles involves calculating the posterior distribution of model weights.
+Deep ensembles involve working with the weight posterior, represented as $p(W|x)$, which is defined by below equation.
+
+$$p(W|x) = \frac{p(x|W)p(W)}{\int p(x|W)p(W) \, dW}$$
+
+\noindent However, the denominator of this equation is intractable, making direct computation impractical. To overcome this, the posterior is approximated using iterative sampling methods. For a given input $x_i$, multiple samples from the approximate posterior are generated, and the resulting predictions are used to compute entropy and the mean. These metrics are then combined to calculate an uncertainty score, providing insights into the model's confidence in its predictions.
+
+Previous terminology `posterior' considers the output itself ($p(y|x)$), but weight posterior is in regards to the weight ($p(W|x)$). A related field is Bayesian neural networks (BNN), useful when we have small datasets, since we can get the weight for a neural network by simply sampling from a weight posterior. BNNs are an approximation of deep ensembles, but due to the difficulty of getting the weight posterior they are prone to underperformance in large datasets and models. Overall, BNNs can be interpreted as noisy samples of a distribution with the mean being the deep ensemble.
+\subsection{[Example 2] Monte Carlo Dropout (MC-Dropout)}
+\label{sec:mc-dropout}
+Since the deep ensemble method is computationally expensive, and approximation using weight posteriors is also has limitations in performance, an alternative method Monte Carlo (MC)-Dropout can be used to approximate the weight posterior (e.g. BNN) itself, as shown in Fig. \ref{fig:mc-dropout}. In contrast to the dropout method which randomly drops weight from a Bernoulli distribution during training to prevent overfitting, the MC-dropout implements the same method during test time based on Monte Carlo sampling. By applying dropout during inference, we can construct multiple `noisy' neural networks from one. The final prediction is a simple average of all outputs from neural networks, which is illustrated in the following equation. The entropy and mean of multiple predictions act as the uncertainty scores in MC-dropout. 
+
+$$p(y=c|\boldsymbol{x}) \simeq  \frac{1}{T} \Sigma_{t=1}^{T} Softmax(f_{\hat{W_t}}(x)), \text{where }\boldsymbol{\hat{W_t}} \sim q(\boldsymbol{W})$$
+The difference between standard dropout and MC-dropout can be reiterated as follows:
+\begin{itemize}
+\item Standard Dropout
+\begin{itemize}
+    \item Dropout is applied during training
+    \item During inference, the activations are multiplied by (1-p) to represent the ``average behavior", due to dropout following a Bernoulli distribution
+\end{itemize}
+\item MC-Dropout
+\begin{itemize}
+    \item Dropout is applied both during training and inference
+    \item Mean of all outputs as the final prediction and entropy with mean as the uncertainty scores
+\end{itemize}
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/lecture27/MC-dropout.jpg}
+    \caption{Monte Carlo (MC)-Dropout}
+    \label{fig:mc-dropout}
+\end{figure}
+
+
+
+\subsection{Summary}
+Both iterative uncertainty methods, deep ensembles and MC-dropout, generates multiple predictions and employ their mean and spread as uncertainty scores, with their scheme illustrated in Fig. \ref{fig:iter_summary}. We covered three approaches, deep ensemble, BNN which approximates deep ensemble, and finally MC-dropout which approximates BNN. The pros and cons of the methods are exemplified below:
+
+
+\begin{itemize}
+    \item \textbf{Pros:} Accurate (measured by predictive) uncertainty scores
+    \item \textbf{Cons:} High computation and latency cost
+\end{itemize}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/lecture27/iterative_sampling_summary.png}
+    \caption{Summary of Iterative Uncertainty Methods}
+    \label{fig:iter_summary}
+\end{figure}
+To calculate the uncertainty, we can first formulate the total uncertainty as the sum of aleatoric and epistemic uncertainty. It's possible to directly calculate the total and aleatoric (we can quantify aleatoric uncertainty, but can't perform reduction) uncertainty with the equation  shown bellow. 
+$$U_{epistemic} + U_{aleatoric} = U_{total}$$
+$$U_{epistemic} = U_{total} - U_{aleatoric} = H(\frac{1}{T} \Sigma_{t=1}^{T} Softmax(f_{\hat{W_t}} (\boldsymbol{x})) - \frac{1}{T} \Sigma_{t=1}^{T} H(Softmax(f_{\hat{W_t}}(\boldsymbol{x})))$$
+Here, aleatoric uncertainty is the mean of entropy (e.g. Shannon entropy $(plog(p))$) of each logit and total uncertainty is the entropy of the mean of each logit. 
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.8\linewidth]{img/lecture27/uncertainty-summary.jpg}
+    \caption{Visualization between confident, high aleatoric uncertainty, and high epistemic uncertainty.}
+    \label{fig:enter-label}
+\end{figure}
+The visualization of different types of uncertainty in Fig~\ref{fig:enter-label} follows the visualization scheme from Lecture 25 (Active Learning). The triangle vertices indicate three different classification labels, whereas the edges represent the posterior probability of each class. The main difference is that in Fig~\ref{fig:enter-label}, each dot represents different neural network \textit{models} for a \textit{same} data point, rather than different data points from a same model. 
+\begin{itemize}
+    \item When uncertainty is low and the model is \textit{confident}, dots are packed into one vertex. 
+    \item \textit{High aleatoric uncertainty} shows models' indecisiveness among the three labels, leading to similar posterior probability for all classes. In this case, all models agree they don't know a correct answer. Since the uncertainty originates from the data itself, it is impossible to be improved, even with more powerful computational resources or with better models.
+    \item \textit{High epistemic uncertainty} showcases different models giving different predictions scattered over the space.
+    
+\end{itemize}
+
+\noindent One thing to note is that aleatoric and epistemic uncertainty represent different ideas, so we cannot infer aleatoric from epistemic and vice versa.
+
+
+\subsection{Application: Uncertainty Quantification in Segmentation Applications }
+
+A real-life example of the application of uncertainty quantification is illustrated with a image segmentation problem. The ground truth and prediction along with visualized aleatoric and epistemic uncertainty is shown in Fig.\ref{fig:iterative_application}. Following the characteristics of aleatoric uncertainty, boundaries between different segmentation classes are prone to higher uncertainty due to inherent noise. In contrast, epistemic uncertainty is linked to insufficient model knowledge, which fits the epistemic maps with high uncertainty in certain local regions rather than inter-class boundaries.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{img/lecture27/uncertainty_application_segmentation.png}
+    \caption{Uncertainty Quantification in Segmentation Applications}
+    \label{fig:iterative_application}
+\end{figure}
+
+\section{Single Pass Uncertainty Estimation}
+\subsection{Difficulty-based Methods }
+
+Iterative uncertainty estimation has its limitations with computationally expensive processes, and challenges in practical usage due to the need to run multiple passes to know how to update the model. Addressing this issue, a deterministic single pass uncertainty estimation is designed on additional assumptions for practical utilization of uncertainty estimation. This is very similar to active learning from Lecture 25 (in reality, it is a precursor to active learning). As a quick recap, active learning aims to optimally select samples to label and use for training. The main objective is to develop a method to select the best samples that can construct a well-performing neural network model. This is enabled by designing an appropriate acquisition function, generally split into two classes of methods: difficulty-based active learning and diversity-based active learning. Difficulty-based method selects the most \textit{difficult} samples with higher uncertainty, usually from cluster edges. On the other hand, diversity-based methods chooses the most \textit{representative} samples that populates the middle of clusters. 
+
+Single pass uncertainty estimation adopts the difficulty-based acquisition method with entropy, least confidence, and margin to estimate uncertainty. One issue is that difficulty-based scores are less effective when exposed to outlier samples, leading to \textit{uncalibrated} models. The general single pass paradigm is shown in Fig. \ref{fig:paradigm_single_pass} with the cause of the calibration issue shown. The notations of Fig.\ref{fig:paradigm_single_pass} is listed:
+
+
+\begin{itemize}
+    \item $\boldsymbol{U^*}(x) $: uncertainty estimation of test point $x$ drawn from the input space.
+    \item $f_W(x)$: latent representations of test point $x$.
+    \item $U(f_W(x))$: uncertainty estimation from output space.
+\end{itemize}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{img/lecture27/paradigm_of_single_pass.png}
+    \caption{Typical Paradigm of Single Pass Uncertainty}
+    \label{fig:paradigm_single_pass}
+\end{figure}
+In a single pass paradigm, the larger the distance, the more uncertain the model is about the data. Here, the calibration issue arises from the fact that we have to consider the data in latent space rather than input space. Specifically, the marked yellow datapoint sampled based on `difficulty' can be easily identified as a `yellow class' in input space, but becomes indistinguishable between green and yellow in latent space without a given ground truth. 
+\subsection{Distance-preservation Methods (Optional)}
+
+In order to address this issue, distance-aware models were introduced. The basic premise of this method is to preserve distance between uncertainty estimation to avoid ambiguity in latent space. Bi-Lipschitz constraint, shown below, is used for data preservation with consideration to avoid sensitivity (left) and smoothness (right). This is due to the fact that sensitivity and smoothness are not necessarily intended in DNNs and may hinder generalization. Ideally, distance preservation is achieved through avoiding feature collapse of uncertainty information.
+
+$$L_1||\boldsymbol{x} - \boldsymbol{x^{'}}||_X \leq ||f_W(x) - f_W(x^{'})||_H \leq L_2 ||\boldsymbol{x} - \boldsymbol{x^{'}}||_X $$
+
+\section{Performance Metrics}
+Performance metrics aren't straightforward in uncertainity estimation. It is not one fits all, the optimal metric depends on the application. Since uncertainty is a concept, it doesn't have distinct definitions for classification and regression, both groups have uncertainty. Similarly to how classification and regression has different metrics, uncertainty also requires application-specific metrics rather than an encompassing metric. Overall, the fact that it's a concept and the different categories of measuring performance is similar to explainability of neural network models. 
+
+Uncertainty estimation performance metrics is still an active area of research. Currently we can divide into 3 classifications: per-sample, per-dataset, and appplications.
+\begin{itemize}
+    \item Per-sample: Negative log-likelihood (NLL) and Brier Score
+    \item Per-dataset: Misprediction Detection
+    \item Applications: Active Learning, Open-set Recognition etc.
+\end{itemize}
+
+\subsection{Per-sample Uncertainty   }
+NLL and Brier Score quantify the uncertainty of prediction, when the true prediction is known. Loss functions during test time can be used to quantify uncertainty. One caveat is that the true prediction must be given, which is not always the case. NLL and Brier Score are explained in detail:
+\begin{itemize}
+    \item \textbf{NLL}: Shows how likely a prediction is based on the evidence (data) conditioned on the learned parameters
+    \begin{itemize}
+        \item Lower the NLL, lower the uncertainty
+        \item Derived from a Bayesian definition of probability
+        \item Typically works well for regression problems, but has since been adopted to deep neural networks with mixed results
+        \item Measures the `spread' of the distribution
+    \end{itemize}
+    \item \textbf{Brier score}: MSE between prediction and ground truth
+    \begin{itemize}
+        \item MSE is generally the `hardest' empirical loss function
+        \item Brier score measures how far away the prediction is from the ground truth
+        \item  Higher the brier score, more the uncertainty 
+    \end{itemize}
+\end{itemize}
+
+\subsection{Per-dataset Uncertainty: Misprediction Detection}
+Per-dataset uncertainty utilizes the entire dataset rather than a single datapoint. Thus, it is possible to get values such as area under the curve (AUC). One example can be illustrated with the ImageNet dataset with 50,000 validation set images with the following steps:
+
+\begin{itemize}
+    \item[1.] Run inference on all 50,000 images and obtain GradTrust along with comparison trust scores
+    \begin{itemize}
+        \item We compare against 8 other methods
+    \end{itemize}
+    \item[2.] For each uncertainty, order images in ascending order
+    \item[3.] For a given $x$ percentile, calculate the Accuracy and F1 scores of all images above that percentile
+    \item[4.] Plot Area Under Accuracy Curve (AUAC) and Area Under F1 Curve (AUFC)
+    \item[5.] Repeat for multiple networks
+\end{itemize}
+
+\noindent The AUAC and AUFC is shown in Fig. \ref{fig:gradtrust}. As expected, we can observe the higher the uncertainty, the lower the accuracy or F1 score. Here larger AUC values are optimal since it can achieve high accuracy or F1 score even with high uncertainty.
+\begin{figure}
+    \centering
+    \includegraphics[width=1\linewidth]{img/lecture27/gradtrust.png}
+    \caption{Per-dataset Uncertainty with ImageNet}
+    \label{fig:gradtrust}
+\end{figure}
+\subsection{Applications}
+Many applications indirectly measure uncertainty. One example is active learning. Acquisition function is constructed as an ordered function of uncertainty quantification techniques. The performance metrics for difficulty-based sampling active learning indirectly measure the `goodness' of the acquisition function and hence uncertainty quantification. Other common applications that won't be covered in this course are: open-set recognition, uncertainty visualization, latent space reconstruction, and etc.
+
+
+\end{document}

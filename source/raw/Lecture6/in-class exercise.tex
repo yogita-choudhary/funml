@@ -1,0 +1,113 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+\usepackage{float}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{In-Class Exercise (Canvas Quiz) --- 10 minutes}}\\[6pt]
+{\large \textbf{Lecture 6: Classification Performance Evaluation}}
+\end{center}
+
+\vspace{8pt}
+
+% We evaluate a binary classifier using the confusion matrix entries:
+% \[
+% \text{TP, FP, FN, TN}
+% \]
+% and the metrics:
+% \[
+% \text{Accuracy}=\frac{TP+TN}{TP+TN+FP+FN}
+% \]
+% \[
+% \text{Precision}=\frac{TP}{TP+FP},
+% \qquad
+% \text{Recall}=\frac{TP}{TP+FN}
+% \]
+% \[
+% F1 = 2\cdot\frac{\text{Precision}\cdot\text{Recall}}{\text{Precision}+\text{Recall}}
+% \]
+
+% \vspace{8pt}
+% \noindent
+% \textbf{Given:} Confusion matrix for a classifier (rows = Actual, columns = Predicted):
+% \[
+% \begin{bmatrix}
+% TP & FN\\
+% FP & TN
+% \end{bmatrix}
+% =
+% \begin{bmatrix}
+% 36 & 9\\
+% 6 & 49
+% \end{bmatrix}
+% \]
+% So:
+% \[
+% TP=36,\;\; FN=9,\;\; FP=6,\;\; TN=49
+% \]
+
+% \vspace{8pt}
+% \noindent
+% \textbf{Tasks:}
+% \begin{enumerate}[label=(\arabic*), itemsep=7pt]
+% \item Compute Accuracy.
+% \item Compute Precision.
+% \item Compute Recall.
+% \item Compute the F1 score.
+% \item Suppose the classifier threshold is increased, causing:
+% \[
+% FP \text{ decreases but } FN \text{ increases.}
+% \]
+% Which metric typically increases: Precision or Recall? (Answer: Precision or Recall or Both)
+% \end{enumerate}
+
+% \vspace{6pt}
+% \noindent
+% \textbf{Round all numerical answers to 2 decimals.}
+
+
+\noindent \textbf{Question 1} 
+
+\noindent A dataset has \textbf{95\% class 0, 5\% class 1}. 
+
+\noindent A classifier predicts \textbf{all samples as class 0}.
+
+\noindent Which of these statements is true?
+
+(A) Accuracy is high and the model is good. 
+
+(B) Recall for class 1 is high.
+
+(C) Precision for class 1 is undefined (or indeterminate $\frac{0}{0}$).
+
+(D) The classifier has learned meaningful decision boundaries. \\
+
+\noindent \textbf{Question 2} 
+
+\noindent When training with \textbf{class-weighted loss}, increasing the weight of the minority class will:
+
+(A) Reduce gradients from minority samples
+
+(B) Increase gradients from minority samples
+
+(C) Leave gradients unchanged
+
+(D) Only affect evaluation metrics \\
+
+\noindent \textbf{Question 3} 
+
+\noindent Lowering the classification threshold for the positive class generally:
+
+(A) Increases precision, decreases recall
+
+(B) Increases recall, decreases precision
+
+(C) Increases both precision and recall
+
+(D) Has no effect
+
+
+\end{document}

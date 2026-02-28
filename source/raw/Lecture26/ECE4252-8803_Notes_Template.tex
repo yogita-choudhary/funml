@@ -1,0 +1,500 @@
+%% Adapted from GaTech CS 7545 Machine Learning Theory given by Prof. Jacob Abernathy Fall 2018. Original latex file: https://github.com/mltheory/CS7545/blob/master/scribe/CS7545scribe_template.tex 
+
+
+
+%%%%%PLEASE CONSIDER CORRECTIONS AT PLACES INDICATED%%%%%%%%
+\documentclass{article}
+\usepackage{float}
+%%%%%Packages Used, add more if necessary%%%%
+\usepackage{amsmath,amsfonts,amssymb,graphicx,fullpage,float}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\usepackage{mdframed}
+\usepackage{multicol}
+\usepackage{microtype, hyperref}
+
+
+%%%%% NO NEED TO EDIT THIS PREAMBLE %%%%%%%%
+%%% PREAMBLE %%%
+\newcounter{lecnum}
+\renewcommand{\thepage}{\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+\newcommand{\lecture}[4]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+      
+      \hbox to 6.28in { 
+      {\bf ECE 4252/6252 (FunML) Fundamentals of Machine Learning \hfill 2021--2028} }
+      
+      \vspace{2mm}
+      \hbox to 6.28in { 
+      {Courses developed by Professor Ghassan AlRegib 
+      (\href{https://alregib.ece.gatech.edu/}{alregib.ece.gatech.edu}) 
+      \hfill For inquiries: \href{mailto:alregib@gatech.edu}{alregib@gatech.edu}} }
+      
+      \vspace{3mm}
+      \hbox to 6.28in { {\Large \hfill Lecture #1: #2 \hfill} }
+      
+      \vspace{2mm}
+      \hbox to 6.28in { {\it Co-Instructors: #3 \hfill #4} }
+      
+      \vspace{2mm}}
+   }
+   \end{center}
+
+   % -------- PEOPLE OUTSIDE BOX --------
+   \vspace{2mm}
+   \noindent{\bf Contributors:} Dr. Ahmad Mustafa, Dr. Motaz Alfarraj, Dr. Ashraf Alattar, Dr. Chen Zhou
+
+   \vspace{1mm}
+   \noindent{\bf Teaching Assistants} with remarkable contributions include: Kuo-Wei Lai, Wuyang Du, Shiva Mahato, Michael Zhou, Ninghan Zhong
+
+   \markboth{Lecture #1: #2}{Lecture #1: #2}
+
+   \vspace{2mm}
+\noindent {\bf Disclaimer}: 
+{All content of these notes are part of this course at Georgia Tech. Any re-use or distribution is not permitted without pre-approved permission. All these notes belong to, created by, and copyrighted for Ghassan AlRegib and Mohit Prabhushankar, Georgia Tech, 2021--2028.}
+
+\vspace{2mm}
+\noindent {\bf License}: 
+{These lecture notes are licensed under the 
+\href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License}.}
+
+   \vspace{2mm}
+   \noindent {\bf Errata}: 
+   {\it Please submit any errata you find using the following form: 
+   \href{https://forms.office.com/r/fbg9dMWPgY}{Errata Form for FunML Textbook} 
+   or visit: \url{https://forms.office.com/r/fbg9dMWPgY}}
+
+   \vspace*{4mm}
+}
+\renewcommand{\cite}[1]{[#1]}
+\def\beginrefs{\begin{list}
+        {[\arabic{equation}]}{\usecounter{equation}
+         \setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}%
+         \setlength{\labelwidth}{1.6truecm}}}
+\def\endrefs{\end{list}}
+\def\bibentry#1{\item[\hbox{[#1]}]}
+
+\newcommand{\challenge}[2]{\noindent \textbf{(Challenge Problem)} \emph{#1}: #2 }
+
+\newcommand{\exercise}[1]{\noindent \textbf{(Exercise)} #1 }
+
+\newcommand{\fig}[3]{
+			\vspace{#2}
+			\begin{center}
+			Figure \thelecnum.#1:~#3
+			\end{center}
+	}
+%%% END_OF_PREAMBLE %%%
+
+
+	
+%%%%You may add more \newtheorem if necessary%%%%%%
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+
+
+\newcommand{\dom}{\mathrm{dom}}
+\begin{document}
+
+%%%%%CHANGE HERE%%%%%%%
+%%%%%\section{title of the section} similarly with the rest \section{} or \subsection{} or \subsubsection{} etc
+
+
+%%%%%CHANGE HERE%%%%%%%%%
+%%%%%\lecture{the ordinal number of the lecture}{lecture title}{Jacob Abernethy}{scriber's name}%%%%%%%%
+\lecture{26}{Self-supervised Learning}{Ghassan AlRegib and Mohit Prabhushankar}{}
+
+%%%%%CHANGE HERE%%%%%%%
+%%%%%\section{title of the section} similarly with the rest \section{} or \subsection{} or \subsubsection{} etc
+
+\section{Recap of Superviesd Learning}
+
+Supervised learning relies on labeled data to train models. It faces several challenges, leading to the exploration of alternative learning paradigms such as unsupervised and self-supervised learning.
+
+\begin{itemize}
+    \subsection*{Supervised Learning Challenges}
+    \item High cost and time required for labeling large datasets.
+    \item Dependence on trained experts for specialized labeling tasks (e.g., medical or seismic data).
+    \item Data privacy regulations and restrictions, such as HIPAA, that limit access to labeled data.
+    \item Unreleased datasets and limited availability of high-quality labeled data.
+\end{itemize}
+
+\section{Comparison of Data Requirements and Structures Summary (supervised, unsupervised, Self-supervised):} 
+
+\begin{figure}[H]
+    \renewcommand{\thefigure}{}
+    \centering
+    \includegraphics[width=0.5\textwidth]{img/lecture26/S US SSL.png}
+    \label{fig:comparison}
+\end{figure}
+
+\subsection*{Supervised Learning}
+\begin{itemize}
+    \item Requires labeled datasets \((x, y)\), where \(x\) represents input data and \(y\) represents ground-truth labels.
+    \item The model directly learns a mapping \(f(x) \rightarrow y\) to minimize the loss function \(L\).
+\end{itemize}
+
+\subsection*{Unsupervised Learning}
+\begin{itemize}
+    \item Requires only unlabeled data \(x\).
+    \item The model \(f\) learns the internal structure or distribution of the data and maps the input \(x\) to a reconstructed output \(\hat{x}\): \(f(x) \to \hat{x}\).
+    \item The loss \(L(\hat{x}, x)\) is computed based on reconstruction error or other objectives, guiding the model to better represent the characteristics of the data.
+\end{itemize}
+
+\subsection*{Self-Supervised Learning}
+\begin{itemize}
+    \item Relies data \(x\) and on partially labeled data \(y\), and introduces \textit{pre-text tasks} to generate pseudo-labels \(z\).
+    \item The model first learns a pre-text representation using pseudo-labels and then adapts the learned features for downstream tasks with limited data \(y\) (e.g., classification).
+    \item The "Pre-text Tasks" are what unique for Self-Supervised Learning than Unsupervised Learning
+\end{itemize}
+
+\section{Self-Supervised Learning (SSL) Structure}
+
+Self-supervised learning (SSL) utilizes both labeled and unlabeled data to generate pseudo-labels and learn representations through pre-text tasks. Its structure can be summarized in three key steps:
+
+\subsection*{Generate Pseudo-Labels}
+
+\begin{figure}[H]
+    \renewcommand{\thefigure}{}
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/lecture26/gen pseudo lab.png}
+    \label{fig:comparison}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Input:}
+    \begin{itemize}
+        \item Unlabeled data \((x_1, \dots, x_N)\).
+        \item Optionally, a small amount of labeled data \((x_1, \dots, x_M), (y_1, \dots, y_M)\).
+    \end{itemize}
+    \item \textbf{Process:}
+    \begin{itemize}
+        \item Use a pre-text task \(P\) (e.g., rotation prediction, contrastive learning) to generate pseudo-labels \((z_1, \dots, z_N)\) for the unlabeled data.
+    \end{itemize}
+    \item \textbf{Output:}
+    \begin{itemize}
+        \item Pseudo-labeled data: \((x_1, \dots, x_N), (z_1, \dots, z_N)\).
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Pre-Training on Pseudo-Labels}
+
+\begin{figure}[H]
+    \renewcommand{\thefigure}{}
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/lecture26/pre train on pse.png}
+    \label{fig:comparison}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Input:}
+    \begin{itemize}
+        \item Pseudo-labeled data \((x_1, \dots, x_N), (z_1, \dots, z_N)\).
+    \end{itemize}
+    \item \textbf{Process:}
+    \begin{itemize}
+        \item Train a neural network \(h_\theta\) using the pseudo-labels.
+        \item Minimize the loss \(L(z, \hat{z})\), where \(z\) is the pseudo-label and \(\hat{z}\) is the model prediction.
+    \end{itemize}
+    \item \textbf{Output:}
+    \begin{itemize}
+        \item A pre-trained representation \(h_\theta\) capturing patterns in the unlabeled data.
+    \end{itemize}
+\end{itemize}
+
+\subsection*{Fine-Tuning for Downstream Tasks}
+
+\begin{figure}[H]
+    \renewcommand{\thefigure}{}
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/lecture26/utilize learn model.png}
+    \label{fig:comparison}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Input:}
+    \begin{itemize}
+        \item Pre-trained network \(h_{\theta^*}\).
+        \item Labeled data \((x_1, \dots, x_M), (y_1, \dots, y_M)\).
+    \end{itemize}
+    \item \textbf{Process:}
+    \begin{itemize}
+        \item Use \(h_{\theta^*}\) as a feature extractor or initialize the weights for fine-tuning.
+        \item Attach a task-specific head (e.g., \(g_\phi\) for classification) and train on the labeled data to minimize \(L(\hat{y}, y)\), where \(\hat{y}\) is the prediction and \(y\) is the ground-truth label.
+    \end{itemize}
+    \item \textbf{Output:}
+    \begin{itemize}
+        \item A fine-tuned model for the downstream task (original task like predicting the animal category).
+    \end{itemize}
+\end{itemize}
+
+\section{Different Pre-text Tasks in Self-Supervised Learning}
+
+Different pre-text tasks enable the model to first learn various features of the images beyond the primary task, such as rotation, masking, brightness, noise, etc., to prepare for downstream prediction tasks. Unlike unsupervised learning, this approach avoids blind feature extraction by leveraging targeted auxiliary tasks.
+
+
+\subsection{Transformation Prediction}
+
+\begin{figure}[H]
+    \renewcommand{\thefigure}{}
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/lecture26/tran.png}
+    \label{fig:comparison}
+\end{figure}
+
+\begin{itemize}
+    \item Pre-text task performs some transformation on data and tasks the model with trying to learn the nature of the transformation.
+    \item Example: Predict image rotation angles (e.g., 90°, 180°, 270°).
+\end{itemize}
+
+\subsection{Masked Prediction}
+
+\begin{figure}[H]
+    \renewcommand{\thefigure}{}
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/lecture26/mask.png}
+    \label{fig:comparison}
+\end{figure}
+
+\begin{itemize}
+    \item Pre-text task removes some part of the data, and the model is tasked with trying to predict what was removed.
+    \item Example: Mask a specific region in an image and predict the missing region using an encoder-decoder structure.
+\end{itemize}
+
+\subsection{Deep Clustering}
+
+\begin{figure}[H]
+    \renewcommand{\thefigure}{}
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/lecture26/cluster.png}
+    \label{fig:comparison}
+\end{figure}
+
+\begin{itemize}
+    \item Identify clusters of features and iteratively assign pseudo-labels to train the model.
+    \item Process:
+    \begin{itemize}
+        \item Extract features from unlabeled data.
+        \item Cluster the extracted features.
+        \item Use cluster assignments as pseudo-labels for supervised training.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Contrastive Learning}
+
+\begin{figure}[H]
+    \renewcommand{\thefigure}{}
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/lecture26/cont.png}
+    \label{fig:comparison}
+\end{figure}
+
+\begin{itemize}
+    \item Pre-text task identifies positive and negative pairs of data, and the model is tasked with learning similarities to discriminate between positive and negative pairs.
+    \item Process:
+    \begin{itemize}
+        \item Positive pairs: Different augmentations of the same data point.
+        \item Negative pairs: Augmentations from different data points.
+        \item Optimize a contrastive loss to maximize similarity within positive pairs and minimize it for negative pairs.
+        \item This Contrastive Learning is so important, and will be detailly talked about in following part.
+    \end{itemize}
+\end{itemize}
+
+\section{Contrastive Learning Frameworks}
+
+\subsection{SimCLR Framework}
+\begin{figure}[H]
+    \renewcommand{\thefigure}{}
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/lecture26/SimCLR_Framework.png}
+    \label{fig:comparison}
+\end{figure}
+SimCLR is a framework for contrastive learning that works by creating and learning from positive-negative pairs within batches. The process involves:
+\begin{enumerate}
+    \item \textbf{Image Augmentation}: Generate similar pairs from the initial batch by applying augmentations to each image.
+    \item \textbf{Encoding}: Pass both original and augmented images through an encoder to obtain lower-dimensional representations ($h_i$ and $h_j$).
+    \item \textbf{Projection}: Further compress these representations using a projection head to create embeddings ($z_i$ and $z_j$).
+    \item \textbf{Similarity Calculation}: Compute cosine similarity between the generated embeddings.
+    \item \textbf{Loss Computation}: Calculate noise contrastive estimation loss for image pairs.
+    \item \textbf{Batch Processing}: Average the loss across all pairs in the batch.
+\end{enumerate}
+
+\subsection{Performance Comparison: Contrastive vs. Supervised Learning}
+\begin{figure}[H]
+    \renewcommand{\thefigure}{}
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/lecture26/performance_comparison.png}
+    \label{fig:comparison}
+\end{figure}
+\begin{itemize}
+    \item Recent developments show that contrastive learning algorithms like SimCLR have, in some cases, surpassed supervised learning performance.
+    \item Self-supervision at scale has become increasingly important.
+    \item \textbf{Modern Approach}: Utilize self-supervision for feature understanding, followed by supervised learning.
+    \item Large language models typically follow this pattern: initial self-supervised training followed by supervised fine-tuning.
+\end{itemize}
+
+\section{Variations in Contrastive Learning Methods and Applications}
+
+\subsection{Core Concept}
+The main differentiating factor between various contrastive learning methods is how they generate positive and negative pairs. Several creative approaches have emerged for constructing these pairs based on different contexts and requirements.
+
+\subsection{Example Applications}
+\begin{enumerate}
+    \item \textbf{Fisheye Images}
+    \begin{itemize}
+        \item \textbf{Approach}: Treats regions within fisheye images as distinct classes.
+        \begin{figure}[H]
+    \renewcommand{\thefigure}{}
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/lecture26/fisheye_region.png}
+    \label{fig:comparison}
+\end{figure}
+        \item \textbf{Loss Components}:
+        \begin{itemize}
+            \item $L_{\text{class}}$: Objects of the same class are positives regardless of position.
+            \item $L_{\text{region class}}$: Objects in the same region are positives regardless of class.
+        \end{itemize}
+        \item \textbf{Combined Loss}: $\alpha L_{\text{class}} + (1-\alpha) L_{\text{region class}}$
+        \item \textbf{Alternative Partitioning Methods}:
+        \begin{itemize}
+            \item Square-based divisions
+            \item Radial partitioning
+            \item Grid-wise (9-class) segmentation
+        \end{itemize}
+        \begin{figure}[H]
+    \renewcommand{\thefigure}{}
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/lecture26/fisheye_alternative.png}
+    \label{fig:comparison}
+\end{figure}
+    \end{itemize}
+
+    \item \textbf{Seismic Images}
+    \begin{figure}[H]
+    \renewcommand{\thefigure}{}
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/lecture26/seismic.png}
+    \label{fig:comparison}
+\end{figure}
+    \begin{itemize}
+        \item \textbf{Pre-text Task}: Volume label classification.
+        \item \textbf{Process}:
+        \begin{enumerate}
+            \item Partition the full seismic volume (generally $100 \text{ km} \times 100 \text{ km} \times 25$ km).
+            \item Divide into $N$ equal sub-volumes.
+            \item Assign volume labels to slice groups.
+        \end{enumerate}
+    \end{itemize}
+
+    \item \textbf{Medical Images}
+    \begin{figure}[H]
+    \renewcommand{\thefigure}{}
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/lecture26/medical.png}
+    \label{fig:comparison}
+\end{figure}
+    \begin{itemize}
+        \item \textbf{Pre-text Task}: Classification based on patient ID or clinical labels.
+        \item \textbf{Positive-Negative Pairs}: Determined by patient identity or clinical characteristics.
+    \end{itemize}
+\end{enumerate}
+
+\subsection{Contrastive Learning in Other Modalities}
+\begin{itemize}
+    \item Beyond computer vision, contrastive learning has been successfully applied to:
+    \begin{itemize}
+        \item Textual models (e.g., NLP)
+        \item Audio processing models
+    \end{itemize}
+    \begin{figure}[H]
+    \renewcommand{\thefigure}{}
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/lecture26/other_modalities.png}
+    \label{fig:comparison}
+\end{figure}
+    \item This demonstrates the versatility of contrastive learning across different data types and applications.
+\end{itemize}
+
+\section{Foundation Models}
+
+\subsection{Recent Developments}
+\begin{itemize}
+    \item \textbf{Segment Anything Model (SAM)}:
+    \begin{figure}[H]
+    \renewcommand{\thefigure}{}
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/lecture26/sam.png}
+    \label{fig:comparison}
+\end{figure}
+    \begin{itemize}
+        \item Released by Meta (April 2023).
+        \item Trained on 1.1 billion segmentation masks from 11 million images.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Historical Evolution}
+\begin{itemize}
+    \item \textbf{Pre-2019}:
+    \begin{itemize}
+        \item Primary architectures: ResNets, VGG.
+    \end{itemize}
+    \item \textbf{Post-2019}:
+    \begin{itemize}
+        \item New architectures: BERT, DALL-E, GPT, Flamingo.
+        \item Key changes: Introduction of transformer architectures and self-supervision.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Applications and Impact}
+\begin{figure}[H]
+    \renewcommand{\thefigure}{}
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/lecture26/foundation_model.png}
+    \label{fig:comparison}
+\end{figure}
+\begin{itemize}
+    \item Foundation models leverage transfer learning at scale.
+    \item Scale enables emergence of common properties across tasks.
+    \item \textbf{Potential Applications}:
+    \begin{itemize}
+        \item Healthcare
+        \item Embodied interactive perception
+        \item Visual knowledge distillation
+        \item Temporal and commonsense reasoning
+    \end{itemize}
+\end{itemize}
+
+\section{Key Insights and Conclusions}
+
+\subsection{Pseudo-Label Generation}
+\begin{itemize}
+    \item Relies heavily on creativity.
+    \item Must maintain a relationship with original labels.
+    \item Feature extraction between pseudo and original labels should yield similar or related features.
+\end{itemize}
+
+\subsection{Future Directions}
+\begin{itemize}
+    \item Self-supervision at scale has become a crucial component in modern AI systems.
+    \item Continued evolution of foundation models and their applications.
+\end{itemize}
+
+\end{document}

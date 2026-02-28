@@ -1,0 +1,860 @@
+%% Adapted from GaTech CS 7545 Machine Learning Theory given by Prof. Jacob Abernathy Fall 2018. Original latex file: https://github.com/mltheory/CS7545/blob/master/scribe/CS7545scribe_template.tex 
+
+
+
+%%%%%PLEASE CONSIDER CORRECTIONS AT PLACES INDICATED%%%%%%%%
+\documentclass{article}
+%%%%%Packages Used, add more if necessary%%%%
+\usepackage{amsmath,amsfonts,amssymb,graphicx,fullpage, float}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\usepackage{mdframed}
+\usepackage{multicol}
+\usepackage{microtype}
+\usepackage{mdframed}
+\usepackage{multicol}
+\usepackage{microtype}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{float, hyperref} 
+
+
+%%%%% NO NEED TO EDIT THIS PREAMBLE %%%%%%%%
+%%% PREAMBLE %%%
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+\newcommand{\lecture}[4]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+      
+      \hbox to 6.28in { 
+      {\bf ECE 4252/6252 (FunML) Fundamentals of Machine Learning \hfill 2021--2028} }
+      
+      \vspace{2mm}
+      \hbox to 6.28in { 
+      {Courses developed by Professor Ghassan AlRegib 
+      (\href{https://alregib.ece.gatech.edu/}{alregib.ece.gatech.edu}) 
+      \hfill For inquiries: \href{mailto:alregib@gatech.edu}{alregib@gatech.edu}} }
+      
+      \vspace{3mm}
+      \hbox to 6.28in { {\Large \hfill Lecture #1: #2 \hfill} }
+      
+      \vspace{2mm}
+      \hbox to 6.28in { {\it Co-Instructors: #3 \hfill #4} }
+      
+      \vspace{2mm}}
+   }
+   \end{center}
+
+   % -------- PEOPLE OUTSIDE BOX --------
+   \vspace{2mm}
+   \noindent{\bf Contributors:} Dr. Ahmad Mustafa, Dr. Motaz Alfarraj, Dr. Ashraf Alattar, Dr. Chen Zhou
+
+   \vspace{1mm}
+   \noindent{\bf Teaching Assistants} with remarkable contributions include: Kuo-Wei Lai, Wuyang Du, Shiva Mahato, Michael Zhou, Ninghan Zhong
+
+   \markboth{Lecture #1: #2}{Lecture #1: #2}
+
+   \vspace{2mm}
+\noindent {\bf Disclaimer}: 
+{All content of these notes are part of this course at Georgia Tech. Any re-use or distribution is not permitted without pre-approved permission. All these notes belong to, created by, and copyrighted for Ghassan AlRegib and Mohit Prabhushankar, Georgia Tech, 2021--2028.}
+
+\vspace{2mm}
+\noindent {\bf License}: 
+{These lecture notes are licensed under the 
+\href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License}.}
+
+   \vspace{2mm}
+   \noindent {\bf Errata}: 
+   {\it Please submit any errata you find using the following form: 
+   \href{https://forms.office.com/r/fbg9dMWPgY}{Errata Form for FunML Textbook} 
+   or visit: \url{https://forms.office.com/r/fbg9dMWPgY}}
+
+   \vspace*{4mm}
+}
+\renewcommand{\cite}[1]{[#1]}
+\def\beginrefs{\begin{list}
+        {[\arabic{equation}]}{\usecounter{equation}
+         \setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}%
+         \setlength{\labelwidth}{1.6truecm}}}
+\def\endrefs{\end{list}}
+\def\bibentry#1{\item[\hbox{[#1]}]}
+
+\newcommand{\challenge}[2]{\noindent \textbf{(Challenge Problem)} \emph{#1}: #2 }
+
+\newcommand{\exercise}[1]{\noindent \textbf{(Exercise)} #1 }
+
+\newcommand{\fig}[3]{
+			\vspace{#2}
+			\begin{center}
+			Figure \thelecnum.#1:~#3
+			\end{center}
+	}
+%%% END_OF_PREAMBLE %%%
+
+
+	
+%%%%You may add more \newtheorem if necessary%%%%%%
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+
+
+\newcommand{\dom}{\mathrm{dom}}
+\begin{document}
+
+%%%%%CHANGE HERE%%%%%%%
+%%%%%\section{title of the section} similarly with the rest \section{} or \subsection{} or \subsubsection{} etc
+
+
+%%%%%CHANGE HERE%%%%%%%%%
+%%%%%\lecture{the ordinal number of the lecture}{lecture title}{Jacob Abernethy}{scriber's name}%%%%%%%%
+\lecture{22}{Explainability in Neural Networks}{Ghassan AlRegib and Mohit Prabhushankar}{}
+
+%%%%%CHANGE HERE%%%%%%%
+%%%%%\section{title of the section} similarly with the rest \section{} or \subsection{} or \subsubsection{} etc
+
+\section{Lecture Objectives}
+
+The objective of this lecture is to explore the concept of explainability in machine learning and its application to neural networks. They cover key methods and paradigms such as Grad-CAM, saliency maps, and counterfactual explanations, as well as the evaluation of these techniques through human-centered and application-based approaches. The lectures aim to provide a comprehensive understanding of how explainability enhances trust, transparency, and usability in machine learning models across various real-world domains.
+
+\section{Recap} 
+%%%%%Use itemize to layout bullet points that are not numbered%%%%%
+
+In the previous lecture, we dived into explainability in machine learning, particularly within neural networks, covering methods like Grad-CAM and saliency maps, and evaluating these techniques through both human-centered and application-based approaches to enhance understanding and trust in ML models.
+
+
+
+
+\section{Explainability}
+
+\subsection{Definition}
+The ability of an entity to explain or justify its
+decisions or predictions in human-understandable
+terms
+\subsection{Why do we choose explainability}
+Explainability in deep learning systems is crucial for establishing trust by developing transparent models that can clearly explain their predictions to humans. It is particularly valuable in fields such as medicine, where it aids doctors in diagnosis; in seismic interpretation, helping label seismic data accurately; and in autonomous systems, where it builds trust and confidence by making the operations of complex algorithms understandable. These models process input data and output class scores without being able to articulate their decision-making process, which is why explainability is so important.
+
+\subsection{Explainability in CNNs}
+A brief look to AlexNet
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1.0\linewidth]{img/lecture22/01.png}
+    \caption{Different layers in a CNN}
+    \label{fig:Architecture of AlexNet}
+\end{figure}
+
+AlexNet contains eight layers:
+
+
+\begin{itemize}
+    \item Input: 227×227×3 input images (224×224×3 sizes is mentioned in the paper and also in the figure, however, it is later pointed out that it should be 227, or 224×224×3 is padded during the 1st convolution.)
+    \item 1st: Convolutional Layer: 2 groups of 48 kernels, size 11×11×3 (stride: 4, pad: 0)
+outputs 55×55 ×48 feature maps ×2 groups.
+Then 3×3 Overlapping Max Pooling (stride: 2)
+outputs 27×27 ×48 feature maps ×2 groups.
+Then Local Response Normalization
+outputs 27×27 ×48 feature maps ×2 groups.
+    \item 2nd: Convolutional Layer: 2 groups of 128 kernels of size 5×5×48
+(stride: 1, pad: 2)
+outputs 27×27 ×128 feature maps ×2 groups.
+Then 3×3 Overlapping Max Pooling (stride: 2)
+outputs 13×13 ×128 feature maps ×2 groups.
+Then Local Response Normalization
+outputs 13×13 ×128 feature maps ×2 groups.
+    \item 3rd: Convolutional Layer: 2 groups of 192 kernels of size 3×3×256
+(stride: 1, pad: 1)
+Outputs 13×13 ×192 feature maps ×2 groups
+    \item 4th: Convolutional Layer: 2 groups of 192 kernels of size 3×3×192
+(stride: 1, pad: 1)
+Outputs 13×13 ×192 feature maps ×2 groups
+    \item 5th: Convolutional Layer: 256 kernels of size 3×3×192
+(stride: 1, pad: 1)
+Outputs 13×13 ×128 feature maps ×2 groups
+Then 3×3 Overlapping Max Pooling (stride: 2)
+Outputs 6×6 ×128 feature maps ×2 groups
+    \item 6th: Fully Connected (Dense) Layer of
+4096 neurons
+    \item 7th: Fully Connected (Dense) Layer of
+4096 neurons
+    \item 8th: Fully Connected (Dense) Layer of
+Outputs 1000 neurons (since there are 1000 classes)
+Softmax is used for calculating the loss.
+
+In total, there are 60 million parameters need to be trained !!!
+
+\section{Visualizing CNNs}
+In CNNs, filters can be equated to weights. These filters are responsible for capturing specific features from the input images, and filters always extend the full depth of
+the input volume. Each filter in the first layer is visualized as being capable of detecting low-level features such as oriented edges, color blobs, textures, and other background elements in the input image.
+\subsection{Visualizing Filters in First Layers}
+\subsubsection{AlexNet}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1.0\linewidth]{img/lecture22/AlexNet.png}
+    \caption{The sequence of convolutional layers of AlexNet}
+    \label{fig:The sequence of convolutional layers of AlexNet}
+\end{figure}
+\begin{itemize}
+    \item 64 filters in the first convolutional layer
+    \item Filter size: 11 x 11 x 3 (visualize as RGB images)
+    \item Filters are looking for low-level oriented edges, color blobs, textures, background etc.
+\end{itemize}
+\subsubsection{ResNet}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1.0\linewidth]{img/lecture22/ResNet.png}
+    \caption{The sequence of convolutional layers of ResNet}
+    \label{fig:The sequence of convolutional layers of ResNet}
+\end{figure}
+\begin{itemize}
+    \item The deeper and more complex connectivity patterns such as identity shortcuts and convolutional blocks that help in training deeper networks without suffering from vanishing gradients
+    \item Filter size: 7 x 7 x 3 (visualize as RGB images)
+    \item 64 filters in the first convolutional layer
+\end{itemize}
+\subsubsection{Summary}
+• Filters in the first convolutional layers across different architectures
+learn similar patterns
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/lecture22/sum1.png}
+    \caption{Outputs of AlexNet and ResNet}
+    \label{fig:The Summary}
+\end{figure}
+\subsection{Visualizing Filters in Intermediate Layers}
+Filters in higher convolutional layers are not as interpretable as filters in the first layer. 
+\subsubsection{Layer-specific Details}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/lecture22/layers.png}
+    \caption{Layer-specific Outputs}
+    \label{fig:Layer-specific Outputs}
+\end{figure}
+\begin{itemize}
+    \item Initial layers (like Conv1) display interpretable weights visualized as RGB images, capturing basic features like edges and textures.
+    \item Higher layers (such as Conv2 and Conv3) have weights visualized as grayscale images, suggesting complexity and less interpretability in raw form.
+\end{itemize}
+\subsubsection{Activation Specificity in Conv5 Layer}
+
+\begin{itemize}
+    \item The fifth convolutional layer (Conv5) in networks like AlexNet is particularly sensitive to specific features such as wheels, illustrating how higher layers focus on more refined aspects of the input.
+    \item This sensitivity is shown through an activation map that highlights where in the image the filter is most activated, such as the wheel of a car in the example provided.
+    \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.6\linewidth]{img/lecture22/conv5.png}
+    \caption{Conv5 of AlexNet}
+    \label{fig:Conv5 of AlexNet}
+\end{figure}
+\end{itemize}
+
+
+\subsection{Maximally Activating Patches}
+Apart from visualizing the intermediate
+activations, we can also visualize what
+similar visual patterns in images that
+cause the maximum activations of certain
+neurons. It defined as image patches in the input that trigger the highest activations for specific filters within the network, revealing what features each filter is most responsive to.
+\subsubsection{Procedure for Obtaining Maximally Activating Patches}
+\begin{itemize}
+    \item Select activations from a specific layer and channel within that layer, such as picking channel 17 out of 128 in the conv5 layer.
+    \item Process numerous images through the network, recording activation values for the selected channel.
+    \item Visualize the image patches that correspond to these peak activations to identify which features activate the filter most strongly.
+\end{itemize}
+\subsubsection{Characteristics of Maximally Activating Patches}
+\begin{itemize}
+    \item These patches tend to display similar visual patterns or features that are consistently detected by the same neuron, illustrating the neuron's specific role and preference in feature recognition.
+    \item The images that we shown in class show that each row, corresponding to a particular neuron in conv5, groups patches with similar characteristics, such as faces, text, or specific object parts, indicating the diverse and specialized nature of higher layer neurons in CNNs.
+\end{itemize}
+\subsection{Visualizing Last Layer Activations}
+ The last layer activations of a CNN are 4096-dimensional feature vectors derived just before the final classifier. These embeddings represent the entire input image rather than specific patches and are crucial for understanding the high-level features the network deems significant for classification.
+ \subsubsection{Purpose of Last Layer Visualizations}
+ \begin{itemize}
+    \item {\texttt{Grouping by Similarity:}}:Images that produce similar last layer activations can be grouped together. This similarity suggests that the network perceives them as having common class-specific features, aiding in tasks like image retrieval or clustering based on content similarity.
+    \item {\texttt{Exploring Activations:}}: By analyzing the activations, we can see how different inputs activate the network similarly, indicating what features or patterns are considered similar by the CNN.
+\end{itemize}
+\subsubsection{Operational Methodology}
+ \begin{itemize}
+\item {\texttt{\textbf{Feeding and Collecting Data}:}}:Numerous images are fed through the network to collect these final layer feature vectors.
+\item {\texttt{\textbf{Visualization Approach}:}}: The visualization of these activations involves grouping and displaying images that have similar last layer embeddings, which demonstrates the network’s interpretive logic on a macro scale.
+\end{itemize}
+
+\subsection{Visualizing Last Layer Activations via Dimensionality Reduction}
+\subsubsection{Last Layer Embedding}
+The last layer embedding as a 4096-dimensional feature vector for each image, extracted just before the final classification layer in a CNN. This high-dimensional vector encapsulates the essential features identified by the network for making predictions.
+\subsubsection{Dimensionality Reduction for Visualization}
+\begin{itemize}
+    \item To make the high-dimensional data interpretable, dimensionality reduction techniques are employed. These include Principal Component Analysis (PCA), Isomap, Uniform Manifold Approximation and Projection (UMAP), and t-Distributed Stochastic Neighbor Embedding (t-SNE).
+    \item The purpose of these techniques is to reduce the dimensionality from 4096 to 2 or 3 dimensions, enabling the visualization of the feature space where each two-dimensional point corresponds to an image.
+\end{itemize}
+\subsubsection{Visualizing Feature Space}
+By applying dimensionality reduction, the feature vectors are transformed into a 2D or 3D space that can be visually explored.
+\subsubsection{Application Example with t-SNE}
+t-SNE, in particular, is highlighted for its effectiveness in preserving local relationships between data points while reducing dimensionality. This results in a clustered visualization where similar images form distinct groups, aiding in the intuitive understanding of the data’s structure and the model's behavior.
+    \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/lecture22/tsne ex.png}
+    \caption{t-SNE visualization of MNIST}
+    \label{fig:Exaample usage of TSNE}
+\end{figure}
+
+\subsection{Summary of Visualizing CNNs}
+\subsubsection{Maximally Activating Patches}
+These are portions of input images that activate certain filters the most. This visualization helps identify what features in the input images are most significant for the filters.
+\subsubsection{Nearest Neighbor Images in Feature Space}
+By examining images that are closest in the feature space of a neural network, we can understand how the network groups similar images based on learned features.
+\subsubsection{Last Layer Embeddings}
+Visualizing the output of the last layer of the network can demonstrate how different inputs are positioned relative to each other in the learned feature space, which is useful for tasks like image clustering and anomaly detection.
+
+\section{Saliency Methods}
+The saliency methods using occlusion aim to identify important regions in images that impact a model’s prediction by masking parts of the image and observing the change in output probabilities. It is also a very expensive approach, especially for high-resolution input images.
+\subsection{Saliency via Occlusion}
+\begin{itemize}
+    \item \textbf{Visualizing Decrease in Probabilities}: Heatmaps are generated to show how blocking certain pixels affects the prediction probabilities. For example, blocking key regions in an image of an elephant significantly reduces the model's confidence in predicting it as an elephant.
+    \item \textbf{Network Sensitivity}: The approach highlights the network's sensitivity to specific visual regions that are crucial for making accurate classifications. This indicates that the neural network is not only looking at the overall image but focusing on particular features relevant to the class label.
+    \item \textbf{Expensive Computation}: Creating these heatmaps is computationally expensive, particularly with high-resolution images, due to the large number of pixels that need to be individually tested to see their effect on the output.
+    \item \textbf{Faithfulness of the Method}: The method is considered faithful in how it represents the influence of different image regions on the decision-making process of the neural network. It provides a clear visual explanation of which parts of an image are most important for the network's predictions.
+    \item \textbf{Recall feature importance in logistic regression}:
+\[
+P(y = 1|x) = \sigma(\mathbf{w}^T x + b), P(y = 0|x) = 1 - \sigma(\mathbf{w}^T x + b)
+\]
+\textbf{Explanation:}
+\begin{itemize}
+    \item \(\sigma\): Sigmoid function, mapping the weighted input \(\mathbf{w}^T x + b \)\text{ to a probability.}
+    \item \(\mathbf{w}^T x\): \text{Represents the linear combination of features x,} \text{ weighted by their importance \(\mathbf{w}\).}
+    \item \(b\): \text{Bias term, adjusting the decision boundary.}
+\end{itemize}
+
+Each weight \(w_i\) represents the importance of feature \(x_i\), indicating how much \(x_i\) contributes to the prediction.
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/lecture22/wi.png}
+    \caption{Demonstration}
+    \label{fig:Demonstartion}
+\end{figure}
+
+\subsection{Saliency via Gradients}
+Generate pixel saliency maps by deep models as feature importance maps.
+\subsubsection{Non-linear Mapping Function: }
+\[
+\hat{y} = \phi \left( \cdots \phi \left( \phi \left( x \cdot w^{(1)} + b^{(1)} \right) \cdot w^{(2)} + b^{(2)} \right) \cdots \right)
+\]
+\textbf{Explanation:}
+\begin{itemize}
+    \item \(\phi\): Activation functions (e.g., ReLU or sigmoid), introducing non-linearity.
+    \item \(w^{(i)},b^{(i)}\): Weights and biases at layer iii, capturing layer-specific transformations.
+    \item This function models complex dependencies between inputs \(x\) and output \(\hat{y}\).
+\end{itemize}
+
+
+\subsubsection{Linearization Using Taylor Series:}
+\[ \hat{y} \approx x(W^T) + o(b(T)) \]
+\textbf{Explanation:}
+\begin{itemize}
+  \item Approximates the non-linear function with a linear model around a specific point using first-order derivatives.
+  \item \(\nabla_y \hat{y} \approx \frac{\partial \hat{y}}{\partial x}\): Gradients of the output with respect to the input, indicating sensitivity of the prediction to each input feature.
+  \item Gradients can be computed efficiently via backpropagation, making it feasible for high-dimensional inputs.
+\end{itemize}
+
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.4\linewidth]{img/lecture22/a.png}
+    \caption{Highly non-linear mapping function}
+    \label{Highly non-linear mapping function}
+\end{figure}
+
+\subsection{Saliency via Gradients (Illustration)}
+
+\begin{itemize}
+  \item Gradients highlight regions in the input image that most influence the prediction.
+  \item These saliency maps visually represent which pixels are critical for identifying the dog in the image.
+\end{itemize}
+
+\subsubsection{Forward Pass}
+\begin{itemize}
+  \item Compute probabilities for each class using the neural network.
+  \item Example: \( \hat{y} = \begin{bmatrix} 0.05 & 0.10 & 0.85 \end{bmatrix} \), \(\hat{y} = 0.85\) (Dog)
+  \item The class ``Dog" is selected as it has the highest probability.
+\end{itemize}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\linewidth]{img/lecture22/forward.png}
+    \caption{Forward Pass}
+    \label{fig:enter-label}
+\end{figure}
+
+\subsubsection{Backward Pass}
+\begin{itemize}
+  \item Compute the gradient of the unnormalized class score \(\hat{y}\) with respect to the image pixels: \( \frac{\partial \hat{y}}{\partial x} \)
+  \item Visualize the maximum absolute values of the gradient across RGB channels to create the saliency map.
+\end{itemize}
+
+\subsubsection{Saliency Map}
+\begin{itemize}
+  \item Highlights regions in the input image that strongly influence the class score, showing areas most critical for the network's decision.
+\end{itemize}
+
+
+\subsection{Saliency via Gradients (Examples)}
+
+\textbf{Visualization:}
+\begin{itemize}
+  \item Saliency maps are generated via backpropagation, highlighting important features for various input images (e.g., a boat, a dog, a fruit, or a landscape).
+\end{itemize}
+
+\subsection{Saliency Methods: Weakly-Supervised Segmentation}
+
+\textbf{Application:}
+\begin{itemize}
+  \item Saliency maps can be used to assist in unsupervised semantic segmentation.
+  \item Gradients with respect to pixels help identify meaningful regions in images.
+\end{itemize}
+
+\textbf{Visualization:}
+\begin{itemize}
+  \item Segmentations illustrate the network's focus on different objects within an image (e.g., animals, objects, or regions of interest).
+\end{itemize}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.8\textwidth]{img/lecture22/Picture3.png} 
+  \caption{Examples of weakly-supervised segmentation using saliency maps.}
+\end{figure}
+
+
+\subsection{Uncovering Biases}
+
+\textbf{Saliency maps can reveal biases in models.}
+\begin{itemize}
+  \item \textbf{Example:}
+  \begin{itemize}
+    \item When snow is present in most wolf images, the network uses snow pixels as salient regions for prediction.
+    \item A wolf vs. dog classifier may actually function as a snow vs. no-snow classifier.
+  \end{itemize}
+  \item \textbf{Visualization:}
+  \begin{itemize}
+    \item Image (a): Husky classified as a wolf.
+    \item Image (b): Saliency map showing snow pixels as influential features.
+  \end{itemize}
+\end{itemize}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.4\textwidth]{img/lecture22/wolf.png} 
+  \caption{Image (a): Husky classified as a wolf.}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.4\textwidth]{img/lecture22/salient.png} 
+  \caption{Image (b): Saliency map showing snow pixels as influential features.}
+\end{figure}
+
+\section{Gradient-Based Explanations}
+Gradient-based explanations provide insights into neural network decisions by identifying which parts of the input image are most influential for the output prediction. These explanations utilize gradients computed during the backpropagation process to generate saliency maps, which visually highlight critical regions of the input. While they are computationally efficient and help approximate feature importance, these methods may not always reflect the actual decision-making process of the model effectively. Additionally, they can sometimes lack class discriminativity, meaning they may not clearly distinguish between different classes based on the highlighted features.
+
+\subsection{Vanilla Backpropagation}
+Vanilla Backpropagation is used to generate saliency maps in neural networks. These maps can be noisy, which complicates the identification of critical regions that influence model predictions. To address this, it's common to modify or rectify the backpropagation process to produce clearer visualizations. Specifically, during the backward pass, gradients are computed only for regions of positive activations due to the use of ReLU non-linearities, which ignore negative values and propagate gradients only through positive activations. This selective propagation helps clarify which features are most relevant to the model’s decisions.
+
+\subsection{Deconvnet Backpropagation}
+
+
+
+  \subsubsection{For ReLU non-linearities:}
+Gradients are propagated only to regions of positive activations in the previous layer.
+
+    \subsubsection{Mathematical representation:}
+    \begin{itemize}
+      \item Forward pass: \( h^{l+1} = \max(0, h^l) \)
+      \item Backward pass: \( \Delta h^l = \mathbf{1}(h^l > 0) \cdot \Delta h^{l+1} \)
+      \item Gradients are zeroed out for negative activations.
+  \end{itemize}
+  
+\subsubsection{Illustration:}
+  \begin{itemize}
+    \item Gradients flow only to positive activation regions, refining the saliency maps.
+    \item Handles ReLU non-linearities differently by propagating only positive gradients.
+    \item This approach is equivalent to rectifying the gradients during backpropagation.
+  \end{itemize}
+  
+\subsubsection{Formula:}
+  \begin{itemize}
+    \item Gradient propagation for layer \( l \): \( \Delta h^l = \mathbf{1}(h^l > 0) \cdot \Delta h^{l+1} \)
+    \item Propagates only the positive gradient from the later layer.
+  \end{itemize}
+  
+\subsubsection{Visualization:}
+  \begin{itemize}
+    \item Produces cleaner saliency maps compared to vanilla backpropagation.
+  \end{itemize}
+\end{itemize}
+\end{itemize}
+
+\subsection{Forward and Backward Pass Details}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/lecture22/Details.png}
+    \caption{ReLU Activation Forward and Backward Pass Illustration}
+    \label{fig:ReLU Activation Forward and Backward Pass Illustration}
+\end{figure}
+
+
+\subsubsection{ReLU Non-linearities and Backpropagation}
+
+\begin{itemize}
+  \item Gradients are propagated only to regions of positive activations in the previous layer.
+  \item \textbf{Mathematical Representation:}
+  \begin{itemize}
+    \item \textbf{Forward pass:} $h^{l+1} = \max\{0, h^l\}$
+    \item \textbf{Backward pass:} $\frac{\partial L}{\partial h^l} = \mathbf{1}[h^l > 0] \cdot \frac{\partial L}{\partial h^{l+1}}$
+    \item Gradients are zeroed out for negative activations.
+  \end{itemize}
+  \item \textbf{Illustration:}
+  \begin{itemize}
+    \item Gradients flow only to positive activation regions, refining the saliency maps.
+  \end{itemize}
+\end{itemize}
+
+\subsubsection{Deconvnet Backpropagation}
+\begin{itemize}
+  \item Handles ReLU non-linearities differently by propagating only positive gradients.
+  \item This approach is equivalent to rectifying the gradients during backpropagation.
+  \item \textbf{Formula:}
+  \begin{itemize}
+    \item Gradient propagation for layer $l$: $\frac{\partial L}{\partial h^l} = \mathbf{1}\big[h^l > 0\big] \cdot \frac{\partial L}{\partial h^{l+1}}$
+    \item Propagates only the positive gradient from the later layer.
+  \end{itemize}
+  \item \textbf{Visualization:}
+  \begin{itemize}
+    \item Produces cleaner saliency maps compared to vanilla backpropagation.
+  \end{itemize}
+\end{itemize}
+
+
+\subsection{Guided Backpropagation}
+
+Guided Backpropagation combines positive gradient propagation with rectification by positive activations in earlier layers.
+
+\subsubsection{Formula}
+\begin{itemize}
+  \item \textbf{Forward pass:} $h^{l+1} = \max\{0, h^l\}$
+  \item \textbf{Backward pass:} 
+  \[
+  \frac{\partial L}{\partial h^l} = \mathbf{1}[h^l > 0] \cdot \mathbf{1}\left[\frac{\partial L}{\partial h^{l+1}} > 0\right] \cdot \frac{\partial L}{\partial h^{l+1}}
+  \]
+  \item This combines positive activations and gradients, resulting in better saliency visualizations.
+\end{itemize}
+
+\subsubsection{Visualization}
+\begin{itemize}
+  \item Produces even cleaner saliency maps compared to Deconvnet.
+\end{itemize}
+
+\subsection{Vanilla vs. Deconvnet vs. Guided Backpropagation}
+\begin{itemize}
+  \item \textbf{Observation:} Guided backpropagation produces the ``cleanest'' saliency maps.
+  \item \textbf{Comparison:}
+  \begin{itemize}
+    \item Backprop: Produces noisy saliency maps.
+    \item Deconvnet: Cleaner maps with positive gradient propagation.
+    \item Guided Backprop: Cleanest maps by combining rectifications from both forward and backward passes.
+  \end{itemize}
+\end{itemize}
+
+\subsection{Problems with Guided Backpropagation}
+\begin{enumerate}
+  \item \textbf{Issue 1: Not very class-discriminative.}
+  \begin{itemize}
+    \item \textbf{Example:}
+    \begin{itemize}
+      \item GB for ``airliner'': Saliency map includes features irrelevant to the ``airliner'' class.
+      \item GB for ``bus'': Similar features are highlighted as in the ``airliner'' case.
+    \end{itemize}
+    \item \textbf{Observation:} Saliency maps are less related to the neural network's decision-making process.
+  \end{itemize}
+  \item \textbf{Issue 2: Noise and lack of clarity in class-specific saliency.}
+  \begin{itemize}
+    \item Backprop for ``cat'' and ``dog'': Produces noisy saliency maps, highlighting irrelevant regions.
+    \item Guided Backprop for ``cat'' and ``dog'': Fails to differentiate clearly between the two classes. Results in saliency maps that are not class-discriminative.
+  \end{itemize}
+\end{enumerate}
+
+ \begin{figure}
+     \centering
+     \includegraphics[width=0.3\linewidth]{img/lecture22/xdog.png}
+     \caption{Example of backdrop}
+     \label{fig:Example of backdrop}
+ \end{figure}
+
+\subsection{Summary of Saliency Maps}
+
+\subsubsection{Intervention-Based Methods}
+\begin{itemize}
+  \item Perturbing pixels and observing decision changes.
+  \item \textbf{Drawbacks:}
+  \begin{itemize}
+    \item Computationally expensive.
+    \item Requires iterative perturbations.
+  \end{itemize}
+\end{itemize}
+
+\subsubsection*{Gradient-Based Methods}
+\begin{itemize}
+  \item Approximates feature importance via backpropagation.
+  \item \textbf{Advantages:}
+  \begin{itemize}
+    \item Computationally efficient.
+  \end{itemize}
+\end{itemize}
+
+\section{Gradient-Based Class Activation Map (Grad-CAM)}
+\subsection{Motivation}
+\begin{itemize}
+  \item \textbf{Objective:} Identify the important activations responsible for a specific class.
+  \item \textbf{Requirements for Activations:}
+  \begin{itemize}
+    \item Class-Discriminative: Reflect the network's decision-making process.
+    \item Preserve Spatial Information: Ensure the spatial coverage of important regions.
+  \end{itemize}
+  \item \textbf{Layer Selection for Perturbation:}
+  \begin{itemize}
+    \item Higher layers capture class-specific information.
+    \item Fully-connected layers lose spatial information.
+    \item The last convolutional layer strikes a balance: combines high-level semantics with detailed spatial resolution.
+  \end{itemize}
+\end{itemize}
+
+\subsection{Method}
+\begin{itemize}
+  \item \textbf{Feedforward:}
+  \begin{itemize}
+    \item Input an image into the CNN.
+    \item Extract feature maps from the last convolutional layer for task-specific layers (e.g., fully connected layer for classification).
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{img/lecture22/dog2.png}
+        \caption{CNN Architecture for Image Classification with Task-Specific Network}
+        \label{fig:CNN Architecture for Image Classification with Task-Specific Network}
+    \end{figure}
+  \end{itemize}
+  \item \textbf{Perturb Neuron Activations:}
+  \begin{itemize}
+    \item Modify neuron activations in the last convolutional layer.
+    \item Observe how these changes affect the network's decision-making.
+  \end{itemize}
+  \item \textbf{Backward Pass:}
+  \begin{itemize}
+    \item Perform gradient-based backpropagation for a specific class.
+    \item Use gradients to identify important activations contributing to the class prediction.
+  \end{itemize}
+  \item Grad-CAM uses the gradient information flowing into the last convolutional layer to assign importance values to each activation for a particular decision of interest.
+  \item \textbf{Examples:}
+  \begin{itemize}
+    \item Torch, Taxi, Car Mirror: Guided Backprop shows complex outlines but fails to focus on discriminative features.
+    \item Ice Cream: Grad-CAM correctly highlights the ice cream cone as the primary feature.
+  \end{itemize}
+\end{itemize}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\linewidth]{img/lecture22/activation.png}
+    \caption{Gradient-based Class Activation Map}
+    \label{figGradient-based Class Activation Map}
+\end{figure}
+\subsection{Case Studies}
+\begin{itemize}
+  \item \textbf{Bathroom Scene:}
+  \begin{itemize}
+    \item \textbf{Guided Backpropagation:} Highlights irrelevant details like sink outlines.
+    \item \textbf{Grad-CAM:} Focuses on key regions such as the toilet and sink area.
+  \end{itemize}
+  \item \textbf{Field Scene with a Horse:}
+  \begin{itemize}
+    \item \textbf{Guided Backpropagation:} Overly noisy with low specificity.
+    \item \textbf{Grad-CAM:} Highlights the horse and relevant parts of the field, supporting the prediction.
+  \end{itemize}
+\end{itemize}
+
+\section{Types of Explanations:}
+
+    \subsection{Indirect Explanations:}
+    \begin{itemize}
+        \item Analyze and present internal network parameters or features, necessitating deeper understanding from the user.
+    \end{itemize}
+    \subsection{Direct Explanations:}
+    \begin{itemize}
+        \item Identify and highlight critical regions or features in input data that significantly influence the model’s output.
+    \end{itemize}
+    \subsection{Targeted Explanations:}
+    \begin{itemize}
+        \item Focus on explaining specific decisions by highlighting relevant features and their influences on the model's output.
+\end{itemize}
+
+
+
+\section{Network Evaluation}
+\subsection*{Masking Techniques}
+\begin{itemize}
+    \item Common evaluation technique includes using explanation heatmaps or pixel-wise importance to check prediction correctness.
+    \item Masking using explanation heatmap and pixel-wise masking using explanation importance are demonstrated.
+\end{itemize}
+
+\subsection{Explanatory Evaluation}
+\begin{itemize}
+    \item \textbf{Progressive Pixel-wise Insertion and Deletion:}
+    \begin{itemize}
+        \item \textbf{Pixel-wise Deletion:} Sequentially delete pixels based on their explanation assigned importance scores to observe changes in model decisions.
+        \item \textbf{Pixel-wise Insertion:} Add pixels in order of importance and monitor how each addition affects the model’s decisions.
+    \end{itemize}
+\end{itemize}
+
+\section{Visual Aids}
+\begin{itemize}
+    \item \textbf{Purpose and Implementation:}
+    \begin{itemize}
+        \item The lecture incorporates a variety of visual aids, including feature importance maps and layer activations. These images are instrumental in demonstrating how different explanation techniques can elucidate the internal workings of models.Feature Importance Mapsvisually represent the weight or significance of each input feature in the context of the model's decision-making process, offering intuitive insights into which features are most influential. Layer Activations provide a deeper look into the neural network's layers, showing how each layer processes input data and contributes to the final output, thus helping in the understanding of the model's complexity and functionality.
+    \end{itemize}
+\end{itemize}
+\section{Targeted Explanations}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.7\linewidth]{img/lecture22/target.png}
+    \caption{Types of Saliency Maps for Dog Image Classification}
+    \label{fig:Types of Saliency Maps for Dog Image Classification}
+\end{figure}
+\subsection{Contrast-CAM and Counterfactual-CAM}
+\begin{itemize}
+    \item \textbf{Contrast-CAM:} Focuses on providing visual comparisons between different classes, highlighting the distinct features that lead to one classification over another. This technique is particularly useful in scenarios where fine-grained differentiation between classes is crucial.
+    \item \textbf{Counterfactual-CAM:} Illustrates potential changes in the activation maps if the classification target were to change. This helps in understanding the model’s dependency on specific features and how altering these features could shift the model's output, thereby providing insights into the model's sensitivity and adaptability.
+    
+\end{itemize}
+
+\subsection*{Formulas for Class Activation Maps}
+\begin{itemize}
+    \item \textbf{Weight Calculation for Class Activation Maps:}
+    \[
+    \alpha_k^c = \frac{1}{Z} \sum_i \sum_j \frac{\partial y^c}{\partial A_{ij}^k}
+    \]
+    This formula calculates weights $\alpha_k^c$ for each channel by averaging the gradients from the output for class $c$ back to the activation maps $A^k$, highlighting the pixels' impact on the class prediction.
+
+    \item \textbf{ReLU Combination for Visualizing Important Regions:}
+    \[
+    L_{\text{Grad-CAM}}^c = \text{ReLU} \left( \sum_k \alpha_k^c A^k \right)
+    \]
+    This formula generates a visualization map $L_{\text{Grad-CAM}}^c$ by applying ReLU to the weighted sum of feature maps $A^k$, isolating areas positively affecting the class outcome.
+\end{itemize}
+
+\section{Key Questions in Explainability}
+\begin{itemize}
+    \item \textbf{Types of Questions Explored:}
+    \begin{itemize}
+        \item \textbf{Correlational (Why P?):} This question probes into which specific features in the dataset lead to particular predictions, aiming to establish direct links between input features and model outputs.
+        \item \textbf{Counterfactual (What if?):} Explores hypothetical scenarios where input data is modified, aiming to predict how these changes would affect the outcomes, thus testing the model's robustness and flexibility.
+        \item \textbf{Contrastive (Why P, rather than Q?):} Seeks to understand the rationale behind choosing one classification over another, providing clarity on the decision-making criteria and the model's discriminative capabilities.
+    \end{itemize}
+\end{itemize}
+
+
+\section{Overview of Explainability Techniques}
+\begin{itemize}
+    \item \textbf{Visualization Techniques:}
+    \begin{itemize}
+        \item Utilizing Grad-CAM (Gradient-weighted Class Activation Mapping), this section showcases how different regions of the input image influence the neural network's output layer. Grad-CAM provides a heatmap visualization that identifies the most influential parts of the input image for predicting a specific class.
+        \item Examples include specific case studies where Grad-CAM has been applied to various models, highlighting significant regions that contribute to classifications, thereby enhancing the interpretability and transparency of complex models.
+    \end{itemize}
+\end{itemize}
+
+\section{Explanatory Evaluation}
+\subsection{Evaluation Metrics:}
+\begin{itemize}
+    \item \textbf{Human Interpretability:} Assesses whether the explanations provided by the model are understandable to laypersons, facilitating broader comprehension and acceptance of machine learning decisions.
+    \item \textbf{Model Transparency:} Examines whether the explanations shed light on the model’s internal decision-making processes, crucial for validating and trusting AI systems.
+    \item \textbf{Operational Usability:} Evaluates if the explanations can be leveraged to enhance model performance or aid in debugging, thereby serving as a practical tool in model development and refinement.
+\end{itemize}
+
+\section{Network Evaluation}
+\subsection{Purpose and Methodology:}
+\begin{itemize}
+    \item This section evaluates how different explanation techniques influence the performance and behavior of neural networks without direct human intervention.
+    \item \textbf{Explanation Masking:} Common techniques include masking parts of the input image using generated explanation heatmaps or assigning pixel-wise importance to verify the prediction's accuracy. This helps in understanding which parts of the input are most critical to the network's decision-making process.
+\end{itemize}
+
+\subsection{Application Evaluation}
+\begin{itemize}
+    \item \textbf{Human-Centric Evaluation Tasks:}
+    \begin{itemize}
+        \item Focuses on incorporating human judgment into the evaluation loop, even without direct quantitative measures of explainability.
+        \item \textbf{Gaze Tracking and Pointing Games:} These techniques assess how well explanations capture human attention and whether they align with intuitive visual processing. Gaze tracking observes where a person looks when trying to understand an explanation, while pointing games involve users indicating which parts of an explanation are most informative.
+    \end{itemize}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{img/lecture22/vsi.png}
+        \caption{Saliency Map Visualization}
+        \label{fig:Saliency Map Visualization}
+    \end{figure}
+\end{itemize}
+
+\subsection{Human Evaluation}
+\begin{itemize}
+    \item \textbf{Direct Human Interaction:}
+    \begin{itemize}
+        \item Involves directly engaging individuals to evaluate the clarity and utility of explanations provided by AI systems.
+        \item \textbf{Comparative Methods:} Techniques such as Backpropagation, Deconvolution, and Guided Backprop are employed and compared to determine which method yields explanations that are most intuitive and helpful for end-users in understanding AI decisions.
+    \end{itemize}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{img/lecture22/aa.png}
+        \caption{Human Evaluation}
+        \label{fig:Human Evaluation}
+    \end{figure}
+\end{itemize}
+
+
+\section{Network Evaluation via Masking}
+\begin{itemize}
+    \item \textbf{Masking Techniques in Depth:}
+    \begin{itemize}
+        \item Explores how masking the image with explanation heatmaps or using pixel-wise importance evaluates the model’s dependency on certain image regions for accurate predictions.
+        \item \textbf{Two Types of Masking:}
+        \begin{itemize}
+            \item \textbf{Heatmap Masking:} Uses the entire explanation heatmap to obscure parts of the image.
+            \item \textbf{Pixel-wise Importance Masking:} Masks the image based on the importance of each pixel, observing how each pixel’s presence or absence affects the model's output.
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+
+\section{Explanatory Evaluation}
+\begin{itemize}
+    \item \textbf{Progressive Pixel-wise Insertion and Deletion:}
+    \begin{itemize}
+        \item \textbf{Pixel-wise Deletion:} This process involves systematically removing pixels from the input based on their importance scores, which are typically derived from the model's sensitivity to each pixel's contribution. By observing how the removal of these pixels affects the model's decision-making, researchers can gain insights into which features are most critical for the model's accuracy and functionality.
+        \item \textbf{Pixel-wise Insertion:} In contrast to deletion, this method involves gradually adding pixels back into a blank or neutral input image in order of their importance. This technique helps in understanding how each pixel's addition influences the model's output, thereby assessing the sufficiency of the accumulated features for making accurate predictions. This approach is particularly useful for verifying the model's behavior in reconstructing the decision-making process from minimal data.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Additional Insights}
+\begin{itemize}
+    \item \textbf{Effectiveness of Masking Strategies:}
+    \begin{itemize}
+        \item \textbf{Impact of Pixel Manipulation:} This section demonstrates the significant impact that the strategic removal or addition of pixels has on the model’s decision process. By altering which pixels are visible to the model, researchers can directly test the robustness of the model and its dependency on specific image features for classification or prediction tasks.
+        \item \textbf{Visual Examples and Case Studies:} Utilizing real-world examples such as the Crane and Spoonbill images, this part illustrates how different masking strategies alter the model's predictions. These examples show how changes in the visibility of certain features in the images can lead to different outcomes, thereby highlighting the interpretative power of pixel-wise analysis in understanding model behavior. The use of such case studies makes it easier to communicate complex concepts and validate the practical applications of explanation techniques in various scenarios.
+    \end{itemize}
+\end{itemize}
+
+\end{document}

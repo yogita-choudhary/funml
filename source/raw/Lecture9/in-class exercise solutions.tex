@@ -1,0 +1,144 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, bm}
+\usepackage{enumitem}
+\begin{document}
+
+\begin{center}
+{\Large \textbf{In-Class Exercise — Solutions}}\\[6pt]
+{\large \textbf{Lecture 9: Regularization and Performance Metrics}}
+\end{center}
+
+\vspace{6pt}
+\textbf{Given}
+\[
+\bm{y} =
+\begin{bmatrix} 1 \\ 2 \\ 2 \end{bmatrix},
+\qquad
+\hat{\bm{y}} =
+\begin{bmatrix} 1 \\ 1 \\ 3 \end{bmatrix},
+\qquad N=3
+\]
+
+\[
+\bm{\theta}=
+\begin{bmatrix} 2 \\ -1 \end{bmatrix},
+\qquad
+\|\bm{\theta}\|_2^2 = 5,
+\qquad
+\gamma=0.60
+\]
+
+\[
+L(\bm{\theta})
+= \frac{1}{N}\sum_{i=1}^N(\hat{y}_i-y_i)^2
++ \frac{\gamma}{N}\|\bm{\theta}\|_2^2
+\]
+
+\begin{enumerate}[label=(\arabic*), itemsep=18pt]
+
+\item \textbf{Question:}  
+What is the residual vector $\bm{r}=\hat{\bm{y}}-\bm{y}$?
+
+\begin{itemize}
+\item[(A)] $\begin{bmatrix}0\\1\\1\end{bmatrix}$
+\item[(B)] $\begin{bmatrix}0\\-1\\1\end{bmatrix}$
+\item[(C)] $\begin{bmatrix}1\\-1\\1\end{bmatrix}$
+\end{itemize}
+
+\textbf{Solution:}
+\[
+\bm{r}=\hat{\bm{y}}-\bm{y}
+=\begin{bmatrix}1-1\\1-2\\3-2\end{bmatrix}
+=\begin{bmatrix}0\\-1\\1\end{bmatrix}
+\]
+\[
+\boxed{(B)}
+\]
+
+\item \textbf{Question:}  
+What is the Mean Squared Error (MSE)?
+
+\begin{itemize}
+\item[(A)] $0.33$
+\item[(B)] $0.67$
+\item[(C)] $1.00$
+\end{itemize}
+
+\textbf{Solution:}
+\[
+\mathrm{MSE}=\frac{1}{3}(0^2+(-1)^2+1^2)=\frac{2}{3}\approx0.67
+\]
+\[
+\boxed{(B)}
+\]
+
+\item \textbf{Question:}  
+What is the ridge objective value $L(\bm{\theta})$?
+
+\begin{itemize}
+\item[(A)] $0.67$
+\item[(B)] $1.00$
+\item[(C)] $1.67$
+\end{itemize}
+
+\textbf{Solution:}
+\[
+\frac{\gamma}{N}\|\bm{\theta}\|_2^2=\frac{0.60}{3}\cdot5=1.00
+\]
+\[
+L(\bm{\theta})=0.6667+1.00=1.6667\approx1.67
+\]
+\[
+\boxed{(C)}
+\]
+
+\item \textbf{Question:}  
+Suppose the third prediction changes from $3$ to $8$.  
+Which metric would increase the most?
+
+\begin{itemize}
+\item[(A)] MAE
+\item[(B)] RMSE
+\item[(C)] MSE
+\end{itemize}
+
+\textbf{Solution:}
+Squared error amplifies large mistakes the most.
+\[
+\boxed{(C)}
+\]
+
+\item \textbf{Question:}  
+Two models have the same MSE, but Model A has much larger $\|\bm{\theta}\|_2^2$.  
+Which model does ridge regression prefer?
+
+\begin{itemize}
+\item[(A)] Model A (larger weights)
+\item[(B)] Model B (smaller weights)
+\item[(C)] Both equally
+\end{itemize}
+
+\textbf{Solution:}
+Ridge penalizes large parameter magnitudes.
+\[
+\boxed{(B)}
+\]
+
+\item \textbf{Question:}  
+If $\gamma$ increases, what happens to the learned weights?
+
+\begin{itemize}
+\item[(A)] Weights grow larger
+\item[(B)] Weights shrink toward zero
+\item[(C)] Weights stay unchanged
+\end{itemize}
+
+\textbf{Solution:}
+\[
+\boxed{(B)}
+\]
+
+\end{enumerate}
+
+\end{document}

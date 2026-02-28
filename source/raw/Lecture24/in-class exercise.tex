@@ -1,0 +1,69 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{In-Class Exercise (Canvas Quiz) --- 10 minutes}}\\[6pt]
+{\large \textbf{Lecture 24: Anomaly Detection}}
+\end{center}
+
+\vspace{8pt}
+
+\noindent
+In anomaly detection, we consider binary outcomes (Anomaly vs Normal). Performance metrics:
+\[
+\text{TPR} = \frac{\text{TP}}{\text{TP}+\text{FN}},
+\qquad
+\text{FPR} = \frac{\text{FP}}{\text{FP}+\text{TN}}
+\]
+
+\vspace{6pt}
+\noindent
+\textbf{Given:} A detector is tested on a dataset with:
+\[
+\text{\# Anomalies} = 20,\qquad \text{\# Normal} = 80
+\]
+At threshold $\gamma_1$, the detector produces:
+\[
+\text{TP}=16,\quad \text{FP}=12
+\]
+At a higher threshold $\gamma_2$, the detector produces:
+\[
+\text{TP}=12,\quad \text{FP}=4
+\]
+
+\vspace{8pt}
+\noindent
+\textbf{Tasks:}
+\begin{enumerate}[label=(\arabic*), itemsep=6pt]
+\item Compute $\text{TPR}$ and $\text{FPR}$ at threshold $\gamma_1$.
+\item Compute $\text{TPR}$ and $\text{FPR}$ at threshold $\gamma_2$.
+\item Which threshold is \textbf{more conservative} (fewer false positives)? (\textbf{Answer:} $\gamma_1$ or $\gamma_2$)
+\item (True/False) Increasing $\gamma$ typically decreases \textbf{both} TPR and FPR.
+\item (Multiple choice) Which ROC point is closer to the ideal detector?
+\[
+A: (\text{FPR},\text{TPR}) = (0.15, 0.80)
+\qquad
+B: (\text{FPR},\text{TPR}) = (0.05, 0.60)
+\]
+\end{enumerate}
+
+\vspace{6pt}
+\noindent
+\textbf{Round numeric answers to 2 decimals.}
+
+\vspace{8pt}
+\noindent
+\textbf{Canvas keywords (do NOT type full question in Canvas):}
+\begin{itemize}
+\item Q1: TPR, FPR at $\gamma_1$ (TP=16, FP=12, A=20, N=80)
+\item Q2: TPR, FPR at $\gamma_2$ (TP=12, FP=4, A=20, N=80)
+\item Q3: conservative threshold? (fewer FP)
+\item Q4: T/F threshold $\uparrow$ changes TPR/FPR
+\item Q5: closer to ideal ROC? A vs B
+\end{itemize}
+
+\end{document}

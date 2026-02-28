@@ -1,0 +1,67 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{In-Class Exercise (Canvas Quiz) --- 10 minutes}}\\[6pt]
+{\large \textbf{Lecture 25: Data and Label Efficient Learning (Active Learning)}}
+\end{center}
+
+\vspace{8pt}
+
+\noindent
+We consider a classification model outputting class probabilities $p(y=c|x)$ for $C=3$ classes.
+We will compare three uncertainty-based active learning strategies from the lecture:
+\textbf{Entropy Sampling}, \textbf{Least Confidence}, and \textbf{Margin Sampling}.
+(See Lecture 25.5.2: Entropy, Least Confidence, Margin.) \\
+
+\vspace{6pt}
+\noindent
+\textbf{Given:} We have 4 unlabeled samples in the pool $\{x_1,x_2,x_3,x_4\}$ with predicted probabilities:
+
+\[
+p(y|x_1)=[0.80,\;0.10,\;0.10]
+\]
+\[
+p(y|x_2)=[0.34,\;0.33,\;0.33]
+\]
+\[
+p(y|x_3)=[0.50,\;0.49,\;0.01]
+\]
+\[
+p(y|x_4)=[0.60,\;0.20,\;0.20]
+\]
+
+\vspace{8pt}
+\noindent
+\textbf{Tasks:}
+\begin{enumerate}[label=(\arabic*), itemsep=7pt]
+\item (\textbf{Entropy}) Compute entropy for $x_1$ and $x_2$:
+\[
+H(x)=-\sum_{c=1}^{3} p_c \log(p_c)
+\]
+Use natural log (ln). Which has higher entropy?
+\item (\textbf{Least Confidence}) For each sample, compute:
+\[
+LC(x)=1-\max_c p_c
+\]
+Which sample would be selected first?
+\item (\textbf{Margin}) For each sample, compute margin:
+\[
+M(x)=p_{(1)}-p_{(2)}
+\]
+where $p_{(1)}$ and $p_{(2)}$ are the largest and second-largest probabilities.
+Which sample would be selected first (smallest margin)?
+\item (\textbf{Strategy Choice}) Early stage vs late stage:
+Which strategy is typically emphasized early to cover the data distribution:
+\textbf{diversity-based} or \textbf{difficulty-based}?
+\end{enumerate}
+
+\vspace{6pt}
+\noindent
+\textbf{Round numeric answers to 2 decimals.}
+
+\end{document}

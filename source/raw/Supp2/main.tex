@@ -1,0 +1,661 @@
+%%%%%PLEASE CONSIDER CORRECTIONS AT PLACES INDICATED%%%%%%%%
+\documentclass{article}
+%%%%%Packages Used, add more if necessary%%%%
+\usepackage{amsmath,amsfonts,amssymb,graphicx,fullpage,listings}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\usepackage{mdframed}
+\usepackage{multicol}
+\usepackage{microtype, hyperref}
+%%%%% NO NEED TO EDIT THIS PREAMBLE %%%%%%%%
+%%% PREAMBLE %%%
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+\newcommand{\lecture}[4]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+      
+      \hbox to 6.28in { 
+      {\bf ECE 4252/6252 (FunML) Fundamentals of Machine Learning \hfill 2021--2028} }
+      
+      \vspace{2mm}
+      \hbox to 6.28in { 
+      {Courses developed by Professor Ghassan AlRegib 
+      (\href{https://alregib.ece.gatech.edu/}{alregib.ece.gatech.edu}) 
+      \hfill For inquiries: \href{mailto:alregib@gatech.edu}{alregib@gatech.edu}} }
+      
+      \vspace{3mm}
+      \hbox to 6.28in { {\Large \hfill Supplementary #1: #2 \hfill} }
+      
+      \vspace{2mm}
+      \hbox to 6.28in { {\it Co-Instructors: #3 \hfill #4} }
+      
+      \vspace{2mm}}
+   }
+   \end{center}
+
+   % -------- PEOPLE OUTSIDE BOX --------
+   \vspace{2mm}
+   \noindent{\bf Contributors:} Dr. Ahmad Mustafa, Dr. Motaz Alfarraj, Dr. Ashraf Alattar, Dr. Chen Zhou
+
+   \vspace{1mm}
+   \noindent{\bf Teaching Assistants} with remarkable contributions include: Kuo-Wei Lai, Wuyang Du, Shiva Mahato, Michael Zhou, Ninghan Zhong
+
+   \markboth{Lecture #1: #2}{Lecture #1: #2}
+
+   \vspace{2mm}
+\noindent {\bf Disclaimer}: 
+{All content of these notes are part of this course at Georgia Tech. Any re-use or distribution is not permitted without pre-approved permission. All these notes belong to, created by, and copyrighted for Ghassan AlRegib and Mohit Prabhushankar, Georgia Tech, 2021--2028.}
+
+\vspace{2mm}
+\noindent {\bf License}: 
+{These lecture notes are licensed under the 
+\href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License}.}
+
+   \vspace{2mm}
+   \noindent {\bf Errata}: 
+   {\it Please submit any errata you find using the following form: 
+   \href{https://forms.office.com/r/fbg9dMWPgY}{Errata Form for FunML Textbook} 
+   or visit: \url{https://forms.office.com/r/fbg9dMWPgY}}
+
+   \vspace*{4mm}
+}
+\renewcommand{\cite}[1]{[#1]}
+\def\beginrefs{\begin{list}
+{[\arabic{equation}]}{\usecounter{equation}
+\setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}%
+\setlength{\labelwidth}{1.6truecm}}}
+\def\endrefs{\end{list}}
+\def\bibentry#1{\item[\hbox{[#1]}]}
+\newcommand{\challenge}[2]{\noindent \textbf{(Challenge Problem)} \emph{#1}: #2 }
+\newcommand{\exercise}[1]{\noindent \textbf{(Exercise)} #1 }
+\newcommand{\fig}[3]{
+\vspace{#2}
+\begin{center}
+Figure \thelecnum.#1:~#3
+\end{center}
+}
+%%% END_OF_PREAMBLE %%%
+%%%%You may add more \newtheorem if necessary%%%%%%
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+\newcommand{\dom}{\mathrm{dom}}
+\begin{document}
+%%%%%CHANGE HERE%%%%%%%
+%%%%%\section{title of the section} similarly with the rest \section{} or \
+% subsection{} or \subsubsection{} etc
+%%%%%CHANGE HERE%%%%%%%%%
+%%%%%\lecture{the ordinal number of the lecture}{lecture title}{Jacob Abernethy}
+% {scriber's name}%%%%%%%%
+\lecture{2}{Transforms and U-Net Architecture in PyTorch}{Ghassan AlRegib and Mohit Prabhushankar}{}
+%%%%%CHANGE HERE%%%%%%%
+%%%%%\section{title of the section} similarly with the rest \section{} or \
+% subsection{} or \subsubsection{} etc
+\section{Lecture Objectives}
+\begin{itemize}
+    \item Understand the purpose and application of transforms in data preprocessing, particularly for image data, and their impact on model robustness and generalization.
+    \item Identify and implement various types of image transforms for different tasks, including classification, object detection, segmentation, and video processing.
+    \item Recognize the structure of the updated TorchVision API for transforms, covering high-level, medium-level, and low-level functionalities, and understand the trade-offs in terms of abstraction and control.
+    \item Gain familiarity with optimizers in PyTorch, including SGD and Adam, and understand how they contribute to minimizing loss functions and improving model performance.
+    \item Compare and contrast the effectiveness of SGD and Adam optimizers by implementing and observing their behaviors on a synthetic dataset.
+    \item Learn to apply and interpret different loss functions, including regression and classification losses, to guide model training.
+    \item Understand the U-Net model architecture for image segmentation, including its unique encoding-decoding structure and skip connections, and how it is trained using transforms, optimizers, and loss functions.
+\end{itemize}
+\section{Transforms in PyTorch}
+%\subsection{Introduction to Transforms}
+Transforms are data processing techniques used to prepare data for machine learning models by modifying input data in various ways. Transforms are applicable across various data types, including images, text, and audio, enhancing a model's generalization by introducing data variability. In PyTorch, transforms are provided by \texttt{torchvision.transforms} module, which offers flexibility to modify data for training and testing.
+
+\section{Examples of Transforms in Image Processing}
+This section provides an overview of how transforms are applied in image processing tasks, including classification, object detection, segmentation, and video tasks. Transforms introduce variations in training data (e.g., through flipping, rotation, or color adjustments), helping to make models more robust and reducing the likelihood of overfitting. TorchVision's updated API enhances the ability to apply complex transformations consistently across multiple input types, ensuring spatial alignment and compatibility across different tasks. Understanding these examples is essential for using data augmentation effectively in machine learning pipelines.
+
+\subsection{Basic Image Augmentation for Classification}
+    Image transforms involve random augmentation (flipping, rotation, color changes) to create data variability to prevent over fitting and improve robustness. In this example, the image result may be flipped, slightly rotated, and have a different hue. These changes help in making a more resilient classification model. The status quo API is able to happen this use case very well.
+
+    \begin{verbatim}
+    import torchvision.transforms as T
+    transform = T.Compose([
+        T.RandomHorizontalFlip(),   #Horizontal flip
+        T.ColorJitter(hue = 0.3),   #Adjust Hue
+        T.RandomRotation(30)        #Rotate by up to 30 degrees
+    ])
+    transform img
+    \end{verbatim}
+    
+
+\subsection{Transforms for Object Detection}
+    In object detection, both images and bounding boxes around objects need transformation. TorchVision's updated API allows simultaneous transformation of both and ensures bounding boxes remain correctly aligned with the individual objects. By importing the transforms from the prototype namespace, it reuses the same pipeline without any additional modifications. This example applies transformations to both the image and bounding boxes, maintaining spatial relationship between objects and their bounding boxes.
+
+    \begin{verbatim}
+    from torchvision.prototype import transforms as T
+    transform = T.Compose([
+        T.RandomHorizontalFlip(),   #Horizontal flip
+        T.ColorJitter(hue = 0.3),   #Adjust Hue
+        T.RandomRotation(30) ])     #Rotate by up to 30 degrees
+    transform(sample)
+    \end{verbatim}
+    
+
+\subsection{Transforms for Segmentation and Video Tasks}
+        For segmentation, where each pixel is labeled, transforms apply identical changes to both the image and its segmentation mask. Video tasks extend image transformations across frames, ensuring temporal consistency. This example and set up ensures that both the image and segmentation mask are transformed in the same way, preserving pixel alignment. 
+    \begin{verbatim}
+        transform = T.Compose([
+        T.RandomHorizontalFlip(),   #Horizontal flip to both image and segmentation mask
+        T.ColorJitter(hue = 0.3),   #Brightness adjustment to image only
+        T.RandomRotation(30) ])     #Rotation consistently across frames in video
+    
+    \end{verbatim}
+        
+\subsection{Handling Different Input Structures}
+    TorchVision's new API supports flexible input structures, allowing users to define data in various formats. Tensor subclasses store metadata(e.g., color space, bounding box format) within the tensor, allowing for seamless transformation across inputs
+
+    \begin{verbatim}
+    Here are the examples given:
+    transform(image)                          # image classification
+    transform(video)                          # video tasks
+    transform(images_or_videos, labels)       # MixUp/CutMix-style transforms
+    transform(image, bounding_boxes, labels)  # object detection
+    transform(image, bounding_boxes, masks, labels)        # instance segmentation
+    transform(image, mask)                                 # semantic segmentation
+    transform(image, {"box": bounding_box, "tag": label})  # arbitrary structure
+    \end{verbatim}
+    
+\section{API Structure for Transforms}
+This section outlines the structure of the updated TorchVision API for transforms, which is organized into three levels to balance ease of use and control over data transformations. Each level is designed for different user needs, from high-level transformations that handle multiple input types simultaneously, to low-level kernels offering fine-grained control and efficiency. This structure ensures that users can apply consistent, complex transformations across diverse data types, while also supporting advanced use cases that require Just-In-Time (JIT) scripting for production environments. The API maintains compatibility with legacy data formats, including Pillow images, ensuring flexibility and backward compatibility.
+
+\subsection{High-Level Transform Objects}
+The updated TorchVision API for transform is organized into three levels, each providing a different balance of abstraction and control:
+    \begin{itemize}
+        \item \textbf{Overview:} High-level transform are designed to handle arbitrary input structures (e.g. images, bounding boxes, and masks) within a single pipeline
+        \item \textbf{Functionality:} 
+        \begin{itemize}
+            \item Each transform identifies the types of inputs it can process and leaves other types unchanged. This allows users to pass multiple input types without needing additional logic to handle each type separately
+            \item \textbf{Consistent Random Parameters:} Random parameters are sampled once per call and applied consistently across all inputs. This ensures transformations remain aligned.
+        \end{itemize}
+        \item \textbf{Limitations:} These transforms are backward-compatible, but do not support Just-In-Time (JIT) scripting, which limits their use in production environments that rely on JIT optimization. 
+    \end{itemize}
+\subsection{Medium Level Dispatchers}
+\begin{itemize}
+    \item \textbf{Overview:} The dispatchers provide more control by processing individual inputs and are part of the functional API
+    \item \textbf{Functionality:} They manage single input types and automatically handle metadata as attributes on the input object. Plain tensors are treated as images or videos when applicable, ensuring compatibility with simpler data formats.
+    \item \textbf{JIT Compatibility:} Dispatchers are fully JIT scriptable, making them suitable for production environments requiring JIT optimization.
+\end{itemize}
+
+\subsection{Low-Level Kernels}
+\begin{itemize}
+    \item \textbf{Overview:} Low-level kernels operate directly on raw tensors, providing maximum control and efficiency but require explicit metadata
+    \item \textbf{Functionality:} Designed for efficiency, these kernels interact directly with PyTorch operators, suitable for advanced use cases needing fine-grained control. 
+    \item \textbf{JIT Compatibility:} Fully JIT scriptable, ideal for high-performance applications with direct tensor manipulation.
+\end{itemize}
+\subsection{Compatibility and Legacy Support}
+\begin{itemize}
+    \item \textbf{Pillow Image Support:} The API still supports Pillow images, processing them similarly to tensor subclasses in both high-level transforms and dispatchers.
+    \item \textbf{JIT Limitations:} Only medium-level dispatchers and low-level kernels support JIT scripting.
+\end{itemize}
+
+\section{Optimizers in PyTorch}
+%\subsection{Introduction to Optimizers}
+Optimizers in PyTorch are algorithms that adjust the weights and biases of a neural network to minimize a loss function. These optimizers are essential for effectively training models by iteratively refining parameters in the direction that minimizes the loss to improve model accuracy. The most commonly used optimizers include:
+\begin{itemize}
+    \item \textbf{SGD (Stochastic Gradient Descent)}: A simple, efficient optimizer that updates parameters based on batch gradients but can lead to noisy, less stable convergence.
+    \item \textbf{Adam (Adaptive Moment Estimation)}: Improves upon SGD with momentum and adaptive learning rates, leading to faster and more stable convergence. Often preferred in deep learning applications.
+\end{itemize}
+
+\subsection{Dataset Preparation}
+An example of a synthetic dataset simulating a linear relationship with added noise to demonstrate optimizer functionality.
+
+    \begin{verbatim}
+    import torch
+    from torch.utils.data import Dataset, DataLoader
+    class Build_Data(Dataset):
+        def __init__(self):
+            self.x = torch.arange(-5, 5, 0.1).view(-1, 1)
+            self.func = -5 * self.x + 1
+            self.y = self.func + 0.4 * torch.randn(self.x.size())
+            self.len = self.x.shape[0] 
+        def __getitem__(self, index):
+            return self.x[index], self.y[index]
+        def __len__(self):
+            return self.len
+    \end{verbatim}
+
+\subsection{Model and Loss Function}
+An example of a simple linear regression model is defined, with Mean Squared Error (MSE) as the loss function to measure prediction accuracy.
+    \begin{verbatim}
+    import torch.nn as nn
+    class LinearModel(nn.Module):
+        def __init__(self):
+            super(LinearModel, self).__init__()
+            self.linear = nn.Linear(1, 1)
+        def forward(self, x):
+            return self.linear(x)
+    model = LinearModel()
+    criterion = nn.MSELoss()
+    \end{verbatim}
+\subsection{Using SGD Optimizer}
+The Stochastic Gradient Descent (SGD) optimizer updates model parameters by using gradients calculated on each batch of data. This allows frequent updates but is sensitive to learning rate.
+
+    \begin{verbatim}
+    from torch.optim import SGD
+    optimizer = SGD(model.parameters(), lr=0.01)
+    data_loader = DataLoader(dataset=data_set, batch_size=1)
+    num_epochs = 50
+    for epoch in range(num_epochs):
+        for X_batch, y_batch in data_loader:
+            optimizer.zero_grad()        # Reset gradients
+            y_pred = model(X_batch)      # Forward pass
+            loss = criterion(y_pred, y_batch) # Compute loss
+            loss.backward()              # Backward pass (compute gradients)
+            optimizer.step()             # Update parameters 
+        print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}")
+    \end{verbatim}
+
+    \begin{itemize}
+        \item  Resetting Gradients**: Each iteration starts with \texttt{optimizer.zero grad()} to clear old gradients, preventing accumulation.
+        \item Forward and Backward Pass: \texttt{loss.backward()} computes gradients, and \texttt{optimizer.step()} updates the model parameters accordingly.
+        \item Learning Rate Sensitivity: The learning rate is a crucial hyper-parameter in SGD, affecting the speed and stability of convergence.
+    \end{itemize}
+   
+
+
+\subsection{Using Adam Optimizer}
+Adam builds upon SGD by adding momentum and adjusting learning rates individually for each parameter. This leads to faster convergence and reduced sensitivity to the initial learning rate.
+    \begin{verbatim}
+    from torch.optim import Adam
+    optimizer = Adam(model.parameters(), lr=0.01)
+    data_loader = DataLoader(dataset=data_set, batch_size=1)
+    num_epochs = 50
+    for epoch in range(num_epochs):
+        for X_batch, y_batch in data_loader:
+            optimizer.zero_grad()        # Reset gradients
+            y_pred = model(X_batch)      # Forward pass
+            loss = criterion(y_pred, y_batch) # Compute loss
+            loss.backward()              # Backward pass (compute gradients)
+            optimizer.step()             # Update parameters   
+        print(f"Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}")
+    \end{verbatim}
+    
+    \begin{itemize}
+        \item \textbf{Running Averages}: Adam tracks moving averages of both gradients and squared gradients, which stabilizes updates
+        \item \textbf{Adaptive Learning Rates}: Adjusts learning rates for each parameter individually, allowing Adam to perform well without extensive tuning.
+        \item \textbf{Ease of Use}: Adam typically requires less tuning to achieve stable convergence
+    \end{itemize}
+
+\subsection{Comparison of Optimizers}
+\begin{itemize}
+    \item SGD:
+    \begin{itemize}
+        \item Simple and efficient but can result in noisy updates, slowing convergence.
+        \item Requires careful tuning of the learning rate for stability
+    \end{itemize}
+    \item Adam:
+    \begin{itemize}
+        \item Typically faster and more stable due to momentum and adaptive learning rates.
+        \item Often preferred for complex neural networks in deep learning/
+    \end{itemize}
+\end{itemize}
+
+\subsection{Choosing an Optimizer}
+
+When selecting an optimizer, consider the following:
+\begin{itemize}
+    \item \textbf{Model Complexity}: For simpler models, SGD may suffice, especially if resources for tuning are available. For more complex neural networks, Adam's adaptive capabilities can improve convergence.
+    \item \textbf{Data Characteristics}: Adam can handle noisy or sparse data better due to its adaptive learning rate, whereas SGD might struggle without additional tuning or the use of momentum.
+    \item \textbf{Training Speed}: Adam is generally faster in terms of convergence, which can be beneficial for deep learning tasks. However, SGD is computationally efficient and works well for large datasets where adaptive rates may not be necessary.
+\end{itemize}
+
+\section{Loss Functions}
+%%%%%Use itemize to layout bullet points that are not numbered%%%%%
+\subsection{Summary}
+Loss functions are used to optimize models during training. They measure how well a model's prediction compares to the ground truth by minimizing some loss value. Loss is inherently defined as the penalty the model gets for incorrectly predicting the result. PyTorch offers a wide variety of these functions to be used for different models. Generally, there are two main types of loss function categories in PyTorch, but there are also various other types of loss functions that can be used for specific purposes.
+\subsection{Regression Loss}
+Regression Loss is a loss function typically used when a model predicts a continuous value such as a patient's blood pressure. There are several types of regression loss functions that each have their own strengths and weaknesses.\\
+\textbf{Mean Absolute Error (MAE) or L1 Loss:}
+\begin{itemize}
+\item Computes the average of the sum of absolute differences between the model's predicted outcome and the ground truth
+\item Considered more robust to outliers due to large distance from mean value
+\item Here is the formula for L1 loss
+\begin{equation}
+\mathcal{L}_{\text{L1}} = \frac{1}{N} \sum_{i=1}^{N} |y_i - \hat{y}_i|
+\end{equation}
+\item This function struggles with more complex regression algorithms due to its basic nature
+\end{itemize}
+\textbf{Mean Squared Error (MSE) or L2 Loss:}
+\begin{itemize}
+\item Computes the average of the squared sum of absolute differences between the model's predicted outcome and the ground truth
+\item This algorithm heavily punishes large errors which results in quickly approaching 0 loss
+\item However, it encourages small losses and will rarely reach a perfect value of 0 loss
+\item Here is the formula for L2 loss
+\begin{equation}
+\mathcal{L}_{\text{L2}} = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2
+\end{equation}
+\end{itemize}
+\textbf{Negative Log-Likelihood Loss:}
+\begin{itemize}
+\item Applied to models with the softmax function as an output activation layer.
+\item Softmax calculates the normalized exponential function of every unit in the layer. The equation for a softmax is shown below.
+\begin{equation}
+\sigma(z)_i = \frac{e^{z_i}}{\sum_{j=1}^{K} e^{z_j}}
+\end{equation}
+\item Minimizes the Negative Log Likelihood which will maximize the model's log likelihood for a given result
+\item Here is the formula for Negative Log Likelihood
+\begin{equation}
+\mathcal{L}_{\text{NLL}} = -\sum_{i=1}^{N} y_i \log(\hat{y}_i)
+\end{equation}
+\item A benefit of this loss function is it not only cares about a correct prediction, but wants absolute certainty that the model is correct with its guess
+\item Negative Log Likelihood is used in multi-class classification problems
+\end{itemize}
+\subsection{Regression Loss Example}
+Shown below is an example of how to implement the MSE loss function using PyTorch and its Neural Network library.
+\begin{verbatim}
+import torch
+import torch.nn as nn
+
+# Define input and target tensors
+input = torch.randn(3, 5, requires_grad=True)
+target = torch.randn(3, 5)
+
+# Initialize L2 loss (MSE)
+mse_loss = nn.MSELoss()
+
+# Calculate MSE
+output = mse_loss(input, target)
+
+# Backpropagate
+output.backward()
+\end{verbatim}
+This takes in an input tensor and a target tensor, which the MSE loss function calculates the square difference between. It then backpropogates through the model, calculating gradients based on the loss. Over multiple epochs, the loss will drastically decrease at first and then quickly level out due to the nature of the MSE loss function.
+\subsection{Classification Loss}
+Classification Loss is a loss function typically used when a model predicts a discrete value such as identifying an object within an image. There are two main types of Classification Loss functions that are housed within PyTorch.\\
+\textbf{Cross-Entropy Loss:}
+\begin{itemize}
+\item Computes the difference between probability distributions of a provided dataset
+\item The score range of the function is between 0 and 1, with 0 being a perfect value.
+\item This function is unique in its ability to punish the confidence of predictions along with the predictions themselves. A confident wrong prediction and a non-confident correct prediction will both be heavily punished.
+\item Shown below is the equation for the Cross-Entropy Loss function
+\begin{equation}
+\mathcal{L}_{\text{CE}} = - \sum_{i=1}^{N} \sum_{c=1}^{C} y_{i,c} \log(\hat{p}_{i,c})
+\end{equation}
+\item This function excels in binary classification tasks, of which it is the default in PyTorch. It will also create very confident models which will be highly accurate.
+\end{itemize}
+\textbf{Hinge Embedding Loss:}
+\begin{itemize}
+\item Computes the loss between an input tensor and a labels tensor
+\item Hinge Loss provides more error when there is a difference in sign between predictions and ground truth.
+\item Shown below is the equation for the Hinge Embedding Loss function where $d_i$ is the distance
+\begin{equation}
+\mathcal{L}_{\text{Hinge}} = \frac{1}{N} \sum_{i=1}^{N} \max(0, 1 - y_i \cdot d_i)
+\end{equation}
+\item This function is used when determining if two inputs are dissimilar or similar
+\end{itemize}
+\subsection{Classification Loss Example}
+Shown below is an example of how to implement the Cross-Entropy Loss function using PyTorch and its Neural Network library.
+\begin{verbatim}
+import torch
+import torch.nn as nn
+
+# Define input tensor (logits) and target tensor (class labels)
+input = torch.randn(3, 5, requires_grad=True)
+target = torch.empty(3, dtype=torch.long).random_(5)
+
+# Initialize  Cross-Entropy Loss function
+cross_entropy_loss = nn.CrossEntropyLoss()
+
+# Calculate Cross-Entropy Loss
+output = cross_entropy_loss(input, target)
+
+# Backpropagate
+output.backward()
+\end{verbatim}
+This takes in an input tensor and a target tensor, which the Cross-Entropy Loss function calculates the difference in probability between. Similar to MSE, it then backpropogates through the model, calculating gradients based on the loss. Over multiple epochs, the loss will decrease and the confidence/accuracy of the model will steadily increase.
+
+\subsection{Other Loss Functions}
+Some other loss functions are designed for specific tasks, but they are still very useful. Shown below are some examples of other loss functions and their use cases.\\
+\textbf{Margin Ranking Loss:}
+\begin{itemize}
+\item Instead of predicting directly from a set of inputs, this function computes a criterion to predict relative distances between the inputs.
+\item The function also needs a label tensor to calculate the loss
+\item Here is the formula for Margin Ranking Loss
+\begin{equation}
+\mathcal{L}_{\text{Margin}} = \frac{1}{N} \sum_{i=1}^{N} \max(0, -y_i \cdot (x_{1,i} - x_{2,i}) + \text{margin})
+\end{equation}
+\item This function is used in Ranking Problems.
+\end{itemize}
+\textbf{Triplet Margin Loss:}
+\begin{itemize}
+\item Calculates a criterion for measuring the loss between three input tensors
+\item Each triplet has an anchor, positive examples, and negative examples
+\item Here is the formula for Triplet Margin Loss
+\begin{equation}
+\mathcal{L}_{\text{Triplet}} = \frac{1}{N} \sum_{i=1}^{N} \max(0, \|a_i - p_i\|_2 - \|a_i - n_i\|_2 + \text{margin})
+\end{equation}
+\item This function is used to determine similarity and in content-based retrieval problems.
+\end{itemize}
+\textbf{Kullback-Leibler Divergence (KLDiv) Loss:}
+\begin{itemize}
+\item Outputs the proximity of two probability distributions
+\item If the KLDiv function outputs 0, the probability distributions are the same
+\item Behaves similar to Cross-Entropy Loss, but does not punish confidence. It instead only compares probability distributions
+\item Here is the formula for KLDiv Loss
+\begin{equation}
+\mathcal{L}_{\text{KL}} = \sum_{i=1}^{N} y_i \log\left(\frac{y_i}{\hat{y}_i}\right)
+\end{equation}
+\item This function is primarily used in approximating complex functions, multi-class classification tasks, and comparing distributions of predictions from input to ground truth.
+\end{itemize}
+\subsection{Custom Loss Functions}
+A user may also create their own custom PyTorch loss function if so desired for their model. While this is rarely needed, niche cases may require very specific loss functions with which to implement using PyTorch.
+
+
+
+\section{U-Net Model}
+%%%%%Use itemize to layout bullet points that are not numbered%%%%%
+\subsection{Overview}
+U-Net is a convolutional neural network (CNN) specifically designed for use in biomedical image segmentation. Created in 2015 from the CS Department of the University of Freilburg, U-Net still stands as a widely used image segmentation model. This section will explore the architecture, purpose, and uses of the U-Net model and why it is important to study.
+\subsection{Image Segmentation}
+Image segmentation is the process of dividing an image into various segments or regions to simplify it for analysis. This is used in many fields, such as medical imaging, autonomous vehicles, and object detection with computer vision. Being able to effectively segment images can greatly enhance the performance of downstream tasks for various systems and algorithms. This demonstrates the importance of image segmentation to empower machines to understand data with the precision and efficiency of the human brain.
+\subsection{Architecture}
+The U-Net architecture gets its name from its U-shaped structure. It begins with an encoding path that captures important features of the original image, then uses a series of convolutional and max-pooling layers to downsample the image, effectively contracting it. The algorithm then upsamples the image using a decoding path, expanding the image to have the same spatial dimensions as the input image. The strength of the model however lies in its use of skip connections. These connect the encoding and decoding paths by merging features, which helps retain features that would have been lost by downsampling. This allows the segmentation masks to be significantly more accurate. A complete diagram of the U-Net architecture can be seen below.
+\begin{figure}[h!]
+    \centering 
+    \includegraphics[width=0.75\textwidth]{img/supp2/Architecture.png}
+    \caption{Architecture of the U-Net model}
+\end{figure}
+\subsection{Training}
+This model is being trained on the Carvana Dataset. To do this however, it must implement all three of the main concepts mentioned earlier: transformations, optimization, and loss functions.
+\begin{itemize}
+\item \textbf{Use of Transformations:} The model first takes both the image and mask and resizes them to a uniform size of 512x512 pixels. This transformation standardizes input sizes which will simplify the model training. The next transformation converts the image and mask into tensors and normalizes their pixel values to be within the range of [0, 1]. This is to interact with PyTorch, which expects inputs to be tensors. These two transformations ensure they are ready to be input into the U-Net model. Below is the code outlining this procedure.
+\begin{verbatim}
+class CarvanaDataset(Dataset):
+    def __init__(self, root_path, limit=None):
+        self.root_path = root_path
+        self.limit = limit
+        self.images = sorted([root_path + "/train/" + i for i in
+        os.listdir(root_path + "/train/")])[:self.limit]
+        self.masks = sorted([root_path + "/train_masks/" + i for i in
+        os.listdir(root_path + "/train_masks/")])[:self.limit]
+
+        self.transform = transforms.Compose([
+            transforms.Resize((512, 512)),
+            transforms.ToTensor()])
+        
+        if self.limit is None:
+            self.limit = len(self.images)
+
+    def __getitem__(self, index):
+        img = Image.open(self.images[index]).convert("RGB")
+        mask = Image.open(self.masks[index]).convert("L")
+
+        return self.transform(img), self.transform(mask)
+
+    def __len__(self):
+        return min(len(self.images), self.limit)
+\end{verbatim}
+\item \textbf{Use of AdamW Optimizer:} The U-Net model opts to use the AdamW optimizer. This version of the Adam optimizer incorporates a weight decay with L2 regularization directly on its update rule to prevent overfitting. It takes in both the model parameters to be updated during backpropogation and the learning rate to control the step size at each iteration while approaching the minimum of the loss function. This process is further outlined by the code below.
+\begin{verbatim}
+LEARNING_RATE = 3e-4
+BATCH_SIZE = 8
+
+train_dataloader = DataLoader(dataset=train_dataset,
+                              num_workers=num_workers, pin_memory=False,
+                              batch_size=BATCH_SIZE,
+                              shuffle=True)
+val_dataloader = DataLoader(dataset=val_dataset,
+                            num_workers=num_workers, pin_memory=False,
+                            batch_size=BATCH_SIZE,
+                            shuffle=True)
+
+test_dataloader = DataLoader(dataset=test_dataset,
+                            num_workers=num_workers, pin_memory=False,
+                            batch_size=BATCH_SIZE,
+                            shuffle=True)
+
+model = UNet(in_channels=3, num_classes=1).to(device)
+optimizer = optim.AdamW(model.parameters(), lr=LEARNING_RATE)
+criterion = nn.BCEWithLogitsLoss()
+\end{verbatim}
+\item \textbf{Use of BCE with Logits Loss Function:} The loss function used here is a Binary Cross-Entropy Function with a sigmoid activation combined into one. This is an excellent choice for a loss function, as the images are being segmented into either objects or background with the model. The sigmoid activation being integrated with the function itself is to avoid numerical instability and save on memory and time for the computer. The standard Cross-Entropy Loss Function is reserved for more than 2 class classification, and any type of regression loss function would not work as well in this discrete case. Therefore BCE with Logits is the most efficient loss function available in this case. The loss calculated from this function is then sent backward in the form of gradients manipulated by the AdamW optimizer to change the weights of the model. Overtime, this process yields less and less loss. This process is defined in the results of the U-Net model below.
+\begin{verbatim}
+------------------------------
+Training Loss EPOCH 1: 0.1945
+Training DICE EPOCH 1: 0.7723
+Validation Loss EPOCH 1: 0.0413
+Validation DICE EPOCH 1: 0.9606
+------------------------------ 
+Training Loss EPOCH 2: 0.0304
+Training DICE EPOCH 2: 0.9714
+Validation Loss EPOCH 2: 0.0201
+Validation DICE EPOCH 2: 0.9812
+------------------------------
+Training Loss EPOCH 3: 0.0535
+Training DICE EPOCH 3: 0.9464
+Validation Loss EPOCH 3: 0.0658
+Validation DICE EPOCH 3: 0.9384
+------------------------------
+Training Loss EPOCH 4: 0.0255
+Training DICE EPOCH 4: 0.9763
+Validation Loss EPOCH 4: 0.0155
+Validation DICE EPOCH 4: 0.9856
+------------------------------
+Training Loss EPOCH 5: 0.0140
+Training DICE EPOCH 5: 0.9870
+Validation Loss EPOCH 5: 0.0122
+Validation DICE EPOCH 5: 0.9886
+------------------------------
+Training Loss EPOCH 6: 0.0113
+Training DICE EPOCH 6: 0.9894
+Validation Loss EPOCH 6: 0.0110
+Validation DICE EPOCH 6: 0.9896
+------------------------------
+Training Loss EPOCH 7: 0.0097
+Training DICE EPOCH 7: 0.9909
+Validation Loss EPOCH 7: 0.0090
+Validation DICE EPOCH 7: 0.9914
+------------------------------
+Training Loss EPOCH 8: 0.0087
+Training DICE EPOCH 8: 0.9917
+Validation Loss EPOCH 8: 0.0087
+Validation DICE EPOCH 8: 0.9916
+------------------------------
+Training Loss EPOCH 9: 0.0080
+Training DICE EPOCH 9: 0.9923
+Validation Loss EPOCH 9: 0.0075
+Validation DICE EPOCH 9: 0.9928
+------------------------------
+Training Loss EPOCH 10: 0.0083
+Training DICE EPOCH 10: 0.9921
+Validation Loss EPOCH 10: 0.0074
+Validation DICE EPOCH 10: 0.9928
+\end{verbatim}
+\end{itemize}
+
+
+
+
+
+\section{Additional Details}
+\begin{itemize}
+\item \textbf{Loss:} How well a model's prediction match the ground truth or labels.
+\item \textbf{Margin:} The distance between a decision boundary and its closest data point. In a triplet, it represents a threshold distance required to distinguish pairs.
+\item \textbf{Tensor:} Multi-dimensional array used to store data in many dimensions, making it essential for deep learning libraries like PyTorch.
+\item \textbf{Convolutional Neural Network:} Deep learning algorithm for processing grids such as images. CNN's use pooling operations, transformations, and convolutions to detect patterns within data.
+\item \textbf{Backpropogation:} The algorithm training for neural networks. The gradients of the loss function are calculated with respect to each parameter and propogated backwards through the network, enabling optimization.
+\item \textbf{Regression:} Form of supervised learning where the model predicts a continuous output based on an input. Typically uses Regression Loss Functions.
+\item \textbf{Classification:} Form of supervised learning where the model predicts a discrete output or label based on a ground truth and an input. Typically uses Classification Loss Functions.
+\item \textbf{Sampling:} Selecting a subset of data points from a larger dataset or distribution.
+\end{itemize}
+
+
+
+
+
+
+% \section{Common Notations}
+% \begin{multicols}{2}
+% \begin{itemize}
+% \item $\mathbf{b}$: Bias vector
+% \item $C_k$: K-th cluster
+% \item $d(\mathbf{x_j, x_k})$: Dissimilarity between $\mathbf{x_j, x_k}$
+% \item $E_\theta$: Encoding function
+% \item $f(\cdot)$: Trained neural network
+% \item $\mathbf{G}(t)$: Second moment at time t
+% \item $G_\Phi$: Decoding function
+% \item $\mathbf{H(\theta)}$: Hessian matrix
+% \item $h_i, h_j$: Representation space vectors
+% \item $k^{(i)}$: Number of neurons in the $i^{th}$ layer
+% \item $M$: Number of features in a feature vector
+% \item $m$: Degree of polynomial
+% \item $m_j$: J-th centroid
+% \item $N$: Number of data samples
+% \item $P$: Predicted class
+% \item $P^{(k)}$: The number of neurons in layer k
+% \item $Q$: Contrast class
+% \item $Q_k$: Computed clustering for k-th cluster
+% \item $R_k$: Ground truth clustering for k-th cluster
+% \item $s(\mathbf{x_j, x_k})$: Similarity between $\mathbf{x_j, x_k}$
+% \item $v(t)$: First moment at time t
+% \item $\mathbf{W}$: Weight matrix
+% \item $w_{ij}$: Degree of membership of $\mathbf{x_i}$ in $C_j$
+% \item $\mathbf{X}$: Matrix of feature vectors (dataset)
+% \item $\mathbf{\hat{X}}$: Reconstruction of data
+% \item $\widetilde{\mathbf{X}}$: Corrupted input
+% \item $\mathbf{x_i}$: Feature vector (a data sample)
+% \item $\mathbf{x_{:,i}}$: Feature vector of all data samples
+% \item $x_i$: A single feature
+% \item $\mathbf{Y}$: Output matrix
+% \item $y_i$: Target class
+% \item $y^{c}$: Predicted logit for class P
+% \item $y^{i}$: Logit for any class i
+% \item $\mathbf{Z}$: Latent representation
+% \item \textls[-20]{$z_i$: Latent variables representing the embedding of $\
+% mathbf{x_i}$}
+% \item $\alpha$: Learning rate
+% \item $\gamma$: Bias factor
+% \item $\gamma_i^j$: Posterior of $\mathbf{x_i}$ coming from cluster j
+% \item $\epsilon$: Error margin
+% \item $\tilde{\lambda_j}$: Average activation of neuron $z_{ij}$
+% \item $\boldsymbol{\theta}$: Coefficient vector
+% \item $\theta_i$: A single model coefficient (parameter)
+% \item $\hat{\rho_j}$: Average activation of neuron $z_{ij}$
+% \item $\mathbf{\Omega(Z)}$: Sparsity constraint
+% \end{itemize}
+% \end{multicols}
+
+
+
+ \end{document}

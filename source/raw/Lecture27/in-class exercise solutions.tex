@@ -1,0 +1,71 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{In-Class Exercise --- Solutions}}\\[6pt]
+{\large \textbf{Lecture 27: Uncertainty Quantification in Neural Networks}}
+\end{center}
+
+\vspace{8pt}
+
+\noindent
+\textbf{Solutions:}
+\begin{enumerate}[label=(\arabic*), itemsep=10pt]
+
+\item \textbf{(MC)} Noise/distortions in acquisition are inherent data noise $\Rightarrow$
+\[
+\boxed{\text{(B) Aleatoric uncertainty}}
+\]
+
+\item \textbf{(TF)} Epistemic uncertainty is model/data knowledge uncertainty and can be reduced:
+\[
+\boxed{\text{True}}
+\]
+
+\item \textbf{(MC)} Dropout at test time + averaging stochastic passes:
+\[
+\boxed{\text{(B) Monte Carlo Dropout (MC-Dropout)}}
+\]
+
+\item \textbf{(Numeric)} 
+\[
+H(\bar{p}) = -\left(0.70\ln 0.70 + 0.20\ln 0.20 + 0.10\ln 0.10\right)
+\]
+Compute terms:
+\[
+0.70\ln0.70 \approx 0.70(-0.3567)= -0.2497
+\]
+\[
+0.20\ln0.20 \approx 0.20(-1.6094)= -0.3219
+\]
+\[
+0.10\ln0.10 \approx 0.10(-2.3026)= -0.2303
+\]
+Sum:
+\[
+H(\bar{p}) \approx -\left(-0.2497-0.3219-0.2303\right)=0.8019
+\]
+Rounded:
+\[
+\boxed{H(\bar{p}) = 0.80}
+\]
+
+\item \textbf{(MC)} NLL and Brier Score are per-sample metrics:
+\[
+\boxed{\text{(A) Per-sample uncertainty metrics}}
+\]
+
+\end{enumerate}
+
+\vspace{8pt}
+\noindent
+\textbf{Final answers:}
+\[
+\boxed{(1)\;B,\quad (2)\;T,\quad (3)\;B,\quad (4)\;0.80,\quad (5)\;A}
+\]
+
+\end{document}

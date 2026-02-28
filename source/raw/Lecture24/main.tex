@@ -1,0 +1,642 @@
+%% Adapted from GaTech CS 7545 Machine Learning Theory given by Prof. Jacob Abernathy Fall 2018. Original latex file: https://github.com/mltheory/CS7545/blob/master/scribe/CS7545scribe_template.tex 
+
+
+
+%%%%%PLEASE CONSIDER CORRECTIONS AT PLACES INDICATED%%%%%%%%
+\documentclass{article}
+%%%%%Packages Used, add more if necessary%%%%
+\usepackage{amsmath,amsfonts,amssymb,graphicx,fullpage, float}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\usepackage{mdframed}
+\usepackage{multicol}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+%%%%% NO NEED TO EDIT THIS PREAMBLE %%%%%%%%
+%%% PREAMBLE %%%
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+\newcommand{\lecture}[4]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+      
+      \hbox to 6.28in { 
+      {\bf ECE 4252/6252 (FunML) Fundamentals of Machine Learning \hfill 2021--2028} }
+      
+      \vspace{2mm}
+      \hbox to 6.28in { 
+      {Courses developed by Professor Ghassan AlRegib 
+      (\href{https://alregib.ece.gatech.edu/}{alregib.ece.gatech.edu}) 
+      \hfill For inquiries: \href{mailto:alregib@gatech.edu}{alregib@gatech.edu}} }
+      
+      \vspace{3mm}
+      \hbox to 6.28in { {\Large \hfill Lecture #1: #2 \hfill} }
+      
+      \vspace{2mm}
+      \hbox to 6.28in { {\it Co-Instructors: #3 \hfill #4} }
+      
+      \vspace{2mm}}
+   }
+   \end{center}
+
+   % -------- PEOPLE OUTSIDE BOX --------
+   \vspace{2mm}
+   \noindent{\bf Contributors:} Dr. Ahmad Mustafa, Dr. Motaz Alfarraj, Dr. Ashraf Alattar, Dr. Chen Zhou
+
+   \vspace{1mm}
+   \noindent{\bf Teaching Assistants} with remarkable contributions include: Kuo-Wei Lai, Wuyang Du, Shiva Mahato, Michael Zhou, Ninghan Zhong
+
+   \markboth{Lecture #1: #2}{Lecture #1: #2}
+
+   \vspace{2mm}
+\noindent {\bf Disclaimer}: 
+{All content of these notes are part of this course at Georgia Tech. Any re-use or distribution is not permitted without pre-approved permission. All these notes belong to, created by, and copyrighted for Ghassan AlRegib and Mohit Prabhushankar, Georgia Tech, 2021--2028.}
+
+\vspace{2mm}
+\noindent {\bf License}: 
+{These lecture notes are licensed under the 
+\href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License}.}
+
+   \vspace{2mm}
+   \noindent {\bf Errata}: 
+   {\it Please submit any errata you find using the following form: 
+   \href{https://forms.office.com/r/fbg9dMWPgY}{Errata Form for FunML Textbook} 
+   or visit: \url{https://forms.office.com/r/fbg9dMWPgY}}
+
+   \vspace*{4mm}
+}
+\renewcommand{\cite}[1]{[#1]}
+\def\beginrefs{\begin{list}
+        {[\arabic{equation}]}{\usecounter{equation}
+         \setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}%
+         \setlength{\labelwidth}{1.6truecm}}}
+\def\endrefs{\end{list}}
+\def\bibentry#1{\item[\hbox{[#1]}]}
+
+\newcommand{\challenge}[2]{\noindent \textbf{(Challenge Problem)} \emph{#1}: #2 }
+
+\newcommand{\exercise}[1]{\noindent \textbf{(Exercise)} #1 }
+
+\newcommand{\fig}[3]{
+			\vspace{#2}
+			\begin{center}
+			Figure \thelecnum.#1:~#3
+			\end{center}
+	}
+%%% END_OF_PREAMBLE %%%
+
+
+	
+%%%%You may add more \newtheorem if necessary%%%%%%
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+
+
+\newcommand{\dom}{\mathrm{dom}}
+\begin{document}
+
+%%%%%CHANGE HERE%%%%%%%
+%%%%%\section{title of the section} similarly with the rest \section{} or \subsection{} or \subsubsection{} etc
+
+
+%%%%%CHANGE HERE%%%%%%%%%
+%%%%%\lecture{the ordinal number of the lecture}{lecture title}{Jacob Abernethy}{scriber's name}
+\lecture{24}{Anomaly Detection}{Ghassan AlRegib and Mohit Prabhushankar}{}
+
+%%%%%CHANGE HERE%%%%%%%
+%%%%%\section{title of the section} similarly with the rest \section{} or \subsection{} or \subsubsection{} etc
+
+\section{Lecture Objectives}
+
+The objectives of this lecture are to provide a comprehensive understanding of anomaly detection as a critical machine learning techniques for identifying rare or unusual events within data patterns. This includes defining anomalies in the context of statistical frameworks, introducing the core components of anomaly detection algorithms-statistic and decision rule-and exploring various performance metrics such as True Positive Rate (TPR), False Positive Rate (FPR), and Area Under the Curve (AUC). Additionally, the lecture examines different anomaly detection settings, including semi-supervised, unsupervised, and supervised approaches, emphasizing their unique assumptions, methodologies, and applications. Advanced topics such as density-based methods, reconstruction-based techniques, and hybrid approaches integrating statistical modeling and deep learning are also discussed, equipping learners with the knowledge to address challenges in high-dimensional data and complex anomaly detection scenarios effectively.
+
+\section{Anomaly Detection} 
+%%%%%Use itemize to layout bullet points that are not numbered%%%%%
+
+The anomaly detection scheme was first introduced in this lecture. The following things were discussed to demonstrate and elaborate the concept. 
+\begin{itemize}
+\item Anomaly Definition
+\item Problem Setup
+\item Performance Metrics
+\item Anomaly Detection Settings
+\item Statistical Methods
+\item Reconstruction Methods
+\item GradCON
+\end{itemize}
+
+\subsection{Definition}
+Anomaly detection is a machine learning technique aimed at identifying rare or unusual events within normal patterns of data. While anomaly detection is not necessarily an application in itself, it plays a critical role in various domains by flagging significant deviations. Specifically, anomalies are defined as patterns that deviate significantly from a well-established notion of normal behavior. The key challenge lies in accurately defining what determines “normal”. Historically, the approach to anomaly detection has evolved significantly, but for simplicity, we will adhere to basic assumptions in this class.
+\newpage
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/lecture24/image1.png}
+    \caption{Example of anomalous structures: Anomalies within a structured material}
+    \label{fig:enter-label}
+\end{figure}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/lecture24/Picture2.png}
+    \caption{Another Example of anomalous structures: Anomaly detection scenario in a public setting}
+    \label{fig:enter-label}
+\end{figure}
+
+In data modeling, normal data are typically generated from a stationary process $P_N$, where the statistical properties (e.g., mean, variance) remain constant over time. Anomalies, on the other hand, arise from distinct, non-stationary processes $P_A$, where $P_A\neq P_N$. This divergence from normality allows anomalies to stand out in datasets.
+
+\subsection{Example}
+Examples of anomaly detection include:
+\begin{itemize}
+\item Identifying fraudulent transactions within streams of credit card activities
+\item Detecting arrhythmias in ECG tracings that deviate from normal heart activity
+\item Locating defective regions in images that do not conform to a reference pattern
+\end{itemize}
+It is important to note that anomalies often manifest as spurious, seemingly irregular elements. Despite their rarity, these anomalous data points are typically the most informative and significant samples within a dataset, as they often highlight critical insights or events of interest.
+
+\subsection{Anomaly Detection in Images}
+To address anomaly detection in images, the problem can be formulated mathematically as follows: 
+\begin{itemize}
+\item Let $s$ represent an image defined over the pixel domain $x\in Z^2$
+\item Let $c \in x$ denote a specific pixel, and $s(c)$  he corresponding intensity at pixel $c$
+\end{itemize}
+The objective is to identify anomalous region in the image $s$ for each pixel $c$, which can be expressed through the estimation of an anomaly mask $\Omega$ defined as:
+
+\begin{equation}
+  \Omega(c)=\begin{cases}
+    0, & \text{if $c$ belongs to a normal region}.\\
+    1, & \text{if $c$ belongs to a normal region}.
+  \end{cases}
+\end{equation}
+
+If we observe a set of data over time, not necessarily in a stream, represented as: 
+
+\begin{center}${x(t), t=t_0, ...}, x(t) \in R^d $ \end{center}
+
+where $x(t)$ are realizations of a random variable with a probability density function $\phi_0$, anomaly detection involves identifying outliers by analyzing deviations from the normal data distribution $\phi_0$. In all cases, we’re assuming that there’s a process generating data. Specifically, the process can be modeled as:
+
+\begin{equation}
+  x(t)=\begin{cases}
+    \phi_0, & \text{if $x(t)$ belongs to normal data}.\\
+    \phi_1, & \text{if $x(t)$ belongs to anomalous data}.
+  \end{cases}
+\end{equation}
+\newline
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/lecture24/Picture3.png}
+    \caption{Process of detecting anomalies in a time-series signal $x(t)$}
+    \label{fig:enter-label}
+\end{figure}
+
+\subsection{Anomaly Detection in a statistical framework}
+Anomaly detection algorithms in a statistical context involves two fundamental components: a statistic and a decision rule. Since data integration process is something explicitly known, it is important to construct measurement.
+\subsubsection{Statistics}
+A statistic quantifies the data's behavior and has a predictable response under normal conditions, which means it’s always constant. Examples include:
+\begin{itemize}
+\item The average or mean
+\item Sample variance
+\item Log-likelihood values
+\item Classifier confidence scores
+\item An “anomaly score” specifically designed to highlight deviations
+\end{itemize}
+
+\subsubsection{Decision Rule}
+The decision rule interprets the statistic to classify data as normal or anomalous. It can be changed or personalized depending on different tasks. Examples include:
+\begin{itemize}
+\item Adaptive thresholds: A dynamic boundary is set based on the observed statistic.
+\item Confidence region: Zones within which data is considered normal
+\end{itemize}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/lecture24/Picture4.png}
+    \caption{Figure showing how anomalies are identified based on statistical deviations}
+    \label{fig:enter-label}
+\end{figure}
+
+\subsection{Performance Metrics}
+When applying anomaly detection, it is crucial to define the specific goals for each scenario. For example, if a dataset is initially designed for multi-class classification, it may need to be adapted for anomaly detection. This involves transforming the dataset from NNN-class classification into a binary classification problem (i.e., normal vs. anomalous). In this new context, the focus shifts to addressing the imbalance between the two classes, as anomalies are typically much rarer than normal data. Effectively handling this class imbalance is essential for achieving accurate and meaningful results in anomaly detection.
+
+\subsubsection{TPR, FPR}
+Evaluating the effectiveness of an anomaly detection algorithm requires the use of well-defined performance metrics. Two primary indicators are the True Positive Rate (TPR) and the False Positive Rate (FPR):
+
+\begin{equation}
+  TPR=\frac{\text{number of anomalies detected}}{\text{number of anomalies}}
+\end{equation}
+\begin{itemize}
+\item Also referred to as recall, sensitivity, or hit rate.
+\item Measures the proportion of actual anomalies correctly identified by the algorithm.
+\end{itemize}
+
+\begin{equation}
+  FPR=\frac{\text{number of normal samples detected}}{\text{number of normal samples}}
+\end{equation}
+\begin{itemize}
+\item Represents the fraction of normal samples that were misclassified as anomalies.
+\end{itemize}
+
+Note that we've discussed in the previous lectures:
+\begin{center} False Negative Rate (FNR) = 1 - TPR \end{center}
+\begin{center} True Negative Rate (TNR) = 1 - FPR \end{center}
+\begin{equation}
+  \text{(Precision on anomalies)}=\frac{\text{anomalies detected}}{\text{detections}}
+\end{equation}
+
+
+There is an inherent trade-off between TPR and FPR, which is governed by the choice of the threshold parameter $\gamma$.
+
+Adjusting $\gamma$ impacts the detection performance:
+\begin{itemize}
+\item Lower $\gamma$: Increases TPR but may raise FPR, leading to more false positives.
+\item Higher $\gamma$: Reduces FPR but may lower TPR, resulting in missed anomalies.
+\end{itemize}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/lecture24/Picture24.5.png}
+    \caption{Statistical Thresholding in Anomaly Detection}
+    \label{fig:enter-label}
+\end{figure}
+
+
+Therefore, to mitigate the trade-off between TPR and FPR, we need to consider at least two indicators (e.g. TPR, FPR) when assessing performance. To name a few example indicators combining both TPR and FPR, \newline
+\begin{equation}
+  \text{(Accuracy)}=\frac{\text{(anomalies detected) + (normal samples not detected)}}{\text{(samples)}}
+\end{equation}
+which indicates the overall correctness of the model.
+\begin{equation}
+  \text{(F1 score)}=\frac{2*\text{(anomalies detected)}}{\text{(detections + anomalies)}}
+\end{equation}
+which balances precision and recall, providing a harmonic mean.
+In an ideal detector, the model detects all anomalies without false positives, and thus both accuracy and F1 score reach their maximum value of 1. 
+
+\subsubsection{Area Under the Curve (AUC)}
+Comparing different anomaly detection methods can be challenging, as it requires ensuring that all methods are configured optimally for fair evaluation. To achieve this, performance is typically visualized using the Receiver Operating Characteristic (ROC) curve. 
+The ROC curve plots the True Positive Rate (TPR) against the False Positive Rate (FPR) for various threshold values. The ideal detector is represented by a point at (0,1), where FPR = 0\% and TPR = 100\%. This corresponds to perfect performance with no false positives and all anomalies correctly identified.
+We can observe that
+\begin{itemize}
+\item A curve closer to the top-left corner (0,1) indicates better performance.
+\item The Area Under the Curve (AUC) serves as a summary statistic to compare models:
+\subitem A higher AUC value indicates superior overall performance.
+\subitem The optimal parameters yield a curve and AUC value as close as possible to the ideal point.
+\end{itemize}
+
+Thus, the ROC curve and AUC provide a robust framework for assessing and comparing the effectiveness of different models or algorithms in anomaly detection.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/lecture24/Picture6.png}
+    \caption{ROC Curve Comparison Across Methods}
+    \label{fig:enter-label}
+\end{figure}
+
+% \exercise{The professor mentioned an exercise in class that would be useful to work out. You can use the \texttt{$\backslash$exercise} command in these cases.}
+
+% \challenge{Name of Challenge Problem}{If a challenge problem is given out, give it a name and put it in the previous field and then write down the description in this field.}
+
+
+\section{Anomaly Detection Settings}
+Anomaly detection can be approached in three primary scenarios:
+\begin{itemize}
+\item \textbf{Semi-supervised:} Assumes access to mostly normal data with limited or no labeled anomalies. In other words, it is told that all the training data is normal.
+\item \textbf{Unsupervised:} Detects anomalies without any labeled data, relying entirely on inherent data patterns. In other words, training data can be either normal or anomaly, and it is not told.
+\item \textbf{Supervised:} Requires a labeled dataset with examples of both normal and anomalous instances. In other words, it is explicitly told that which data is normal and which data is anomaly.
+\end{itemize}
+
+\section{Semi-supervised Anomaly Detection}
+\subsection{Context and Assumptions}
+In semi-supervised settings, the training data TR consists primarily of normal samples: \newline
+\begin{center}
+TR = $\{x(t), x \sim \phi_0$ and $ t < t_0\}$
+\end{center}
+This approach is based on the following assumptions: 
+\begin{enumerate}
+\item Normal data are easy to gather and the vast majority. \newline
+\item Anomalous data are difficult and costly to collect and also select, so it would be difficult to gather a representative training set. \newline
+\item Training examples in TR might not be representative of all the possible anomalies that can occur. \newline
+\end{enumerate}
+For these reasons, semi-supervised anomaly detection is often referred to as novelty detection.
+
+\subsection{Density-based methods}
+One common and popular approach for semi-supervised anomaly detection involves monitoring the log-likelihood of data with respect to the normal data distribution $\phi_0$. The method can be outlined as follows: \newline
+\begin{enumerate}
+    \item \textbf{Training Phase:} Estimate the probability density function (PDF) $\phi_0$ using the training data TR. \newline
+    $\phi_0$ can be estimated from the training set using GMMs, which assumes data has normal generation process and takes advantage of mean, standard deviation, and multiple Gaussian distributions.
+    \item \textbf{Testing Phase:} \newline
+    Compute the log-likelihood for each data point during testing
+    \begin{center}
+    $L(x(t)) = log(\phi_0(x(t)))$
+    \end{center}
+    Monitor the log-likelihood values over time:
+    \begin{center}
+    ${L(x(t)), t = 1, ...}$
+    \end{center}
+\end{enumerate}
+If anomalies stay near the Gaussian mixture model, it means that the statistics used for the process are not correct.
+
+\subsection{Advantages and Disadvantages}
+\begin{itemize}
+    \item \textbf{Advantages:} The PDF $\phi_0$ provides a measure of confidence in the detection, analogous to a p-value. Robust density estimation methods can tolerate a small number of anomalous samples in the training data (TR).
+    \item \textbf{Disadvantages:} High-dimensional data poses significant challenges for density estimation, as it becomes computationally expensive and prone to overfitting.
+\end{itemize}
+
+\section{Unsupervised Anomaly Detection}
+Unsupervised, data-driven, detection of anomalies is a standard technique in machine learning. Throughout the years, many methods, or algorithms, have been developed to detect anomalies. \newline
+Most anomaly detection tasks are conducted unsupervised, which means that no labels are available to the user. Consequently, this means that regular optimization, like grid searches for optimal hyperparameters used in supervised learning, are not used within unsupervised anomaly detection. Most unsupervised anomaly detection algorithms produce scores, rather than labels, to samples. The most common convention is that a higher score indicates a higher likelihood that a sample is an anomaly, making unsupervised anomaly detection a ranking problem.
+
+\subsection{Definition}
+Unsupervised anomaly detection occurs when there are no labeled anomalies in the training data, and the model needs to identify anomalies without prior knowledge of what constitutes an anomaly. The model’s task is to find data points that deviate significantly from most of the data, making it suitable for cases where anomalies are rare or poorly understood.
+
+\subsection{Problem Setting}
+In the context of unsupervised anomaly detection, we assume the training set TR contains both normal and anomalous data but lacks explicit labels. The training set is denoted as:
+\begin{center}
+    $TR = \{x(t), t < t_0\}$, where x(t) represents a data point observed at time t
+\end{center}
+The underlying assumption is that anomalies are rare relative to normal data. This scarcity forms the basis for differentiating anomalies from most data points. Without prior knowledge of class labels, the problem becomes one of identifying data points that exhibit statistical or structural deviations from the majority.
+
+\subsection{Methodologies}
+Several methodologies have been developed for unsupervised anomaly detection, leveraging diverse principles such as proximity, density, and isolation. The most common techniques are discussed below.
+
+\subsubsection{Distance-Based Methods}
+Distance-based methods rely on the hypothesis that normal data resides in dense neighborhoods, whereas anomalies are distant from their nearest neighbors.
+\begin{figure}
+    \centering
+    \includegraphics[width=0.75\linewidth]{img/lecture24/Picture1.png}
+    \caption{Distance-based Methods}
+    \label{fig:enter-label}
+\end{figure}
+
+\begin{itemize}
+\item These methods monitor in the following steps:
+    \begin{enumerate}
+        \item Measure the distance between each data point and its $k$-nearest neighbors ($k$-NN).
+        \item Determining if a data point belongs to sparse clusters, exists at the periphery of dense clusters, or is entirely isolated.
+        \item The effectiveness of distance-based methods hinges on selecting an appropriate similarity metric (e.g., Euclidean, Manhattan, distance).
+    \end{enumerate}
+    
+\item Key steps:
+    \begin{enumerate}
+        \item For each data point, calculate the distance to $k$-NN.
+        \item Normalize distances relative to neighbors to identify sparsity.
+        \item Points with high normalized distances are flagged as anomalies.
+    \end{enumerate}
+    
+\item Challenges:
+    \begin{enumerate}
+        \item High computational costs for large datasets.
+        \item Sensitivity to parameter choices such as k in k-nearest neighbors.
+    \end{enumerate}
+\end{itemize}
+
+\subsubsection{Isolation Forest}
+The term Isolation means ‘separating an instance from the rest of the instances.’ Since anomalies are ‘few and different’ and therefore they are more susceptible to isolation.
+The Isolation Forest algorithm is grounded in the notion that anomalies are easier to isolate from most normal data points. It employs a forest of binary trees constructed iteratively by:
+\begin{enumerate}
+    \item Selecting a feature $x_i$and a random split value within its range.
+    \item Splitting data recursively, isolating anomalies in fewer steps due to their sparsity.
+    \item The path length to isolate a data point is inversely proportional to its normalcy. 
+\end{enumerate}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/lecture24/Picture8.png}
+    \caption{Isolation Forest: Step-by-step}
+    \label{fig:enter-label}
+\end{figure}
+
+\noindent Isolation Forest is computationally efficient and scalable, making it suitable for high-dimensional datasets.
+
+\subsection{Enhancements and Integration}
+While unsupervised methods excel in label-free scenarios, their efficacy can be improved through semi-supervised learning when partial labels are available. For instance:
+\begin{itemize}
+    \item Integration with DBSCAN to identify clusters and outliers.
+    \item Combining Isolation Forest with neural network-based autoencoders for feature extraction.
+    \item Dynamically adjusting thresholds for anomaly scores based on data characteristics.
+\end{itemize}
+
+\subsection{Applications}
+Unsupervised anomaly detection methods have broad applicability across domains:
+\begin{itemize}
+    \item Cybersecurity: Detecting unusual access patterns or malware activity.
+    \item Industrial Monitoring: Identifying equipment faults or inefficiencies.
+    \item -	Finance: Uncovering fraudulent transactions in banking and e-commerce.
+\end{itemize}
+
+\subsection{Challenges}
+Unsupervised anomaly detection faces significant challenges, including:
+\begin{itemize}
+    \item Scalability to datasets with numerous features
+    \item Adapting to evolving data distributions in dynamic environments
+    \item Explaining why certain data points are deemed anomalous
+\end{itemize}
+
+
+\section{Statistical Methods}
+Image-based anomaly detection identifies regions or patches in an image that deviate from normal patterns. Unlike global anomaly detection, which considers an entire image as a single entity, patch-based techniques and pixel-level analysis offer higher granularity and better sensitivity for anomalies localized to specific regions.
+
+\subsection{Patch-based Image Analysis}
+Patch-based image analysis divides an image into smaller, non-overlapping or overlapping regions (patches), enabling localized feature extraction. The methodology relies on isolating normal patterns during training and comparing these to unseen patches during inference.
+
+\subsubsection{Training Process}
+\begin{enumerate}
+    \item Normal images divided into patches s, typically of fixed dimensions (e.g., 4x4 or 8x8 pixels).
+    \item Each patch is modeled as a multivariate Gaussian distribution: $\phi_0 = N(\mu, \sum)$, where $\mu$ and $\sum$ represents the mean vector and covariance matrix of normal patches, respectively.
+    \item The statistical model captures the likelihood of a patch belonging to the normal distribution.
+\end{enumerate}
+
+\subsubsection{Testing Process}
+\begin{enumerate}
+    \item Test images are similarly divided into patches.
+    \item The likelihood $\phi_0(s)$ of each patch is evaluated based on the trained model.
+    \item Patches with likelihood values below a predefined threshold are flagged as anomalous.
+\end{enumerate}
+
+\subsubsection{Challenges}
+Larger patch size increases the dimensionality of the feature space, making Gaussian modeling less effective. \newline
+Adjacent patches often exhibit dependencies that Gaussian models fail to capture. \newline
+This method assumes independence between pixel intensities in a patch, which may not always hold in real-world scenarios. As patch size increases, modeling becomes increasingly challenging due to high-dimensional data correlations.
+
+
+\subsection{Adjacent Pixel-value Distribution}
+Adjacent pixel-value distribution focuses on the spatial correlations between neighboring pixels, providing insights into texture and structural patterns within an image.
+\subsubsection{Correlation in Spatial Data}
+\begin{itemize}
+    \item -	Image pixels are inherently correlated due to continuous and smooth transitions in natural images.
+    \item -	Modeling such dependencies using simple probabilistic functions (e.g., Gaussians) is challenging.
+\end{itemize}
+\subsubsection{Key Insights}
+\begin{itemize}
+    \item Histograms and Scatter Plots: Visual analysis of pixel intensities reveals spatial dependencies and correlations.
+    \item Limitations of Gaussian Models: Gaussian models fail to capture the complexity of high-dimensional and highly correlated data, especially in larger patches.
+\end{itemize}
+\subsubsection{Implications for Anomaly Detection}
+\begin{itemize}
+    \item Correlations among pixel values can obscure anomalies, necessitating advanced techniques that account for spatial structure (e.g., convolutional filters in neural networks). 
+\end{itemize}
+Scatter plots of adjacent pixel values reveal intrinsic patterns of normal images, allowing anomalies to be identified as deviations from these distributions. Incorporating local pixel interactions enhances the robustness of anomaly detection.
+
+
+\subsection{Maximum Softmax Probability (MSP)}
+Maximum Softmax Probability is a neural network-based approach to detect anomalies by analyzing the output probability distribution of a classification model. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/lecture24/Picture10.png}
+    \caption{Convolution Neural Network}
+    \label{fig:enter-label}
+\end{figure}
+\subsubsection{Concept}
+\begin{itemize}
+    \item Neural networks produce softmax scores for classification tasks, where each score represents the likelihood of an input belonging to a specific class.
+    \item MSP leverages these scores to identify out-of-distribution (OOD) samples
+\end{itemize}
+\subsubsection{Methodology}
+\begin{itemize}
+    \item Softmax Thresholding: A threshold is defined for softmax scores. If the maximum softmax probability for an input falls below this threshold, the input is classified as anomalous.
+    \item In-distribution vs. Out-of-distribution: In-distribution samples yield high softmax probabilities for one class, whereas OOD samples produce lower scores.
+\end{itemize}
+\subsubsection{Advantage}
+\begin{itemize}
+    \item MSP provides a simple yet effective method for anomaly detection in neural networks.
+    \item It allows for anomaly detection without modifying the training process, making it computationally efficient.
+\end{itemize}
+\subsubsection{Challenges}
+\begin{itemize}
+    \item High dependence on the softmax calibration of the model.
+    \item Sensitivity to the choice of threshold, which may vary across datasets.
+\end{itemize}
+
+\subsection{Manifolds in Natural Images}
+Natural images exhibit low-dimensional manifold structures embedded in high-dimensional spaces. This insight is pivotal in understanding how anomalies deviate from normal data.
+\begin{enumerate}
+    \item Theoretical Basis
+    \subitem Image patches lie close to a low-dimensional manifold.
+    \subitem Anomalies are outliers that reside far from this manifold.
+    \item Implementation vis Neural Networks
+    \subitem Convolutional Neural Networks (CNNs) extract feature representations that are clustered closer on the manifold for normal patches.
+    \subitem Latent representations in the manifold reveal the underlying structure of normal data, facilitating anomaly detection.
+\end{enumerate}
+This approach significantly improves the interpretability and precision of anomaly detection in complex datasets.
+
+\section{Extended Mythologies}
+To address the limitation of each method, hybrid approaches can be developed by integrating statistical modeling, manifold learning, and deep learning:
+\subsection {Reconstruction-Based Methods}
+\begin{enumerate}
+    \item Definition: Reconstruction-based methods fit a statistical model to the observation to describe dependence and apply anomaly detection on the independent residuals. The rationale is that $\mu$ can reconstruct only normal data, and thus anomalies are expected to yield large reconstruction errors.
+    \item Process: Detection is performed by using a model $\mu$, which can encode and reconstruct normal data as follows:
+    \begin{itemize}
+        \item During training: Learn the model $\mu$ from training set TR.
+        \item During testing: 
+        \begin{itemize}
+        \item Encode and reconstruct each test signal s through $\mu$
+        \item Assess err(s), namely the residual between s and its reconstruction through $\mu$
+        \end{itemize}
+    \end{itemize}
+\newpage
+    \item Example: Autoencoders
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.5\linewidth]{img/lecture24/Picture11.png}
+        \caption{Structure of Autocoder}
+        \label{fig:enter-label}
+    \end{figure}
+    \begin{enumerate}
+        \item Neural networks used for data reconstruction since they learn the identity function.
+        \item Autoencoders are trained to reconstruct all the samples in the training set. The reconstruction loss over the training set TR is 
+        \begin{equation}
+          L(TR)=\Sigma_{s\in{TR}}\Big|\big|s-D(E(S))\big|\Big|_2
+        \end{equation}
+        \item Training of D(E(•)) is performed through standard backpropagation methods, e.g. SGD. 
+    \end{enumerate}
+\end{enumerate}
+\subsection {Gradient Constraints}
+\begin {itemize}
+    \item Introduce gradient-based regularizations during training to enhance anomaly separation
+    \item Use GradCON (Gradient Constrained Optimization) to penalize anomalies during model updates
+\end {itemize}
+\subsection {Ensemble Techniques}
+\begin {itemize}
+    \item Combine MSP with Patch-based and manifold approaches for robust multi-scale anomaly detection
+\end {itemize}
+
+\section{Q\&A Section}
+
+\begin{enumerate}
+    \item What is the primary challenge in defining anomalies within a dataset?\newline
+    \newline
+    \newline
+    \textbf{Answer:} The primary challenge is accurately defining ``normal" behavior within the data. Since anomalies are identified based on deviations from normal patterns, an unclear or incorrect definition of normality can lead to either false positives (normal data misclassified as anomalies) or false negatives (anomalies classified as normal). \newline
+    \newline
+    \textbf{Explanation:} The process of anomaly detection relies heavily on understanding the statistical properties of normal data. In many cases, normal behavior can vary significantly across contexts, requiring careful consideration of the domain, data patterns, and use case. This challenge underscores the importance of robust statistical modeling or machine learning techniques.\newline
+
+    \item Why are anomalies often considered the most significant data points in a dataset?\newline
+    \newline
+    \textbf{Answer:} Anomalies typically highlight rare and unusual events that may signal critical insights or important occurrences, such as fraudulent transactions, system failures, or medical conditions.\newline \newline
+    \textbf{Explanation:} While anomalies represent only a small fraction of the data, they are often highly informative because they stand out from the background of normal behavior. This makes them valuable in applications where detecting rare events can have substantial impacts, such as cybersecurity or medical diagnostics.\newline
+
+    \item What are the two main components of an anomaly detection algorithm in a statistical framework?\newline
+    \newline \newline
+    \textbf{Answer:} The two main components are (1)Statistic: A measurement that quantifies the behavior of the data and responds predictably under normal conditions, and (2) Decision Rule: A mechanism to interpret the statistic and classify data points as normal or anomalous.\newline \newline
+    \textbf{Explanation:} The statistic provides a mathematical or computational representation of the data's characteristics, while the decision rule applies thresholds or confidence intervals to make a binary decision (normal vs. anomalous). Together, these components form the foundation for statistical anomaly detection.\newline
+
+    \item What is the trade-off between the True Positive Rate (TPR) and False Positive Rate (FPR) in anomaly detection?\newline \newline
+    \newline
+    \textbf{Answer:} There is an inherent trade-off where lowering the threshold parameter ($\gamma$) increases TPR (detecting more anomalies) but also raises FPR (increasing false positives). Conversely, raising $\gamma$ reduces FPR but may lower TPR, leading to missed anomalies.\newline \newline
+    \textbf{Explanation:} The threshold $\gamma$ determines the sensitivity of the anomaly detection algorithm. Adjusting $\gamma$ too low makes the model more inclusive, detecting more anomalies but potentially misclassifying normal points as anomalies. A higher threshold does the opposite, making the model more conservative.\newline
+
+    \item What is the main challenge of density-based methods in anomaly detection?\newline \newline \newline
+    \textbf{Answer:} The main challenge is handling high-dimensional data, as estimating probability density functions (PDFs) in high dimensions is computationally expensive and prone to overfitting.\newline
+    \newline
+    \textbf{Explanation:} Density-based methods rely on accurate modeling of the normal data distribution, but as dimensionality increases, data sparsity and computational complexity make it difficult to achieve robust estimations. This is often referred to as the "curse of dimensionality."\newline
+    
+    \item What are the primary advantages of using the optimization techniques discussed in the lecture for reducing computational overhead in neural networks? \newline \newline \newline
+    \textbf{Answer:} The optimization techniques such as quantization, pruning, and knowledge distillation help in:
+    Reducing model size - These techniques decreases the memory footprint, making models feasible for edge devices.
+    Improving inference speed - By simplifying computations, these methods ensure faster inference without significant loss of accuracy. 
+    Energy efficiency - Optimization reduces power consumption, which is critical for deploying models on mobile or IoT devices. \newline \newline
+    \textbf{Explanation:} Quantization reduces the precision of the weights and activations, thereby lowering the computational requirements. Pruning removes redundant parameters, maintaining the key structure of the model while improving efficiency. Knowledge distillation transfers knowledge from a larger ``teacher" model to a smaller ``student" model, maintaining performance while reducing complexity.
+    
+    \item Explain the role of gradient clipping in addressing exploding gradients during backpropagation through time (BPTT) in RNNs. \newline \newline \newline
+    \textbf{Answer:} Gradient clipping restricts the magnitude of gradients to a predefined threshold during the backpropagation process. If a gradient's norm exceeds this threshold, it is scaled down proportionally to fit within the limit. \newline \newline
+    \textbf{Explanation:} In RNNs, gradients can grow exponentially during BPTT, leading to numerical instability and poor convergence (exploding gradients). Gradient clipping ensures stable training by preventing gradients from becoming excessively large. It acts as a safeguard, especially in deep networks where long-term dependencies are critical but prone to instability.
+    
+    \item What is the significance of attention mechanisms in transformers compared to traditional RNN-based sequence models? \newline \newline \newline
+    \textbf{Answer:} Attention mechanisms allow models to focus on relevant parts of the input sequence dynamically, rather than relying solely on sequential processing like RNNs. This improves parallelism and efficiency. \newline \newline
+    \textbf{Explanation:} RNNs process sequences step-by-step, making them computationally expensive for long inputs. Attention mechanisms, a core component of transformers, compute relationships between all parts of the sequence simultaneously. This approach enhances the ability to capture long-term dependencies, enabling state-of-the-art performance in tasks like machine translation and text summarization.
+
+    \item How does the choice of activation function affect the training dynamics and expressiveness of a neural network? \newline \newline \newline
+    \textbf{Answer:} The activation function determines the network's ability to capture non-linear relationships and influences gradient propagation during backpropagation. \newline \newline
+    \textbf{Explanation:} ReLU (Rectified Linear Unit) is commonly used due to its simplicity and efficiency, avoiding vanishing gradient issues seen in sigmoid and tanh. However, ReLU can suffer from "dead neurons." Alternatives like Leaky ReLU and GELU address these issues by allowing small gradients for negative inputs, improving learning dynamics and overall expressiveness.
+    
+    \item What are the trade-offs involved in using batch normalization for stabilizing training in deep networks? \newline
+    \newline \newline
+    \textbf{Answer:} Batch normalization accelerates training by normalizing intermediate layer outputs, reducing internal covariate shift. However, it introduces computational overhead and can cause issues during inference when batch statistics differ from training statistics. \newline \newline
+    \textbf{Explanation:} During training, batch normalization reduces sensitivity to weight initialization and learning rates. However, it relies on batch statistics, which can vary significantly for small batch sizes or during inference, potentially affecting performance. Despite these challenges, its ability to stabilize training often outweighs the drawbacks.
+
+
+    
+    
+
+\end{enumerate}
+
+
+\end{document}
+

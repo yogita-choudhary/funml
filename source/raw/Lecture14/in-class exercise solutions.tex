@@ -1,0 +1,101 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{In-Class Exercise --- Solutions}}\\[6pt]
+{\large \textbf{Lecture 14: Convolution and Pooling Output Sizes}}
+\end{center}
+
+\vspace{6pt}
+We use:
+\[
+H_{\text{out}}=\left\lfloor \frac{H_{\text{in}}-k_h+2P}{S} \right\rfloor + 1,
+\qquad
+W_{\text{out}}=\left\lfloor \frac{W_{\text{in}}-k_w+2P}{S} \right\rfloor + 1.
+\]
+Assume all operations are valid (i.e., the result is an integer).
+
+\vspace{6pt}
+\noindent\textbf{Given:}
+\[
+(H_{\text{in}},W_{\text{in}},C_{\text{in}})=(64,64,3),\quad
+(k_h,k_w,C_{\text{in}})=(8,8,3),\ S=4,\ P=0.
+\]
+Pooling:
+\[
+(k_h,k_w)=(4,4),\ S=1,\ P=0.
+\]
+
+\vspace{8pt}
+\begin{enumerate}[label=(\arabic*), itemsep=12pt]
+
+\item \textbf{Multiple Choice (select all that apply).}
+In a convolution layer, which of the following \emph{directly} affects the output \emph{spatial} dimensions $(H_{\text{out}},W_{\text{out}})$?
+\begin{itemize}
+\item[(A)] Number of filters (output channels)
+\item[(B)] Stride $S$
+\item[(C)] Padding $P$
+\item[(D)] Kernel size $(k_h,k_w)$
+\end{itemize}
+
+\textbf{Solution.}
+Spatial size depends on the formula, so it is controlled by $S$, $P$, and $(k_h,k_w)$. The number of filters changes the output \emph{channels}, not $(H_{\text{out}},W_{\text{out}})$.
+\[
+\boxed{(B),(C),(D)}
+\]
+
+\item \textbf{Multiple Choice.}
+After the convolution layer, what is the output spatial size $(H_{\text{conv}},W_{\text{conv}})$?
+\begin{itemize}
+\item[(A)] $(14,14)$
+\item[(B)] $(15,15)$
+\item[(C)] $(16,16)$
+\item[(D)] $(56,56)$
+\end{itemize}
+
+\textbf{Solution.}
+\[
+H_{\text{conv}}=\frac{64-8+2(0)}{4}+1=\frac{56}{4}+1=15,
+\qquad
+W_{\text{conv}}=15.
+\]
+\[
+\boxed{(B)}
+\]
+
+\item \textbf{Multiple Choice.}
+After the max-pooling layer, what is the output spatial size $(H_{\text{pool}},W_{\text{pool}})$?
+\begin{itemize}
+\item[(A)] $(11,11)$
+\item[(B)] $(12,12)$
+\item[(C)] $(15,15)$
+\item[(D)] $(19,19)$
+\end{itemize}
+
+\textbf{Solution.}
+Pooling takes $(15,15)$ as input:
+\[
+H_{\text{pool}}=\frac{15-4+2(0)}{1}+1=12,
+\qquad
+W_{\text{pool}}=12.
+\]
+\[
+\boxed{(B)}
+\]
+
+\item \textbf{True/False.}
+Keeping $H_{\text{in}},W_{\text{in}},k_h,k_w,S$ fixed, increasing padding $P$ in convolution increases the output spatial size.
+
+\textbf{Solution.}
+Padding increases the effective input size ($H_{\text{in}}+2P$, $W_{\text{in}}+2P$), which increases the output spatial dimensions when other quantities are fixed.
+\[
+\boxed{\text{True}}
+\]
+
+\end{enumerate}
+
+\end{document}

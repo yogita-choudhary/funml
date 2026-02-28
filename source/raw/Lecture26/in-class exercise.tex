@@ -1,0 +1,90 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+
+% Vector / matrix formatting
+\newcommand{\vecb}[1]{\boldsymbol{#1}}      % bold vector
+\newcommand{\matb}[1]{\boldsymbol{#1}}      % bold matrix
+\newcommand{\R}{\mathbb{R}}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{In-Class Exercise (Canvas Quiz) --- 15 minutes}}\\[6pt]
+{\large \textbf{Lecture 26: Self-Supervised Learning}}
+\end{center}
+
+\vspace{8pt}
+
+\noindent
+In this lecture, we discussed self-supervised learning (SSL) via \textbf{pre-text tasks} that generate \textbf{pseudo-labels} and learn representations from unlabeled data.
+In \textbf{SimCLR}, two augmented views of the same instance form a \textbf{positive pair}, while views from different instances act as \textbf{negatives}.
+
+\vspace{10pt}
+\noindent
+\textbf{Notation (use in your answers):}
+\begin{itemize}[itemsep=3pt]
+    \item Encoder: $f_\theta(\cdot)$ produces representation vectors $\vecb{h}\in\R^d$.
+    \item Projection head: $g_\phi(\cdot)$ produces embedding vectors $\vecb{z}\in\R^m$.
+    \item Mini-batch of $N$ original inputs: $\{\vecb{x}_1,\dots,\vecb{x}_N\}$; two augmentations per input $\Rightarrow 2N$ views.
+    \item Similarity uses cosine similarity: $\mathrm{sim}(\vecb{u},\vecb{v})=\frac{\vecb{u}^\top\vecb{v}}{\|\vecb{u}\|\|\vecb{v}\|}$.
+\end{itemize}
+
+\vspace{6pt}
+\noindent
+\textbf{Tasks (answer directly):}
+\begin{enumerate}[label=(\arabic*), itemsep=10pt]
+
+\item \textbf{Core SSL idea (pseudo-labels).} \\
+A pre-text task $P(\cdot)$ transforms an unlabeled input $\vecb{x}$ into a pseudo-label.
+Which option best describes \emph{why} pseudo-labels are useful in SSL?
+\begin{enumerate}[label=(\alph*), itemsep=2pt]
+    \item They replace ground-truth labels and guarantee perfect downstream accuracy.
+    \item They create a training signal that encourages learning features that transfer to downstream tasks.
+    \item They are only used to compress data and are not used for representation learning.
+    \item They remove the need for augmentations in contrastive learning.
+\end{enumerate}
+
+\item \textbf{Representation vs embedding (SimCLR design choice).} \\
+SimCLR uses $\vecb{h}=f_\theta(\vecb{x})$ and then $\vecb{z}=g_\phi(\vecb{h})$ for the contrastive loss.
+Why is it beneficial to apply the contrastive objective on $\vecb{z}$ (after the projection head) rather than directly on $\vecb{h}$?
+\begin{enumerate}[label=(\alph*), itemsep=2pt]
+    \item It prevents the encoder from learning any transferable information.
+    \item It lets the encoder representation $\vecb{h}$ remain useful for downstream tasks while $\vecb{z}$ specializes for the contrastive objective.
+    \item It is required because cosine similarity cannot be computed on $\vecb{h}$.
+    \item It makes positive pairs become negatives during training.
+\end{enumerate}
+
+\item \textbf{What the loss is pushing (conceptual geometry).} \\
+For an anchor view $i$, SimCLR treats its paired view $j$ as positive and all other views as negatives.
+Which statement best matches the intended effect of the contrastive loss on the embeddings?
+\begin{enumerate}[label=(\alph*), itemsep=2pt]
+    \item Increase $\mathrm{sim}(\vecb{z}_i,\vecb{z}_j)$ and decrease $\mathrm{sim}(\vecb{z}_i,\vecb{z}_k)$ for negatives $k$.
+    \item Decrease all similarities so embeddings become orthogonal to everything.
+    \item Increase similarity to all views so all embeddings collapse to the same point.
+    \item Maximize the norm $\|\vecb{z}_i\|$ while ignoring pairwise similarities.
+\end{enumerate}
+
+\item \textbf{Negatives and batch effects (reasoning).} \\
+Consider a fixed augmentation pipeline and a fixed encoder $f_\theta$.
+If you increase the batch size $N$ (so there are more views and thus more negatives per anchor), which outcome is the most accurate \emph{conceptual} expectation?
+\begin{enumerate}[label=(\alph*), itemsep=2pt]
+    \item The task becomes strictly easier because positives become more similar automatically.
+    \item The contrastive task typically becomes harder/more demanding because each anchor must be distinguished from more negatives.
+    \item The number of positives per anchor increases linearly with $N$.
+    \item The model no longer needs the projection head $g_\phi$.
+\end{enumerate}
+
+\item \textbf{One quick sanity check (minimal counting).} \\
+In SimCLR with $N=4$ original inputs, there are $2N=8$ total views. For a given anchor view, how many positives and how many negatives are used in the denominator of the contrastive objective?
+\begin{enumerate}[label=(\alph*), itemsep=2pt]
+    \item 1 positive, 5 negatives
+    \item 1 positive, 6 negatives
+    \item 2 positives, 5 negatives
+    \item 2 positives, 6 negatives
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}

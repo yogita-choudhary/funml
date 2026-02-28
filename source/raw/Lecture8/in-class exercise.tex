@@ -1,0 +1,62 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{In-Class Exercise (Canvas Quiz) --- 10 minutes}}\\[6pt]
+{\large \textbf{Lecture 8: Polynomial Regression (Gradient Descent Iterations)}}
+\end{center}
+
+\vspace{8pt}
+
+\noindent
+\textbf{Context (from lecture):} In Gradient Descent training,
+\begin{itemize}
+\item \textbf{Batch GD:} 1 iteration per epoch.
+\item \textbf{Stochastic GD:} $N$ iterations per epoch.
+\item \textbf{Mini-batch GD:} $N/b$ iterations per epoch.
+\end{itemize}
+
+\vspace{6pt}
+\noindent
+\textbf{Given:}
+\[
+N = 1{,}000{,}000,
+\qquad
+P = 100,
+\qquad
+b = 10{,}000
+\]
+
+\vspace{8pt}
+\noindent
+\textbf{Tasks:}
+\begin{enumerate}[label=(\arabic*), itemsep=8pt]
+\item (\textbf{Iterations per epoch}) Compute the number of iterations in \textbf{one epoch} for:
+\begin{enumerate}[label=(\alph*), itemsep=4pt]
+\item Batch GD
+\item Stochastic GD
+\item Mini-batch GD (batch size $b=10{,}000$)
+\end{enumerate}
+
+\item (\textbf{Memory constraint}) Suppose you can process at most $50{,}000$ data points at a time.
+Which methods can be used \textbf{without exceeding} this memory limit?
+\begin{enumerate}[label=(\alph*), itemsep=4pt]
+\item Only Stochastic GD
+\item Stochastic GD and Mini-batch GD with $b \le 50{,}000$
+\item Batch GD and Mini-batch GD with $b = 50{,}000$
+\item All methods
+\end{enumerate}
+
+\item (\textbf{Multiple epochs}) If you perform \textbf{10 epochs} of Mini-batch GD with batch size $b=20{,}000$,
+how many total iterations will you run?
+\end{enumerate}
+
+\vspace{6pt}
+\noindent
+\textbf{Answers should be exact integers.}
+
+\end{document}

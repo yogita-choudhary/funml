@@ -1,0 +1,98 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{In-Class Exercise --- Solutions}}\\[6pt]
+{\large \textbf{Lecture 10: Regression Model Validation and Clustering}}
+\end{center}
+
+\vspace{8pt}
+
+\noindent
+\textbf{Context: Bias--Variance Tradeoff (Regression Models)}
+
+\[
+\begin{array}{c|c|c|c|c}
+\text{Sample} & \text{GT} & \text{Model 1} & \text{Model 2} & \text{Model 3}\\ \hline
+1 & 5 & 4.8 & 5.2 & 5.0\\
+2 & 6 & 4.7 & 5.3 & 6.0\\
+3 & 7 & 4.9 & 5.5 & 7.2\\
+4 & 8 & 5.0 & 5.7 & 8.0\\
+5 & 9 & 5.2 & 5.9 & 9.3
+\end{array}
+\]
+
+\[
+\text{Bias}^2 = (\mathbb{E}[\hat{f}(x)] - f(x))^2
+\]
+
+\begin{enumerate}[label=(\arabic*), itemsep=18pt]
+
+
+\item \textbf{Question:} Compute the mean prediction of each model across the 5 samples.
+
+\textbf{Solution:}
+
+\[
+\bar{y}_1 = \frac{4.8+4.7+4.9+5.0+5.2}{5} = 4.92
+\]
+\[
+\bar{y}_2 = \frac{5.2+5.3+5.5+5.7+5.9}{5} = 5.52
+\]
+\[
+\bar{y}_3 = \frac{5.0+6.0+7.2+8.0+9.3}{5} = 7.10
+\]
+
+\[
+\boxed{\bar{y}_1=4.92,\;\bar{y}_2=5.52,\;\bar{y}_3=7.10}
+\]
+
+
+\item \textbf{Question:} Using those means, compute the average Bias$^2$ for each model.
+
+\[
+\text{AvgBias}^2 = \frac{1}{5}\sum_{i=1}^5(\bar{y}-GT_i)^2
+\]
+
+\textbf{Solution:}
+
+Model 1:
+\[
+\frac{(4.92-5)^2+(4.92-6)^2+(4.92-7)^2+(4.92-8)^2+(4.92-9)^2}{5}
+\approx 6.33
+\]
+
+Model 2:
+\[
+\frac{(5.52-5)^2+(5.52-6)^2+(5.52-7)^2+(5.52-8)^2+(5.52-9)^2}{5}
+\approx 4.19
+\]
+
+Model 3:
+\[
+\frac{(7.10-5)^2+(7.10-6)^2+(7.10-7)^2+(7.10-8)^2+(7.10-9)^2}{5}
+\approx 2.01
+\]
+
+\[
+\boxed{\text{AvgBias}^2:\; M1=6.33,\; M2=4.19,\; M3=2.01}
+\]
+
+
+\item \textbf{Question:} Based on the values of bias and variance, is Model 1 most likely underfitting or overfitting?
+
+\textbf{Solution:}
+
+Model 1 has \textbf{high bias} and low variance → the model is too simple.
+
+\[
+\boxed{\text{Model 1 is underfitting.}}
+\]
+
+\end{enumerate}
+
+\end{document}

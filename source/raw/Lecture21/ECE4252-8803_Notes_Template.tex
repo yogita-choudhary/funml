@@ -1,0 +1,438 @@
+%% Adapted from GaTech CS 7545 Machine Learning Theory given by Prof. Jacob Abernathy Fall 2018. Original latex file: https://github.com/mltheory/CS7545/blob/master/scribe/CS7545scribe_template.tex 
+
+
+
+%%%%%PLEASE CONSIDER CORRECTIONS AT PLACES INDICATED%%%%%%%%
+\documentclass{article}
+%%%%%Packages Used, add more if necessary%%%%
+\usepackage{amsmath,amsfonts,amssymb,graphicx,fullpage, float}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\usepackage{mdframed}
+\usepackage{multicol}
+\usepackage{microtype}
+\usepackage{graphicx}
+\usepackage{float, hyperref}
+
+
+%%%%% NO NEED TO EDIT THIS PREAMBLE %%%%%%%%
+%%% PREAMBLE %%%
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+\newcommand{\lecture}[4]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+      
+      \hbox to 6.28in { 
+      {\bf ECE 4252/6252 (FunML) Fundamentals of Machine Learning \hfill 2021--2028} }
+      
+      \vspace{2mm}
+      \hbox to 6.28in { 
+      {Courses developed by Professor Ghassan AlRegib 
+      (\href{https://alregib.ece.gatech.edu/}{alregib.ece.gatech.edu}) 
+      \hfill For inquiries: \href{mailto:alregib@gatech.edu}{alregib@gatech.edu}} }
+      
+      \vspace{3mm}
+      \hbox to 6.28in { {\Large \hfill Lecture #1: #2 \hfill} }
+      
+      \vspace{2mm}
+      \hbox to 6.28in { {\it Co-Instructors: #3 \hfill #4} }
+      
+      \vspace{2mm}}
+   }
+   \end{center}
+
+   % -------- PEOPLE OUTSIDE BOX --------
+   \vspace{2mm}
+   \noindent{\bf Contributors:} Dr. Ahmad Mustafa, Dr. Motaz Alfarraj, Dr. Ashraf Alattar, Dr. Chen Zhou
+
+   \vspace{1mm}
+   \noindent{\bf Teaching Assistants} with remarkable contributions include: Kuo-Wei Lai, Wuyang Du, Shiva Mahato, Michael Zhou, Ninghan Zhong
+
+   \markboth{Lecture #1: #2}{Lecture #1: #2}
+
+   \vspace{2mm}
+\noindent {\bf Disclaimer}: 
+{All content of these notes are part of this course at Georgia Tech. Any re-use or distribution is not permitted without pre-approved permission. All these notes belong to, created by, and copyrighted for Ghassan AlRegib and Mohit Prabhushankar, Georgia Tech, 2021--2028.}
+
+\vspace{2mm}
+\noindent {\bf License}: 
+{These lecture notes are licensed under the 
+\href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License}.}
+
+   \vspace{2mm}
+   \noindent {\bf Errata}: 
+   {\it Please submit any errata you find using the following form: 
+   \href{https://forms.office.com/r/fbg9dMWPgY}{Errata Form for FunML Textbook} 
+   or visit: \url{https://forms.office.com/r/fbg9dMWPgY}}
+
+   \vspace*{4mm}
+}
+\renewcommand{\cite}[1]{[#1]}
+\def\beginrefs{\begin{list}
+        {[\arabic{equation}]}{\usecounter{equation}
+         \setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}%
+         \setlength{\labelwidth}{1.6truecm}}}
+\def\endrefs{\end{list}}
+\def\bibentry#1{\item[\hbox{[#1]}]}
+
+\newcommand{\challenge}[2]{\noindent \textbf{(Challenge Problem)} \emph{#1}: #2 }
+
+\newcommand{\exercise}[1]{\noindent \textbf{(Exercise)} #1 }
+
+\newcommand{\fig}[3]{
+			\vspace{#2}
+			\begin{center}
+			Figure \thelecnum.#1:~#3
+			\end{center}
+	}
+%%% END_OF_PREAMBLE %%%
+
+
+	
+%%%%You may add more \newtheorem if necessary%%%%%%
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+
+
+\newcommand{\dom}{\mathrm{dom}}
+
+\begin{document}
+
+%%%%%CHANGE HERE%%%%%%%
+%%%%%\section{title of the section} similarly with the rest \section{} or \subsection{} or \subsubsection{} etc
+
+
+%%%%%CHANGE HERE%%%%%%%%%
+%%%%%\lecture{the ordinal number of the lecture}{lecture title}{Jacob Abernethy}{scriber's name}%%%%%%%%
+\lecture{21}{Sequence Modeling II}{Ghassan AlRegib and Mohit Prabhushankar}{}
+
+%%%%%CHANGE HERE%%%%%%%
+%%%%%\section{title of the section} similarly with the rest \section{} or \subsection{} or \subsubsection{} etc
+
+\section{Lecture Objectives}
+
+This lecture aims to expand sequence and image modeling techniques by introducing Temporal Convolutional Networks (TCNs), Encoder-Decoder architectures, and the Vision Transformer. The objective is to show how TCNs use causal and dilated convolutions for efficient sequence processing, how Encoder-Decoders enable sequence-to-sequence tasks like machine translation with embeddings and attention, and how Vision Transformers apply transformer principles to image data as sequences of patches, bridging sequence modeling with computer vision applications.
+
+\section{Recap of Last Lecture}
+
+\begin{itemize}
+    \item Understand the fundamentals of sequence modeling and its applications in tasks like machine translation.
+    \begin{itemize}
+        \item Sequence modeling is the process of making sense of data that comes in a sequence, where each part of the data may depend on the previous parts. This type of modeling is essential for tasks where context matters, such as in language translation, speech recognition, and time series forecasting.
+        \item In sequence-to-sequence generation, the goal is to take an input sequence and produce a corresponding output sequence. For example, machine translation systems take a sentence in one language (like English) and produce a translated sentence in another language (such as Urdu). Here, every word generated in the output depends not only on the corresponding word in the input but also on the entire sequence of preceding words. This dependency on context makes sequence modeling a unique and challenging area in machine learning.
+        \item Traditional machine learning models cannot handle sequence data effectively because they treat each input independently. Sequence models, however, are designed to process data as a continuous stream, maintaining context throughout the sequence. This allows them to understand the structure and dependencies between elements in the data, capturing nuances that are essential for accurate predictions in sequence-based tasks.
+    \end{itemize}
+    \item Learn about Recurrent Neural Networks (RNNs) and their limitations, particularly the vanishing gradient problem.
+    \begin{itemize}
+        \item Recurrent Neural Networks (RNNs) are a type of neural network architecture specifically designed for handling sequence data. Unlike traditional neural networks that process each input independently, RNNs are structured to retain information about previous inputs, allowing them to capture dependencies within a sequence. This makes RNNs particularly suited for tasks like language modeling, speech recognition, and time series prediction, where context across time is crucial.
+        \item The core idea behind RNNs is the use of a \textit{hidden state} that acts as memory, carrying information from one time step to the next. At each time step \( t \), the network takes in an input \( x^{(t)} \) and updates the hidden state \( h^{(t)} \) based on both the current input and the previous hidden state \( h^{(t-1)} \). This recurrent structure allows the network to maintain context across the sequence, essentially ``remembering" past inputs as it processes new ones.
+        \item However, RNNs face a significant challenge known as the \textit{vanishing gradient problem}. During training, as the model backpropagates through many time steps, the gradients of the loss function can become extremely small, slowing down or even halting the learning process. This makes it difficult for RNNs to capture long-term dependencies, which are essential in many sequence-based tasks.
+    \end{itemize}
+    \item Explore Long Short-Term Memory (LSTM) networks as a solution to RNN limitations, designed to handle long-term dependencies.
+    \begin{itemize}
+        \item Long Short-Term Memory (LSTM) networks are a specialized type of Recurrent Neural Network (RNN) designed to overcome the limitations of traditional RNNs, particularly the \textit{vanishing gradient problem}. In tasks that involve long sequences, standard RNNs struggle to retain information from earlier time steps, making it difficult to capture long-term dependencies. LSTMs address this by introducing a more complex internal structure that can selectively remember or forget information over time.
+        \item The core of the LSTM architecture is its \textit{cell state}, which acts as a memory to retain important information across time steps. To manage the flow of information, LSTMs use three key \textit{gates}:
+        \begin{itemize}
+            \item \textbf{Forget Gate:} This gate determines what information from the cell state should be discarded or "forgotten." It takes the current input and the previous hidden state as inputs, generating a value between 0 and 1 for each piece of information, where 1 means ``keep" and 0 means "forget."
+            \item \textbf{Input Gate:} The input gate decides what new information should be added to the cell state. It also takes the current input and the previous hidden state and, combined with a candidate value, determines which parts of the new information are important to retain.
+            \item \textbf{Output Gate:} Finally, the output gate controls what information from the cell state is sent to the hidden state (and ultimately to the next layer or time step). This gate determines what aspects of the cell state are relevant to the current output.
+        \end{itemize}
+        \item These gates enable LSTMs to retain long-term dependencies by carefully regulating the addition and removal of information in the cell state. As a result, LSTMs can capture patterns over long sequences, making them highly effective for tasks such as language modeling, machine translation, and time series forecasting, where the context from distant past inputs can be essential to understanding the present.
+    \end{itemize}
+\end{itemize}
+
+\section{Temporal Convolutional Networks} 
+%%%%%Use itemize to layout bullet points that are not numbered%%%%%
+
+\begin{itemize}
+    \item \textbf{Causal Convolutions}: In TCNs, \textit{causal convolutions} ensure that each output at time step \( t \) depends only on the current and previous inputs, preserving the sequence order and preventing information from the future from affecting the present. This is achieved by padding the input sequence with \( k-1 \) zeros on both sides for a kernel of length \( k \). 
+    As the kernel slides along the sequence, the output at time \( t \) is computed as:
+    \[
+    y^{(t)} = f(x^{(t)}, x^{(t-1)}, \dots, x^{(1)})
+    \]
+    This setup maintains causality, making it suitable for predictive tasks where future data should not influence present outcomes.
+    \item \textbf{Dilated Convolutions}: Dilated convolutions are used in TCNs to increase the effective receptive field of the network without increasing the depth or number of parameters. By introducing a \textit{dilation factor} \( d \), TCNs can capture long-range dependencies more efficiently.\\
+
+    In a dilated convolution, the input sequence is sampled with gaps, where the dilation factor \( d \) determines the spacing between elements. With increasing layers, the dilation factor increases exponentially, allowing the network to cover a large context.\\
+    
+    The number of zeros padded on each side of the input sequence becomes \( d \cdot (k - 1) \), where \( k \) is the kernel size, and d is the dilation factor. The convolution remains causal, respecting the sequence order.
+    \item \textbf{Computational Complexity}:
+    TCNs are computationally more efficient than Recurrent Neural Networks (RNNs) due to their use of convolutional layers, which can be parallelized. Unlike RNNs, which rely on intermediate state variables and sequential updates, TCNs use a fixed set of kernels per layer, reducing computational bottlenecks and allowing for faster processing of long sequences. This parallelizability makes TCNs particularly suitable for tasks that require processing large amounts of sequential data.
+    \item \textbf{Advantages of TCNs}:
+    TCNs offer several advantages over traditional RNN-based models:
+    \begin{itemize}
+        \item \textbf{Input Sequence Invariability:} TCNs can process sequences of varying lengths and produce outputs of the same length, similar to RNNs.
+        \item \textbf{Causal Sequence Modeling:} Each output in the sequence depends only on past and current inputs, achieved through combinations of dilation and padding.
+        \item \textbf{Residual Units for Optimization:} TCNs use residual blocks, which mimic residual units in 2D CNNs, enabling efficient optimization in deeper networks.
+        \item \textbf{Optimal Receptive Field Design:} With dilated causal convolutions, TCNs can efficiently cover large contexts without requiring deep layers.
+    \end{itemize}
+    These properties make TCNs well-suited for sequence tasks where both long-term dependencies and computational efficiency are essential.
+    \item \textbf{Weight Normalization}:
+    In TCNs, \textit{weight normalization} is used as an alternative to batch normalization, which can be unstable with small batch sizes often seen in sequential models. Weight normalization reparameterizes the weight vector \( w \) as:
+    \[
+    w = \frac{g \cdot v}{\|v\|}
+    \]
+    where \( g \) is a learnable scaling parameter and \( \frac{v}{\|v\|} \) represents the direction of the weight vector. This decoupling of magnitude and direction helps stabilize gradient descent, improving convergence and making the model more robust to variations in learning rates.
+    \item \textbf{Residual Units}:
+    The TCN architecture consists of multiple \textit{residual blocks} stacked together, each with the following structure:
+    \begin{itemize}
+        \item \textbf{Dilated Causal Convolution:} Captures features from the input sequence using a dilated kernel, ensuring a large receptive field.
+        \item \textbf{Weight Normalization:} Decouples gradient magnitude from direction, speeding up convergence.
+        \item \textbf{ReLU Activation:} Adds non-linearity, allowing the network to learn complex patterns.
+        \item \textbf{Dropout:} Prevents overfitting by randomly deactivating a portion of neurons in each layer.
+        \item \textbf{Skip Connection (1x1 Convolution):} A 1x1 convolution maps the input sequence to match the number of output channels, allowing residual (or skip) connections. This helps combine information from different layers and facilitates efficient gradient flow.
+    \end{itemize}
+    Residual connections enhance the depth of TCNs by allowing gradients to pass through layers effectively, making it feasible to train deep networks while retaining important information across layers.
+\end{itemize}
+
+\section{Encoder-Decoder Architectures} 
+%%%%%Use itemize to layout bullet points that are not numbered%%%%%
+\paragraph{}
+Encoder-Decoder models are widely used for sequence-to-sequence tasks where input and output sequences may differ in length, such as in language translation. In these models, the encoder processes the input sequence into a fixed-dimensional context vector that summarizes the input data. This context vector is then used by the decoder to generate the output sequence step-by-step.
+
+\subsection{Encoder and Decoder Mechanisms}
+\begin{itemize}
+
+\item \textbf{Encoder}: The input sequence is represented as a sequence of tokens $\mathbf{x}=(x_1, x_2,..., x_T)$. For each time step $t$, the encoder updates its hidden state $\mathbf{h}_t$ based on the current input $x_t$ and the previous hidden state $\mathbf{h}_{t-1}$:
+\[
+  \mathbf{h}_t = f_{\text{enc}}(\mathbf{x}_t, \mathbf{h}_{t-1}; \theta_{\text{enc}})
+\]
+where $f_{enc}$ is the encoder function (often an RNN, LSTM, or GRU), and $\theta_{\text{enc}}$ are the encoder parameters. After processing the input sequence, the final encoder hidden state $h_t$ serves as the context vector $c$, which encapsulates the information from the entire input sequence:
+\[
+  \mathbf{c} = \mathbf{h}_t
+\]
+
+\item \textbf{Decode}r: The decoder initializes its hidden state $\mathbf{s}_0$ using the context vector $\mathbf{c}$. For each time step $t$, the decoder updates its hidden state $\mathbf{s}_t$ based on the previous output $y_{t-1}$, the previous hidden state $\mathbf{s}_{t-1}$, and the context vector $\mathbf{c}$:
+\[
+  \mathbf{s}_t = f_{\text{dec}}(y_{t-1}, \mathbf{s}_{t-1}, \mathbf{c}; \theta_{\text{dec}})
+\]
+where $f_{dec}$ is the decoder function and $\theta_{\text{dec}}$ are the decoder parameters. At each decoding step, the decoder generates a probability distribution over the vocabulary $V$ to predict the next token:
+\[
+  P(y_t \mid y_{<t}, c) = \text{softmax}(\mathbf{W} \mathbf{s}_t + \mathbf{b})
+\]
+where $\mathbf{W}$ and $\mathbf{b}$ are learned parameters.
+
+\end{itemize}
+
+\subsection{Word Embeddings for Encoder-Decoder Models}
+\paragraph{}
+Word embeddings are projections of meaningful elements, like words in NLP, into a continuous vector space that captures syntactic and semantic relationships. These embeddings position contextually similar words close together, preserving relationships such as ``king" to ``queen" (Male-Female), ``walking" to ``walked" (Verb Tense), and ``Canada" to ``Ottawa" (Country-Capital), as shown in the figure below.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.95\linewidth]{img/lecture21/1_SYiW1MUZul1NvL1kc1RxwQ.png}
+    \caption{Linear Relationships between Words.}
+    \label{fig:enter-label}
+\end{figure}
+
+Encoder-Decoder architectures leverage these embeddings to create contextual representations of word sequences, enabling tasks like machine translation. By embedding words in a continuous space, the Encoder-Decoder model can effectively capture and use syntactic and semantic relationships, allowing it to process and generate meaningful sequences. Unlike autoencoders, Encoder-Decoder models focus on transforming input sequences into context-rich outputs, making them essential for sequence-to-sequence applications.
+
+\subsection{Word2Vec}
+\paragraph{}
+The Word2Vec model is a widely used method for learning word embeddings, where words are transformed into a continuous vector space based on their context within a large corpus of text. Word2Vec offers two main approaches to generate embeddings: the Skip-Gram model and the Continuous Bag-of-Words (CBOW) model.
+\begin{itemize}
+\item{\textbf{One-word context}}
+The One-Word Context model predicts an output word from a single input word. Input \( X \in \mathbb{R}^P \) is mapped to a lower-dimensional representation \( Z \in \mathbb{R}^K \) with \( K < P \). This approach is rarely used, as context usually depends on surrounding words.
+
+\item{\textbf{Skip-Gram Model}}
+The Skip-gram model is designed to predict neighboring context words given a target word in a sentence. For an input word vector $X \in \mathbb{R}^P$, the model maps it to a lower-dimensional representation $Z \in \mathbb{R}^K$ where $K<P$. This representation captures semantic similarities between words by maximizing the probability of predicting surrounding words within a specified context window. In this model, the objective function for predicting the surrounding words \( w_{t-k}, \ldots, w_{t+k} \) (excluding the target word itself) given a target word \( w_t \) can be expressed as:
+
+\[
+\sum_{t=1}^T \sum_{\substack{-k \leq j \leq k \\ j \neq 0}} \log P(w_{t+j} \mid w_t)
+\]
+
+where \( P(w_{t+j} \mid w_t) \) is computed by applying a softmax function to the dot product of the word embeddings.
+
+
+\item{\textbf{Continuous Bag-of-Words (CBOW)}}
+The Continuous Bag-of-Words (CBOW) model, in contrast to Skip-gram, aims to predict a target word given its surrounding context words. For a set of context words \( w_{t-k}, \ldots, w_{t+k} \) around a target word \( w_t \), the model aggregates their embeddings into a single vector representation \( Z \in \mathbb{R}^K \) where \( K < P \), with the input vector \( X \in \mathbb{R}^P \). This combined context representation is then used to predict \( w_t \). The objective function for CBOW maximizes the probability of the target word based on its context:
+
+\[
+\sum_{t=1}^T \log P(w_t \mid w_{t-k}, \ldots, w_{t+k})
+\]
+
+where \( P(w_t \mid w_{t-k}, \ldots, w_{t+k}) \) is computed using a softmax over the summed or averaged embeddings of the context words.
+\end{itemize}
+The visual below illustrates the different structures of CBOW and Skip-Gram. CBOW uses multiple context words to predict a single target word, while Skip-Gram leverages a single target word to predict multiple context words.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.74\linewidth]{img/lecture21/skipgram-vs-cbow-continuous-bag-of-words-word2vec-word-representation-2048x1075.png}
+    \caption{Difference between SkipGram and CBOW training architectures.}
+    \label{fig:SkipGram}
+\end{figure}
+
+These word embedding models lay the foundation for Encoder-Decoder architectures, where the learned embeddings are used to capture syntactic and semantic relationships between words. By transforming words into continuous vectors, the Encoder-Decoder models can better process and generate contextually rich sequences, making them suitable for applications like machine translation and text summarization.
+
+\subsection{Sequence-to-Sequence (Seq2Seq) Model}
+\paragraph{}
+The Sequence-to-Sequence (Seq2seq) model is an encoder-decoder architecture designed for handling variable-length input and output sequences, such as in language translation. The encoder processes an input sentence word by word, generating a hidden state for each input word. The final hidden state of the encoder serves as the context vector, summarizing the entire input sequence.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{img/lecture21/ezgif-5-d49a166959.jpg}
+    \caption{LSTM-based Seq2Seq Encoder-Decoder Architecture}
+    \label{fig:seq2seq_model}
+\end{figure}
+
+As illustrated in Figure~\ref{fig:seq2seq_model}, let \( x_i \) represent the input word at position \( i \), and let \( h_i \) denote the hidden state at that step. In a recurrent neural network (RNN) with Long Short-Term Memory (LSTM) units, the hidden state \( h_i \) can be updated as follows:
+
+\[
+h_i = \text{LSTM}(x_i, h_{i-1})
+\]
+where \( h_{i-1} \) is the previous hidden state. After processing the entire input sequence, the encoder's final hidden state \( h_T \) serves as the initial context vector \( c \) for the decoder.
+\paragraph{}
+The decoder then generates the output sequence step-by-step. Each decoding step \( j \) uses the previous word \( y_{j-1} \), the previous hidden state \( s_{j-1} \), and the context vector \( c \):
+
+\[
+s_j = \text{LSTM}(y_{j-1}, s_{j-1}, c)
+\]
+The probability of each word in the output sequence is computed by passing \( s_j \) through a softmax layer.
+
+\subsection{Dot-Product Attention}
+
+\paragraph{}
+While the Seq2seq model works well on short sequences, it struggles with longer ones due to the fixed-size context vector \( c \), which cannot capture all the information from the input sequence. To address this, we introduce Dot-Product Attention, allowing the decoder to focus on relevant parts of the input sequence dynamically.
+\paragraph{}
+In the attention mechanism, each decoder step \( j \) computes an alignment score \( e_{j,i} \) between the decoder's hidden state \( s_j \) and each encoder hidden state \( h_i \) using the dot product:
+
+\[
+e_{j,i} = s_j^{\top} h_i
+\]
+These scores are then normalized via softmax to generate attention weights \( \alpha_{j,i} \), which indicate the importance of each encoder hidden state \( h_i \) for the current decoding step:
+
+\[
+\alpha_{j,i} = \frac{\exp(e_{j,i})}{\sum_{k=1}^T \exp(e_{j,k})}
+\]
+The context vector \( c_j \) for each decoder step is a weighted sum of the encoder hidden states:
+
+\[
+c_j = \sum_{i=1}^T \alpha_{j,i} h_i
+\]
+This dynamic context vector \( c_j \) is then used by the decoder to generate each word in the output sequence, allowing it to selectively focus on the most relevant parts of the input sequence as shown in Figure~\ref{fig:seq2seq_model}.
+
+\section{Vision Transformer} 
+%%%%%Use itemize to layout bullet points that are not numbered%%%%%
+
+\paragraph{}
+The Vision Transformer (ViT) processes an image as a sequence of patches, akin to treating a sentence as a sequence of words in NLP transformers. Each patch undergoes linear embedding, is combined with positional encodings, and is then fed into a transformer encoder.
+
+\subsection{Patchify Step in ViT}
+\paragraph{}
+ViT begins by dividing the input image into fixed-size patches, similar to tokenizing words in NLP. Each patch is then flattened and linearly embedded, creating a sequence of patch embeddings that retain spatial structure through positional encodings.
+\paragraph{}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{img/lecture21/截圖 2024-11-10 下午5.15.24.png}
+    \caption{Vision Transformer (ViT) Architecture}
+    \label{fig:the_model}
+\end{figure}
+
+\begin{itemize}
+\item \textbf{Step 1: Image Partitioning}
+
+Given an input image \( x \in \mathbb{R}^{H \times W \times C} \), where \( H \) and \( W \) are the height and width of the image, and \( C \) is the number of color channels (e.g., 3 for RGB images). The image is divided into non-overlapping patches, each of size \( P \times P \), where \( P \) is the patch dimension, as shown in Figure~\ref{fig:the_model}.
+
+\item \textbf{Step 2: Flattening Patches}
+
+Each patch is flattened into a 1D vector. The total number of patches \( N \) can be calculated as:
+\[
+N = \frac{H \times W}{P^2}
+\]
+Each patch is then reshaped to a vector of dimension \( P^2 \times C \).
+
+\item\textbf{Step 3: Linear Projection of Patches}
+
+Each patch vector is linearly projected to a \( D \)-dimensional embedding space using a learnable linear projection. This operation can be represented as:
+\[
+z_p = x_p \cdot E
+\]
+where \( x_p \) is the flattened patch vector, and \( E \in \mathbb{R}^{(P^2 \cdot C) \times D} \) is the learnable embedding matrix. This step produces a sequence of embeddings for the patches, which serves as input to the transformer encoder, as illustrated in Figure~\ref{fig:the_model}.
+
+\item\textbf{Step 4: Position Embedding}
+
+To retain spatial information (i.e., where each patch is located in the image), positional embeddings are added to each patch embedding. These positional embeddings are learnable and allow the model to maintain the spatial structure of the input image, despite the flattening and embedding process.
+
+\item\textbf{Step 5: Classification Token}
+
+Similar to the \texttt{[CLS]} token used in NLP, a learnable "classification token" is prepended to the sequence of patch embeddings. This token accumulates the information from the patches through the transformer layers and is ultimately used for classification tasks.
+\end{itemize}
+\paragraph{}
+The resulting sequence, with the classification token and embedded patches, is then passed to the transformer encoder. This approach allows the transformer to process an image as a series of patches, focusing on relationships between them rather than processing individual pixels, as shown in Figure~\ref{fig:the_model}.
+
+\subsection{Layer Normalization}
+\paragraph{}
+Layer normalization is essential in transformer architectures, addressing the limitations of batch normalization for sequence data. Unlike batch normalization, which calculates mean and variance across the batch, layer normalization operates independently on each token, making it better suited for varying sequence lengths.
+\paragraph{}
+Batch normalization requires a fixed batch size and relies on running mean and variance statistics, which can lead to inconsistencies during inference, especially in sequence tasks. In contrast, layer normalization applies normalization within each token, making it invariant to batch size and sequence length—ideal for transformers. The formula is:
+\[
+y = \frac{x - \mathbb{E}[x]}{\sqrt{\text{Var}[x] + \epsilon}} \cdot \gamma + \beta
+\]
+where \( \mathbb{E}[x] \) and \( \text{Var}[x] \) denote the mean and variance of the input \( x \), computed across the features of each token. The parameters \( \gamma \) and \( \beta \) are learnable, allowing the model to scale and shift the normalized values. This operation standardizes the input for each token, enabling the model to maintain consistency across different sequence lengths and ensuring stable representations without being affected by varying batch sizes.
+\paragraph{}
+Layer normalization offers several advantages over batch normalization, including the ability to operate effectively with any batch size. It also does not require storage of mean and variance statistics during training, reducing memory requirements and avoiding potential discrepancies between training and inference phases. Figure~\ref{fig:layer_norm} illustrates the structural differences between batch normalization and layer normalization, highlighting how layer normalization processes data independently within each token.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.6\linewidth]{img/lecture21/e068e06a.png}
+    \caption{Enter Caption}
+    \label{fig:layer_norm}
+\end{figure}
+\paragraph{}
+Advantages of layer normalization include:
+\begin{itemize}
+\item Effective operation with any batch size.
+\item No need for running statistics, reducing memory use and ensuring consistency between training and inference.
+\end{itemize}
+
+\subsection{Attention Mechanism}
+\paragraph{} The attention mechanism is a fundamental component in transformer architectures, allowing the model to dynamically focus on specific parts of the input sequence. This focus is particularly valuable in sequence-to-sequence tasks, where different parts of the input hold varying levels of importance depending on the context.
+
+\paragraph{} Attention is computed using three matrices: the query \( Q \), the key \( K \), and the value \( V \), each derived from the input sequence but with distinct weights. The model computes the relevance of each token by calculating the dot product between the query and each key, resulting in an “attention score.” This score is scaled by \( \sqrt{d_k} \), where \( d_k \) is the dimensionality of the key vectors, to control the variance. The formula for scaled dot-product attention is:
+
+\[
+\text{Attention}(Q, K, V) = \text{softmax}\left( \frac{QK^{\top}}{\sqrt{d_k}} \right) V
+\]
+
+\paragraph{} The resulting attention scores are normalized using a softmax function, producing weights that highlight the most relevant tokens. These weights are then applied to the value vectors, producing the final attention output. This mechanism captures both local and global dependencies within the input sequence.
+
+\paragraph{} Transformers also employ multi-head attention to enhance their ability to capture diverse relationships in the data. In multi-head attention, several sets of query, key, and value matrices are used, each capturing a different aspect of the relationships within the sequence. The output from each attention head is concatenated and transformed by a weight matrix \( W_O \), forming the final representation:
+
+\[
+\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \dots, \text{head}_h) W_O
+\]
+
+\paragraph{} Each head in multi-head attention is computed as:
+
+\[
+\text{head}_i = \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)
+\]
+
+\paragraph{} This multi-headed approach allows the model to attend to different parts of the input sequence simultaneously, enriching its capacity to understand complex relationships. Figure~\ref{fig:attention} illustrates this concept, showing both the scaled dot-product attention and the multi-head attention mechanism used in transformers.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\linewidth]{img/lecture21/圖片 1.png}
+    \caption{Diagram of Scaled Dot-Product Attention (left) and Multi-Head Attention (right)}
+    \label{fig:attention}
+\end{figure}
+
+\end{document}

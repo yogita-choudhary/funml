@@ -1,0 +1,134 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{In-Class Exercise --- Solutions}}\\[6pt]
+{\large \textbf{Lecture 22: Explainability in Neural Networks}}
+\end{center}
+
+\vspace{6pt}
+
+\noindent
+\textbf{Given:} $p=0.85$, $p_1=0.60$, $p_2=0.82$, $p_3=0.30$, and
+\[
+\mathbf{A}^1=
+\begin{bmatrix}
+1 & 2\\
+0 & 1
+\end{bmatrix},
+\quad
+\mathbf{A}^2=
+\begin{bmatrix}
+2 & 1\\
+1 & 0
+\end{bmatrix},
+\quad
+\alpha_1^c=0.50,\quad
+\alpha_2^c=-0.25.
+\]
+
+\begin{enumerate}[label=(\arabic*), itemsep=12pt]
+
+\item \textbf{Occlusion Saliency (Most Important Patch)}\\
+Which patch is \textbf{most important} for predicting class $c$ (largest probability drop)?
+\begin{enumerate}[label=(\Alph*)]
+    \item Patch 1
+    \item Patch 2
+    \item Patch 3
+    \item All patches are equally important
+\end{enumerate}
+
+\textbf{Solution:}
+Compute drops $\Delta p_i = p - p_i$:
+\[
+\Delta p_1 = 0.85-0.60=0.25,\quad
+\Delta p_2 = 0.85-0.82=0.03,\quad
+\Delta p_3 = 0.85-0.30=0.55.
+\]
+Largest drop is Patch 3.
+\[
+\boxed{\textbf{Answer: (C)}}
+\]
+
+\item \textbf{Faithfulness vs Cost (Occlusion)}\\
+Why is occlusion saliency considered \textbf{computationally expensive}?
+\begin{enumerate}[label=(\Alph*)]
+    \item It requires retraining the model.
+    \item It requires many forward passes with masked inputs.
+    \item It needs gradients of all layers.
+    \item It increases the number of model parameters.
+\end{enumerate}
+
+\textbf{Solution:}
+Occlusion saliency tests many masked versions of the input and re-runs inference each time, i.e., many forward passes.
+\[
+\boxed{\textbf{Answer: (B)}}
+\]
+
+\item \textbf{Gradient Saliency (Concept)}\\
+Why do input gradients approximate pixel importance?
+\begin{enumerate}[label=(\Alph*)]
+    \item They linearize the model locally around the input.
+    \item They guarantee causal explanations.
+    \item They remove nonlinearities from the network.
+    \item They compute feature correlations.
+\end{enumerate}
+
+\textbf{Solution:}
+$\frac{\partial y_c}{\partial \mathbf{x}}$ measures local sensitivity: a first-order (Taylor) approximation of how changing pixels changes the class score.
+\[
+\boxed{\textbf{Answer: (A)}}
+\]
+
+\item \textbf{Why the Last Convolutional Layer?}\\
+Grad-CAM uses the \textbf{last convolutional layer} because it:
+\begin{enumerate}[label=(\Alph*)]
+    \item Has the largest number of parameters.
+    \item Preserves spatial structure and captures high-level semantics.
+    \item Produces the final class probabilities.
+    \item Eliminates the need for backpropagation.
+\end{enumerate}
+
+\textbf{Solution:}
+The last conv layer keeps spatial layout (so we can localize) and is deep enough to encode class-relevant semantics.
+\[
+\boxed{\textbf{Answer: (B)}}
+\]
+
+\item \textbf{Grad-CAM (After ReLU)}\\
+Let $S=\alpha_1^c\mathbf{A}^1+\alpha_2^c\mathbf{A}^2$. After applying
+$L_{\text{Grad-CAM}}^{c}=\mathrm{ReLU}(S)$, what happens to \textbf{negative} entries of $S$?
+\begin{enumerate}[label=(\Alph*)]
+    \item They become positive.
+    \item They remain negative.
+    \item They become zero.
+    \item They are doubled in magnitude.
+\end{enumerate}
+
+\textbf{Solution:}
+ReLU is applied elementwise: $\mathrm{ReLU}(z)=\max(0,z)$. Therefore any negative entries become $0$.
+\[
+\boxed{\textbf{Answer: (C)}}
+\]
+
+\item \textbf{Concept Check (True/False)}\\
+Guided Backpropagation can produce sharp visual explanations but may fail to be \textbf{class-discriminative}.
+\begin{enumerate}[label=(\Alph*)]
+    \item True
+    \item False
+\end{enumerate}
+
+\textbf{Solution:}
+Guided Backprop often looks visually sharp but can highlight similar regions for different classes (not reliably class-discriminative).
+\[
+\boxed{\textbf{Answer: (A) True}}
+\]
+
+\end{enumerate}
+
+
+\end{document}

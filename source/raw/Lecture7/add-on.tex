@@ -1,0 +1,252 @@
+\documentclass{article}
+\usepackage{amsmath, amssymb, amsfonts, graphicx, fullpage, multicol}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\usepackage{mdframed, microtype}
+
+%%% Preamble %%%
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+\newcommand{\lecture}[4]{
+    \pagestyle{myheadings}
+    \thispagestyle{plain}
+    \newpage
+    \setcounter{lecnum}{#1}
+    \setcounter{page}{1}
+    \noindent
+    \begin{center}
+    \framebox{
+        \vbox{\vspace{2mm}
+            \hbox to 6.28in { {\bf ECE 4252/8803-FML: Fundamentals of Machine Learning
+            \hfill Fall 2024} }
+            \vspace{4mm}
+            \hbox to 6.28in { {\Large \hfill Lecture #1: #2 \hfill} }
+            \vspace{2mm}
+            \hbox to 6.28in { {\it Lecturer: #3 \hfill Scribes: #4} }
+            \vspace{2mm}}
+        }
+    \end{center}
+    \markboth{Lecture #1: #2}{Lecture #1: #2}
+    {\bf Disclaimer}: {\it These notes have not been subjected to the usual scrutiny reserved for formal publications.}
+    \vspace*{4mm}
+}
+
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+
+%%% Begin Document %%%
+\begin{document}
+
+\lecture{7}{Linear Regression}{Ghassan AlRegib, Mohit Prabhushankar}{Noah Lawty and Cac Phan}
+
+\section{Lecture Objectives}
+This lecture covers the fundamentals of regression, specifically modeling the relationship between the input variable \(x\) and the continuous output variable \(y\) by fitting a function \(f(x)\) to the observed data. We focus primarily on linear regression, exploring performance evaluation and model fitting techniques.
+
+\section{Performance Evaluation}
+Key performance metrics discussed in the previous lecture include:
+\begin{itemize}
+    \item \textbf{Precision}: 
+    \[
+    P = \frac{TP}{TP + FP}
+    \]
+    Precision indicates the portion of items labeled as positive that are actually positive. It is crucial when the cost of false positives is high.
+    
+    \item \textbf{Recall}:
+    \[
+    R = \frac{TP}{TP + FN}
+    \]
+    Recall measures the portion of actual positives that have been labeled correctly. It is preferred when the cost of false negatives is high (e.g., in medical diagnoses).
+
+    \item \textbf{F1 Score}:
+    \[
+    F_1 = 2 \times \frac{P \times R}{P + R}
+    \]
+    The F1 score combines precision and recall into a single metric, suitable when the class distribution is imbalanced.
+\end{itemize}
+
+\section{Performance Evaluation in Action}
+\subsection{Precision-Recall Trade-off}
+For any given data set, an inverse relationship exists between precision and recall at varying thresholds. A stricter threshold results in higher precision and lower recall (minimizing false positives while increasing false negatives), whereas a softer threshold leads to higher recall but lower precision.
+
+\subsection{ROC Curves}
+ROC (Receiver Operating Characteristic) curves plot the true positive rate (TPR) against the false positive rate (FPR) for varying classifier thresholds. Important metrics:
+\[
+\text{TPR (Recall)} = \frac{TP}{TP + FN}
+\]
+\[
+\text{FPR} = \frac{FP}{FP + TN} = 1 - \text{Specificity}
+\]
+The area under the curve (AUC) provides a single value to evaluate the classifier's performance, with values closer to 1 indicating a better classifier.
+
+\subsection{Evaluation under Imbalanced Data}
+ROC curves may not be effective for imbalanced data. In such cases, the precision-recall curve offers a better evaluation tool.
+
+\section{Linear Regression}
+\subsection{Introduction}
+Regression models the relationship between an input variable \(x\) and a continuous output variable \(y\) by fitting a function to observed data. Unlike classification, the output is continuous. This lecture focuses on linear regression models, though polynomial regressions are also used for more complex relationships.
+
+\subsection{Example: Better Life Index (OECD)}
+A simple linear model can describe the relationship between GDP per capita and life satisfaction:
+\[
+\text{Life Satisfaction} = \theta_0 + \theta_1 \times \text{GDP per Capita}
+\]
+Where \(\theta_0\) is the intercept and \(\theta_1\) the slope.
+
+\subsection{General Linear Regression Model}
+Given a dataset \((\mathbf{x}_1, y_1), (\mathbf{x}_2, y_2), \ldots, (\mathbf{x}_N, y_N)\), where \(\mathbf{x}_i\) is a feature vector, the linear relationship is modeled as:
+\[
+y_i = \theta_0 + \mathbf{\theta}^T \mathbf{x}_i
+\]
+In matrix form:
+\[
+\mathbf{y} = \mathbf{X} \boldsymbol{\theta}
+\]
+where \(\mathbf{X}\) is the matrix of input samples, and \(\boldsymbol{\theta}\) is the vector of weights.
+
+\section{Least Squares Loss Function}
+The least squares loss function minimizes the residuals (errors) between the predicted and observed values:
+\[
+L(\boldsymbol{\theta}) = \frac{1}{N} \sum_{i=1}^{N} (\mathbf{x}_i^T \boldsymbol{\theta} - y_i)^2
+\]
+This function is minimized to find the optimal parameters \(\hat{\boldsymbol{\theta}}\).
+
+\section{Common Notations}
+\begin{multicols}{2}
+\begin{itemize}
+    \item \( \mathbf{X} \): Matrix of input features
+    \item \( \mathbf{y} \): Vector of outputs
+    \item \( \boldsymbol{\theta} \): Vector of coefficients
+    \item \( \mathbf{x}_i \): Feature vector of the \(i\)-th sample
+    \item \( \epsilon \): Residual error
+\end{itemize}
+\end{multicols}
+\section{Optimal Parameters via Normal Equation}
+The optimal parameters for linear regression can be directly computed using the normal equation. Given the least squares loss function, we want to minimize it with respect to the coefficients \(\boldsymbol{\theta}\). This results in the following expression:
+
+\[
+\frac{\partial L(\boldsymbol{\theta})}{\partial \boldsymbol{\theta}} = 2\mathbf{X}^T (\mathbf{X} \boldsymbol{\theta} - \mathbf{y}) = 0
+\]
+Let \( L(\hat{\boldsymbol{\theta}}) \) be the loss function that measures the difference between the predicted values \(\hat{\mathbf{y}}\) and the actual target values \(\mathbf{y}\).
+
+We want to find the optimal \(\hat{\boldsymbol{\theta}}^*\) such that:
+
+\[
+\hat{\boldsymbol{\theta}}^* = \arg \min_{\hat{\boldsymbol{\theta}}} L(\hat{\boldsymbol{\theta}})
+\]
+
+To find this optimal \(\hat{\boldsymbol{\theta}}^*\), we take the derivative of the loss function with respect to \(\hat{\boldsymbol{\theta}}\) and set it equal to zero. That is, the loss function reaches its minimum when:
+
+\[
+\frac{dL(\hat{\boldsymbol{\theta}})}{d\hat{\boldsymbol{\theta}}} = 0
+\]
+
+Since the Least Squares loss function for linear regression is convex and quadratic, the solution for the optimal \(\hat{\boldsymbol{\theta}}\) can be found by solving the **Normal Equation**:
+
+Solving for \(\boldsymbol{\theta}\), we get the normal equation:
+
+\[
+\boldsymbol{\hat{\theta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}
+\]
+
+The matrix \((\mathbf{X}^T \mathbf{X})\) must be invertible for the normal equation to be valid. This method gives us the closed-form solution for the optimal weights in linear regression.
+
+\section{Geometric Interpretation of Linear Regression}
+Linear regression can also be understood from a geometric perspective. Consider the data matrix \(\mathbf{X}\) with \(N\) samples and \(P\) features. The columns of \(\mathbf{X}\) define a \((P+1)\)-dimensional linear subspace (including the bias term). The goal is to project the target vector \(\mathbf{y}\) onto this subspace.
+
+The estimated target vector \(\mathbf{\hat{y}}\) lies in this subspace and is as close as possible to \(\mathbf{y}\) in terms of the squared distance:
+
+\[
+\hat{\mathbf{y}} = \mathbf{X} \hat{\boldsymbol{\theta}} = \mathbf{X} (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y}
+\]
+
+The estimated target \(\hat{\mathbf{y}}\) is the orthogonal projection of \(\mathbf{y}\) onto the subspace spanned by the columns of \(\mathbf{X}\).
+
+\section{Singular Value Decomposition (SVD) for Linear Regression}
+When the matrix \(\mathbf{X}^T \mathbf{X}\) is not invertible (i.e., the columns of \(\mathbf{X}\) are linearly dependent), the normal equation cannot be applied directly. In such cases, we can use Singular Value Decomposition (SVD) to address this issue.
+
+The SVD of the matrix \(\mathbf{X}\) is given by:
+
+\[
+\mathbf{X} = \mathbf{U} \boldsymbol{\Sigma} \mathbf{V}^T
+\]
+
+where \(\mathbf{U}\) and \(\mathbf{V}\) are orthogonal matrices, and \(\boldsymbol{\Sigma}\) is a diagonal matrix of singular values. If any singular values in \(\boldsymbol{\Sigma}\) are close to zero, it indicates redundancy in the features. By removing such singular values, we can compute the optimal \(\hat{\boldsymbol{\theta}}\) even when \(\mathbf{X}^T \mathbf{X}\) is not invertible.
+
+\section{Multi-output Regression}
+In some cases, we need to predict multiple outputs simultaneously. This is known as multi-output regression. If we assume a linear relationship between the input vector \(\mathbf{x}_i\) and all dimensions of the output \(\mathbf{y}_i\), the model can be written as:
+
+\[
+\mathbf{Y} = \mathbf{X} \boldsymbol{\Theta}
+\]
+
+where \(\mathbf{Y}\) is the matrix of outputs and \(\boldsymbol{\Theta}\) is the matrix of coefficients. Each column of \(\mathbf{Y}\) represents a different output, and the corresponding column of \(\boldsymbol{\Theta}\) contains the coefficients for predicting that output.
+
+\section{Regularization Techniques}
+To prevent overfitting and address issues with collinearity in the data, regularization techniques are often used in linear regression. The two most common regularization methods are:
+
+\subsection{Ridge Regression (L2 Regularization)}
+Ridge regression adds a penalty term to the least squares loss function based on the L2 norm of the coefficients:
+
+\[
+L(\boldsymbol{\theta}) = \frac{1}{N} \sum_{i=1}^{N} (\mathbf{x}_i^T \boldsymbol{\theta} - y_i)^2 + \lambda \|\boldsymbol{\theta}\|_2^2
+\]
+
+The parameter \(\lambda\) controls the amount of regularization. As \(\lambda\) increases, the model becomes less sensitive to the specific features, preventing overfitting.
+
+\subsection{Lasso Regression (L1 Regularization)}
+Lasso regression adds a penalty term based on the L1 norm of the coefficients:
+
+\[
+L(\boldsymbol{\theta}) = \frac{1}{N} \sum_{i=1}^{N} (\mathbf{x}_i^T \boldsymbol{\theta} - y_i)^2 + \lambda \|\boldsymbol{\theta}\|_1
+\]
+
+Lasso regression encourages sparsity in the coefficients, meaning it will set some of the coefficients to zero, effectively selecting a simpler model with fewer features.
+
+\subsection{Elastic Net}
+Elastic Net combines both L1 and L2 regularization:
+
+\[
+L(\boldsymbol{\theta}) = \frac{1}{N} \sum_{i=1}^{N} (\mathbf{x}_i^T \boldsymbol{\theta} - y_i)^2 + \lambda_1 \|\boldsymbol{\theta}\|_1 + \lambda_2 \|\boldsymbol{\theta}\|_2^2
+\]
+
+This method leverages the benefits of both Ridge and Lasso regression.
+
+\section{Applications of Multi-output Regression}
+Multi-output regression is widely used in various applications, such as:
+\begin{itemize}
+    \item \textbf{Forest properties prediction}: Estimating forest vegetation height and canopy cover from satellite imagery.
+    \item \textbf{Soil quality prediction}: Predicting soil quality measures like Acari abundance and biodiversity.
+    \item \textbf{Monthly product sales prediction}: Estimating online sales based on product and advertising data.
+    \item \textbf{Energy consumption estimation}: Predicting heating and cooling loads of residential buildings.
+\end{itemize}
+
+\section{Conclusion}
+In this lecture, we covered the fundamentals of linear regression, focusing on the performance evaluation, the geometric interpretation, and regularization techniques. We also discussed the applications of regression in real-world scenarios, as well as strategies for handling multi-output regression.
+
+\section{Common Notations}
+\begin{multicols}{2}
+\begin{itemize}
+    \item \(\mathbf{X}\): Matrix of input features
+    \item \(\mathbf{y}\): Vector of outputs
+    \item \(\mathbf{x}_i\): Feature vector of the \(i\)-th sample
+    \item \(\boldsymbol{\theta}\): Coefficient vector
+    \item \(\epsilon\): Residual error
+    \item \(P\): Number of features
+    \item \(N\): Number of samples
+    \item \(\lambda\): Regularization parameter
+    \item \(\hat{\mathbf{y}}\): Predicted output
+\end{itemize}
+\end{multicols}
+
+\end{document}
+

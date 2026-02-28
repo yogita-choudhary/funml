@@ -1,0 +1,400 @@
+%% Adapted from GaTech CS 7545 Machine Learning Theory given by Prof. Jacob Abernathy Fall 2018. Original latex file: https://github.com/mltheory/CS7545/blob/master/scribe/CS7545scribe_template.tex 
+
+
+
+%%%%%PLEASE CONSIDER CORRECTIONS AT PLACES INDICATED%%%%%%%%
+\documentclass{article}
+%%%%%Packages Used, add more if necessary%%%%
+\usepackage{amsmath,amsfonts,amssymb,graphicx,fullpage}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\usepackage{mdframed}
+\usepackage{multicol}
+\usepackage{microtype}
+
+
+%%%%% NO NEED TO EDIT THIS PREAMBLE %%%%%%%%
+%%% PREAMBLE %%%
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+\newcommand{\lecture}[4]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+    \hbox to 6.28in { {\bf ECE 4252/8803-FML: Fundamentals of Machine Learning
+		\hfill Fall 2024} }
+       \vspace{4mm}
+       \hbox to 6.28in { {\Large \hfill Lecture #1: #2  \hfill} }
+       \vspace{2mm}
+       \hbox to 6.28in { {\it Lecturer: #3 \hfill Scribes: #4} }
+      \vspace{2mm}}
+   }
+   \end{center}
+   \markboth{Lecture #1: #2}{Lecture #1: #2}
+
+
+   {\bf Disclaimer}: {\it These notes have not been subjected to the
+   usual scrutiny reserved for formal publications.}
+   \vspace*{4mm}
+}
+\renewcommand{\cite}[1]{[#1]}
+\def\beginrefs{\begin{list}
+        {[\arabic{equation}]}{\usecounter{equation}
+         \setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}%
+         \setlength{\labelwidth}{1.6truecm}}}
+\def\endrefs{\end{list}}
+\def\bibentry#1{\item[\hbox{[#1]}]}
+
+\newcommand{\challenge}[2]{\noindent \textbf{(Challenge Problem)} \emph{#1}: #2 }
+
+\newcommand{\exercise}[1]{\noindent \textbf{(Exercise)} #1 }
+
+\newcommand{\fig}[3]{
+			\vspace{#2}
+			\begin{center}
+			Figure \thelecnum.#1:~#3
+			\end{center}
+	}
+%%% END_OF_PREAMBLE %%%
+
+
+	
+%%%%You may add more \newtheorem if necessary%%%%%%
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+
+
+\newcommand{\dom}{\mathrm{dom}}
+\begin{document}
+
+%%%%%CHANGE HERE%%%%%%%
+%%%%%\section{title of the section} similarly with the rest \section{} or \subsection{} or \subsubsection{} etc
+
+
+%%%%%CHANGE HERE%%%%%%%%%
+%%%%%\lecture{the ordinal number of the lecture}{lecture title}{Jacob Abernethy}{scriber's name}%%%%%%%%
+\lecture{23}{Explainability Paradigms and Evaluation}{Mohit Prabhushankar, Ghassan AlRegib}{James Choi}
+
+%%%%%CHANGE HERE%%%%%%%
+%%%%%\section{title of the section} similarly with the rest \section{} or \subsection{} or \subsubsection{} etc
+
+\section{Lecture Objectives}
+
+The objective of this lecture is to provide a comprehensive understanding of explainability in artificial intelligence by exploring different explanation types, targeted techniques, and evaluation strategies. The lecture focuses on defining the core components of explainability, discussing the types (direct, indirect, and targeted explanations), and introducing advanced techniques like Grad-CAM, Counterfactual-CAM, and Contrast-CAM. Additionally, the lecture covers strategies to evaluate explanations, including human evaluation, application-based evaluation, and network evaluation, while addressing the challenges of aligning human understanding with machine-generated explanations. The ultimate goal is to enable students to analyze and implement explainability methods, bridging the subjective and objective evaluation of AI systems.
+
+\section{Foundations of Explainability in AI}
+
+Explainability in artificial intelligence (AI) is essential for understanding and interpreting decisions made by machine learning models. This lecture provides an overview of foundational paradigms and advanced techniques for explainability. The main objectives are to help students understand different types of explanations, assess their quality and effectiveness, and explore targeted methodologies. The lecture covers the following areas:
+\begin{itemize}
+\item \textbf{Core Explanation Paradigms:} Understanding direct, indirect, and targeted explanation types, which are essential for interpreting model decisions.
+\item \textbf{Evaluation Methods:} Exploring human evaluation, application-based evaluation, and network evaluation approaches to assess the quality and relevance of explanations.
+\item \textbf{Advanced Targeted Explanation Techniques:} Focus on Grad-CAM, Counterfactual-CAM, and Contrast-CAM to highlight key input regions and decision-making processes.
+\end{itemize}
+
+\subsection{Defining Explanations in Machine Learning}
+Explainability in machine learning involves understanding what it means for an AI system to provide an explanation and identifying key components that make it useful. Both subjective and objective aspects play roles in determining whether an explanation is "good" or "bad." Explainability can often be more of an art than a science, depending on the level of detail and insight required for different situations.
+
+\subsection{Visualizing Internal Model Components}
+Visualization is crucial for understanding internal model components, particularly weights and activations across different network layers. In early layers, visualizing weights can provide insights into the information processing. For intermediate layers, more comprehensive visualization helps in understanding the evolving features contributing to decisions.
+
+\subsection{Challenges in Evaluating Explanations}
+Evaluating explanations is challenging due to the lack of a universal metric. Criteria such as transparency, completeness, and simplicity are often subjective. In critical contexts like healthcare, the completeness and accuracy of explanations are more important than their speed or simplicity.
+
+\section{Categories of Explanations}
+
+Machine learning models can be interpreted through different types of explanations, each providing unique insights into model behavior. These explanations fall broadly into indirect, direct, and targeted types:
+\begin{itemize}
+\item Indirect Explanations: Offer a deeper understanding of the internal mechanisms by visualizing parameters like activations and weights. They require domain knowledge to interpret.
+\item Direct Explanations: Link input features directly to model predictions. Techniques like Grad-CAM provide user-friendly visualizations, making them accessible to users without deep technical expertise.
+\item Targeted Explanations: Focus on specific comparative scenarios to answer questions like "Why this decision over another?" These explanations require knowledge about the data or classes involved.
+\end{itemize}
+
+\subsection{Indirect Explanations: Complexity and Subjectivity}
+Indirect explanations rely heavily on human interpretation of network parameters. Evaluating their quality depends on the viewer's understanding of concepts like activations, weights, and feature extraction. For simple tasks, visualizing weights might be sufficient, but complex decisions require more abstract information.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/Figure 23.1.png}
+\caption{Indirect Explanation Techniques}
+\label{fig}
+\end{figure}
+Figure 23.1 shows visualizations such as maximally activated patches, activation visualizations, dimensionality reduction, and nearest neighbor examples. These types of indirect explanations require domain-specific knowledge to interpret how the model's internal mechanisms, like feature activations, contribute to predictions.
+
+\subsection{Direct Explanations: Clarity Through Visual Representation}
+Direct explanations, such as Grad-CAM and pixel-wise saliency maps, visually show which input areas contribute most to predictions. These explanations make the decision-making process more tangible and accessible, even for non-experts. Figure 23.2 illustrates direct explanation techniques such as saliency maps generated via occlusion and feature importance, which highlight the areas most relevant to the prediction. This makes the decision process more understandable for end users without deep technical knowledge. 
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.7\textwidth]{figures/Figure 23.2.png}
+\caption{Direct Explanation Techniques}
+\label{fig}
+\end{figure}
+Grad-CAM and saliency maps both generate visual representations of model behavior, but in different ways. Grad-CAM highlights regions contributing to predictions with heatmaps, while saliency maps provide pixel-wise gradients, offering detailed analysis of model sensitivity to inputs.
+
+\section{Advanced Explanation Techniques}
+
+Advanced paradigms extend basic explanation methods to provide a deeper understanding of model decision processes. These include counterfactual and contrastive reasoning techniques, which answer questions like "Why this decision over another?"
+
+\begin{itemize}
+\item \textbf{Targeted Explanations: Addressing Comparative Queries:} Targeted explanations answer questions comparing possible decisions, such as why a model chose one class over another. This helps reveal subtle differences influencing decision-making.
+\item \textbf{Counterfactual Reasoning: What-If Scenarios:} Counterfactual reasoning addresses hypothetical scenarios by assessing how changes in specific features could alter a prediction. This technique is useful for validating the robustness of model outputs.
+\item \textbf{Contrastive Explanations: Highlighting Key Differences:} Contrastive explanations help understand why one outcome was chosen over another by highlighting features that differentiate classes. This method offers valuable insight into decision boundaries and discrepancies.
+\end{itemize}
+Targeted explanations provide insights that are specific to the user asking the question and their background knowledge. Figure \ref{fig} visualizes how different individuals, each with varying levels of expertise, ask questions about the same model prediction of a spoonbill. The figure demonstrates that explanations can be tailored to suit the audience, from basic to more sophisticated comparative analyses.
+Targeted explanations provide insights that are specific to the user asking the question and their background knowledge. Figure \ref{fig} visualizes how different individuals, each with varying levels of expertise, ask questions about the same model prediction of a spoonbill. The figure demonstrates that explanations can be tailored to suit the audience, from basic to more sophisticated comparative analyses.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/Figure 23.3.png}
+\caption{Role of Explainability in AI}
+\label{fig}
+\end{figure}
+Different stakeholders (a kid, an ornithologist, and a fox) each ask distinct questions about the same model prediction. The questions range from basic "Why?" to advanced comparative questions such as "Why a spoonbill rather than a flamingo?" These targeted explanations help reveal different aspects of the model's reasoning and improve user understanding, trust, and assessment of the AI system.
+The targeted questions shown in Figure \ref{fig} vary depending on the background knowledge of the person asking the question:
+\begin{itemize}
+\item \textbf{Kid}: The kid asks, "Why is it a spoonbill?" This question prompts the model to explain the basic features of a spoonbill (e.g., pink and round body, straight beak), making the decision understandable to a layperson.
+\item \textbf{Ornithologist}: The ornithologist, who has more domain knowledge, challenges the model by asking, "Why a spoonbill rather than a flamingo?" This type of comparative question helps reveal any limitations in the model's ability to differentiate between similar classes (e.g., lack of an S-shaped neck).
+\item \textbf{Fox}: The fox inquires, "Why a spoonbill rather than a fox?" This question helps assess the model's confidence in distinguishing vastly different classes, thus showing the model's robustness in decision-making.
+\end{itemize}
+The rightmost panel in Figure \ref{fig} emphasizes the different roles that explainability plays for each user type:
+\begin{itemize}
+\item \textbf{Explain the Decision}: For the kid, the goal is to provide a transparent explanation that helps them understand why the model thinks the image is a spoonbill.
+\item \textbf{Assess the Model}: For the ornithologist, the focus is on assessing the model's understanding of subtle differences between classes, such as spoonbills and flamingos.
+\item \textbf{Garner Trust}: For the fox, the model aims to build trust by providing a clear and understandable differentiation between completely different classes, such as a spoonbill and a fox.
+\end{itemize}
+These targeted explanations ultimately help users of varying expertise levels understand, assess, and trust the AI system. Each explanation aligns with a specific goal — from learning and assessment to building trust.
+\subsection{Forms of Questions for Targeted Explanations}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/Figure 23.4.png}
+\caption{Observed Correlation and Comparative Explanations}
+\label{fig}
+\end{figure}
+
+Figure \ref{fig} provides further insight into the types of questions that can be used in targeted explanations, helping users understand the model's decision more deeply. The three forms of questions include:
+\begin{itemize}
+\item \textbf{Why P? (Correlations)}: This type of question focuses on the correlations that led the model to predict a certain class. For instance, "Why Bullmastiff?" explains the features that most strongly indicate that the image is of a Bullmastiff.
+\item \textbf{What if? (Counterfactual)}: This question explores hypothetical scenarios, such as "What if the Bullmastiff was not in the image?" It helps understand how the absence of specific features would affect the model's decision.
+\item \textbf{Why P, rather than Q? (Contrastive)}: This type of question is contrastive, asking "Why Bullmastiff rather than Boxer?" It helps clarify why the model chose one class over another by highlighting the key differences.
+\end{itemize}
+
+
+\section{Grad-CAM and Related Methods}
+
+Grad-CAM and its variants are useful tools for visualizing the workings of a neural network by highlighting important input regions. These techniques provide insight into why specific inputs influence the prediction in convolutional neural networks (CNNs).
+
+\subsection{Grad-CAM: Gradient-Based Visual Explanations}
+Grad-CAM, or Gradient-weighted Class Activation Mapping, is a visualization technique that generates a localization map, showing the important regions in the input image that contribute to a model's prediction. It works by computing the gradient of the output class with respect to the final convolutional feature maps. The key steps are:
+
+\begin{enumerate}
+\item \textbf{Forward pass:} The input image is passed through the network to obtain feature maps from the last convolutional layer.
+\item \textbf{Backward pass:} The gradient of the output class score is calculated with respect to the feature maps.
+\item \textbf{Weight Calculation:} The gradients are globally averaged to obtain importance weights for each feature map channel.
+\item \textbf{Localization Map:} The feature maps are weighted by their respective importance scores, combined, and passed through a ReLU to generate a heatmap, highlighting influential regions in the input.
+\end{enumerate}
+
+The Grad-CAM localization map is computed as follows:
+
+\begin{equation}
+L^{c}{\text{Grad-CAM}} = \text{ReLU}\left(\sum{k} \alpha^{c}_{k} A^{k}\right)
+\end{equation}
+
+Where $\alpha^{c}_{k}$ represents the importance weights for the $k$-th feature map channel, obtained by global average pooling of the gradients:
+
+\begin{equation}
+\alpha^{c}{k} = \frac{1}{Z} \sum{i} \sum_{j} \frac{\partial y^{c}}{\partial A^{k}_{ij}}
+\end{equation}
+
+Grad-CAM is widely used to interpret CNNs in tasks like classification, object detection, and visual question answering. Figure \ref{fig} illustrates an example of Grad-CAM applied to an image.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/Figure 23.5.png}
+\caption{Grad-CAM highlighting regions contributing to Bullmastiff classification.}
+\label{fig}
+\end{figure}
+
+\subsection{Counterfactual-CAM: Visualizing Hypotheticals}
+Counterfactual-CAM builds on Grad-CAM by helping users understand what would happen if certain features were altered. This is achieved by negating the gradients during backpropagation to effectively remove the influence of specific features, thus generating a visualization of what regions the model would deem important if those features were not present.
+
+The process for Counterfactual-CAM is as follows:
+\begin{itemize}
+\item Compute the negative of the gradients during backpropagation.
+\item Use these modified gradients to determine which regions the model would ignore if specific features were altered or absent.
+\end{itemize}
+
+The Counterfactual-CAM localization map is computed similarly to Grad-CAM, but using negated gradients:
+
+\begin{equation}
+L^{c}{\text{Counterfactual-CAM}} = \text{ReLU}\left(\sum{k} -\alpha^{c}_{k} A^{k}\right)
+\end{equation}
+
+
+\subsection{Contrast-CAM: Differentiating Classes}
+Contrast-CAM is used to highlight the differences between two classes by contrasting their activation maps. This technique involves computing the loss between the predicted class and a contrasting class to emphasize the features that are unique to each.
+
+The key steps of Contrast-CAM are:
+\begin{enumerate}
+\item Compute the gradients of the difference in output scores between the target class and a contrasting class.
+\item Use these gradients to determine which features distinguish the target class from the contrasting class.
+\end{enumerate}
+
+The Contrast-CAM localization map is given by:
+
+\begin{equation}
+L^{c}{\text{Contrast-CAM}} = \text{ReLU}\left(\sum{k} \alpha^{(P, Q)}_{k} A^{k}\right)
+\end{equation}
+
+Where $\alpha^{(P, Q)}_{k}$ is computed as:
+
+\begin{equation}
+\alpha^{(P, Q)}{k} = \frac{1}{Z} \sum{i} \sum_{j} \frac{\partial J(P, Q)}{\partial A^{k}_{ij}}
+\end{equation}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/Figure 23.6.png}
+\caption{Contrast-CAM visualization showing regions that distinguish different classes. }
+\label{fig}
+\end{figure}
+
+\subsection{Summary of Grad-CAM and Its Variants}
+
+These methods—Grad-CAM, Counterfactual-CAM, and Contrast-CAM—provide powerful visual insights into the decision-making process of CNNs. By highlighting different aspects of the model's reasoning, they allow users to better understand and trust AI predictions. Grad-CAM focuses on regions of influence, Counterfactual-CAM explores hypothetical scenarios, and Contrast-CAM differentiates between similar classes, offering a comprehensive toolkit for explainability.
+
+\section{Challenges in Explainability}
+
+Explainability presents unique challenges due to subjective evaluations, discrepancies between human and machine reasoning, and balancing interpretability with accuracy. These challenges must be addressed to build trustworthy AI systems.
+\begin{itemize}
+\item \textbf{Human Bias in Evaluation:} Machine learning models often prioritize features that humans deem irrelevant, leading to a divergence in reasoning. This difference can reduce trust in AI, especially when explanations provided by the model are not intuitive to a human observer.
+\item \textbf{Complex Evaluation Methods:} Evaluating explanations without objective metrics is complex. Human evaluations, application-based evaluations, and network evaluations each present unique benefits and challenges. Network evaluation methods, like masking inputs and observing the effect on predictions, provide an objective measure but lack insight into human interpretability.
+\item \textbf{Balancing Detail and Simplicity in Explanations:} The challenge is balancing technical detail with accessibility. Highly technical explanations may be accurate but inaccessible to non-experts, while overly simplified explanations might be easy to understand but fail to convey necessary depth. This balance depends on the audience's needs, requiring a careful calibration for each use case.
+\end{itemize}
+
+\section{Explanatory Evaluation}
+
+Explanatory evaluation involves assessing the quality and effectiveness of explanations generated by AI models. There are different evaluation methods that fall under this category, each focusing on various aspects of explainability.
+
+\subsection{Taxonomy of Evaluation Techniques}
+Evaluation techniques are categorized into three main types:
+\begin{itemize}
+\item \textbf{Human Evaluation:} Humans directly assess the quality of the explanations.
+\item \textbf{Application Evaluation:} Explanations are evaluated within the context of a specific application, often 
+ involving human-in-the-loop setups.
+\item \textbf{Network Evaluation:} Evaluates the internal model's robustness or accuracy in generating explanations without direct human involvement.
+\end{itemize}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/Figure 23.7.png}
+\caption{Taxonomy of Evaluation Techniques.}
+\label{fig}
+\end{figure}
+Human Evaluation, Application Evaluation, and Network Evaluation of explanations, showing how humans assess the quality of explanations, regions of interest for visual attention, and model robustness.
+
+\subsection{Human Evaluation}
+Human evaluation is a subjective but essential method for assessing the quality of explanations. It focuses on how well the explanation conveys the reasoning behind a prediction to a human observer. Figure 23.8 illustrates different evaluation tasks involving human subjects.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/Figure 23.8.png}
+\caption{Human Evaluation.}
+\label{fig}
+\end{figure}
+Humans are directly asked to evaluate explanatory techniques, comparing different approaches such as Backprop, Deconv, and Guided Backprop to determine which explanation is more effective. Human evaluation can be quite subjective, as different individuals may perceive the effectiveness of explanations differently. The visualizations from methods like Backprop, Deconv, and Guided Backprop (shown in Figure 23.8) illustrate how explanations vary in clarity and detail, making it challenging to define an objectively superior approach. This highlights the importance of understanding the target audience for explainability and adapting the evaluation criteria accordingly.
+
+\subsection{Application Evaluation}
+Application-based evaluation considers explanations in the context of specific tasks where humans are involved in the evaluation loop. This could include gaze tracking or interaction analysis to see how well the explanation aligns with human expectations.
+
+\subsubsection{Gaze Tracking}
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/Figure 23.9.png}
+\caption{Gaze Tracking.}
+\label{23.9}
+\end{figure}
+Gaze tracking involves monitoring where humans naturally focus their visual attention when viewing an image. As shown in Figure 23.9, human gaze tends to cluster around specific salient regions, which can provide insights into how well an AI explanation aligns with human intuition. This evaluation method leverages human attention data to assess whether the generated explanations highlight the same areas that draw human focus. Tracking human visual gaze without a specific objective often results in focusing on visually salient objects. From a neuroscience perspective, these salient regions are what the human brain uses to make inferences about the content of an image. Consequently, explanations that align with these regions are considered more intuitive and human-like.
+ 
+\subsubsection{Pointing Game}
+The pointing game is an extension of gaze tracking, where humans are asked to sharpen specific regions in a blurry image that lead to their decision. This helps to evaluate how explanations align with human visual attention and decision-making.
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/Figure 23.10.png}
+\caption{Pointing Game}
+\label{23.10}
+\end{figure}
+Given a blurry image and a question, humans are asked to sharpen the regions that lead to their decision, helping to assess how well explanations align with human attention. Application evaluation can benefit from datasets that have been designed with human involvement, such as gaze tracking and pointing games. These methods are particularly useful for evaluating targeted explanations, where the explanation needs to highlight specific features that are important for a decision.
+
+\section{Network Evaluation}
+
+Network evaluation is focused on assessing how well the model's internal mechanics contribute to the quality of explanations, without requiring human involvement. These evaluations help in understanding the internal working of AI models and determining whether their reasoning aligns with expectations. This section focuses on key network evaluation methods discussed in the lecture, providing insights into their strengths and limitations. According to the lecture, understanding how different parts of an image or input contribute to the model's decision-making can provide critical insights into model behavior, especially when using evaluation methods that do not require human input.
+
+\subsection{Explanation Evaluation via Masking}
+Explanation evaluation via masking involves systematically occluding different regions of the input data to determine their impact on the model's predictions. By masking parts of the input and observing changes in the model's output, we can gain insight into which regions are crucial for the model's decision-making.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/Figure 23.11.png}
+\caption{Explanation Evaluation via Masking: Masking different input features to assess their impact on the model's output.}
+\label{fig}
+\end{figure}
+
+Masking-based evaluations are particularly useful for understanding the relative importance of different input features. By progressively masking out regions, it becomes possible to determine how much each part of the input contributes to the final prediction, providing detailed insights into the model's reasoning process. This helps in identifying the most influential features and can reveal biases or overreliance on certain parts of the input data.
+
+The first figure shows how masking different areas of an image can change the model's prediction from "Crane" to "Spoonbill." This demonstrates how certain features of the bird are critical to the model's classification. By analyzing which regions lead to prediction changes, we gain insights into the features that the model considers most important. As mentioned in the lecture, understanding these critical features can help refine model training and improve explainability.
+
+Additionally, a common evaluation technique is to use the expectation of the class given the masked data, denoted as $E(Y|S_x)$. If across $N$ images, $E(Y|S_{x2}) > E(Y|S_{x1})$, then explanation technique 2 is considered better than explanation technique 1. This metric provides a quantitative comparison between different masking techniques, as highlighted by the professor.
+
+\subsection{Progressive Pixel-wise Insertion and Deletion}
+Progressive pixel-wise insertion and deletion is another key method used in network evaluation. This technique involves progressively inserting or deleting features from an image to observe how these changes impact model confidence. The goal is to evaluate the importance of different features to the model's predictions.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/Figure 23.12.png}
+\caption{Progressive Pixel-wise Insertion and Deletion: The removal of important pixels forces the model to change its decision, approximating the necessity criterion of a good explanation.}
+\label{fig}
+\end{figure}
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/Figure 23.13.png}
+\caption{Deletion approximates}
+\label{fig}
+\end{figure}
+
+The figures above depict insertion and deletion metrics for two different bird species, showing how the addition or removal of features affects model confidence. For instance, in the "bittern" example, removing key features results in a low AUC, suggesting those features are critical for correct classification. On the other hand, high AUC during insertion for the "white stork" example highlights the significant contribution of certain features to the prediction.
+
+Progressive insertion and deletion techniques can provide more granular insights into model behavior. By observing how quickly confidence drops during deletion or rises during insertion, we can evaluate both the sufficiency and necessity of different features in contributing to the model's output. This is particularly useful when comparing different explainability methods, such as Grad-CAM versus guided backpropagation, as it provides a quantitative measure of how effectively these methods identify important features. As mentioned by the professor, this method can help validate the reliability of the explanations and identify the most impactful input regions.
+
+\subsection{Network Evaluation via Masking}
+This approach further extends masking techniques to evaluate how masking specific input features affects prediction correctness. By systematically masking various parts of the input and comparing the resulting outputs, it becomes possible to assess the model's sensitivity to different components of the input.
+
+\begin{figure}[h]
+\centering
+\includegraphics[width=0.8\textwidth]{figures/Figure 23.14.png}
+\caption{Insertion approximates}
+\label{fig}
+\end{figure}
+
+Network evaluation via masking can also be instrumental in identifying potential biases in the model. For instance, if a model relies too heavily on specific features that are not necessarily relevant for correct classification, it indicates areas for improvement in training or data preprocessing. Masking-based evaluations are effective tools to ensure that the model's learning aligns with the expected reasoning process. The lecture highlighted the importance of evaluating such biases to ensure fairness and robustness in model predictions.
+
+\subsection{Explanation Evaluation with Network Robustness}
+Evaluating the robustness of the model's explanations is another critical aspect of network evaluation. Robustness refers to the model's ability to provide consistent explanations in response to small perturbations in the input. Techniques such as adding noise to the input or slightly altering feature values can help in assessing whether the generated explanations remain stable. If small changes in input lead to drastically different explanations, this suggests that the model may not be reliably capturing the underlying data relationships.
+
+Network robustness evaluation ensures that the model explanations are not only accurate but also dependable. This is particularly important in critical domains such as healthcare, where consistent and reliable explanations are crucial for trust and adoption. During the lecture, the professor emphasized that robustness testing helps ensure that model explanations are stable, even when facing minor input variations, which is essential for building user trust.
+
+\subsection{Conclusion}
+Network evaluation plays a fundamental role in understanding the internal workings of AI models and ensuring that their decision-making processes are both interpretable and reliable. Techniques such as masking, progressive pixel-wise insertion and deletion, and robustness evaluation provide valuable tools to assess the quality of model explanations without direct human involvement. By using these methods, we can identify areas for improvement, enhance model training, and ultimately create AI systems that are more trustworthy and transparent. These evaluation techniques, as highlighted in the lecture, serve as a foundation for improving the interpretability and reliability of machine learning models, which is crucial for their acceptance in real-world applications.
+
+\end{document}

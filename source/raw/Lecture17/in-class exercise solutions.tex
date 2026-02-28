@@ -1,0 +1,72 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{In-Class Exercise (Canvas Quiz) --- 10 minutes}}\\[6pt]
+{\large \textbf{Lecture 17: Best Practices}}
+\end{center}
+
+\vspace{10pt}
+
+\begin{enumerate}[label=(\arabic*), itemsep=12pt]
+
+
+\item \textbf{Loss for balanced 10-class classification}\\
+Choose the best loss function.
+
+\begin{enumerate}[label=(\Alph*), itemsep=2pt]
+\item Mean Squared Error (MSE)
+\item Cross-Entropy
+\item L1 Loss
+\item Weighted Cross-Entropy
+\end{enumerate}
+
+\vspace{4pt}
+\noindent\textbf{Solution 1:}\\
+For balanced multi-class classification, cross-entropy is the standard choice because it directly models class probabilities and works well when classes are evenly represented.
+\[
+\boxed{\textbf{Answer: (B)}}
+\]
+
+
+\item \textbf{Loss for imbalanced tumor segmentation}\\
+Choose the best loss function.
+
+\begin{enumerate}[label=(\Alph*), itemsep=2pt]
+\item Cross-Entropy
+\item Weighted Cross-Entropy
+\item MSE
+\item Focal Loss
+\end{enumerate}
+
+\vspace{4pt}
+\noindent\textbf{Solution 2:}\\
+Focal loss emphasizes difficult and minority examples, making it particularly effective for highly imbalanced segmentation problems.
+\[
+\boxed{\textbf{Answer: (D)}}
+\]
+
+
+\item \textbf{Fix exploding gradients via activation histogram}\\
+What is the best fix?
+
+\begin{enumerate}[label=(\Alph*), itemsep=2pt]
+\item Increase learning rate
+\item Decrease learning rate
+\item Use a more aggressive activation like ReLU
+\end{enumerate}
+
+\vspace{4pt}
+\noindent\textbf{Solution 3:}\\
+Exploding gradients indicate updates are too large; reducing the learning rate stabilizes training.
+\[
+\boxed{\textbf{Answer: (B)}}
+\]
+
+\end{enumerate}
+
+\end{document}

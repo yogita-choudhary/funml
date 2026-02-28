@@ -1,0 +1,112 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{In-Class Exercise (Canvas Quiz) --- 10 minutes}}\\[6pt]
+{\large \textbf{Lecture 21: Sequence Modeling II (TCN + Attention)}}
+\end{center}
+
+\vspace{10pt}
+
+\noindent
+This exercise focuses on two core Lecture 21 ideas:
+\begin{itemize}
+\item \textbf{TCN receptive field}: causal + dilated 1D convolutions
+\item \textbf{Dot-product attention}: scores, softmax weights, and context vector
+\end{itemize}
+
+\vspace{10pt}
+
+% -------------------- Q1 --------------------
+\noindent
+\textbf{Question 1 (TCN: single-layer receptive field).}\\
+A \emph{single} dilated causal convolution layer has kernel size $k=3$ and dilation $d=2$.
+Let the input sequence be scalars $x[0],x[1],\dots$ and the output be $y[t]$.
+
+Which input indices can affect $y[t]$ for this single layer?
+
+\begin{enumerate}[label=(\Alph*), itemsep=3pt]
+\item $\{t,\;t-1,\;t-2\}$
+\item $\{t,\;t-2,\;t-4\}$
+\item $\{t,\;t-2,\;t-3\}$
+\item $\{t,\;t-4,\;t-8\}$
+\end{enumerate}
+
+\vspace{10pt}
+
+% -------------------- Q2 --------------------
+\noindent
+\textbf{Question 2 (TCN: concrete time index).}\\
+Using the same layer ($k=3,d=2$), for $t=10$ which exact input indices are used?
+
+\begin{enumerate}[label=(\Alph*), itemsep=3pt]
+\item $\{10,\;9,\;8\}$
+\item $\{10,\;8,\;6\}$
+\item $\{10,\;6,\;2\}$
+\item $\{10,\;12,\;14\}$
+\end{enumerate}
+
+\vspace{10pt}
+
+% -------------------- Q3 --------------------
+\noindent
+\textbf{Question 3 (Attention: which token gets most weight?).}\\
+Dot-product attention at one decoder step uses
+\[
+e_i=\mathbf{s}^\top \mathbf{h}_i,
+\qquad
+\alpha_i=\frac{\exp(e_i)}{\sum_{j=1}^3 \exp(e_j)},
+\qquad
+\mathbf{c}=\sum_{i=1}^3 \alpha_i \mathbf{h}_i.
+\]
+Given
+\[
+\mathbf{s}=\begin{bmatrix}1\\0\end{bmatrix},\quad
+\mathbf{h}_1=\begin{bmatrix}1\\0\end{bmatrix},\quad
+\mathbf{h}_2=\begin{bmatrix}0\\1\end{bmatrix},\quad
+\mathbf{h}_3=\begin{bmatrix}-1\\0\end{bmatrix},
+\]
+which key/value vector receives the \emph{largest} attention weight?
+
+\begin{enumerate}[label=(\Alph*), itemsep=3pt]
+\item $\mathbf{h}_1$
+\item $\mathbf{h}_2$
+\item $\mathbf{h}_3$
+\item All equal
+\end{enumerate}
+
+\vspace{10pt}
+
+% -------------------- Q4 --------------------
+\noindent
+\textbf{Question 4 (Attention: score ordering).}\\
+With the same $\mathbf{s},\mathbf{h}_1,\mathbf{h}_2,\mathbf{h}_3$, which ordering of scores is correct?
+
+\begin{enumerate}[label=(\Alph*), itemsep=3pt]
+\item $e_1 > e_2 > e_3$
+\item $e_2 > e_1 > e_3$
+\item $e_3 > e_2 > e_1$
+\item $e_1 = e_2 = e_3$
+\end{enumerate}
+
+\vspace{10pt}
+
+% -------------------- Q5 --------------------
+\noindent
+\textbf{Question 5 (Attention: direction/sign of context vector).}\\
+Without computing the full softmax numerically, which statement is correct about the context vector $\mathbf{c}$?
+
+\begin{enumerate}[label=(\Alph*), itemsep=3pt]
+\item The first component of $\mathbf{c}$ is positive and the second component is positive.
+\item The first component of $\mathbf{c}$ is negative and the second component is positive.
+\item The first component of $\mathbf{c}$ is zero and the second component is positive.
+\item Both components of $\mathbf{c}$ are zero.
+\end{enumerate}
+
+
+
+\end{document}

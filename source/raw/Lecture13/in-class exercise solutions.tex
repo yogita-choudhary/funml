@@ -1,0 +1,156 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, bm}
+\usepackage{enumitem}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{In-Class Exercise --- Questions \& Solutions}}\\[4pt]
+{\large \textbf{Lecture 13: Neural Networks}}
+\end{center}
+
+\begin{enumerate}[label=(\arabic*), itemsep=18pt]
+
+
+\item \textbf{Forward pass with ReLU}
+
+A neuron computes $h=\bm{w}^T\bm{x}+b$ and outputs $\mathrm{ReLU}(h)=\max(0,h)$.
+
+\[
+\bm{x}=\begin{bmatrix}1\\-2\end{bmatrix},\quad
+\bm{w}=\begin{bmatrix}2\\1\end{bmatrix},\quad
+b=-1
+\]
+
+What is the output after ReLU?
+
+\begin{itemize}
+\item[(A)] $0$
+\item[(B)] $1$
+\item[(C)] $3$
+\end{itemize}
+
+\textbf{Solution}
+
+\[
+h=\bm{w}^T\bm{x}+b=(2)(1)+(1)(-2)-1=2-2-1=-1
+\]
+\[
+\mathrm{ReLU}(h)=\max(0,-1)=0
+\]
+
+\[
+\boxed{(A)}
+\]
+
+
+\item \textbf{Why add nonlinearities?}
+
+What is the main reason we include nonlinear activation functions (e.g., ReLU, sigmoid) in neural networks?
+
+\begin{itemize}
+\item[(A)] They make the optimization problem convex.
+\item[(B)] They allow the network to represent non-linear functions/decision boundaries.
+\item[(C)] They guarantee perfect generalization.
+\end{itemize}
+
+\textbf{Solution}
+
+Stacking only linear layers still produces a linear function.  
+Nonlinear activations give neural networks the ability to model nonlinear relationships.
+
+\[
+\boxed{(B)}
+\]
+
+
+\item \textbf{Softmax sanity check}
+
+Softmax maps scores $\bm{s}=[s_1,s_2,s_3]$ to probabilities
+\[
+p_k=\frac{e^{s_k}}{\sum_{j=1}^3 e^{s_j}}.
+\]
+
+Which statement is always true?
+
+\begin{itemize}
+\item[(A)] Some $p_k$ can be negative.
+\item[(B)] $\sum_{k=1}^3 p_k = 1$.
+\item[(C)] The largest score always maps to probability exactly $1$.
+\end{itemize}
+
+\textbf{Solution}
+
+Softmax outputs form a probability distribution: each $p_k>0$ and they sum to 1.
+
+\[
+\boxed{(B)}
+\]
+
+
+\item \textbf{Cross-entropy intuition}
+
+If the true class is class 2, the loss is
+\[
+L=-\log(p_2).
+\]
+
+Which prediction gives the smallest loss?
+
+\begin{itemize}
+\item[(A)] $p_2 = 0.90$
+\item[(B)] $p_2 = 0.40$
+\item[(C)] $p_2 = 0.10$
+\end{itemize}
+
+\textbf{Solution}
+
+The loss decreases as $p_2$ increases.  
+Largest probability $\Rightarrow$ smallest loss.
+
+\[
+\boxed{(A)}
+\]
+
+
+\item \textbf{Counting parameters}
+
+Fully-connected network:
+\[
+\text{Input }(4)\rightarrow \text{Hidden }(3)\rightarrow \text{Output }(2)
+\]
+with biases in each layer.
+
+How many trainable parameters are there?
+
+\begin{itemize}
+\item[(A)] $4\cdot3 + 3\cdot2$
+\item[(B)] $4\cdot3 + 3 + 3\cdot2 + 2$
+\item[(C)] $4 + 3 + 2$
+\end{itemize}
+
+\textbf{Solution}
+
+Layer 1 (input $\rightarrow$ hidden):
+\[
+\text{weights}=4\cdot3,\quad \text{biases}=3
+\]
+
+Layer 2 (hidden $\rightarrow$ output):
+\[
+\text{weights}=3\cdot2,\quad \text{biases}=2
+\]
+
+Total parameters:
+\[
+4\cdot3 + 3 + 3\cdot2 + 2
+\]
+
+\[
+\boxed{(B)}
+\]
+
+\end{enumerate}
+
+\end{document}

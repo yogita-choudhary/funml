@@ -1,0 +1,603 @@
+%% Adapted from GaTech CS 7545 Machine Learning Theory given by Prof. Jacob Abernathy Fall 2018. Original latex file: https://github.com/mltheory/CS7545/blob/master/scribe/CS7545scribe_template.tex 
+
+
+
+%%%%%PLEASE CONSIDER CORRECTIONS AT PLACES INDICATED%%%%%%%%
+\documentclass{article}
+%%%%%Packages Used, add more if necessary%%%%
+\usepackage{amsmath,amsfonts,amssymb,graphicx,fullpage, float}
+\setlength{\topmargin}{-0.6 in}
+\setlength{\textheight}{8.5 in}
+\setlength{\headsep}{0.75 in}
+\usepackage{mdframed}
+\usepackage{multicol}
+\usepackage{microtype, hyperref}
+
+
+%%%%% NO NEED TO EDIT THIS PREAMBLE %%%%%%%%
+%%% PREAMBLE %%%
+\newcounter{lecnum}
+\renewcommand{\thepage}{\thelecnum-\arabic{page}}
+\renewcommand{\thesection}{\thelecnum.\arabic{section}}
+\renewcommand{\theequation}{\thelecnum.\arabic{equation}}
+\renewcommand{\thefigure}{\thelecnum.\arabic{figure}}
+\renewcommand{\thetable}{\thelecnum.\arabic{table}}
+\newcommand{\lecture}[4]{
+   \pagestyle{myheadings}
+   \thispagestyle{plain}
+   \newpage
+   \setcounter{lecnum}{#1}
+   \setcounter{page}{1}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{\vspace{2mm}
+      
+      \hbox to 6.28in { 
+      {\bf ECE 4252/6252 (FunML) Fundamentals of Machine Learning \hfill 2021--2028} }
+      
+      \vspace{2mm}
+      \hbox to 6.28in { 
+      {Courses developed by Professor Ghassan AlRegib 
+      (\href{https://alregib.ece.gatech.edu/}{alregib.ece.gatech.edu}) 
+      \hfill For inquiries: \href{mailto:alregib@gatech.edu}{alregib@gatech.edu}} }
+      
+      \vspace{3mm}
+      \hbox to 6.28in { {\Large \hfill Lecture #1: #2 \hfill} }
+      
+      \vspace{2mm}
+      \hbox to 6.28in { {\it Co-Instructors: #3 \hfill #4} }
+      
+      \vspace{2mm}}
+   }
+   \end{center}
+
+   % -------- PEOPLE OUTSIDE BOX --------
+   \vspace{2mm}
+   \noindent{\bf Contributors:} Dr. Ahmad Mustafa, Dr. Motaz Alfarraj, Dr. Ashraf Alattar, Dr. Chen Zhou
+
+   \vspace{1mm}
+   \noindent{\bf Teaching Assistants} with remarkable contributions include: Kuo-Wei Lai, Wuyang Du, Shiva Mahato, Michael Zhou, Ninghan Zhong
+
+   \markboth{Lecture #1: #2}{Lecture #1: #2}
+
+   \vspace{2mm}
+\noindent {\bf Disclaimer}: 
+{All content of these notes are part of this course at Georgia Tech. Any re-use or distribution is not permitted without pre-approved permission. All these notes belong to, created by, and copyrighted for Ghassan AlRegib and Mohit Prabhushankar, Georgia Tech, 2021--2028.}
+
+\vspace{2mm}
+\noindent {\bf License}: 
+{These lecture notes are licensed under the 
+\href{https://creativecommons.org/licenses/by-nc-sa/4.0/}{Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License}.}
+
+   \vspace{2mm}
+   \noindent {\bf Errata}: 
+   {\it Please submit any errata you find using the following form: 
+   \href{https://forms.office.com/r/fbg9dMWPgY}{Errata Form for FunML Textbook} 
+   or visit: \url{https://forms.office.com/r/fbg9dMWPgY}}
+
+   \vspace*{4mm}
+}
+\renewcommand{\cite}[1]{[#1]}
+\def\beginrefs{\begin{list}
+        {[\arabic{equation}]}{\usecounter{equation}
+         \setlength{\leftmargin}{2.0truecm}\setlength{\labelsep}{0.4truecm}%
+         \setlength{\labelwidth}{1.6truecm}}}
+\def\endrefs{\end{list}}
+\def\bibentry#1{\item[\hbox{[#1]}]}
+
+\newcommand{\challenge}[2]{\noindent \textbf{(Challenge Problem)} \emph{#1}: #2 }
+
+\newcommand{\exercise}[1]{\noindent \textbf{(Exercise)} #1 }
+
+\newcommand{\fig}[3]{
+			\vspace{#2}
+			\begin{center}
+			Figure \thelecnum.#1:~#3
+			\end{center}
+	}
+%%% END_OF_PREAMBLE %%%
+
+
+	
+%%%%You may add more \newtheorem if necessary%%%%%%
+\newtheorem{theorem}{Theorem}[lecnum]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}[theorem]{Definition}
+\newenvironment{proof}{{\bf Proof:}}{\hfill\rule{2mm}{2mm}}
+
+
+\newcommand{\dom}{\mathrm{dom}}
+\begin{document}
+
+%%%%%CHANGE HERE%%%%%%%
+%%%%%\section{title of the section} similarly with the rest \section{} or \subsection{} or \subsubsection{} etc
+
+
+%%%%%CHANGE HERE%%%%%%%%%
+%%%%%\lecture{the ordinal number of the lecture}{lecture title}{Jacob Abernethy}{scriber's name}
+\lecture{25}{Data and Label Efficient Learning – Active Learning}{Ghassan AlRegib and Mohit Prabhushankar}{}
+
+\section{Recap}
+In the last lecture, we discussed anomaly detection, which identifies patterns in data that deviate significantly from normal behavior.
+
+\textbf{Key applications include:}
+\begin{itemize}
+    \item \textbf{Fraud detection} in credit card transactions.
+    \item \textbf{Arrhythmias} in ECG recordings.
+    \item \textbf{Defective image regions} in manufacturing or medical imaging.
+\end{itemize}
+
+\textbf{Key methods covered:}
+\begin{itemize}
+    \item \textbf{Statistical techniques} such as likelihood estimation.
+    \item \textbf{Reconstruction-based methods} using autoencoders.
+    \item \textbf{Unsupervised approaches} to detect outliers.
+\end{itemize}
+
+\section{Introduction and Motivation}
+
+\subsection{Supervised Learning vs Active Learning}
+\begin{itemize}
+    \item \textbf{Supervised Learning:}
+    \begin{itemize}
+        \item \textbf{Labeling Assumption:} Labeling processes are already completed beforehand.
+        \item \textbf{Goal:} Achieve good generalizability with fully labeled datasets.
+    \end{itemize}
+    \item \textbf{Active Learning:}
+    \begin{itemize}
+        \item \textbf{Labeling Assumption:} Samples are selectively labeled under certain budget constraints.
+        \item \textbf{Goal:} Achieve good generalizability with fewer annotated samples by focusing on critical data points.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Motivation for Active Learning}
+\begin{itemize}
+    \item \textbf{Challenge:} Labeling data is costly and time-consuming, especially for large datasets.
+    \item \textbf{Unlabeled Data Points:} In real-world scenarios, most available data is unlabeled.
+    \item \textbf{Goal:} Efficiently label a small subset of data to maximize the model's performance.
+\end{itemize}
+
+\subsection{Labeling Constraints and Budget: A Case Study}
+\begin{itemize}
+    \item \textbf{Budget Limitation:} Labeling data is expensive, and the available budget imposes strict constraints on the number of samples that can be annotated.
+    \item \textbf{Objective:} Under a limited budget, focus on selecting the most informative samples that can maximize the model's performance.
+    \item \textbf{Example:}
+    \begin{itemize}
+        \item \textbf{Cost per labeled sample:} \$3
+        \item \textbf{Available budget:} \$9
+        \item \textbf{Samples to label:} Only 3 samples can be annotated.
+    \end{itemize}
+    \item \textbf{Key Insight:} Strategic selection of critical samples is essential to achieve optimal model performance with minimal labeling effort.
+\end{itemize}
+
+
+\section{Fundamentals}
+
+\subsection{Basics}
+\begin{itemize}
+    \item \textbf{Unlabeled Data:} The majority of data in real-world scenarios is unlabeled.
+    \item \textbf{Model-Guided Selection:} Information extracted from a trained ML model is used to identify the most informative data points for labeling.
+    \item \textbf{Objective:} Select data points that maximize model performance while minimizing labeling costs.
+\end{itemize}
+
+\subsection{Active Learning Process}
+\begin{itemize}
+    \item \textbf{Input:} 
+    \begin{itemize}
+        \item A pool of unlabeled data.
+        \item An untrained ML model.
+        \item An acquisition function (query strategy).
+    \end{itemize}
+    
+    \item \textbf{Workflow:}
+    \begin{enumerate}
+        \item \textbf{Initialization:} 
+        \begin{itemize}
+            \item Randomly select a small subset of unlabeled data.
+            \item Pass the subset to an Oracle for labeling.
+            \item Train the ML model with the labeled subset to establish a baseline.
+        \end{itemize}
+        \item \textbf{Selection:}
+        \begin{itemize}
+            \item Use the acquisition function to evaluate the remaining unlabeled data.
+            \item Identify the most informative data points based on model predictions.
+        \end{itemize}
+        \item \textbf{Annotation:} The Oracle (e.g., a human annotator) labels the selected data points.
+        \item \textbf{Retraining:}
+        \begin{itemize}
+            \item Combine previously labeled data with newly labeled samples.
+            \item Retrain the ML model to improve accuracy and generalizability.
+        \end{itemize}
+        \item \textbf{Repeat:} Continue the process until a stopping criterion is met (e.g., budget exhaustion, performance threshold).
+    \end{enumerate}
+    
+    \item \textbf{Workflow Visualization:}
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.7\textwidth]{img/lecture25/process.png}
+        \caption{Active learning process workflow.}
+        \label{fig:active_learning_process}
+    \end{figure}
+    
+    \item \textbf{Key Elements:}
+    \begin{itemize}
+        \item \(\mathbf{X}_{\text{pool}}\): Unlabeled data pool.
+        \item \(\mathbf{X}_{\text{train}}\): Labeled training set.
+        \item \(f_w(x)\): ML model function parameterized by \(w\).
+        \item \(\alpha(x)\): Acquisition function used to rank and select data points.
+        \item \(N_b\): Number of samples selected in each iteration.
+    \end{itemize}
+\end{itemize}
+
+
+\section{Performance Metrics and Annotator Constraints}
+
+\subsection{Performance Metrics}
+\begin{itemize}
+    \item \textbf{Purpose:} Evaluate the efficiency of active learning strategies in improving model performance.
+    \item \textbf{Key Metrics for Classification:}
+    \begin{itemize}
+        \item \textbf{Accuracy:} Proportion of correctly classified samples.
+        \item \textbf{F1-Score:} Harmonic mean of precision and recall, useful in imbalanced datasets.
+        \item \textbf{TPR/FPR:} True positive rate and false positive rate, indicating sensitivity and specificity.
+    \end{itemize}
+    \item \textbf{Key Metrics for Object Detection:}
+    \begin{itemize}
+        \item \textbf{mAP (Mean Average Precision):} Evaluates the precision-recall tradeoff across all classes and IoU thresholds.
+    \end{itemize}
+    \item \textbf{Performance Curve:} 
+    Performance is plotted as a function of the number of annotated samples in the training set (\(X_{\text{train}}\)). 
+    As shown in Figure~\ref{fig:performance_curve}, higher AUC values indicate better acquisition strategies that improve performance with fewer labeled samples.
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/lecture25/perform.png}
+    \caption{Comparison of acquisition strategies by performance}
+    \label{fig:performance_curve}
+\end{figure}
+
+\subsection{Annotator Metrics}
+\begin{itemize}
+    \item \textbf{Purpose:} Account for resource constraints faced by annotators, including time, computational effort, and cost.
+    \item \textbf{Annotator Effort Metrics:}
+    \begin{itemize}
+        \item \textbf{Time:} Total hours spent annotating samples.
+        \item \textbf{Cost:} Monetary cost associated with hiring annotators or using annotation tools.
+        \item \textbf{Complexity:} Computational effort required to process and analyze the data (e.g., FLOPS or GPU hours).
+    \end{itemize}
+    \item \textbf{Example Scenario:}
+    A real-world scenario is shown in Figure~\ref{fig:annotator_constraints}, where a dataset contains 578 frames requiring annotation (e.g., for object detection or lidar data). 
+    \begin{itemize}
+        \item \textbf{Average annotation time:} 49 minutes per frame.
+        \item \textbf{Total time:} Approximately 1 day 10 hours to annotate the entire sequence.
+        \item \textbf{Cost estimation:} Based on annotator hourly rates, highlighting budgetary constraints.
+    \end{itemize}
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.7\textwidth]{img/lecture25/performance.png}
+    \caption{Annotator effort metrics for different acquisition strategies}
+    \label{fig:annotator_constraints}
+\end{figure}
+
+\subsection{Optimizing Metrics}
+To achieve a balance between model accuracy and resource efficiency, it is crucial to combine \textbf{Performance Metrics} (as shown in Figure~\ref{fig:performance_curve}) and \textbf{Annotator Metrics} (as shown in Figure~\ref{fig:annotator_constraints}). 
+\begin{itemize}
+    \item Example: Acquisition strategies with high AUC and lower annotation cost/time should be prioritized for resource optimization.
+\end{itemize}
+
+\subsection{Strategy}
+As depicted in Figure~\ref{fig:performance_curve}, different acquisition strategies yield varying levels of efficiency:
+\begin{itemize}
+    \item \textbf{Entropy Sampling:} Focus on the most uncertain samples with the highest entropy.
+    \item \textbf{Least Confidence:} Prioritize samples with the lowest prediction confidence.
+    \item \textbf{Margin Sampling:} Select samples with small probability differences between the top predictions.
+\end{itemize}
+
+
+\section{Difficulty-based Active Learning}
+This section discusses active learning strategies focused on selecting the most challenging samples in a dataset for annotation. These strategies are often referred to as uncertainty-based acquisition functions.
+
+\subsection{Overview}
+The primary idea of difficulty-based acquisition functions is to identify and annotate samples that are:
+\begin{itemize}
+    \item Rare classes
+    \item Outliers
+    \item High-noise data points
+    \item Cases of class imbalance
+\end{itemize}
+By focusing on such samples, the model improves its generalization ability.
+
+\subsection{Acquisition Functions for Difficult Samples}
+Three key strategies are commonly used for selecting difficult samples:
+
+\subsubsection{Entropy-based Sampling}
+\textbf{Goal:} Select samples with the highest uncertainty, measured using entropy. Entropy represents the information content in a distribution.
+
+The entropy-based acquisition function is defined as:
+\begin{equation}
+    a(x_1, ..., x_{N_b} | f_W(x)) = \sum_{i=1}^{N_b} H(p(y|x_i, W))
+\end{equation}
+where
+\begin{equation}
+    H(p(y|x_i, W)) = -\sum_{c=1}^C p(y=c|x_i, W) \log(p(y=c|x_i, W))
+\end{equation}
+\textbf{Example visualization:}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.3\textwidth]{img/lecture25/entro_sampling.png}
+    \caption{Entropy Sampling Visualization}
+    \label{fig:entropy_sampling}
+\end{figure}
+
+\subsubsection{Least Confidence Sampling}
+\textbf{Goal:} Select samples with the lowest prediction confidence. This strategy identifies data points where the model is least certain.
+
+The least confidence acquisition function is defined as:
+\begin{equation}
+    a(x_1, ..., x_{N_b} | f_W(x)) = -\sum_{i=1}^{N_b} \max_y p(y|x_i, W)
+\end{equation}
+\textbf{Example visualization:}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.3\textwidth]{img/lecture25/least_sampling.png}
+    \caption{Least Sampling Visualization}
+    \label{fig:least_sampling}
+\end{figure}
+\subsubsection{Margin Sampling}
+\textbf{Goal:} Select samples where the margin between the most probable and second most probable classes is smallest. This indicates high prediction uncertainty.
+
+The margin-based acquisition function is defined as:
+\begin{equation}
+    a(x_1, ..., x_{N_b} | f_W(x)) = \sum_{i=1}^{N_b} \big(p(y=c_s|x_i, W) - p(y=c_h|x_i, W)\big)
+\end{equation}
+\textbf{Where:}
+\begin{itemize}
+    \item $c_h$: Class with the highest probability
+    \item $c_s$: Class with the second highest probability
+\end{itemize}
+\textbf{Example visualization:}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.3\textwidth]{img/lecture25/margin_sampling.png}
+    \caption{Margin Sampling Visualization}
+    \label{fig:margin_sampling}
+\end{figure}
+\subsection{Summary of Strategies}
+The table below summarizes the discussed acquisition functions:
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Strategy} & \textbf{Key Idea} \\
+\hline
+Entropy & Annotate samples with the highest entropy \\
+Least Confidence & Annotate samples with the lowest confidence \\
+Margin & Annotate samples with the smallest margin between class probabilities \\
+\hline
+\end{tabular}
+\end{center}
+
+\section{Diversity-based Active Learning}
+\subsection{Definition}
+The selection of samples that best “represent” the dataset is accomplished through the acquisition function of the diversity measure. The acquisition function is defined directly through the representation of the sample.
+\begin{itemize}
+    \item \textbf{Class Centroids:} A sample of representative class centers.
+    \item \textbf{Coreset Samples:} A subset of the dataset that represents the whole by covering the global structure.
+\end{itemize}
+\subsection{Popular Methods}
+\subsubsection{Core Set}
+The goal of this method is to select a set of samples such that they cover the global structure of the data distribution. The following formula can define the acquisition function:
+\begin{itemize}
+    \item Acquisition function:
+    \begin{equation}
+    a(x_1, \dots, x_{N_b} | f_W(x)) = \frac{1}{n} l_{\text{pool}} - \frac{1}{N_b} \sum_{i=1}^{N_b} l(x_i, y_i; f_W)
+    \end{equation}
+    \item Explanation:
+    \begin{itemize}
+        \item $l_{\text{pool}}$: Cumulative loss of the unlabeled data pool.
+        \item $l(x_i, y_i; f_W)$: Loss function for an individual sample.
+        \item $\frac{1}{n}, \frac{1}{N_b}$: Normalization factors for global and selected losses.
+    \end{itemize}
+    \item \textbf{Strengths:} Suitable for complex distributions; ensures uniform coverage of the data space.
+    \item \textbf{Weaknesses:} Computationally expensive for large datasets; sensitive to noisy data.
+\end{itemize}
+\paragraph{Greedy k-Centers Algorithm:}
+The Core Set sampling uses a greedy algorithm to iteratively select samples. The steps are as follows:
+\begin{enumerate}
+    \item Initialize a small labeled subset.
+    \item Calculate the utility function for all unlabeled samples.
+    \item Add the sample with the highest utility to the labeled subset.
+    \item Repeat until convergence.
+\end{enumerate}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/lecture25/Corset Example of a Dataset.png}
+    \caption{Corset Example of a Dataset}
+    \label{fig:enter-label}
+\end{figure}
+\paragraph{Illustration}
+\begin{itemize}
+    \item \textbf{Red Points:} Unlabeled samples in the dataset.
+    \item \textbf{Blue Points:} Selected samples representing the data distribution.
+    \item \textbf{Circles (\( \delta_s \)):} Represent the coverage of each selected sample.
+\end{itemize}
+\subsubsection{Discriminative Active Learning}
+Discriminative methods use classifiers to distinguish which samples are more “unpredictable” from a model learning perspective and prioritize those samples for labeling.
+
+\begin{enumerate}
+    \item {Step 1: Train a Binary Classifier.} Use labeled and unlabeled data to train a binary classifier \( \phi(x) \) that predicts whether a sample is labeled or unlabeled.
+    \item {Step 2: Select Samples with the Highest Unlabeled Probability.} Evaluate the classifier on the unlabeled data pool and annotate the samples with the highest \( p(y = u) \).
+\end{enumerate}
+\begin{itemize}
+    \item Acquisition function:
+    \begin{equation}
+    a(x_1, \dots, x_{N_b} | f_W(x)) = - \sum_{i=1}^{N_b} p(y = u | \phi(x_i))
+    \end{equation}
+    \item Explanation:
+    \begin{itemize}
+        \item $p(y = u | \phi(x_i))$: Probability of $x_i$ being unlabeled, predicted by a binary classifier $\phi(x_i)$.
+    \item Samples with the highest $p(y = u)$ are prioritized for annotation.
+    \end{itemize}
+    \item \textbf{Strengths:} Focuses on samples that the model finds most challenging; adapts dynamically to the model's capabilities.
+    \item \textbf{Weaknesses:} Heavily dependent on the binary classifier's performance; may struggle with imbalanced data distributions.
+\end{itemize}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/lecture25/Discriminative.png}
+    \caption{Discriminative Sampling}
+    \label{fig:enter-label}
+\end{figure}
+
+\section{Fusion-Based Active Learning}
+\subsection{Definition}
+Fusion-based Active Learning combines both \textbf{diversity} and \textbf{difficulty} to select samples interactively, optimizing the annotation process and model performance. The goal is to balance:
+\begin{itemize}
+    \item \textbf{Diversity:} Selecting samples that best represent the global data distribution. This is particularly important in early annotation rounds to ensure the model learns the overall structure of the dataset.
+    \item \textbf{Difficulty:} Prioritizing samples that are difficult for the model to predict. These samples are often near decision boundaries and are more relevant in later annotation rounds.
+\end{itemize}
+
+\subsection{Strengths and Limitations}
+\begin{itemize}
+    \item \textbf{Strengths:}
+    \begin{itemize}
+        \item Dynamically adapts to different stages of active learning (early-stage diversity, late-stage difficulty).
+        \item Effectively balances global data representation with local decision boundary refinement.
+    \end{itemize}
+    \item \textbf{Limitations}
+    \begin{itemize}
+        \item The choice of \( \alpha \) significantly affects performance and may require careful tuning.
+        \item Higher computational complexity compared to simpler acquisition functions.
+    \end{itemize}
+\end{itemize}
+\begin{figure}
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/lecture25/Fusion-based.png}
+    \caption{Fusion-based Active Learning Process}
+    \label{fig:enter-label}
+\end{figure}
+
+\section{Deployment Performance Metric: Regression}
+\subsection{Definition}
+Performance Regression is a phenomenon where model performance degrades after active learning or model updating. This problem may affect the reliability of the model, especially in high-risk applications (e.g., autonomous driving).
+\paragraph{Illustrative Example}
+\begin{itemize}
+    \item \textbf{Active Learning Round N-1:} The model achieves an accuracy of approximately \(87\%\). Certain objects, such as vehicles and pedestrians, are accurately identified.
+    \item \textbf{Active Learning Round N:} After new samples are added and the model is retrained, the accuracy improves to approximately \(89\%\). However, some predictions may still suffer from errors, indicating potential regression risks.
+\end{itemize}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/lecture25/Regression.png}
+    \caption{Regression Example in Autonomous Driving}
+    \label{fig:enter-label}
+\end{figure}
+
+\subsection{Impact of Performance Regression}
+\begin{itemize}
+    \item \textbf{Stopping Criteria:} Define precise stopping criteria to prevent overfitting or degradation during active learning.
+    \item \textbf{Deployment Decisions:} Carefully evaluate the risk of performance regression when deploying models in online active learning scenarios.
+    \item \textbf{Protocol Quality:} High-quality protocols can minimize regression risks while maximizing annotation efficiency and model improvement.
+\end{itemize}
+\subsection{Negative Flips}
+The model misclassifies samples that were previously predicted correctly in a new learning round. This phenomenon reflects the model's forgetfulness of existing knowledge or its inability to adapt to new data.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/lecture25/Negative Flips.png}
+    \caption{Regression Manifests in Negative Flips}
+    \label{fig:enter-label}
+\end{figure}
+
+\begin{itemize}
+    \item \textbf{Data Point Categories:}
+    \begin{itemize}
+        \item \textbf{Class 1 (Yellow):} Data points belonging to class 1.
+        \item \textbf{Class 2 (Orange):} Data points belonging to class 2.
+        \item \textbf{Classification Results:}
+        \begin{itemize}
+            \item \textbf{Both Correct (Gray):} Classified correctly in both Round \( N-1 \) and Round \( N \).
+            \item \textbf{Both Wrong (Red):} Classified incorrectly in both rounds.
+            \item \textbf{Positive Flips (Orange):} Samples corrected in Round \( N \).
+            \item \textbf{Negative Flips (Blue):} Samples misclassified in Round \( N \), indicating regression.
+        \end{itemize}
+    \end{itemize}
+    \item \textbf{Regression Metric:}
+    Regression Metric: The degree of regression is measured by the number of negative flips between rounds. As highlighted in the figure, these are data points near the decision boundary that were previously correct but are now incorrect.
+    \item \textbf{Decision Boundary Evolution:}
+    \begin{itemize}
+        \item The decision boundary shifts from Round \( N-1 \) (dashed line) to Round \( N \) (solid line).
+        \item This shift may lead to classification changes for samples near the boundary.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Negative Flip Rate}
+Performance regression is quantified by the \textbf{Negative Flip Rate}, which measures the proportion of previously correctly classified samples that are misclassified after updating the model. 
+\paragraph{Formula:}
+\begin{equation}
+m = \frac{1}{N} \sum_{i=1}^N 1[y_i^{\text{old}} = y_i, y_i^{\text{new}} \neq y_i]
+\end{equation}
+\begin{itemize}
+    \item \( y_i^{\text{old}} \): Prediction of the model in Round \( N-1 \).
+    \item \( y_i^{\text{new}} \): Prediction of the model in Round \( N \).
+    \item \( y_i \): True label of the sample.
+    \item \( 1[\cdot] \): Indicator function, returns 1 if the condition is true and 0 otherwise.
+\end{itemize}
+
+\subsection{Workflow of NFR Calculation}
+\begin{itemize}
+    \item Input Samples: Unlabeled samples \(x_i\) are passed through the models from both Round \( N-1 \) and Round \( N \).
+    \item Prediction by Models:
+    \begin{itemize}
+        \item \( h_{W, N-1}(x): \) Model prediction in Round \( N-1 \).
+        \item \( h_{W, N}(x): \) Model prediction in Round \( N \).
+    \end{itemize}
+    \item Performance Difference Analysis: Compare predictions from the two rounds to identify negative flips (samples where \( y_i^{\text{old}} = y_i \) but \( y_i^{\text{new}} \neq y_i \)).
+    \item Calculate NFR: Compute the proportion of negative flips among all samples.
+\end{itemize}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\linewidth]{img/lecture25/Workflow.png}
+    \caption{Negative Flip Rate (NFR) Workflow}
+    \label{fig:enter-label}
+\end{figure}
+
+\subsection{Performance Regression: CIFAR-10 vs CIFAR-100}
+\paragraph{CIFAR-10:}
+\begin{itemize}
+    \item NFR shows initial fluctuations but stabilizes after approximately 10,000 labeled samples.
+    \item Different sampling strategies (Entropy, Least Confidence, Margin) converge to similar NFR levels, indicating low sensitivity to sampling methods for simpler datasets.
+\end{itemize}
+\paragraph{CIFAR-100:}
+\begin{itemize}
+    \item NFR is higher compared to CIFAR-10, especially in the early stages (less than 2,500 samples).
+    \item Sampling strategies have a more significant impact, with the Margin strategy showing slightly lower NFR values across most regions.
+\end{itemize}
+
+\paragraph{Expected Trends:}
+\begin{itemize}
+    \item \textbf{Accuracy:} Gradually improves as labeled samples increase, reflecting the model's learning progress.
+    \item \textbf{NFR:} Increases sharply in the early stages due to unstable decision boundaries, but later plateaus as the model stabilizes.
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.9\linewidth]{img/lecture25/NFR.png}
+    \caption{NFR in CIFAR10 vs CIFAR100}
+    \label{fig:enter-label}
+\end{figure}
+
+
+\subsection{Conclusions and Implications}
+\begin{itemize}
+    \item NFR serves as a granular indicator of performance regression, particularly for complex datasets like CIFAR-100.
+    \item Sampling strategies play a minor role for simpler datasets but significantly impact NFR for complex datasets, with Margin sampling being more robust.
+    \item Monitoring the trade-off between accuracy and NFR can guide optimal sample labeling and active learning strategy adjustments.
+\end{itemize}
+
+
+\end{document}

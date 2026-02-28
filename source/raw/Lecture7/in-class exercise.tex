@@ -1,0 +1,106 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{In-Class Exercise (Canvas Quiz) --- 15 minutes}}\\[6pt]
+{\large \textbf{Lecture 7: Linear Regression (Least Squares / Normal Equation)}}
+\end{center}
+
+\vspace{8pt}
+\section*{Question 1}
+
+We use the linear regression model:
+\[
+\boldsymbol{\hat{y}} = \mathbf{X}\boldsymbol{\hat{\theta}},
+\qquad
+\boldsymbol{\hat{\theta}} = (\mathbf{X}^T \mathbf{X})^{-1}\mathbf{X}^T \boldsymbol{y}
+\]
+
+\textbf{Given:} Consider the following dataset with 3 data points and 3 features:
+\[
+\mathbf{X} =
+\begin{bmatrix}
+1 & 1 & 0\\
+0 & 2 & 1\\
+1 & 0 & 1
+\end{bmatrix},
+\qquad
+\boldsymbol{y} =
+\begin{bmatrix}
+2\\
+3\\
+4
+\end{bmatrix}
+\]
+
+\textbf{Tasks:}
+\begin{enumerate}[label=(\arabic*), itemsep=8pt]
+
+\item Compute the transpose matrix $\mathbf{X}^T$.
+
+\item Compute the matrix $\mathbf{X}^T \mathbf{X}$.
+
+\item Compute the vector $\mathbf{X}^T \boldsymbol{y}$.
+
+\item State the normal equation expression for the least squares solution $\boldsymbol{\hat{\theta}}$.
+
+\item Compute the final least squares solution $\boldsymbol{\hat{\theta}}$.
+
+\item Compute the predicted output for
+\[
+\boldsymbol{x}_{\text{new}} =
+\begin{bmatrix}
+1\\
+1\\
+1
+\end{bmatrix},
+\qquad
+\hat{y}_{\text{new}} = \boldsymbol{x}_{\text{new}}^T \boldsymbol{\hat{\theta}}.
+\]
+
+\end{enumerate}
+
+\textbf{Round all final numeric answers to 2 decimals. A calculator is allowed (and recommended).}
+
+\vspace{14pt}
+
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%
+
+\newpage 
+\section*{Question 2}
+
+Below are 5 scenarios involving linear regression. \textbf{Column A} shows two quantities for each scenario. \textbf{Column B} shows the corresponding other two quantities, but \textbf{in shuffled order}.
+
+\noindent Match each row in Column A to the correct row in Column B by using logical reasoning, dimension checking, and simple mental arithmetic. \textbf{Do NOT compute the normal equations}. Instead, verify relationships like $\boldsymbol{\hat{y}} = \mathbf{X}\boldsymbol{\hat{\theta}}$.
+
+\begin{center}
+\renewcommand{\arraystretch}{2.5}
+\begin{tabular}{|c|p{6cm}||c|p{6cm}|}
+\hline
+\multicolumn{2}{|c||}{\textbf{Column A}} & \multicolumn{2}{c|}{\textbf{Column B}} \\
+\hline\hline
+\textbf{A1} & $\mathbf{X} = \begin{bmatrix} 1 & 0 \\ 0 & 1 \end{bmatrix}, \quad \boldsymbol{y} = \begin{bmatrix} 2 \\ 3 \end{bmatrix}$ 
+& \textbf{B1} & $\mathbf{X} = \begin{bmatrix} 1 \\ 1 \\ 1 \end{bmatrix}, \quad \boldsymbol{y} = \begin{bmatrix} 4 \\ 5 \\ 6 \end{bmatrix}$ \\
+\hline
+\textbf{A2} & $\mathbf{X} = \begin{bmatrix} 2 \\ 3 \end{bmatrix}, \quad \boldsymbol{\hat{\theta}} = \begin{bmatrix} 2 \end{bmatrix}$ 
+& \textbf{B2} & $\boldsymbol{\hat{\theta}} = \begin{bmatrix} 2 \\ 3 \end{bmatrix}, \quad \boldsymbol{\hat{y}} = \begin{bmatrix} 2 \\ 3 \end{bmatrix}$ \\
+\hline
+\textbf{A3} & $\boldsymbol{\hat{\theta}} = \begin{bmatrix} 5 \end{bmatrix}, \quad \boldsymbol{\hat{y}} = \begin{bmatrix} 5 \\ 5 \\ 5 \end{bmatrix}$ 
+& \textbf{B3} & $\mathbf{X} = \begin{bmatrix} 1 \\ 2 \\ 3 \end{bmatrix}, \quad \boldsymbol{\hat{\theta}} = \begin{bmatrix} 2 \end{bmatrix}$ \\
+\hline
+\textbf{A4} & $\boldsymbol{y} = \begin{bmatrix} 2 \\ 4 \\ 6 \end{bmatrix}, \quad \boldsymbol{\hat{y}} = \begin{bmatrix} 2 \\ 4 \\ 6 \end{bmatrix}$ 
+& \textbf{B4} & $\boldsymbol{\hat{\theta}} = \begin{bmatrix} 1 \\ 2 \end{bmatrix}, \quad \boldsymbol{\hat{y}} = \begin{bmatrix} 3 \\ 5 \\ 7 \end{bmatrix}$ \\
+\hline
+\textbf{A5} & $\mathbf{X} = \begin{bmatrix} 1 & 1 \\ 1 & 2 \\ 1 & 3 \end{bmatrix}, \quad \boldsymbol{y} = \begin{bmatrix} 3 \\ 5 \\ 7 \end{bmatrix}$ 
+& \textbf{B5} & $\boldsymbol{y} = \begin{bmatrix} 4 \\ 6 \end{bmatrix}, \quad \boldsymbol{\hat{y}} = \begin{bmatrix} 4 \\ 6 \end{bmatrix}$ \\
+\hline
+\end{tabular}
+\end{center}
+
+\end{document}

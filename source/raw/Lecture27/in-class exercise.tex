@@ -1,0 +1,83 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{In-Class Exercise (Canvas Quiz) --- 10 minutes}}\\[6pt]
+{\large \textbf{Lecture 27: Uncertainty Quantification in Neural Networks}}
+\end{center}
+
+\vspace{8pt}
+
+This in-class quiz is based on Lecture 27 topics: aleatoric vs epistemic uncertainty, iterative methods
+(deep ensembles / MC-dropout), and evaluation metrics. 
+You may assume natural log ($\ln$) is used unless otherwise stated.
+
+\vspace{6pt}
+\noindent
+\textbf{Reminder:} Entropy for a categorical distribution $p$ over classes:
+\[
+H(p) = -\sum_{i} p_i \ln(p_i)
+\]
+
+\vspace{10pt}
+\noindent
+\textbf{Tasks:} (Answer types: MC / True-False / Numeric)
+\begin{enumerate}[label=(\arabic*), itemsep=8pt]
+
+\item \textbf{(MC) Identify uncertainty type.}\\
+A neural network classifier performs poorly because input images have heavy snow/rain distortions
+during acquisition. Even with more training, predictions remain unreliable.  
+Which uncertainty is this?
+\begin{itemize}
+\item[(A)] Epistemic uncertainty
+\item[(B)] Aleatoric uncertainty
+\item[(C)] Neither (not uncertainty-related)
+\item[(D)] Both equally
+\end{itemize}
+
+\item \textbf{(True/False) Reducibility of uncertainty.}\\
+\emph{Epistemic uncertainty can often be reduced by collecting more data or improving the model.}  
+\[
+\text{True or False?}
+\]
+
+\item \textbf{(MC) Iterative uncertainty estimation methods.}\\
+Which method applies dropout \emph{at test time} and averages multiple stochastic forward passes?
+\begin{itemize}
+\item[(A)] Standard Dropout
+\item[(B)] Monte Carlo Dropout (MC-Dropout)
+\item[(C)] Deterministic single-pass entropy
+\item[(D)] Brier Score
+\end{itemize}
+
+\item \textbf{(Numeric) Entropy of a mean prediction.}\\
+Suppose deep ensembles produces the following \textbf{mean predicted probabilities} for a 3-class problem:
+\[
+\bar{p} = [0.70,\;0.20,\;0.10]
+\]
+Compute the entropy:
+\[
+H(\bar{p}) = -\sum_{i=1}^3 \bar{p}_i \ln(\bar{p}_i)
+\]
+Round your final answer to \textbf{2 decimals}.
+
+\item \textbf{(MC) Performance metric category.}\\
+Negative Log-Likelihood (NLL) and Brier Score are examples of:
+\begin{itemize}
+\item[(A)] Per-sample uncertainty metrics
+\item[(B)] Per-dataset uncertainty metrics
+\item[(C)] Active learning metrics
+\item[(D)] Calibration-free metrics
+\end{itemize}
+
+\end{enumerate}
+
+\vspace{8pt}
+\noindent
+\textbf{Round all final numeric answers to 2 decimals.}
+
+\end{document}

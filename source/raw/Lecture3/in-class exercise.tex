@@ -1,0 +1,50 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{In-Class Exercise (Canvas Quiz) --- 10 minutes}}\\[6pt]
+{\large \textbf{Lecture 3: Logistic Regression + Cross-Entropy}}
+\end{center}
+
+\vspace{8pt}
+
+We use logistic regression:
+\[
+s = w^T x + b, 
+\qquad 
+z = \sigma(s)
+\]
+
+\noindent
+\textbf{Given:}
+\[
+w = [1,-2], 
+\qquad 
+b = 0.5, 
+\qquad 
+x = [2,1]
+\]
+
+\vspace{8pt}
+
+\noindent
+\textbf{Tasks:}
+\begin{enumerate}[label=(\arabic*), itemsep=6pt]
+    \item Compute the logit: \quad $s = w^T x + b$.
+    \item Compute the predicted probability: \quad $z = \sigma(s)$.
+    \item Compute the cross-entropy loss for [\textbf{make sure to use log base 2!}]:
+    \begin{itemize}[itemsep=4pt]
+        \item $y=1$: \quad $L = -\log_2(z)$
+        \item $y=0$: \quad $L = -\log_2(1-z)$
+    \end{itemize}
+\end{enumerate}
+
+\vspace{6pt}
+\noindent
+\textbf{Round all final answers to 2 decimals.}
+
+\end{document}

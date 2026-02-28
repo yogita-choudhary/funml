@@ -1,0 +1,181 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{amsmath}
+\usepackage{multicol}
+\usepackage{graphicx}
+\usepackage{subcaption} % For subfigures
+
+\begin{document}
+
+\noindent\fbox{
+    \parbox{\textwidth}{
+        \centering
+        \textbf{ECE 4252/8803-FML: Fundamentals of Machine Learning} \hfill \textbf{Fall 2024} \\[1em]
+        \textbf{Lecture 20: Sequence Modeling} \\[0.5em]
+        \textit{Lecturer: Mohit Prabhushankar, Ghassan AlRegib} \hfill \textit{Scribes: Haokai Xu} \\[1em]
+    }
+}
+
+\vspace{1em}
+\textbf{Disclaimer:} \textit{These notes have not been subjected to the usual scrutiny reserved for formal publications.}
+
+\section*{Overview}
+\begin{itemize}
+    \item Introduction and Examples of Sequence Modeling
+    \item Limitations of MLPs while Modeling Sequences
+    \item The Recurrent Neural Network: Architecture, Loss Function, and Backpropagation
+    \item The Vanishing Gradient Problem
+    \item LSTM and GRU Design to Overcome the Vanishing Gradient Problem
+    \item Introduction to the Temporal Convolutional Network
+\end{itemize}
+
+\section{Introduction and Examples of Sequence Modeling}
+Sequence modeling is a fundamental task in machine learning, focusing on the analysis and prediction of data with temporal or sequential characteristics. Unlike traditional models that assume independence between data points, sequence models leverage the inherent dependencies within a sequence, making them essential for applications involving time-dependent data.
+
+The importance of sequence modeling is evident in its broad applicability across various domains:
+\begin{itemize}
+    \item Language translation, where the order of words determines the meaning of a sentence.
+    \item Speech recognition, where temporal dependencies help understand phonetic structures.
+    \item Stock market trend analysis, where past prices influence future predictions.
+\end{itemize}
+
+Despite their utility, sequence modeling presents unique challenges. Handling variable sequence lengths and capturing long-term dependencies while ensuring computational efficiency are significant hurdles. Traditional methods, such as multilayer perceptrons (MLPs), struggle to address these issues due to their fixed-length input constraints and lack of temporal awareness.
+
+\section{Types of Sequence Modeling Problems}
+Sequence modeling problems are diverse and address various characteristics of sequential data. They can be broadly categorized into the following types:
+
+\subsection{Sequence Prediction and Classification}
+This involves predicting a single output, such as a label or real number, based on an input sequence. It is commonly used in tasks like:
+\begin{itemize}
+    \item Sentiment analysis, where the goal is to classify text as positive, negative, or neutral.
+    \item Anomaly detection, such as identifying unusual patterns in ECG signals.
+    \item Stock market trend prediction, where historical data is used to forecast future values.
+\end{itemize}
+
+\subsection{Sequence Generation}
+Here, the objective is to create new sequences resembling the input data. Examples include:
+\begin{itemize}
+    \item Music generation, where new compositions are inspired by existing ones.
+    \item Text generation, producing coherent paragraphs or sentences.
+    \item Handwriting synthesis, creating realistic handwritten text based on inputs.
+\end{itemize}
+
+\subsection{Sequence-to-Sequence Prediction}
+This involves mapping input sequences to output sequences, often of different lengths. Applications include:
+\begin{itemize}
+    \item Machine translation, converting sentences between languages.
+    \item Speech-to-text, transcribing spoken words into written text.
+    \item Text summarization, condensing articles or documents into shorter summaries.
+\end{itemize}
+
+These diverse categories highlight the flexibility of sequence modeling, showcasing its relevance in numerous real-world scenarios.
+
+\section{Limitations of MLPs for Sequences}
+While multilayer perceptrons (MLPs) are powerful tools for many machine learning tasks, they exhibit significant limitations when applied to sequential data. One major issue is their inability to handle sequences of variable lengths, as MLPs require fixed-length input and output vectors. This constraint makes it difficult to adapt MLPs to tasks like speech recognition or time-series forecasting, where sequence lengths often vary.
+
+Another limitation lies in their scalability. As the sequence length increases, the size of the weight matrices required for MLPs grows substantially. This leads to higher computational costs and increased risks of overfitting, especially when data is limited. Additionally, MLPs are inherently unable to capture temporal dependencies in data. For instance:
+\begin{itemize}
+    \item In natural language processing, the meaning of a sentence depends heavily on the order of its words.
+    \item MLPs cannot retain information about previous inputs, making it impossible to model long-term dependencies without extensive modifications.
+\end{itemize}
+
+In summary, while MLPs have been foundational in machine learning, their design lacks the flexibility and temporal awareness required for sequence modeling. These limitations underscore the importance of more advanced architectures like recurrent neural networks (RNNs) and attention-based models, which are designed to address these challenges effectively.
+
+\section{Recurrent Neural Networks (RNNs)}
+Recurrent Neural Networks (RNNs) are a class of neural networks designed to model sequential data. Unlike traditional feedforward networks, RNNs incorporate loops in their architecture, allowing them to maintain a hidden state that captures information about previous inputs, which is shown in Figure 1. This feature makes RNNs particularly well-suited for tasks involving temporal dependencies, such as speech recognition, machine translation, and time-series forecasting.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.6\textwidth]{RNN.png} % Replace with your image file
+    \caption{RNN Architecture}
+\end{figure}
+
+
+A key advantage of RNNs is their ability to share parameters across time steps, which helps manage the computational complexity of sequential tasks. Additionally, RNNs can process input sequences of varying lengths, making them more flexible than multilayer perceptrons.
+
+The core of an RNN lies in its update equations:
+\begin{align*}
+    a(t) &= b + W h(t-1) + U x(t) \\
+    h(t) &= \tanh(a(t)) \\
+    o(t) &= c + V h(t) \\
+    y(t) &= \text{softmax}(o(t))
+\end{align*}
+Here, $h(t)$ represents the hidden state at time $t$, which summarizes the input sequence up to that point. The weights $W$, $U$, and $V$ are shared across all time steps, promoting efficiency and generalization.
+
+RNNs have shown success in various domains, such as:
+\begin{itemize}
+    \item \textbf{Natural Language Processing (NLP):} Tasks like sentiment analysis, machine translation, and text generation.
+    \item \textbf{Speech Processing:} Applications include voice recognition and synthesis.
+    \item \textbf{Time-Series Analysis:} Predicting stock prices, weather patterns, and other temporal trends.
+\end{itemize}
+
+However, RNNs are not without challenges, as they often face issues like vanishing gradients during training, which limits their ability to learn long-term dependencies.
+
+\section{Vanishing Gradient Problem}
+The vanishing gradient problem is a significant challenge in training Recurrent Neural Networks (RNNs) and other deep learning architectures. It arises when gradients of the loss function become exceedingly small as they are backpropagated through time or layers, leading to slow or stagnant learning in earlier layers or time steps.
+
+This issue is particularly pronounced in RNNs due to their recurrent nature. As the network processes longer sequences, the repeated application of gradient-based updates causes the gradients to shrink exponentially. Consequently, the network struggles to retain information from earlier time steps, making it ineffective for tasks requiring long-term dependencies.
+
+Several techniques have been developed to address this problem:
+\begin{itemize}
+    \item \textbf{Improved Activation Functions:} ReLU and other non-linear functions with better gradient properties reduce the likelihood of vanishing gradients compared to traditional sigmoid or tanh functions.
+    \item \textbf{Weight Initialization Strategies:} Initializing weights using methods like Xavier initialization or identity matrices helps maintain gradient magnitudes during training.
+    \item \textbf{Gradient Clipping:} Capping gradients to a maximum value prevents them from becoming too small or too large.
+\end{itemize}
+
+These solutions have paved the way for more robust architectures, such as Long Short-Term Memory (LSTM) networks and Gated Recurrent Units (GRUs), which incorporate mechanisms to mitigate the vanishing gradient problem.
+
+\section{Long Short-Term Memory (LSTM) Networks}
+Long Short-Term Memory (LSTM) networks are a specialized type of RNN designed to overcome the vanishing gradient problem, which architecture is shown in Figure 2. They achieve this by introducing a unique architecture that uses gates to control the flow of information, enabling the network to retain relevant information over long time periods while discarding irrelevant details.
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.6\textwidth]{image.png} % Replace with your image file
+    \caption{LSTM Cell}
+\end{figure}
+
+The key components of an LSTM cell include:
+\begin{itemize}
+    \item \textbf{Input Gate:} Determines how much of the current input is incorporated into the cell state.
+    \item \textbf{Forget Gate:} Controls how much of the past state is retained.
+    \item \textbf{Output Gate:} Regulates the influence of the cell state on the current output.
+\end{itemize}
+
+The state update equation for LSTMs is as follows:
+\[
+s(t) = f(t) \circ s(t-1) + g(t) \circ \sigma(b + Ux(t) + Wh(t-1))
+\]
+Here, $f(t)$ is the forget gate, $g(t)$ is the input modulation gate, and $s(t)$ represents the cell state at time $t$.
+
+LSTMs have demonstrated remarkable performance in tasks requiring long-term dependencies, such as:
+\begin{itemize}
+    \item \textbf{Machine Translation:} Capturing context over long sentences.
+    \item \textbf{Speech Recognition:} Retaining phonetic information over extended audio sequences.
+    \item \textbf{Video Analysis:} Understanding temporal dynamics in video streams.
+\end{itemize}
+
+\section{Temporal Convolutional Networks (TCNs)}
+Temporal Convolutional Networks (TCNs) are an alternative to recurrent models for sequence modeling. They utilize convolutional layers with causal padding and dilated convolutions to process sequential data, ensuring that the output at a given time step is influenced only by previous inputs.
+
+A key advantage of TCNs is their ability to parallelize computations, unlike RNNs, which process sequences sequentially. They also allow for a flexible receptive field, enabling the model to capture both short-term and long-term dependencies efficiently.
+
+Key features of TCNs include:
+\begin{itemize}
+    \item \textbf{Causal Convolutions:} Ensure that the output at a time step depends only on past inputs.
+    \item \textbf{Dilated Convolutions:} Expand the receptive field without increasing the number of parameters.
+    \item \textbf{Residual Connections:} Facilitate training deeper networks by mitigating vanishing gradient issues.
+\end{itemize}
+
+Applications of TCNs include:
+\begin{itemize}
+    \item \textbf{Time-Series Forecasting:} Predicting stock prices and energy consumption.
+    \item \textbf{Speech Processing:} Tasks such as voice activity detection and keyword spotting.
+    \item \textbf{Natural Language Processing:} Sentence generation and text classification.
+\end{itemize}
+
+In summary, TCNs offer a compelling alternative to RNNs, combining the strengths of convolutional architectures with innovations tailored for sequential data.
+
+\end{document}
+

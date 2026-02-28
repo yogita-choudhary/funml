@@ -1,0 +1,82 @@
+\documentclass[12pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{enumitem}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{In-Class Exercise (Canvas Quiz) --- 10 minutes}}\\[6pt]
+{\large \textbf{Lecture 15: CNN Architectures}}
+\end{center}
+
+\vspace{12pt}
+
+
+\noindent\textbf{Question 1 (VGG Design Insight)}\\
+VGG networks often replace a single $5\times5$ convolution with two stacked $3\times3$ convolutions (stride $1$, padding chosen to preserve spatial size).
+
+Which statement is \textbf{most correct}?
+
+\begin{enumerate}[label=(\alph*), itemsep=4pt]
+\item The stacked $3\times3$ layers have a larger receptive field than $5\times5$.
+\item The stacked $3\times3$ layers have the same receptive field and introduce an extra nonlinearity.
+\item The stacked $3\times3$ layers always use more parameters.
+\item The stacked $3\times3$ layers reduce spatial resolution.
+\end{enumerate}
+
+\vspace{4pt}
+\noindent\textbf{Solution 1}\\
+Two $3\times 3$ convolutions (stride 1, same padding) have an effective receptive field of $5\times 5$, matching a single $5\times 5$ conv. Stacking also typically inserts an additional nonlinearity (e.g., ReLU) between layers, increasing expressivity.
+\[
+\boxed{\textbf{Answer: (b)}}
+\]
+
+\vspace{12pt}
+
+
+\noindent\textbf{Question 2 (Inception / $1\times1$ Convolutions)}\\
+In GoogLeNet, a $1\times1$ convolution is often placed before a $3\times3$ convolution.
+
+What is the \textbf{primary reason} for this design choice?
+
+\begin{enumerate}[label=(\alph*), itemsep=4pt]
+\item Increase the spatial resolution of the feature maps.
+\item Reduce computational cost by shrinking the channel dimension before expensive convolutions.
+\item Increase the receptive field of the network.
+\item Replace the need for activation functions.
+\end{enumerate}
+
+\vspace{4pt}
+\noindent\textbf{Solution 2}\\
+A $1\times 1$ convolution acts as a learnable channel projection that can reduce the number of channels (a ``bottleneck''), cutting parameters and computation before applying more expensive convolutions like $3\times 3$.
+\[
+\boxed{\textbf{Answer: (b)}}
+\]
+
+\vspace{12pt}
+
+
+\noindent\textbf{Question 3 (ResNet Skip Connections)}\\
+A residual block computes
+\[
+\mathbf{y} = \mathbf{x} + F(\mathbf{x}).
+\]
+
+What is the \textbf{main benefit} of this skip connection?
+
+\begin{enumerate}[label=(\alph*), itemsep=4pt]
+\item It guarantees the model cannot overfit.
+\item It allows gradients to flow more easily, making very deep networks easier to train.
+\item It always reduces the number of parameters.
+\item It doubles the receptive field at each layer.
+\end{enumerate}
+
+\vspace{4pt}
+\noindent\textbf{Solution 3}\\
+The identity (skip) path provides a direct route for gradient flow and helps optimization, enabling much deeper networks to train effectively without degradation issues.
+\[
+\boxed{\textbf{Answer: (b)}}
+\]
+
+\end{document}
