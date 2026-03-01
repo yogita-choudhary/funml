@@ -12,31 +12,30 @@
 </nav>
 <main>
 <div class="center">
-
 </div>
-<p><strong>Contributors:</strong> Dr. Ahmad Mustafa, Dr. Motaz Alfarraj, Dr. Ashraf Alattar, Dr. Chen Zhou</p>
-<p><strong>Teaching Assistants</strong> with remarkable contributions include: Kuo-Wei Lai, Wuyang Du, Shiva Mahato, Michael Zhou, Ninghan Zhong</p>
-<p><strong>Disclaimer</strong>: <span>All content of these notes are part of this course at Georgia Tech. Any re-use or distribution is not permitted without pre-approved permission. All these notes belong to, created by, and copyrighted for Ghassan AlRegib and Mohit Prabhushankar, Georgia Tech, 2021–2028.</span></p>
-<p><strong>License</strong>: <span>These lecture notes are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</span></p>
-<p><strong>Errata</strong>: <span><em>Please submit any errata you find using the following form: <a href="https://forms.office.com/r/fbg9dMWPgY">Errata Form for FunML Textbook</a> or visit: <a href="https://forms.office.com/r/fbg9dMWPgY">https://forms.office.com/r/fbg9dMWPgY</a></em></span></p>
-<section id="lecture-objectives" data-number="0.1">
+
+
+
+
+
+<section data-number="0.1" id="lecture-objectives">
 <h2 data-number="1.1"><span class="header-section-number">1.1</span> Lecture Objectives</h2>
 <p>This lecture dives into different forms of autoencoders and their applications, specifically focusing on <strong>regularized autoencoders</strong>, including <strong>sparse autoencoders</strong>, <strong>denoising autoencoders</strong>, and <strong>variational autoencoders</strong>. Regularized autoencoders gain distinct properties by introducing constraints through various forms of regularization, enhancing their versatility for tasks such as data compression, feature extraction, noise removal, and new content generation.</p>
 <p>First, we examine <strong>sparse autoencoders</strong>, which encourage only a few neurons to activate for each input, resulting in compact representations that highlight essential data features. Another example is <strong>denoising autoencoders</strong>, designed to reconstruct clean data from noisy inputs, making them effective for tasks like noise removal. Finally, we explore <strong>variational autoencoders</strong>, which employ probabilistic techniques to create smooth, flexible data representations, enabling the generation of new samples with characteristics similar to the original data.</p>
 </section>
-<section id="regularized-autoencoders" data-number="0.2">
+<section data-number="0.2" id="regularized-autoencoders">
 <h2 data-number="1.2"><span class="header-section-number">1.2</span> Regularized Autoencoders</h2>
 <p>While basic autoencoders are effective at learning compressed representations, they often struggle with overfitting and may learn trivial identity mappings when the model has sufficient capacity. As neural networks became larger and more expressive, these limitations motivated the development of <strong>regularized autoencoder variants</strong>.</p>
 <p>Regularized autoencoders introduce additional constraints that encourage the model to learn meaningful and robust features rather than simply memorizing the training data. In this section, we explore several important extensions, including <strong>sparse autoencoders</strong>, <strong>denoising autoencoders</strong>, and <strong>variational autoencoders</strong>, which improve generalization and enable autoencoders to handle more complex real-world tasks.</p>
-<section id="regularized-autoencoders-overview" data-number="0.2.1">
+<section data-number="0.2.1" id="regularized-autoencoders-overview">
 <h3 data-number="1.2.1"><span class="header-section-number">1.2.1</span> Regularized Autoencoders Overview</h3>
 <p>Basic autoencoders rely on a low-dimensional bottleneck to force the network to learn compressed representations of the data. However, modern neural networks often have enough capacity to bypass this constraint and learn a trivial identity mapping, simply copying the input to the output without extracting meaningful structure. Regularized autoencoders address this limitation by encouraging the model to learn informative representations through explicit constraints on the learning process rather than relying solely on dimensionality reduction.</p>
 <p>The key idea is that <strong>compression is enforced through regularization instead of a small latent space</strong>. This allows the latent representation <span class="math inline">\(Z\)</span> to be high-dimensional while still capturing useful and generalizable features. By constraining how the encoder and decoder learn, the model is encouraged to discover structure in the data rather than memorize the training set. In this lecture, we study three major regularization strategies: <strong>sparse autoencoders</strong>, <strong>denoising autoencoders</strong>, and <strong>variational autoencoders</strong>.</p>
 <p>The objective of regularization is to prevent the encoder–decoder network from learning a direct 1:1 mapping between the input and the output. Without regularization, a high-capacity autoencoder can “cheat” by memorizing the training data instead of learning meaningful patterns. This is analogous to memorizing answers for an exam without understanding the underlying concepts. Regularization forces the model to extract structure and learn features that generalize to new data.</p>
 <figure>
-<img src="img/lecture19/121mapping1.JPG" id="fig:enter-label" alt="Regularization prevents the undesirable identity mapping and encourages the model to learn meaningful patterns." /><figcaption aria-hidden="true">Regularization prevents the undesirable identity mapping and encourages the model to learn meaningful patterns.</figcaption>
+<img alt="Regularization prevents the undesirable identity mapping and encourages the model to learn meaningful patterns." id="fig:enter-label" src="img/lecture19/121mapping1.JPG"/><figcaption aria-hidden="true">Regularization prevents the undesirable identity mapping and encourages the model to learn meaningful patterns.</figcaption>
 </figure>
-<section id="key-takeaways" data-number="0.2.1.0.1">
+<section data-number="0.2.1.0.1" id="key-takeaways">
 <h5 data-number="1.2.1.0.1"><span class="header-section-number">1.2.1.0.1</span> Key Takeaways</h5>
 <ul>
 <li><p>Regularized autoencoders can use <strong>high-dimensional latent spaces</strong>. Representation quality is enforced by regularization rather than by a dimensional bottleneck.</p></li>
@@ -44,55 +43,55 @@
 </ul>
 </section>
 </section>
-<section id="sparse-autoencoders" data-number="0.2.2">
+<section data-number="0.2.2" id="sparse-autoencoders">
 <h3 data-number="1.2.2"><span class="header-section-number">1.2.2</span> Sparse Autoencoders</h3>
 <p>Sparse autoencoders encourage the network to activate only a small subset of neurons for any given input. Instead of forcing compression through a small latent dimension, sparsity forces the model to represent each input using only a few active features. This encourages the network to discover distinctive and interpretable patterns in the data.</p>
 <p>The key idea is that even if the latent space is large, the model is restricted in how many neurons it can use at once. As a result, the autoencoder cannot simply copy the input using all available neurons and must instead learn a compact set of meaningful features.</p>
-<section id="motivation." data-number="0.2.2.0.1">
+<section data-number="0.2.2.0.1" id="motivation.">
 <h5 data-number="1.2.2.0.1"><span class="header-section-number">1.2.2.0.1</span> Motivation.</h5>
 <p>Sparse representations are widely used in machine learning and neuroscience because they tend to capture the most informative structure in data. By activating only a subset of neurons during each forward pass, the model is prevented from memorizing the input and is encouraged to learn reusable features that are useful for downstream tasks such as classification and clustering.</p>
 <figure>
-<img src="img/lecture19/SparseMapping.JPG" alt="Sparse autoencoders activate only a subset of neurons for any given input." /><figcaption aria-hidden="true">Sparse autoencoders activate only a subset of neurons for any given input.</figcaption>
+<img alt="Sparse autoencoders activate only a subset of neurons for any given input." src="img/lecture19/SparseMapping.JPG"/><figcaption aria-hidden="true">Sparse autoencoders activate only a subset of neurons for any given input.</figcaption>
 </figure>
 </section>
-<section id="how-sparsity-is-enforced." data-number="0.2.2.0.2">
+<section data-number="0.2.2.0.2" id="how-sparsity-is-enforced.">
 <h5 data-number="1.2.2.0.2"><span class="header-section-number">1.2.2.0.2</span> How sparsity is enforced.</h5>
 <p>Sparse autoencoders introduce a regularization term into the loss function:</p>
 <p><span class="math display">\[\mathcal{L}_{total} = \mathcal{L}_{reconstruction} + \lambda \, \Omega(Z)\]</span></p>
 <p>where the regularization term <span class="math inline">\(\Omega(Z)\)</span> penalizes excessive neuron activation.</p>
 <figure>
-<img src="img/lecture19/LossFunction4.JPG" alt="Sparse autoencoders add a regularization term to the reconstruction loss." /><figcaption aria-hidden="true">Sparse autoencoders add a regularization term to the reconstruction loss.</figcaption>
+<img alt="Sparse autoencoders add a regularization term to the reconstruction loss." src="img/lecture19/LossFunction4.JPG"/><figcaption aria-hidden="true">Sparse autoencoders add a regularization term to the reconstruction loss.</figcaption>
 </figure>
 <p>Two common techniques are used to enforce sparsity.</p>
 </section>
-<section id="l1-regularization-on-activations." data-number="0.2.2.0.3">
+<section data-number="0.2.2.0.3" id="l1-regularization-on-activations.">
 <h5 data-number="1.2.2.0.3"><span class="header-section-number">1.2.2.0.3</span> L1 Regularization on Activations.</h5>
 <p>One simple method is to apply an <span class="math inline">\(L_1\)</span> penalty to the latent activations:</p>
 <p><span class="math display">\[\Omega(Z) = \sum_i \lVert z_i \rVert_1\]</span></p>
 <p>The <span class="math inline">\(L_1\)</span> norm encourages many activations to become exactly zero. This leads to a compact and efficient representation where only the most important neurons remain active.</p>
 <figure>
-<img src="img/lecture19/L1norm.JPG" alt="L1 regularization encourages many latent activations to become zero." /><figcaption aria-hidden="true">L1 regularization encourages many latent activations to become zero.</figcaption>
+<img alt="L1 regularization encourages many latent activations to become zero." src="img/lecture19/L1norm.JPG"/><figcaption aria-hidden="true">L1 regularization encourages many latent activations to become zero.</figcaption>
 </figure>
 <p>By suppressing less important activations, the model effectively performs feature selection and noise reduction, focusing on the most relevant patterns in the data.</p>
 </section>
-<section id="kl-divergence-sparsity-constraint." data-number="0.2.2.0.4">
+<section data-number="0.2.2.0.4" id="kl-divergence-sparsity-constraint.">
 <h5 data-number="1.2.2.0.4"><span class="header-section-number">1.2.2.0.4</span> KL-Divergence Sparsity Constraint.</h5>
 <p>Another common approach is to control the <em>average activation</em> of each neuron. We enforce that the expected activation <span class="math inline">\(\hat{\rho}_j\)</span> of neuron <span class="math inline">\(j\)</span> remains close to a small target value <span class="math inline">\(\rho\)</span>:</p>
 <p><span class="math display">\[\Omega(Z) = \sum_j D_{KL}(\rho \,\|\, \hat{\rho}_j)\]</span></p>
 <p>This penalty increases when neurons activate too frequently, encouraging each neuron to fire only rarely. As a result, each neuron specializes in detecting a small number of patterns.</p>
 <figure>
-<img src="img/lecture19/KL.JPG" alt="KL divergence penalizes neurons that activate too frequently." /><figcaption aria-hidden="true">KL divergence penalizes neurons that activate too frequently.</figcaption>
+<img alt="KL divergence penalizes neurons that activate too frequently." src="img/lecture19/KL.JPG"/><figcaption aria-hidden="true">KL divergence penalizes neurons that activate too frequently.</figcaption>
 </figure>
 <p>This constraint produces a distributed but sparse representation in which different neurons respond to different structures in the data.</p>
 </section>
-<section id="training." data-number="0.2.2.0.5">
+<section data-number="0.2.2.0.5" id="training.">
 <h5 data-number="1.2.2.0.5"><span class="header-section-number">1.2.2.0.5</span> Training.</h5>
 <p>During training, the reconstruction loss and sparsity penalty are optimized jointly. The strength of the sparsity constraint is controlled by the hyperparameter <span class="math inline">\(\lambda\)</span>, which determines how strongly sparsity is enforced.</p>
 <figure>
-<img src="img/lecture19/Sparse4.JPG" alt="Sparse autoencoders represent inputs using only a few active features." /><figcaption aria-hidden="true">Sparse autoencoders represent inputs using only a few active features.</figcaption>
+<img alt="Sparse autoencoders represent inputs using only a few active features." src="img/lecture19/Sparse4.JPG"/><figcaption aria-hidden="true">Sparse autoencoders represent inputs using only a few active features.</figcaption>
 </figure>
 </section>
-<section id="key-takeaways-1" data-number="0.2.2.0.6">
+<section data-number="0.2.2.0.6" id="key-takeaways-1">
 <h5 data-number="1.2.2.0.6"><span class="header-section-number">1.2.2.0.6</span> Key Takeaways:</h5>
 <ul>
 <li><p>Sparse autoencoders learn representations using only a small number of active neurons.</p></li>
@@ -101,49 +100,49 @@
 </ul>
 </section>
 </section>
-<section id="denoising-autoencoders" data-number="0.2.3">
+<section data-number="0.2.3" id="denoising-autoencoders">
 <h3 data-number="1.2.3"><span class="header-section-number">1.2.3</span> Denoising Autoencoders</h3>
 <p>Denoising autoencoders learn robust representations by training the model to reconstruct clean inputs from corrupted versions. Instead of simply copying the input, the network must learn the underlying structure of the data in order to remove noise. This encourages the encoder to capture stable and meaningful features that are useful even when the input is partially corrupted.</p>
-<section id="objective" data-number="0.2.3.0.1">
+<section data-number="0.2.3.0.1" id="objective">
 <h5 data-number="1.2.3.0.1"><span class="header-section-number">1.2.3.0.1</span> Objective</h5>
 <p>The goal of a denoising autoencoder is to learn features that can remove noise from corrupted data. During training, noise is intentionally added to the input, and the model is asked to reconstruct the original clean version. Because the model never sees the clean input directly, it must learn the true structure of the data rather than memorizing pixel-level details.</p>
 <figure>
-<img src="img/lecture19/DeNoiseManifold.JPG" alt="Denoising autoencoder: corrupted inputs are mapped back to clean outputs." /><figcaption aria-hidden="true">Denoising autoencoder: corrupted inputs are mapped back to clean outputs.</figcaption>
+<img alt="Denoising autoencoder: corrupted inputs are mapped back to clean outputs." src="img/lecture19/DeNoiseManifold.JPG"/><figcaption aria-hidden="true">Denoising autoencoder: corrupted inputs are mapped back to clean outputs.</figcaption>
 </figure>
 <p>A useful way to understand denoising autoencoders is through the concept of a <em>data manifold</em>. Real-world data often lies on a lower-dimensional, smooth manifold embedded in a high-dimensional space. Clean data points lie on this manifold, while noisy or corrupted inputs are pushed away from it. The denoising autoencoder learns to map corrupted inputs back to the nearest point on the learned manifold, effectively pulling noisy samples toward the region where true data lives.</p>
 </section>
-<section id="training-process" data-number="0.2.3.0.2">
+<section data-number="0.2.3.0.2" id="training-process">
 <h5 data-number="1.2.3.0.2"><span class="header-section-number">1.2.3.0.2</span> Training Process</h5>
 <p>During training, a corrupted version of the input, denoted by <span class="math inline">\(\tilde{X}\)</span>, is passed through the encoder. The decoder then attempts to reconstruct the original clean input <span class="math inline">\(X\)</span>. The dimensionality of the latent space is not the key factor in denoising; instead, robustness emerges from the training objective and the corruption process.</p>
 <figure>
-<img src="img/lecture19/NoiseLoss.JPG" alt="Loss function used to train a denoising autoencoder." /><figcaption aria-hidden="true">Loss function used to train a denoising autoencoder.</figcaption>
+<img alt="Loss function used to train a denoising autoencoder." src="img/lecture19/NoiseLoss.JPG"/><figcaption aria-hidden="true">Loss function used to train a denoising autoencoder.</figcaption>
 </figure>
 <p>The model is trained by minimizing the reconstruction loss:</p>
 <p><span class="math display">\[\mathcal{L} = \|X - \hat{X}\|^2, \quad \hat{X} = G_\phi(E_\theta(\tilde{X}))\]</span></p>
 <p>Here, <span class="math inline">\(E_\theta\)</span> is the encoder that maps the noisy input to a latent representation, and <span class="math inline">\(G_\phi\)</span> is the decoder that reconstructs the clean data. The squared error places larger penalties on large reconstruction mistakes, encouraging the model to recover the clean signal as accurately as possible.</p>
 </section>
-<section id="why-denoising-works" data-number="0.2.3.0.3">
+<section data-number="0.2.3.0.3" id="why-denoising-works">
 <h5 data-number="1.2.3.0.3"><span class="header-section-number">1.2.3.0.3</span> Why Denoising Works</h5>
 <p>By learning to remove noise, the model is forced to capture stable patterns that are shared across many examples. This acts as a powerful form of regularization. The learned representation becomes robust to perturbations, small variations, and measurement errors.</p>
 </section>
-<section id="use-cases-and-limitations" data-number="0.2.3.0.4">
+<section data-number="0.2.3.0.4" id="use-cases-and-limitations">
 <h5 data-number="1.2.3.0.4"><span class="header-section-number">1.2.3.0.4</span> Use Cases and Limitations</h5>
 <p>Denoising autoencoders are widely used in image restoration, signal processing, and representation learning for noisy datasets. They are especially useful when real-world data is imperfect or corrupted.</p>
 <p>However, denoising autoencoders do not impose strong structure on the latent space. If we randomly sample points from the latent space, there is no guarantee that they will decode into realistic data. This limitation motivates the development of <em>variational autoencoders</em>, which explicitly structure the latent space for generative modeling.</p>
 </section>
 </section>
-<section id="variational-autoencoders" data-number="0.2.4">
+<section data-number="0.2.4" id="variational-autoencoders">
 <h3 data-number="1.2.4"><span class="header-section-number">1.2.4</span> Variational Autoencoders</h3>
 <p>Variational Autoencoders (VAEs) extend traditional autoencoders by combining representation learning with generative modeling. While standard autoencoders learn how to compress and reconstruct data, they do not impose structure on the latent space. As a result, randomly sampling from the latent space often produces unrealistic outputs. VAEs solve this problem by learning a <em>probabilistic</em> latent space that is continuous, smooth, and suitable for generation.</p>
-<section id="probabilistic-latent-space" data-number="0.2.4.0.1">
+<section data-number="0.2.4.0.1" id="probabilistic-latent-space">
 <h5 data-number="1.2.4.0.1"><span class="header-section-number">1.2.4.0.1</span> Probabilistic Latent Space</h5>
 <p>Instead of encoding each input as a single point in latent space, a VAE encodes each input as a <em>distribution</em>. The encoder outputs the mean <span class="math inline">\(\mu\)</span> and variance <span class="math inline">\(\sigma^2\)</span> of a Gaussian distribution that represents where the data point is likely to lie in the latent space.</p>
 <figure>
-<img src="img/lecture19/VAECloudVisualization.JPG" alt="Variational autoencoder and continuous latent space visualization." /><figcaption aria-hidden="true">Variational autoencoder and continuous latent space visualization.</figcaption>
+<img alt="Variational autoencoder and continuous latent space visualization." src="img/lecture19/VAECloudVisualization.JPG"/><figcaption aria-hidden="true">Variational autoencoder and continuous latent space visualization.</figcaption>
 </figure>
 <p>Sampling from these distributions produces latent points that are close to one another in a continuous manner. This continuity allows smooth interpolation between data points and enables the model to generate realistic new samples.</p>
 </section>
-<section id="generative-modeling-view" data-number="0.2.4.0.2">
+<section data-number="0.2.4.0.2" id="generative-modeling-view">
 <h5 data-number="1.2.4.0.2"><span class="header-section-number">1.2.4.0.2</span> Generative Modeling View</h5>
 <p>VAEs model the true data distribution <span class="math inline">\(p(X)\)</span> using a latent variable model. The generative process assumes:</p>
 <p><span class="math display">\[Z \sim p(Z), \qquad X \sim p_\phi(X|Z)\]</span></p>
@@ -151,17 +150,17 @@
 <p><span class="math display">\[p_\phi(X) = \int p(Z)p_\phi(X|Z)\, dZ\]</span></p>
 <p>Maximizing this likelihood allows the model to generate samples that resemble the training data.</p>
 </section>
-<section id="why-direct-likelihood-is-intractable" data-number="0.2.4.0.3">
+<section data-number="0.2.4.0.3" id="why-direct-likelihood-is-intractable">
 <h5 data-number="1.2.4.0.3"><span class="header-section-number">1.2.4.0.3</span> Why Direct Likelihood is Intractable</h5>
 <p>Computing the marginal likelihood requires integrating over all possible latent variables <span class="math inline">\(Z\)</span>, which becomes computationally infeasible for high-dimensional spaces. The posterior distribution</p>
 <p><span class="math display">\[p(Z|X) = \frac{p(X|Z)p(Z)}{p(X)}\]</span></p>
 <p>is also intractable because it depends on the same difficult integral. VAEs solve this challenge using <em>variational inference</em>.</p>
 </section>
-<section id="variational-inference-and-the-elbo" data-number="0.2.4.0.4">
+<section data-number="0.2.4.0.4" id="variational-inference-and-the-elbo">
 <h5 data-number="1.2.4.0.4"><span class="header-section-number">1.2.4.0.4</span> Variational Inference and the ELBO</h5>
 <p>Instead of computing the true posterior, VAEs introduce a simpler approximation <span class="math inline">\(q_\theta(Z|X)\)</span>. Training then maximizes the <em>Evidence Lower Bound (ELBO)</em>, which serves as a tractable objective:</p>
 <figure>
-<img src="img/lecture19/ELBO2.JPG" alt="Evidence Lower Bound (ELBO) objective." /><figcaption aria-hidden="true">Evidence Lower Bound (ELBO) objective.</figcaption>
+<img alt="Evidence Lower Bound (ELBO) objective." src="img/lecture19/ELBO2.JPG"/><figcaption aria-hidden="true">Evidence Lower Bound (ELBO) objective.</figcaption>
 </figure>
 <p>The ELBO has two components:</p>
 <p><span class="math display">\[\mathcal{L}_{ELBO} =
@@ -170,39 +169,39 @@
 \underbrace{D_{KL}(q(z|x)\|p(z))}_{\text{Regularization}}\]</span></p>
 <p>The reconstruction term encourages accurate decoding, while the KL-divergence term forces the learned latent distribution to remain close to the prior. This creates a structured and smooth latent space suitable for sampling.</p>
 </section>
-<section id="reparameterization-trick" data-number="0.2.4.0.5">
+<section data-number="0.2.4.0.5" id="reparameterization-trick">
 <h5 data-number="1.2.4.0.5"><span class="header-section-number">1.2.4.0.5</span> Reparameterization Trick</h5>
 <p>Training VAEs requires backpropagation through random sampling. Direct sampling would block gradient flow, so VAEs use the <em>reparameterization trick</em>. Instead of sampling <span class="math inline">\(z \sim \mathcal{N}(\mu,\sigma^2)\)</span>, we rewrite:</p>
 <p><span class="math display">\[z = \mu + \sigma \cdot \epsilon, \qquad \epsilon \sim \mathcal{N}(0,1)\]</span></p>
 <p>This separates randomness from the learnable parameters, allowing gradients to flow through the network.</p>
 <figure>
-<img src="img/lecture19/Trick2.JPG" alt="Reparameterization trick for gradient-based training." /><figcaption aria-hidden="true">Reparameterization trick for gradient-based training.</figcaption>
+<img alt="Reparameterization trick for gradient-based training." src="img/lecture19/Trick2.JPG"/><figcaption aria-hidden="true">Reparameterization trick for gradient-based training.</figcaption>
 </figure>
 </section>
-<section id="reconstruction-and-generation-modes" data-number="0.2.4.0.6">
+<section data-number="0.2.4.0.6" id="reconstruction-and-generation-modes">
 <h5 data-number="1.2.4.0.6"><span class="header-section-number">1.2.4.0.6</span> Reconstruction and Generation Modes</h5>
 <p>Because the latent space is probabilistic and structured, VAEs support two modes of operation. During reconstruction, an input is encoded into a distribution and decoded back to recreate the original data. During generation, we bypass the encoder and directly sample from the latent prior to create new data.</p>
 <figure>
-<img src="img/lecture19/NovelSamples.JPG" alt="Generation mode: sampling from latent space." /><figcaption aria-hidden="true">Generation mode: sampling from latent space.</figcaption>
+<img alt="Generation mode: sampling from latent space." src="img/lecture19/NovelSamples.JPG"/><figcaption aria-hidden="true">Generation mode: sampling from latent space.</figcaption>
 </figure>
 </section>
-<section id="smooth-interpolation-in-latent-space" data-number="0.2.4.0.7">
+<section data-number="0.2.4.0.7" id="smooth-interpolation-in-latent-space">
 <h5 data-number="1.2.4.0.7"><span class="header-section-number">1.2.4.0.7</span> Smooth Interpolation in Latent Space</h5>
 <p>The Gaussian prior encourages nearby latent points to decode into similar outputs. Moving smoothly through latent space therefore produces gradual and realistic changes in generated data.</p>
 <figure>
-<img src="img/lecture19/VAEMorphing1.JPG" alt="Smooth transitions in VAE latent space." /><figcaption aria-hidden="true">Smooth transitions in VAE latent space.</figcaption>
+<img alt="Smooth transitions in VAE latent space." src="img/lecture19/VAEMorphing1.JPG"/><figcaption aria-hidden="true">Smooth transitions in VAE latent space.</figcaption>
 </figure>
 </section>
-<section id="key-advantages" data-number="0.2.4.0.8">
+<section data-number="0.2.4.0.8" id="key-advantages">
 <h5 data-number="1.2.4.0.8"><span class="header-section-number">1.2.4.0.8</span> Key Advantages</h5>
 <p>VAEs provide a principled framework for learning meaningful latent representations while enabling realistic data generation. They support interpolation, anomaly detection, and unsupervised representation learning, making them a powerful extension of traditional autoencoders.</p>
 </section>
 </section>
 </section>
-<section id="summary" data-number="0.3">
+<section data-number="0.3" id="summary">
 <h2 data-number="1.3"><span class="header-section-number">1.3</span> Summary</h2>
 <p>Regularized autoencoders extend basic autoencoders by introducing constraints that prevent trivial identity mapping and encourage meaningful feature learning.</p>
-<section id="key-takeaways-2" data-number="0.3.0.0.1">
+<section data-number="0.3.0.0.1" id="key-takeaways-2">
 <h5 data-number="1.3.0.0.1"><span class="header-section-number">1.3.0.0.1</span> Key Takeaways</h5>
 <ul>
 <li><p>Basic autoencoders rely on dimensional bottlenecks, while regularized autoencoders enforce structure through additional loss terms.</p></li>
@@ -213,7 +212,7 @@
 </ul>
 </section>
 </section>
-<section id="q-a-section" data-number="0.4">
+<section data-number="0.4" id="q-a-section">
 <h2 data-number="1.4"><span class="header-section-number">1.4</span> Q &amp; A Section</h2>
 <ol>
 <li><p><strong>Question:</strong> Why can a standard autoencoder fail when the latent dimension is large?</p>
@@ -228,7 +227,7 @@
 <p><strong>Solution:</strong> A VAE models the latent space probabilistically and enforces a structured distribution (typically Gaussian). This makes the latent space continuous and smooth, allowing meaningful sampling and generation of new data.</p></li>
 </ol>
 </section>
-<section id="references" data-number="0.5">
+<section data-number="0.5" id="references">
 <h2 data-number="1.5"><span class="header-section-number">1.5</span> References</h2>
 <ul>
 <li><p>See Figure 19.14 for the image sourced from Khan Academy. (n.d.). What is an autoencoder? [Video]. YouTube. <a href="https://www.youtube.com/watch?v=iwEzwTTalbg">https://www.youtube.com/watch?v=iwEzwTTalbg</a></p></li>

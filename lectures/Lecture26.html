@@ -12,14 +12,13 @@
 </nav>
 <main>
 <div class="center">
-
 </div>
-<p><strong>Contributors:</strong> Dr. Ahmad Mustafa, Dr. Motaz Alfarraj, Dr. Ashraf Alattar, Dr. Chen Zhou</p>
-<p><strong>Teaching Assistants</strong> with remarkable contributions include: Kuo-Wei Lai, Wuyang Du, Shiva Mahato, Michael Zhou, Ninghan Zhong</p>
-<p><strong>Disclaimer</strong>: <span>All content of these notes are part of this course at Georgia Tech. Any re-use or distribution is not permitted without pre-approved permission. All these notes belong to, created by, and copyrighted for Ghassan AlRegib and Mohit Prabhushankar, Georgia Tech, 2021–2028.</span></p>
-<p><strong>License</strong>: <span>These lecture notes are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</span></p>
-<p><strong>Errata</strong>: <span><em>Please submit any errata you find using the following form: <a href="https://forms.office.com/r/fbg9dMWPgY">Errata Form for FunML Textbook</a> or visit: <a href="https://forms.office.com/r/fbg9dMWPgY">https://forms.office.com/r/fbg9dMWPgY</a></em></span></p>
-<section id="recap-of-superviesd-learning" data-number="0.1">
+
+
+
+
+
+<section data-number="0.1" id="recap-of-superviesd-learning">
 <h2 data-number="1.1"><span class="header-section-number">1.1</span> Recap of Superviesd Learning</h2>
 <p>Supervised learning relies on labeled data to train models. It faces several challenges, leading to the exploration of alternative learning paradigms such as unsupervised and self-supervised learning.</p>
 <ul>
@@ -29,9 +28,9 @@
 <li><p>Unreleased datasets and limited availability of high-quality labeled data.</p></li>
 </ul>
 </section>
-<section id="comparison-of-data-requirements-and-structures-summary-supervised-unsupervised-self-supervised" data-number="0.2">
+<section data-number="0.2" id="comparison-of-data-requirements-and-structures-summary-supervised-unsupervised-self-supervised">
 <h2 data-number="1.2"><span class="header-section-number">1.2</span> Comparison of Data Requirements and Structures Summary (supervised, unsupervised, Self-supervised):</h2>
-<p><img src="img/lecture26/S US SSL.png" id="fig:comparison" style="width:50.0%" alt="image" /> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
+<p><img alt="image" id="fig:comparison" src="img/lecture26/S US SSL.png" style="width:50.0%"/> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
 <h3 class="unnumbered" id="supervised-learning">Supervised Learning</h3>
 <ul>
 <li><p>Requires labeled datasets <span class="math inline">\((x, y)\)</span>, where <span class="math inline">\(x\)</span> represents input data and <span class="math inline">\(y\)</span> represents ground-truth labels.</p></li>
@@ -50,11 +49,11 @@
 <li><p>The "Pre-text Tasks" are what unique for Self-Supervised Learning than Unsupervised Learning</p></li>
 </ul>
 </section>
-<section id="self-supervised-learning-ssl-structure" data-number="0.3">
+<section data-number="0.3" id="self-supervised-learning-ssl-structure">
 <h2 data-number="1.3"><span class="header-section-number">1.3</span> Self-Supervised Learning (SSL) Structure</h2>
 <p>Self-supervised learning (SSL) utilizes both labeled and unlabeled data to generate pseudo-labels and learn representations through pre-text tasks. Its structure can be summarized in three key steps:</p>
 <h3 class="unnumbered" id="generate-pseudo-labels">Generate Pseudo-Labels</h3>
-<p><img src="img/lecture26/gen pseudo lab.png" id="fig:comparison" style="width:70.0%" alt="image" /> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
+<p><img alt="image" id="fig:comparison" src="img/lecture26/gen pseudo lab.png" style="width:70.0%"/> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
 <ul>
 <li><p><strong>Input:</strong></p>
 <ul>
@@ -71,7 +70,7 @@
 </ul></li>
 </ul>
 <h3 class="unnumbered" id="pre-training-on-pseudo-labels">Pre-Training on Pseudo-Labels</h3>
-<p><img src="img/lecture26/pre train on pse.png" id="fig:comparison" style="width:70.0%" alt="image" /> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
+<p><img alt="image" id="fig:comparison" src="img/lecture26/pre train on pse.png" style="width:70.0%"/> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
 <ul>
 <li><p><strong>Input:</strong></p>
 <ul>
@@ -88,7 +87,7 @@
 </ul></li>
 </ul>
 <h3 class="unnumbered" id="fine-tuning-for-downstream-tasks">Fine-Tuning for Downstream Tasks</h3>
-<p><img src="img/lecture26/utilize learn model.png" id="fig:comparison" style="width:70.0%" alt="image" /> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
+<p><img alt="image" id="fig:comparison" src="img/lecture26/utilize learn model.png" style="width:70.0%"/> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
 <ul>
 <li><p><strong>Input:</strong></p>
 <ul>
@@ -106,28 +105,28 @@
 </ul></li>
 </ul>
 </section>
-<section id="different-pre-text-tasks-in-self-supervised-learning" data-number="0.4">
+<section data-number="0.4" id="different-pre-text-tasks-in-self-supervised-learning">
 <h2 data-number="1.4"><span class="header-section-number">1.4</span> Different Pre-text Tasks in Self-Supervised Learning</h2>
 <p>Different pre-text tasks enable the model to first learn various features of the images beyond the primary task, such as rotation, masking, brightness, noise, etc., to prepare for downstream prediction tasks. Unlike unsupervised learning, this approach avoids blind feature extraction by leveraging targeted auxiliary tasks.</p>
-<section id="transformation-prediction" data-number="0.4.1">
+<section data-number="0.4.1" id="transformation-prediction">
 <h3 data-number="1.4.1"><span class="header-section-number">1.4.1</span> Transformation Prediction</h3>
-<p><img src="img/lecture26/tran.png" id="fig:comparison" style="width:70.0%" alt="image" /> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
+<p><img alt="image" id="fig:comparison" src="img/lecture26/tran.png" style="width:70.0%"/> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
 <ul>
 <li><p>Pre-text task performs some transformation on data and tasks the model with trying to learn the nature of the transformation.</p></li>
 <li><p>Example: Predict image rotation angles (e.g., 90°, 180°, 270°).</p></li>
 </ul>
 </section>
-<section id="masked-prediction" data-number="0.4.2">
+<section data-number="0.4.2" id="masked-prediction">
 <h3 data-number="1.4.2"><span class="header-section-number">1.4.2</span> Masked Prediction</h3>
-<p><img src="img/lecture26/mask.png" id="fig:comparison" style="width:70.0%" alt="image" /> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
+<p><img alt="image" id="fig:comparison" src="img/lecture26/mask.png" style="width:70.0%"/> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
 <ul>
 <li><p>Pre-text task removes some part of the data, and the model is tasked with trying to predict what was removed.</p></li>
 <li><p>Example: Mask a specific region in an image and predict the missing region using an encoder-decoder structure.</p></li>
 </ul>
 </section>
-<section id="deep-clustering" data-number="0.4.3">
+<section data-number="0.4.3" id="deep-clustering">
 <h3 data-number="1.4.3"><span class="header-section-number">1.4.3</span> Deep Clustering</h3>
-<p><img src="img/lecture26/cluster.png" id="fig:comparison" style="width:70.0%" alt="image" /> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
+<p><img alt="image" id="fig:comparison" src="img/lecture26/cluster.png" style="width:70.0%"/> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
 <ul>
 <li><p>Identify clusters of features and iteratively assign pseudo-labels to train the model.</p></li>
 <li><p>Process:</p>
@@ -138,9 +137,9 @@
 </ul></li>
 </ul>
 </section>
-<section id="contrastive-learning" data-number="0.4.4">
+<section data-number="0.4.4" id="contrastive-learning">
 <h3 data-number="1.4.4"><span class="header-section-number">1.4.4</span> Contrastive Learning</h3>
-<p><img src="img/lecture26/cont.png" id="fig:comparison" style="width:70.0%" alt="image" /> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
+<p><img alt="image" id="fig:comparison" src="img/lecture26/cont.png" style="width:70.0%"/> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
 <ul>
 <li><p>Pre-text task identifies positive and negative pairs of data, and the model is tasked with learning similarities to discriminate between positive and negative pairs.</p></li>
 <li><p>Process:</p>
@@ -153,11 +152,11 @@
 </ul>
 </section>
 </section>
-<section id="contrastive-learning-frameworks" data-number="0.5">
+<section data-number="0.5" id="contrastive-learning-frameworks">
 <h2 data-number="1.5"><span class="header-section-number">1.5</span> Contrastive Learning Frameworks</h2>
-<section id="simclr-framework" data-number="0.5.1">
+<section data-number="0.5.1" id="simclr-framework">
 <h3 data-number="1.5.1"><span class="header-section-number">1.5.1</span> SimCLR Framework</h3>
-<p><img src="img/lecture26/SimCLR_Framework.png" id="fig:comparison" style="width:70.0%" alt="image" /> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
+<p><img alt="image" id="fig:comparison" src="img/lecture26/SimCLR_Framework.png" style="width:70.0%"/> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
 <p>SimCLR is a framework for contrastive learning that works by creating and learning from positive-negative pairs within batches. The process involves:</p>
 <ol>
 <li><p><strong>Image Augmentation</strong>: Generate similar pairs from the initial batch by applying augmentations to each image.</p></li>
@@ -168,9 +167,9 @@
 <li><p><strong>Batch Processing</strong>: Average the loss across all pairs in the batch.</p></li>
 </ol>
 </section>
-<section id="performance-comparison-contrastive-vs.-supervised-learning" data-number="0.5.2">
+<section data-number="0.5.2" id="performance-comparison-contrastive-vs.-supervised-learning">
 <h3 data-number="1.5.2"><span class="header-section-number">1.5.2</span> Performance Comparison: Contrastive vs. Supervised Learning</h3>
-<p><img src="img/lecture26/performance_comparison.png" id="fig:comparison" style="width:70.0%" alt="image" /> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
+<p><img alt="image" id="fig:comparison" src="img/lecture26/performance_comparison.png" style="width:70.0%"/> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
 <ul>
 <li><p>Recent developments show that contrastive learning algorithms like SimCLR have, in some cases, surpassed supervised learning performance.</p></li>
 <li><p>Self-supervision at scale has become increasingly important.</p></li>
@@ -179,19 +178,19 @@
 </ul>
 </section>
 </section>
-<section id="variations-in-contrastive-learning-methods-and-applications" data-number="0.6">
+<section data-number="0.6" id="variations-in-contrastive-learning-methods-and-applications">
 <h2 data-number="1.6"><span class="header-section-number">1.6</span> Variations in Contrastive Learning Methods and Applications</h2>
-<section id="core-concept" data-number="0.6.1">
+<section data-number="0.6.1" id="core-concept">
 <h3 data-number="1.6.1"><span class="header-section-number">1.6.1</span> Core Concept</h3>
 <p>The main differentiating factor between various contrastive learning methods is how they generate positive and negative pairs. Several creative approaches have emerged for constructing these pairs based on different contexts and requirements.</p>
 </section>
-<section id="example-applications" data-number="0.6.2">
+<section data-number="0.6.2" id="example-applications">
 <h3 data-number="1.6.2"><span class="header-section-number">1.6.2</span> Example Applications</h3>
 <ol>
 <li><p><strong>Fisheye Images</strong></p>
 <ul>
 <li><p><strong>Approach</strong>: Treats regions within fisheye images as distinct classes.</p>
-<p><img src="img/lecture26/fisheye_region.png" id="fig:comparison" style="width:70.0%" alt="image" /> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p></li>
+<p><img alt="image" id="fig:comparison" src="img/lecture26/fisheye_region.png" style="width:70.0%"/> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p></li>
 <li><p><strong>Loss Components</strong>:</p>
 <ul>
 <li><p><span class="math inline">\(L_{\text{class}}\)</span>: Objects of the same class are positives regardless of position.</p></li>
@@ -204,10 +203,10 @@
 <li><p>Radial partitioning</p></li>
 <li><p>Grid-wise (9-class) segmentation</p></li>
 </ul>
-<p><img src="img/lecture26/fisheye_alternative.png" id="fig:comparison" style="width:70.0%" alt="image" /> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p></li>
+<p><img alt="image" id="fig:comparison" src="img/lecture26/fisheye_alternative.png" style="width:70.0%"/> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p></li>
 </ul></li>
 <li><p><strong>Seismic Images</strong></p>
-<p><img src="img/lecture26/seismic.png" id="fig:comparison" style="width:70.0%" alt="image" /> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
+<p><img alt="image" id="fig:comparison" src="img/lecture26/seismic.png" style="width:70.0%"/> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
 <ul>
 <li><p><strong>Pre-text Task</strong>: Volume label classification.</p></li>
 <li><p><strong>Process</strong>:</p>
@@ -218,14 +217,14 @@
 </ol></li>
 </ul></li>
 <li><p><strong>Medical Images</strong></p>
-<p><img src="img/lecture26/medical.png" id="fig:comparison" style="width:70.0%" alt="image" /> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
+<p><img alt="image" id="fig:comparison" src="img/lecture26/medical.png" style="width:70.0%"/> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
 <ul>
 <li><p><strong>Pre-text Task</strong>: Classification based on patient ID or clinical labels.</p></li>
 <li><p><strong>Positive-Negative Pairs</strong>: Determined by patient identity or clinical characteristics.</p></li>
 </ul></li>
 </ol>
 </section>
-<section id="contrastive-learning-in-other-modalities" data-number="0.6.3">
+<section data-number="0.6.3" id="contrastive-learning-in-other-modalities">
 <h3 data-number="1.6.3"><span class="header-section-number">1.6.3</span> Contrastive Learning in Other Modalities</h3>
 <ul>
 <li><p>Beyond computer vision, contrastive learning has been successfully applied to:</p>
@@ -233,25 +232,25 @@
 <li><p>Textual models (e.g., NLP)</p></li>
 <li><p>Audio processing models</p></li>
 </ul>
-<p><img src="img/lecture26/other_modalities.png" id="fig:comparison" style="width:70.0%" alt="image" /> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p></li>
+<p><img alt="image" id="fig:comparison" src="img/lecture26/other_modalities.png" style="width:70.0%"/> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p></li>
 <li><p>This demonstrates the versatility of contrastive learning across different data types and applications.</p></li>
 </ul>
 </section>
 </section>
-<section id="foundation-models" data-number="0.7">
+<section data-number="0.7" id="foundation-models">
 <h2 data-number="1.7"><span class="header-section-number">1.7</span> Foundation Models</h2>
-<section id="recent-developments" data-number="0.7.1">
+<section data-number="0.7.1" id="recent-developments">
 <h3 data-number="1.7.1"><span class="header-section-number">1.7.1</span> Recent Developments</h3>
 <ul>
 <li><p><strong>Segment Anything Model (SAM)</strong>:</p>
-<p><img src="img/lecture26/sam.png" id="fig:comparison" style="width:70.0%" alt="image" /> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
+<p><img alt="image" id="fig:comparison" src="img/lecture26/sam.png" style="width:70.0%"/> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
 <ul>
 <li><p>Released by Meta (April 2023).</p></li>
 <li><p>Trained on 1.1 billion segmentation masks from 11 million images.</p></li>
 </ul></li>
 </ul>
 </section>
-<section id="historical-evolution" data-number="0.7.2">
+<section data-number="0.7.2" id="historical-evolution">
 <h3 data-number="1.7.2"><span class="header-section-number">1.7.2</span> Historical Evolution</h3>
 <ul>
 <li><p><strong>Pre-2019</strong>:</p>
@@ -265,9 +264,9 @@
 </ul></li>
 </ul>
 </section>
-<section id="applications-and-impact" data-number="0.7.3">
+<section data-number="0.7.3" id="applications-and-impact">
 <h3 data-number="1.7.3"><span class="header-section-number">1.7.3</span> Applications and Impact</h3>
-<p><img src="img/lecture26/foundation_model.png" id="fig:comparison" style="width:70.0%" alt="image" /> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
+<p><img alt="image" id="fig:comparison" src="img/lecture26/foundation_model.png" style="width:70.0%"/> <span id="fig:comparison" label="fig:comparison">[fig:comparison]</span></p>
 <ul>
 <li><p>Foundation models leverage transfer learning at scale.</p></li>
 <li><p>Scale enables emergence of common properties across tasks.</p></li>
@@ -281,9 +280,9 @@
 </ul>
 </section>
 </section>
-<section id="key-insights-and-conclusions" data-number="0.8">
+<section data-number="0.8" id="key-insights-and-conclusions">
 <h2 data-number="1.8"><span class="header-section-number">1.8</span> Key Insights and Conclusions</h2>
-<section id="pseudo-label-generation" data-number="0.8.1">
+<section data-number="0.8.1" id="pseudo-label-generation">
 <h3 data-number="1.8.1"><span class="header-section-number">1.8.1</span> Pseudo-Label Generation</h3>
 <ul>
 <li><p>Relies heavily on creativity.</p></li>
@@ -291,7 +290,7 @@
 <li><p>Feature extraction between pseudo and original labels should yield similar or related features.</p></li>
 </ul>
 </section>
-<section id="future-directions" data-number="0.8.2">
+<section data-number="0.8.2" id="future-directions">
 <h3 data-number="1.8.2"><span class="header-section-number">1.8.2</span> Future Directions</h3>
 <ul>
 <li><p>Self-supervision at scale has become a crucial component in modern AI systems.</p></li>

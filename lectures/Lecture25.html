@@ -12,14 +12,13 @@
 </nav>
 <main>
 <div class="center">
-
 </div>
-<p><strong>Contributors:</strong> Dr. Ahmad Mustafa, Dr. Motaz Alfarraj, Dr. Ashraf Alattar, Dr. Chen Zhou</p>
-<p><strong>Teaching Assistants</strong> with remarkable contributions include: Kuo-Wei Lai, Wuyang Du, Shiva Mahato, Michael Zhou, Ninghan Zhong</p>
-<p><strong>Disclaimer</strong>: <span>All content of these notes are part of this course at Georgia Tech. Any re-use or distribution is not permitted without pre-approved permission. All these notes belong to, created by, and copyrighted for Ghassan AlRegib and Mohit Prabhushankar, Georgia Tech, 2021–2028.</span></p>
-<p><strong>License</strong>: <span>These lecture notes are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</span></p>
-<p><strong>Errata</strong>: <span><em>Please submit any errata you find using the following form: <a href="https://forms.office.com/r/fbg9dMWPgY">Errata Form for FunML Textbook</a> or visit: <a href="https://forms.office.com/r/fbg9dMWPgY">https://forms.office.com/r/fbg9dMWPgY</a></em></span></p>
-<section id="recap" data-number="0.1">
+
+
+
+
+
+<section data-number="0.1" id="recap">
 <h2 data-number="1.1"><span class="header-section-number">1.1</span> Recap</h2>
 <p>In the last lecture, we discussed anomaly detection, which identifies patterns in data that deviate significantly from normal behavior.</p>
 <p><strong>Key applications include:</strong></p>
@@ -35,9 +34,9 @@
 <li><p><strong>Unsupervised approaches</strong> to detect outliers.</p></li>
 </ul>
 </section>
-<section id="introduction-and-motivation" data-number="0.2">
+<section data-number="0.2" id="introduction-and-motivation">
 <h2 data-number="1.2"><span class="header-section-number">1.2</span> Introduction and Motivation</h2>
-<section id="supervised-learning-vs-active-learning" data-number="0.2.1">
+<section data-number="0.2.1" id="supervised-learning-vs-active-learning">
 <h3 data-number="1.2.1"><span class="header-section-number">1.2.1</span> Supervised Learning vs Active Learning</h3>
 <ul>
 <li><p><strong>Supervised Learning:</strong></p>
@@ -52,7 +51,7 @@
 </ul></li>
 </ul>
 </section>
-<section id="motivation-for-active-learning" data-number="0.2.2">
+<section data-number="0.2.2" id="motivation-for-active-learning">
 <h3 data-number="1.2.2"><span class="header-section-number">1.2.2</span> Motivation for Active Learning</h3>
 <ul>
 <li><p><strong>Challenge:</strong> Labeling data is costly and time-consuming, especially for large datasets.</p></li>
@@ -60,7 +59,7 @@
 <li><p><strong>Goal:</strong> Efficiently label a small subset of data to maximize the model’s performance.</p></li>
 </ul>
 </section>
-<section id="labeling-constraints-and-budget-a-case-study" data-number="0.2.3">
+<section data-number="0.2.3" id="labeling-constraints-and-budget-a-case-study">
 <h3 data-number="1.2.3"><span class="header-section-number">1.2.3</span> Labeling Constraints and Budget: A Case Study</h3>
 <ul>
 <li><p><strong>Budget Limitation:</strong> Labeling data is expensive, and the available budget imposes strict constraints on the number of samples that can be annotated.</p></li>
@@ -75,9 +74,9 @@
 </ul>
 </section>
 </section>
-<section id="fundamentals" data-number="0.3">
+<section data-number="0.3" id="fundamentals">
 <h2 data-number="1.3"><span class="header-section-number">1.3</span> Fundamentals</h2>
-<section id="basics" data-number="0.3.1">
+<section data-number="0.3.1" id="basics">
 <h3 data-number="1.3.1"><span class="header-section-number">1.3.1</span> Basics</h3>
 <ul>
 <li><p><strong>Unlabeled Data:</strong> The majority of data in real-world scenarios is unlabeled.</p></li>
@@ -85,7 +84,7 @@
 <li><p><strong>Objective:</strong> Select data points that maximize model performance while minimizing labeling costs.</p></li>
 </ul>
 </section>
-<section id="active-learning-process" data-number="0.3.2">
+<section data-number="0.3.2" id="active-learning-process">
 <h3 data-number="1.3.2"><span class="header-section-number">1.3.2</span> Active Learning Process</h3>
 <ul>
 <li><p><strong>Input:</strong></p>
@@ -117,7 +116,7 @@
 </ol></li>
 <li><p><strong>Workflow Visualization:</strong></p>
 <figure>
-<img src="img/lecture25/process.png" id="fig:active_learning_process" style="width:70.0%" alt="Active learning process workflow." /><figcaption aria-hidden="true">Active learning process workflow.</figcaption>
+<img alt="Active learning process workflow." id="fig:active_learning_process" src="img/lecture25/process.png" style="width:70.0%"/><figcaption aria-hidden="true">Active learning process workflow.</figcaption>
 </figure></li>
 <li><p><strong>Key Elements:</strong></p>
 <ul>
@@ -130,9 +129,9 @@
 </ul>
 </section>
 </section>
-<section id="performance-metrics-and-annotator-constraints" data-number="0.4">
+<section data-number="0.4" id="performance-metrics-and-annotator-constraints">
 <h2 data-number="1.4"><span class="header-section-number">1.4</span> Performance Metrics and Annotator Constraints</h2>
-<section id="performance-metrics" data-number="0.4.1">
+<section data-number="0.4.1" id="performance-metrics">
 <h3 data-number="1.4.1"><span class="header-section-number">1.4.1</span> Performance Metrics</h3>
 <ul>
 <li><p><strong>Purpose:</strong> Evaluate the efficiency of active learning strategies in improving model performance.</p></li>
@@ -146,13 +145,13 @@
 <ul>
 <li><p><strong>mAP (Mean Average Precision):</strong> Evaluates the precision-recall tradeoff across all classes and IoU thresholds.</p></li>
 </ul></li>
-<li><p><strong>Performance Curve:</strong> Performance is plotted as a function of the number of annotated samples in the training set (<span class="math inline">\(X_{\text{train}}\)</span>). As shown in Figure <a href="#fig:performance_curve" data-reference-type="ref" data-reference="fig:performance_curve">2</a>, higher AUC values indicate better acquisition strategies that improve performance with fewer labeled samples.</p></li>
+<li><p><strong>Performance Curve:</strong> Performance is plotted as a function of the number of annotated samples in the training set (<span class="math inline">\(X_{\text{train}}\)</span>). As shown in Figure <a data-reference="fig:performance_curve" data-reference-type="ref" href="#fig:performance_curve">2</a>, higher AUC values indicate better acquisition strategies that improve performance with fewer labeled samples.</p></li>
 </ul>
 <figure>
-<img src="img/lecture25/perform.png" id="fig:performance_curve" style="width:70.0%" alt="Comparison of acquisition strategies by performance" /><figcaption aria-hidden="true">Comparison of acquisition strategies by performance</figcaption>
+<img alt="Comparison of acquisition strategies by performance" id="fig:performance_curve" src="img/lecture25/perform.png" style="width:70.0%"/><figcaption aria-hidden="true">Comparison of acquisition strategies by performance</figcaption>
 </figure>
 </section>
-<section id="annotator-metrics" data-number="0.4.2">
+<section data-number="0.4.2" id="annotator-metrics">
 <h3 data-number="1.4.2"><span class="header-section-number">1.4.2</span> Annotator Metrics</h3>
 <ul>
 <li><p><strong>Purpose:</strong> Account for resource constraints faced by annotators, including time, computational effort, and cost.</p></li>
@@ -162,7 +161,7 @@
 <li><p><strong>Cost:</strong> Monetary cost associated with hiring annotators or using annotation tools.</p></li>
 <li><p><strong>Complexity:</strong> Computational effort required to process and analyze the data (e.g., FLOPS or GPU hours).</p></li>
 </ul></li>
-<li><p><strong>Example Scenario:</strong> A real-world scenario is shown in Figure <a href="#fig:annotator_constraints" data-reference-type="ref" data-reference="fig:annotator_constraints">3</a>, where a dataset contains 578 frames requiring annotation (e.g., for object detection or lidar data).</p>
+<li><p><strong>Example Scenario:</strong> A real-world scenario is shown in Figure <a data-reference="fig:annotator_constraints" data-reference-type="ref" href="#fig:annotator_constraints">3</a>, where a dataset contains 578 frames requiring annotation (e.g., for object detection or lidar data).</p>
 <ul>
 <li><p><strong>Average annotation time:</strong> 49 minutes per frame.</p></li>
 <li><p><strong>Total time:</strong> Approximately 1 day 10 hours to annotate the entire sequence.</p></li>
@@ -170,19 +169,19 @@
 </ul></li>
 </ul>
 <figure>
-<img src="img/lecture25/performance.png" id="fig:annotator_constraints" style="width:70.0%" alt="Annotator effort metrics for different acquisition strategies" /><figcaption aria-hidden="true">Annotator effort metrics for different acquisition strategies</figcaption>
+<img alt="Annotator effort metrics for different acquisition strategies" id="fig:annotator_constraints" src="img/lecture25/performance.png" style="width:70.0%"/><figcaption aria-hidden="true">Annotator effort metrics for different acquisition strategies</figcaption>
 </figure>
 </section>
-<section id="optimizing-metrics" data-number="0.4.3">
+<section data-number="0.4.3" id="optimizing-metrics">
 <h3 data-number="1.4.3"><span class="header-section-number">1.4.3</span> Optimizing Metrics</h3>
-<p>To achieve a balance between model accuracy and resource efficiency, it is crucial to combine <strong>Performance Metrics</strong> (as shown in Figure <a href="#fig:performance_curve" data-reference-type="ref" data-reference="fig:performance_curve">2</a>) and <strong>Annotator Metrics</strong> (as shown in Figure <a href="#fig:annotator_constraints" data-reference-type="ref" data-reference="fig:annotator_constraints">3</a>).</p>
+<p>To achieve a balance between model accuracy and resource efficiency, it is crucial to combine <strong>Performance Metrics</strong> (as shown in Figure <a data-reference="fig:performance_curve" data-reference-type="ref" href="#fig:performance_curve">2</a>) and <strong>Annotator Metrics</strong> (as shown in Figure <a data-reference="fig:annotator_constraints" data-reference-type="ref" href="#fig:annotator_constraints">3</a>).</p>
 <ul>
 <li><p>Example: Acquisition strategies with high AUC and lower annotation cost/time should be prioritized for resource optimization.</p></li>
 </ul>
 </section>
-<section id="strategy" data-number="0.4.4">
+<section data-number="0.4.4" id="strategy">
 <h3 data-number="1.4.4"><span class="header-section-number">1.4.4</span> Strategy</h3>
-<p>As depicted in Figure <a href="#fig:performance_curve" data-reference-type="ref" data-reference="fig:performance_curve">2</a>, different acquisition strategies yield varying levels of efficiency:</p>
+<p>As depicted in Figure <a data-reference="fig:performance_curve" data-reference-type="ref" href="#fig:performance_curve">2</a>, different acquisition strategies yield varying levels of efficiency:</p>
 <ul>
 <li><p><strong>Entropy Sampling:</strong> Focus on the most uncertain samples with the highest entropy.</p></li>
 <li><p><strong>Least Confidence:</strong> Prioritize samples with the lowest prediction confidence.</p></li>
@@ -190,10 +189,10 @@
 </ul>
 </section>
 </section>
-<section id="difficulty-based-active-learning" data-number="0.5">
+<section data-number="0.5" id="difficulty-based-active-learning">
 <h2 data-number="1.5"><span class="header-section-number">1.5</span> Difficulty-based Active Learning</h2>
 <p>This section discusses active learning strategies focused on selecting the most challenging samples in a dataset for annotation. These strategies are often referred to as uncertainty-based acquisition functions.</p>
-<section id="overview" data-number="0.5.1">
+<section data-number="0.5.1" id="overview">
 <h3 data-number="1.5.1"><span class="header-section-number">1.5.1</span> Overview</h3>
 <p>The primary idea of difficulty-based acquisition functions is to identify and annotate samples that are:</p>
 <ul>
@@ -204,26 +203,26 @@
 </ul>
 <p>By focusing on such samples, the model improves its generalization ability.</p>
 </section>
-<section id="acquisition-functions-for-difficult-samples" data-number="0.5.2">
+<section data-number="0.5.2" id="acquisition-functions-for-difficult-samples">
 <h3 data-number="1.5.2"><span class="header-section-number">1.5.2</span> Acquisition Functions for Difficult Samples</h3>
 <p>Three key strategies are commonly used for selecting difficult samples:</p>
-<section id="entropy-based-sampling" data-number="0.5.2.1">
+<section data-number="0.5.2.1" id="entropy-based-sampling">
 <h4 data-number="1.5.2.1"><span class="header-section-number">1.5.2.1</span> Entropy-based Sampling</h4>
 <p><strong>Goal:</strong> Select samples with the highest uncertainty, measured using entropy. Entropy represents the information content in a distribution.</p>
 <p>The entropy-based acquisition function is defined as: <span class="math display">\[a(x_1, ..., x_{N_b} | f_W(x)) = \sum_{i=1}^{N_b} H(p(y|x_i, W))\]</span> where <span class="math display">\[H(p(y|x_i, W)) = -\sum_{c=1}^C p(y=c|x_i, W) \log(p(y=c|x_i, W))\]</span> <strong>Example visualization:</strong></p>
 <figure>
-<img src="img/lecture25/entro_sampling.png" id="fig:entropy_sampling" style="width:30.0%" alt="Entropy Sampling Visualization" /><figcaption aria-hidden="true">Entropy Sampling Visualization</figcaption>
+<img alt="Entropy Sampling Visualization" id="fig:entropy_sampling" src="img/lecture25/entro_sampling.png" style="width:30.0%"/><figcaption aria-hidden="true">Entropy Sampling Visualization</figcaption>
 </figure>
 </section>
-<section id="least-confidence-sampling" data-number="0.5.2.2">
+<section data-number="0.5.2.2" id="least-confidence-sampling">
 <h4 data-number="1.5.2.2"><span class="header-section-number">1.5.2.2</span> Least Confidence Sampling</h4>
 <p><strong>Goal:</strong> Select samples with the lowest prediction confidence. This strategy identifies data points where the model is least certain.</p>
 <p>The least confidence acquisition function is defined as: <span class="math display">\[a(x_1, ..., x_{N_b} | f_W(x)) = -\sum_{i=1}^{N_b} \max_y p(y|x_i, W)\]</span> <strong>Example visualization:</strong></p>
 <figure>
-<img src="img/lecture25/least_sampling.png" id="fig:least_sampling" style="width:30.0%" alt="Least Sampling Visualization" /><figcaption aria-hidden="true">Least Sampling Visualization</figcaption>
+<img alt="Least Sampling Visualization" id="fig:least_sampling" src="img/lecture25/least_sampling.png" style="width:30.0%"/><figcaption aria-hidden="true">Least Sampling Visualization</figcaption>
 </figure>
 </section>
-<section id="margin-sampling" data-number="0.5.2.3">
+<section data-number="0.5.2.3" id="margin-sampling">
 <h4 data-number="1.5.2.3"><span class="header-section-number">1.5.2.3</span> Margin Sampling</h4>
 <p><strong>Goal:</strong> Select samples where the margin between the most probable and second most probable classes is smallest. This indicates high prediction uncertainty.</p>
 <p>The margin-based acquisition function is defined as: <span class="math display">\[a(x_1, ..., x_{N_b} | f_W(x)) = \sum_{i=1}^{N_b} \big(p(y=c_s|x_i, W) - p(y=c_h|x_i, W)\big)\]</span> <strong>Where:</strong></p>
@@ -233,11 +232,11 @@
 </ul>
 <p><strong>Example visualization:</strong></p>
 <figure>
-<img src="img/lecture25/margin_sampling.png" id="fig:margin_sampling" style="width:30.0%" alt="Margin Sampling Visualization" /><figcaption aria-hidden="true">Margin Sampling Visualization</figcaption>
+<img alt="Margin Sampling Visualization" id="fig:margin_sampling" src="img/lecture25/margin_sampling.png" style="width:30.0%"/><figcaption aria-hidden="true">Margin Sampling Visualization</figcaption>
 </figure>
 </section>
 </section>
-<section id="summary-of-strategies" data-number="0.5.3">
+<section data-number="0.5.3" id="summary-of-strategies">
 <h3 data-number="1.5.3"><span class="header-section-number">1.5.3</span> Summary of Strategies</h3>
 <p>The table below summarizes the discussed acquisition functions:</p>
 <div class="center">
@@ -266,9 +265,9 @@
 </div>
 </section>
 </section>
-<section id="diversity-based-active-learning" data-number="0.6">
+<section data-number="0.6" id="diversity-based-active-learning">
 <h2 data-number="1.6"><span class="header-section-number">1.6</span> Diversity-based Active Learning</h2>
-<section id="definition" data-number="0.6.1">
+<section data-number="0.6.1" id="definition">
 <h3 data-number="1.6.1"><span class="header-section-number">1.6.1</span> Definition</h3>
 <p>The selection of samples that best “represent” the dataset is accomplished through the acquisition function of the diversity measure. The acquisition function is defined directly through the representation of the sample.</p>
 <ul>
@@ -276,9 +275,9 @@
 <li><p><strong>Coreset Samples:</strong> A subset of the dataset that represents the whole by covering the global structure.</p></li>
 </ul>
 </section>
-<section id="popular-methods" data-number="0.6.2">
+<section data-number="0.6.2" id="popular-methods">
 <h3 data-number="1.6.2"><span class="header-section-number">1.6.2</span> Popular Methods</h3>
-<section id="core-set" data-number="0.6.2.1">
+<section data-number="0.6.2.1" id="core-set">
 <h4 data-number="1.6.2.1"><span class="header-section-number">1.6.2.1</span> Core Set</h4>
 <p>The goal of this method is to select a set of samples such that they cover the global structure of the data distribution. The following formula can define the acquisition function:</p>
 <ul>
@@ -292,7 +291,7 @@
 <li><p><strong>Strengths:</strong> Suitable for complex distributions; ensures uniform coverage of the data space.</p></li>
 <li><p><strong>Weaknesses:</strong> Computationally expensive for large datasets; sensitive to noisy data.</p></li>
 </ul>
-<section id="greedy-k-centers-algorithm" data-number="0.6.2.1.1">
+<section data-number="0.6.2.1.1" id="greedy-k-centers-algorithm">
 <h5 data-number="1.6.2.1.1"><span class="header-section-number">1.6.2.1.1</span> Greedy k-Centers Algorithm:</h5>
 <p>The Core Set sampling uses a greedy algorithm to iteratively select samples. The steps are as follows:</p>
 <ol>
@@ -302,10 +301,10 @@
 <li><p>Repeat until convergence.</p></li>
 </ol>
 <figure>
-<img src="img/lecture25/Corset Example of a Dataset.png" id="fig:enter-label" alt="Corset Example of a Dataset" /><figcaption aria-hidden="true">Corset Example of a Dataset</figcaption>
+<img alt="Corset Example of a Dataset" id="fig:enter-label" src="img/lecture25/Corset Example of a Dataset.png"/><figcaption aria-hidden="true">Corset Example of a Dataset</figcaption>
 </figure>
 </section>
-<section id="illustration" data-number="0.6.2.1.2">
+<section data-number="0.6.2.1.2" id="illustration">
 <h5 data-number="1.6.2.1.2"><span class="header-section-number">1.6.2.1.2</span> Illustration</h5>
 <ul>
 <li><p><strong>Red Points:</strong> Unlabeled samples in the dataset.</p></li>
@@ -314,7 +313,7 @@
 </ul>
 </section>
 </section>
-<section id="discriminative-active-learning" data-number="0.6.2.2">
+<section data-number="0.6.2.2" id="discriminative-active-learning">
 <h4 data-number="1.6.2.2"><span class="header-section-number">1.6.2.2</span> Discriminative Active Learning</h4>
 <p>Discriminative methods use classifiers to distinguish which samples are more “unpredictable” from a model learning perspective and prioritize those samples for labeling.</p>
 <ol>
@@ -332,14 +331,14 @@
 <li><p><strong>Weaknesses:</strong> Heavily dependent on the binary classifier’s performance; may struggle with imbalanced data distributions.</p></li>
 </ul>
 <figure>
-<img src="img/lecture25/Discriminative.png" id="fig:enter-label" alt="Discriminative Sampling" /><figcaption aria-hidden="true">Discriminative Sampling</figcaption>
+<img alt="Discriminative Sampling" id="fig:enter-label" src="img/lecture25/Discriminative.png"/><figcaption aria-hidden="true">Discriminative Sampling</figcaption>
 </figure>
 </section>
 </section>
 </section>
-<section id="fusion-based-active-learning" data-number="0.7">
+<section data-number="0.7" id="fusion-based-active-learning">
 <h2 data-number="1.7"><span class="header-section-number">1.7</span> Fusion-Based Active Learning</h2>
-<section id="definition-1" data-number="0.7.1">
+<section data-number="0.7.1" id="definition-1">
 <h3 data-number="1.7.1"><span class="header-section-number">1.7.1</span> Definition</h3>
 <p>Fusion-based Active Learning combines both <strong>diversity</strong> and <strong>difficulty</strong> to select samples interactively, optimizing the annotation process and model performance. The goal is to balance:</p>
 <ul>
@@ -347,7 +346,7 @@
 <li><p><strong>Difficulty:</strong> Prioritizing samples that are difficult for the model to predict. These samples are often near decision boundaries and are more relevant in later annotation rounds.</p></li>
 </ul>
 </section>
-<section id="strengths-and-limitations" data-number="0.7.2">
+<section data-number="0.7.2" id="strengths-and-limitations">
 <h3 data-number="1.7.2"><span class="header-section-number">1.7.2</span> Strengths and Limitations</h3>
 <ul>
 <li><p><strong>Strengths:</strong></p>
@@ -362,27 +361,27 @@
 </ul></li>
 </ul>
 <figure>
-<img src="img/lecture25/Fusion-based.png" id="fig:enter-label" alt="Fusion-based Active Learning Process" /><figcaption aria-hidden="true">Fusion-based Active Learning Process</figcaption>
+<img alt="Fusion-based Active Learning Process" id="fig:enter-label" src="img/lecture25/Fusion-based.png"/><figcaption aria-hidden="true">Fusion-based Active Learning Process</figcaption>
 </figure>
 </section>
 </section>
-<section id="deployment-performance-metric-regression" data-number="0.8">
+<section data-number="0.8" id="deployment-performance-metric-regression">
 <h2 data-number="1.8"><span class="header-section-number">1.8</span> Deployment Performance Metric: Regression</h2>
-<section id="definition-2" data-number="0.8.1">
+<section data-number="0.8.1" id="definition-2">
 <h3 data-number="1.8.1"><span class="header-section-number">1.8.1</span> Definition</h3>
 <p>Performance Regression is a phenomenon where model performance degrades after active learning or model updating. This problem may affect the reliability of the model, especially in high-risk applications (e.g., autonomous driving).</p>
-<section id="illustrative-example" data-number="0.8.1.0.1">
+<section data-number="0.8.1.0.1" id="illustrative-example">
 <h5 data-number="1.8.1.0.1"><span class="header-section-number">1.8.1.0.1</span> Illustrative Example</h5>
 <ul>
 <li><p><strong>Active Learning Round N-1:</strong> The model achieves an accuracy of approximately <span class="math inline">\(87\%\)</span>. Certain objects, such as vehicles and pedestrians, are accurately identified.</p></li>
 <li><p><strong>Active Learning Round N:</strong> After new samples are added and the model is retrained, the accuracy improves to approximately <span class="math inline">\(89\%\)</span>. However, some predictions may still suffer from errors, indicating potential regression risks.</p></li>
 </ul>
 <figure>
-<img src="img/lecture25/Regression.png" id="fig:enter-label" alt="Regression Example in Autonomous Driving" /><figcaption aria-hidden="true">Regression Example in Autonomous Driving</figcaption>
+<img alt="Regression Example in Autonomous Driving" id="fig:enter-label" src="img/lecture25/Regression.png"/><figcaption aria-hidden="true">Regression Example in Autonomous Driving</figcaption>
 </figure>
 </section>
 </section>
-<section id="impact-of-performance-regression" data-number="0.8.2">
+<section data-number="0.8.2" id="impact-of-performance-regression">
 <h3 data-number="1.8.2"><span class="header-section-number">1.8.2</span> Impact of Performance Regression</h3>
 <ul>
 <li><p><strong>Stopping Criteria:</strong> Define precise stopping criteria to prevent overfitting or degradation during active learning.</p></li>
@@ -390,11 +389,11 @@
 <li><p><strong>Protocol Quality:</strong> High-quality protocols can minimize regression risks while maximizing annotation efficiency and model improvement.</p></li>
 </ul>
 </section>
-<section id="negative-flips" data-number="0.8.3">
+<section data-number="0.8.3" id="negative-flips">
 <h3 data-number="1.8.3"><span class="header-section-number">1.8.3</span> Negative Flips</h3>
 <p>The model misclassifies samples that were previously predicted correctly in a new learning round. This phenomenon reflects the model’s forgetfulness of existing knowledge or its inability to adapt to new data.</p>
 <figure>
-<img src="img/lecture25/Negative Flips.png" id="fig:enter-label" alt="Regression Manifests in Negative Flips" /><figcaption aria-hidden="true">Regression Manifests in Negative Flips</figcaption>
+<img alt="Regression Manifests in Negative Flips" id="fig:enter-label" src="img/lecture25/Negative Flips.png"/><figcaption aria-hidden="true">Regression Manifests in Negative Flips</figcaption>
 </figure>
 <ul>
 <li><p><strong>Data Point Categories:</strong></p>
@@ -417,10 +416,10 @@
 </ul></li>
 </ul>
 </section>
-<section id="negative-flip-rate" data-number="0.8.4">
+<section data-number="0.8.4" id="negative-flip-rate">
 <h3 data-number="1.8.4"><span class="header-section-number">1.8.4</span> Negative Flip Rate</h3>
 <p>Performance regression is quantified by the <strong>Negative Flip Rate</strong>, which measures the proportion of previously correctly classified samples that are misclassified after updating the model.</p>
-<section id="formula" data-number="0.8.4.0.1">
+<section data-number="0.8.4.0.1" id="formula">
 <h5 data-number="1.8.4.0.1"><span class="header-section-number">1.8.4.0.1</span> Formula:</h5>
 <p><span class="math display">\[m = \frac{1}{N} \sum_{i=1}^N 1[y_i^{\text{old}} = y_i, y_i^{\text{new}} \neq y_i]\]</span></p>
 <ul>
@@ -431,7 +430,7 @@
 </ul>
 </section>
 </section>
-<section id="workflow-of-nfr-calculation" data-number="0.8.5">
+<section data-number="0.8.5" id="workflow-of-nfr-calculation">
 <h3 data-number="1.8.5"><span class="header-section-number">1.8.5</span> Workflow of NFR Calculation</h3>
 <ul>
 <li><p>Input Samples: Unlabeled samples <span class="math inline">\(x_i\)</span> are passed through the models from both Round <span class="math inline">\(N-1\)</span> and Round <span class="math inline">\(N\)</span>.</p></li>
@@ -444,37 +443,37 @@
 <li><p>Calculate NFR: Compute the proportion of negative flips among all samples.</p></li>
 </ul>
 <figure>
-<img src="img/lecture25/Workflow.png" id="fig:enter-label" alt="Negative Flip Rate (NFR) Workflow" /><figcaption aria-hidden="true">Negative Flip Rate (NFR) Workflow</figcaption>
+<img alt="Negative Flip Rate (NFR) Workflow" id="fig:enter-label" src="img/lecture25/Workflow.png"/><figcaption aria-hidden="true">Negative Flip Rate (NFR) Workflow</figcaption>
 </figure>
 </section>
-<section id="performance-regression-cifar-10-vs-cifar-100" data-number="0.8.6">
+<section data-number="0.8.6" id="performance-regression-cifar-10-vs-cifar-100">
 <h3 data-number="1.8.6"><span class="header-section-number">1.8.6</span> Performance Regression: CIFAR-10 vs CIFAR-100</h3>
-<section id="cifar-10" data-number="0.8.6.0.1">
+<section data-number="0.8.6.0.1" id="cifar-10">
 <h5 data-number="1.8.6.0.1"><span class="header-section-number">1.8.6.0.1</span> CIFAR-10:</h5>
 <ul>
 <li><p>NFR shows initial fluctuations but stabilizes after approximately 10,000 labeled samples.</p></li>
 <li><p>Different sampling strategies (Entropy, Least Confidence, Margin) converge to similar NFR levels, indicating low sensitivity to sampling methods for simpler datasets.</p></li>
 </ul>
 </section>
-<section id="cifar-100" data-number="0.8.6.0.2">
+<section data-number="0.8.6.0.2" id="cifar-100">
 <h5 data-number="1.8.6.0.2"><span class="header-section-number">1.8.6.0.2</span> CIFAR-100:</h5>
 <ul>
 <li><p>NFR is higher compared to CIFAR-10, especially in the early stages (less than 2,500 samples).</p></li>
 <li><p>Sampling strategies have a more significant impact, with the Margin strategy showing slightly lower NFR values across most regions.</p></li>
 </ul>
 </section>
-<section id="expected-trends" data-number="0.8.6.0.3">
+<section data-number="0.8.6.0.3" id="expected-trends">
 <h5 data-number="1.8.6.0.3"><span class="header-section-number">1.8.6.0.3</span> Expected Trends:</h5>
 <ul>
 <li><p><strong>Accuracy:</strong> Gradually improves as labeled samples increase, reflecting the model’s learning progress.</p></li>
 <li><p><strong>NFR:</strong> Increases sharply in the early stages due to unstable decision boundaries, but later plateaus as the model stabilizes.</p></li>
 </ul>
 <figure>
-<img src="img/lecture25/NFR.png" id="fig:enter-label" alt="NFR in CIFAR10 vs CIFAR100" /><figcaption aria-hidden="true">NFR in CIFAR10 vs CIFAR100</figcaption>
+<img alt="NFR in CIFAR10 vs CIFAR100" id="fig:enter-label" src="img/lecture25/NFR.png"/><figcaption aria-hidden="true">NFR in CIFAR10 vs CIFAR100</figcaption>
 </figure>
 </section>
 </section>
-<section id="conclusions-and-implications" data-number="0.8.7">
+<section data-number="0.8.7" id="conclusions-and-implications">
 <h3 data-number="1.8.7"><span class="header-section-number">1.8.7</span> Conclusions and Implications</h3>
 <ul>
 <li><p>NFR serves as a granular indicator of performance regression, particularly for complex datasets like CIFAR-100.</p></li>

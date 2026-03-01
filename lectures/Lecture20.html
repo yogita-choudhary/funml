@@ -12,18 +12,17 @@
 </nav>
 <main>
 <div class="center">
-
 </div>
-<p><strong>Contributors:</strong> Dr. Ahmad Mustafa, Dr. Motaz Alfarraj, Dr. Ashraf Alattar, Dr. Chen Zhou</p>
-<p><strong>Teaching Assistants</strong> with remarkable contributions include: Kuo-Wei Lai, Wuyang Du, Shiva Mahato, Michael Zhou, Ninghan Zhong</p>
-<p><strong>Disclaimer</strong>: <span>All content of these notes are part of this course at Georgia Tech. Any re-use or distribution is not permitted without pre-approved permission. All these notes belong to, created by, and copyrighted for Ghassan AlRegib and Mohit Prabhushankar, Georgia Tech, 2021–2028.</span></p>
-<p><strong>License</strong>: <span>These lecture notes are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</span></p>
-<p><strong>Errata</strong>: <span><em>Please submit any errata you find using the following form: <a href="https://forms.office.com/r/fbg9dMWPgY">Errata Form for FunML Textbook</a> or visit: <a href="https://forms.office.com/r/fbg9dMWPgY">https://forms.office.com/r/fbg9dMWPgY</a></em></span></p>
-<section id="learning-objectives" data-number="0.1">
+
+
+
+
+
+<section data-number="0.1" id="learning-objectives">
 <h2 data-number="1.1"><span class="header-section-number">1.1</span> Learning Objectives</h2>
 <p>This lecture provides an introduction to sequence modeling, which is necessary for tasks involving sequential data like time-series analysis and language processing. We will cover the limitations of traditional machine learning models, such as Multilayer Perceptrons (MLPs), which are not designed to handle dependencies over time. In order to address this, we introduce Recurrent Neural Networks (RNNs), which is much better at capturing sequential patterns. We will also explore the challenges in training RNNs, specfically the vanishing gradient problem. Finally, we will consider Temporal Convolutional Networks (TCNs) as an alternative to RNNs, due to their capability to model long-range dependencies in sequences.</p>
 </section>
-<section id="introduction-to-sequence-modeling" data-number="0.2">
+<section data-number="0.2" id="introduction-to-sequence-modeling">
 <h2 data-number="1.2"><span class="header-section-number">1.2</span> Introduction to Sequence Modeling</h2>
 <h3 class="unnumbered" id="limitations-of-mlps-in-modeling-sequences">Limitations of MLPs in Modeling Sequences</h3>
 <ul>
@@ -38,7 +37,7 @@
 <li><p><strong>Sequence-to-Sequence Prediction:</strong> Maps an input sequence to an output sequence, essential for tasks like machine translation or video captioning, where a response sequence of arbitrary length needs to be produced based on an input sequence.</p></li>
 </ul>
 <figure>
-<img src="img/lecture20/h_graph.png" id="fig:figure_label1" style="width:80.0%" alt="Parameter sharing with state history in sequence models" /><figcaption aria-hidden="true">Parameter sharing with state history in sequence models</figcaption>
+<img alt="Parameter sharing with state history in sequence models" id="fig:figure_label1" src="img/lecture20/h_graph.png" style="width:80.0%"/><figcaption aria-hidden="true">Parameter sharing with state history in sequence models</figcaption>
 </figure>
 <h3 class="unnumbered" id="variables-in-figure-20.2">Variables in Figure 20.2</h3>
 <ul>
@@ -50,13 +49,13 @@
 <li><p><span class="math inline">\(\mathbf{V}\)</span>: The weight matrix that maps the hidden state <span class="math inline">\(\mathbf{h}(t)\)</span> to the output <span class="math inline">\(\mathbf{o}(t)\)</span>.</p></li>
 </ul>
 </section>
-<section id="recurrent-neural-networks-rnns" data-number="0.3">
+<section data-number="0.3" id="recurrent-neural-networks-rnns">
 <h2 data-number="1.3"><span class="header-section-number">1.3</span> Recurrent Neural Networks (RNNs)</h2>
 <p>Recurrent Neural Networks (RNNs) are a type of neural network designed for sequential data, where the order of inputs is significant. Figure 20.2 details the structure of an RNN in more depth. Unlike traditional neural networks, RNNs have a hidden state that serves as memory, allowing them to retain information across time steps. At each step, an RNN updates this hidden state based on both the current input and the previous hidden state, allowing it to have temporal dependencies. This makes RNNs ideal for tasks like language modeling, time-series forecasting, and any application where context from prior inputs influences future predictions.</p>
-<section id="rnn-architecture" data-number="0.3.1">
+<section data-number="0.3.1" id="rnn-architecture">
 <h3 data-number="1.3.1"><span class="header-section-number">1.3.1</span> RNN Architecture</h3>
 <figure>
-<img src="img/lecture20/bigH.png" id="fig:figure_label2" style="width:80.0%" alt="The structure of a Recurrent Neural Network (RNN) and how the states and inputs are processed over time" /><figcaption aria-hidden="true">The structure of a Recurrent Neural Network (RNN) and how the states and inputs are processed over time</figcaption>
+<img alt="The structure of a Recurrent Neural Network (RNN) and how the states and inputs are processed over time" id="fig:figure_label2" src="img/lecture20/bigH.png" style="width:80.0%"/><figcaption aria-hidden="true">The structure of a Recurrent Neural Network (RNN) and how the states and inputs are processed over time</figcaption>
 </figure>
 <ul>
 <li><p><strong>State Representation:</strong> The core idea behind RNNs is that each output depends not only on the current input but also on a “state" that captures past inputs. This allows RNNs to model temporal dependencies.</p></li>
@@ -71,7 +70,7 @@
 <li><p><strong>Interpretation:</strong> These equations show how RNNs transform the input at each time step by maintaining a state, updating it with new information while preserving historical context.</p></li>
 </ul>
 </section>
-<section id="loss-evaluation-and-backpropagation" data-number="0.3.2">
+<section data-number="0.3.2" id="loss-evaluation-and-backpropagation">
 <h3 data-number="1.3.2"><span class="header-section-number">1.3.2</span> Loss Evaluation and Backpropagation</h3>
 <p>In Recurrent Neural Networks (RNNs), loss evaluation is performed by calculating the discrepancy between the predicted output and the target output at each time step. The total loss across the sequence is typically the sum of individual losses at each time step, represented as:</p>
 <p><span class="math display">\[\text{Loss} = \sum_{t} L(t)\]</span></p>
@@ -86,7 +85,7 @@
 <h3 class="unnumbered" id="challenges-and-solutions">Challenges and Solutions</h3>
 <p>BPTT can cause gradients to either vanish or explode, especially in long sequences. This is due to repeated multiplication by weights at each time step, which may compress gradients to near zero or inflate them to very large values. Techniques like gradient clipping and advanced RNN architectures like Long Short-Term Memory (LSTM) networks and Gated Recurrent Units (GRUs) are often used to mitigate these issues by managing the flow of gradients more effectively.</p>
 <p>In summary, loss evaluation and BPTT are crucial components of training RNNs, enabling them to learn temporal dependencies by adjusting weights based on the cumulative error across sequences.</p>
-<section id="the-vanishing-gradient-problem" data-number="0.3.3">
+<section data-number="0.3.3" id="the-vanishing-gradient-problem">
 <h3 data-number="1.3.3"><span class="header-section-number">1.3.3</span> The Vanishing Gradient Problem</h3>
 <p>In training Recurrent Neural Networks (RNNs), the vanishing gradient problem is a common challenge, particularly when backpropagating over many time steps. This issue arises due to the nature of gradient propagation in recurrent structures, where repeated multiplication causes gradients to shrink exponentially.</p>
 </section>
@@ -106,19 +105,19 @@
 </ul>
 <p>These solutions enable RNNs to capture longer dependencies by preserving gradients across multiple time steps.</p>
 <figure>
-<img src="img/lecture20/Gradient.png" id="fig:figure_label3" style="width:80.0%" alt="Effects of initializing weights from a standard normal distribution versus identity matrix initialization" /><figcaption aria-hidden="true">Effects of initializing weights from a standard normal distribution versus identity matrix initialization</figcaption>
+<img alt="Effects of initializing weights from a standard normal distribution versus identity matrix initialization" id="fig:figure_label3" src="img/lecture20/Gradient.png" style="width:80.0%"/><figcaption aria-hidden="true">Effects of initializing weights from a standard normal distribution versus identity matrix initialization</figcaption>
 </figure>
 <figure>
-<img src="img/lecture20/ReLU.png" id="fig:figure_label4" style="width:80.0%" alt="Activation functions (sigmoid, tanh, ReLU) across range of inputs" /><figcaption aria-hidden="true">Activation functions (sigmoid, tanh, ReLU) across range of inputs</figcaption>
+<img alt="Activation functions (sigmoid, tanh, ReLU) across range of inputs" id="fig:figure_label4" src="img/lecture20/ReLU.png" style="width:80.0%"/><figcaption aria-hidden="true">Activation functions (sigmoid, tanh, ReLU) across range of inputs</figcaption>
 </figure>
 </section>
-<section id="long-short-term-memory-lstm-networks" data-number="0.4">
+<section data-number="0.4" id="long-short-term-memory-lstm-networks">
 <h2 data-number="1.4"><span class="header-section-number">1.4</span> Long Short-Term Memory (LSTM) Networks</h2>
 <p>Long Short-Term Memory (LSTM) networks are a type of Recurrent Neural Network (RNN) specifically designed to address the vanishing gradient problem, enabling the model to learn long-term dependencies. LSTMs achieve this by introducing a unique cell structure that includes gating mechanisms, which regulate the flow of information and maintain gradients over time. Figure 20.5 details the structure of an individual LSTM cell.</p>
 <figure>
-<img src="img/lecture20/LSTM.png" id="fig:figure_label5" style="width:80.0%" alt="An LSTM cell for one time step" /><figcaption aria-hidden="true">An LSTM cell for one time step</figcaption>
+<img alt="An LSTM cell for one time step" id="fig:figure_label5" src="img/lecture20/LSTM.png" style="width:80.0%"/><figcaption aria-hidden="true">An LSTM cell for one time step</figcaption>
 </figure>
-<section id="lstm-architecture-and-gates" data-number="0.4.1">
+<section data-number="0.4.1" id="lstm-architecture-and-gates">
 <h3 data-number="1.4.1"><span class="header-section-number">1.4.1</span> LSTM Architecture and Gates</h3>
 <p>The LSTM cell includes several key components that allow it to control the retention and update of information across time steps. Each LSTM cell consists of the following gates:</p>
 <ul>
@@ -127,7 +126,7 @@
 <li><p><strong>Output Gate</strong> <span class="math inline">\(\mathbf{o}^{(t)}\)</span>: This gate determines which parts of the cell state will contribute to the hidden state <span class="math inline">\(\mathbf{h}^{(t)}\)</span>, influencing the output for this time step. It is computed as: <span class="math display">\[\mathbf{q}^{(t)} = \sigma(\mathbf{b}^o + \mathbf{U}^o \mathbf{x}^{(t)} + \mathbf{W}^o \mathbf{h}^{(t-1)})\]</span></p></li>
 </ul>
 </section>
-<section id="updating-the-cell-and-hidden-states" data-number="0.4.2">
+<section data-number="0.4.2" id="updating-the-cell-and-hidden-states">
 <h3 data-number="1.4.2"><span class="header-section-number">1.4.2</span> Updating the Cell and Hidden States</h3>
 <p>With the gates calculated, the cell state <span class="math inline">\(\mathbf{s}^{(t)}\)</span> and hidden state <span class="math inline">\(\mathbf{h}^{(t)}\)</span> are updated as follows:</p>
 <ul>
@@ -135,16 +134,16 @@
 <li><p><strong>Cell State Update</strong>: The cell state <span class="math inline">\(\mathbf{s}^{(t)}\)</span> is updated by combining the previous cell state <span class="math inline">\(\mathbf{s}^{(t-1)}\)</span>, modulated by the forget gate <span class="math inline">\(\mathbf{f}^{(t)}\)</span>, with the new candidate scaled by the input gate <span class="math inline">\(\mathbf{g}^{(t)}\)</span>: <span class="math display">\[\mathbf{h}^{(t)} = \mathbf{f}^{(t)} \circ \mathbf{s}^{(t-1)} + \mathbf{g}^{(t)} \circ \mathbf{\sigma}(\mathbf{b}^o + \mathbf{U}^o \mathbf{x}^{(t)} + \mathbf{W}^o \mathbf{h}^{(t-1)})\]</span> where <span class="math inline">\(\circ\)</span> denotes element-wise multiplication.</p></li>
 </ul>
 </section>
-<section id="advantages-of-lstms" data-number="0.4.3">
+<section data-number="0.4.3" id="advantages-of-lstms">
 <h3 data-number="1.4.3"><span class="header-section-number">1.4.3</span> Advantages of LSTMs</h3>
 <p>LSTMs are effective for handling long sequences due to their ability to retain information over extended time steps. The gating mechanism allows LSTMs to “remember" or “forget" information as needed, enabling them to capture long-term dependencies without suffering from the vanishing gradient problem. This architecture has made LSTMs highly successful in tasks such as natural language processing, speech recognition, and time-series forecasting.</p>
 <p>In summary, LSTM networks extend the capabilities of standard RNNs by providing a more robust memory structure, allowing for the learning of complex, long-term relationships in sequential data.</p>
 </section>
 </section>
-<section id="gated-recurrent-units-grus" data-number="0.5">
+<section data-number="0.5" id="gated-recurrent-units-grus">
 <h2 data-number="1.5"><span class="header-section-number">1.5</span> Gated Recurrent Units (GRUs)</h2>
 <p>Gated Recurrent Units (GRUs) are a type of recurrent neural network designed as a simpler alternative to Long Short-Term Memory (LSTM) networks. GRUs are effective for capturing dependencies in sequential data while using fewer parameters than LSTMs, making them computationally efficient. GRUs achieve this by combining the forget and input gates of an LSTM into a single update gate and removing the cell state, relying only on the hidden state.</p>
-<section id="gru-architecture-and-gates" data-number="0.5.1">
+<section data-number="0.5.1" id="gru-architecture-and-gates">
 <h3 data-number="1.5.1"><span class="header-section-number">1.5.1</span> GRU Architecture and Gates</h3>
 <p>Each GRU cell consists of two primary gates that control the flow of information:</p>
 <ul>
@@ -152,19 +151,19 @@
 <li><p><strong>Reset Gate</strong> <span class="math inline">\(\mathbf{r}^{(t)}\)</span>: This gate determines how much of the previous hidden state <span class="math inline">\(\mathbf{h}^{(t-1)}\)</span> should be “forgotten" when calculating the candidate hidden state. It is defined as: <span class="math display">\[\mathbf{r}^{(t)} = \sigma(\mathbf{b}^r + \mathbf{U}^r \mathbf{x}^{(t)} + \mathbf{W}^r \mathbf{h}^{(t-1)})\]</span></p></li>
 </ul>
 </section>
-<section id="updating-the-hidden-state" data-number="0.5.2">
+<section data-number="0.5.2" id="updating-the-hidden-state">
 <h3 data-number="1.5.2"><span class="header-section-number">1.5.2</span> Updating the Hidden State</h3>
 <p>With the gates calculated, the GRU updates its hidden state <span class="math inline">\(\mathbf{h}^{(t)}\)</span> as follows:</p>
 <ul>
 <li><p><strong>Hidden State Update</strong>: The final hidden state <span class="math inline">\(\mathbf{h}^{(t)}\)</span> is a combination of the previous hidden state <span class="math inline">\(\mathbf{h}^{(t-1)}\)</span> and the hidden state, modulated by the update gate <span class="math inline">\(\mathbf{u}^{(t)}\)</span>: <span class="math display">\[\mathbf{h}^{(t)} = \mathbf{u}^{(t)} \circ \mathbf{h}^{(t-1)} + (1 - \mathbf{u}^{(t)}) \circ \mathbf{\sigma}(\mathbf{b} + \mathbf{U} \mathbf{x}^{(t)} + \mathbf{W} \mathbf{h}^{(t-1)})\]</span> where <span class="math inline">\(\circ\)</span> denotes element-wise multiplication.</p></li>
 </ul>
 </section>
-<section id="advantages-of-grus" data-number="0.5.3">
+<section data-number="0.5.3" id="advantages-of-grus">
 <h3 data-number="1.5.3"><span class="header-section-number">1.5.3</span> Advantages of GRUs</h3>
 <p>GRUs are computationally efficient due to their simpler architecture, making them faster to train and less prone to overfitting than LSTMs. The design of GRUs, with fewer gates and no cell state, allows them to capture long-term dependencies in sequences without the complexity of LSTMs, making GRUs suitable for tasks where simpler models can effectively capture temporal dependencies.</p>
 <p>In summary, GRUs provide a streamlined approach to sequence modeling, allowing efficient learning of sequential patterns with reduced computational costs.</p>
 </section>
-<section id="parameter-sharing-in-sequence-modeling" data-number="0.5.4">
+<section data-number="0.5.4" id="parameter-sharing-in-sequence-modeling">
 <h3 data-number="1.5.4"><span class="header-section-number">1.5.4</span> Parameter Sharing in Sequence Modeling</h3>
 <p>In sequence modeling, parameter sharing allows a model to scan through sequences of varying lengths to detect patterns or features without increasing the parameter count. This concept is commonly implemented in Convolutional Neural Networks (CNNs), where convolutional kernels, or filters, are applied to different portions of an input sequence.</p>
 <p>A convolutional kernel can be viewed as a learned function applied across multiple positions in a sequence, looking for specific features. For example, a kernel can detect edges in an image or phrases in text by sliding across the input. This method results in:</p>
@@ -173,63 +172,63 @@
 <li><p><strong>Efficiency for Variable Lengths:</strong> By applying the same kernel across an entire sequence, the model achieves efficient parameterization, independent of sequence length.</p></li>
 </ul>
 <figure>
-<img src="img/lecture20/RNN_Config.png" id="fig:figure_label6" style="width:80.0%" alt="Various configurations for RNNs and other associated models. Blue boxes denote outputs, red boxes the inputs, and green boxes the hidden states" /><figcaption aria-hidden="true">Various configurations for RNNs and other associated models. Blue boxes denote outputs, red boxes the inputs, and green boxes the hidden states</figcaption>
+<img alt="Various configurations for RNNs and other associated models. Blue boxes denote outputs, red boxes the inputs, and green boxes the hidden states" id="fig:figure_label6" src="img/lecture20/RNN_Config.png" style="width:80.0%"/><figcaption aria-hidden="true">Various configurations for RNNs and other associated models. Blue boxes denote outputs, red boxes the inputs, and green boxes the hidden states</figcaption>
 </figure>
 <p>In textual data, for instance, the same convolutional kernel can identify relevant features (such as certain phrases) across different sentences regardless of the word order or sentence length.</p>
 </section>
 </section>
-<section id="temporal-convolutional-networks-tcns" data-number="0.6">
+<section data-number="0.6" id="temporal-convolutional-networks-tcns">
 <h2 data-number="1.6"><span class="header-section-number">1.6</span> Temporal Convolutional Networks (TCNs)</h2>
 <p>Temporal Convolutional Networks (TCNs) are a convolution-based architecture adapted to sequence modeling tasks, offering an alternative to Recurrent Neural Networks (RNNs) for learning temporal dependencies. By using convolutional layers, TCNs process the entire input sequence in parallel, enabling faster computation and sidestepping many limitations of RNNs, such as the vanishing gradient problem and limited receptive field.</p>
-<section id="motivation-for-tcns" data-number="0.6.1">
+<section data-number="0.6.1" id="motivation-for-tcns">
 <h3 data-number="1.6.1"><span class="header-section-number">1.6.1</span> Motivation for TCNs</h3>
 <p>RNNs and related models face challenges such as gradient instability over long sequences, high memory requirements, and computational bottlenecks due to sequential processing. TCNs address these issues by using one-dimensional (1D) convolutions, allowing them to process sequences in a more flexible and parallelizable way.</p>
 </section>
-<section id="computation" data-number="0.6.2">
+<section data-number="0.6.2" id="computation">
 <h3 data-number="1.6.2"><span class="header-section-number">1.6.2</span> Computation</h3>
 <p>In TCNs, computation is based on one-dimensional (1D) convolutional layers applied across time. Each convolutional layer processes all time steps in parallel, making TCNs computationally efficient. The network consists of multiple stacked convolutional layers (Figure 20.7), where each layer has a growing receptive field that enables it to capture dependencies at increasing time steps. The output at each layer is a function of inputs from previous layers, achieving hierarchical feature extraction without requiring recurrent connections.</p>
 </section>
-<section id="core-components-of-tcns" data-number="0.6.3">
+<section data-number="0.6.3" id="core-components-of-tcns">
 <h3 data-number="1.6.3"><span class="header-section-number">1.6.3</span> Core Components of TCNs</h3>
 <p>TCNs incorporate several key features to adapt convolutional networks for sequence modeling, including causal convolutions, dilated convolutions, and residual connections.</p>
 </section>
 <h3 class="unnumbered" id="causal-convolutions">Causal Convolutions</h3>
 <p>Causal convolutions ensure that each output at time <span class="math inline">\(t\)</span> is derived only from current and past inputs, respecting the temporal order of data. This is achieved by padding the input so that convolutional layers do not access future data. For a kernel of length <span class="math inline">\(k\)</span>, the input sequence is padded with <span class="math inline">\(k-1\)</span> zeros on one side, producing outputs as: <span class="math display">\[\mathbf{y}^{(t)} = f\left(\mathbf{x}^{(t)}, \mathbf{x}^{(t-1)}, \dots, \mathbf{x}^{(t-k+1)}\right)\]</span> This constraint makes TCNs suitable for sequence prediction tasks where the model cannot access future data during training.</p>
 <figure>
-<img src="img/lecture20/cc1.png" id="fig:figure_label7" style="width:50.0%" alt="First step in causal convolution with kernel of length k" /><figcaption aria-hidden="true">First step in causal convolution with kernel of length k</figcaption>
+<img alt="First step in causal convolution with kernel of length k" id="fig:figure_label7" src="img/lecture20/cc1.png" style="width:50.0%"/><figcaption aria-hidden="true">First step in causal convolution with kernel of length k</figcaption>
 </figure>
 <figure>
-<img src="img/lecture20/cc2.png" id="fig:figure_label8" style="width:50.0%" alt="Next step in the convolution" /><figcaption aria-hidden="true">Next step in the convolution</figcaption>
+<img alt="Next step in the convolution" id="fig:figure_label8" src="img/lecture20/cc2.png" style="width:50.0%"/><figcaption aria-hidden="true">Next step in the convolution</figcaption>
 </figure>
 <figure>
-<img src="img/lecture20/cc3.png" id="fig:figure_label9" style="width:70.0%" alt="Adjusted final sequence by removing the last k-1 samples" /><figcaption aria-hidden="true">Adjusted final sequence by removing the last k-1 samples</figcaption>
+<img alt="Adjusted final sequence by removing the last k-1 samples" id="fig:figure_label9" src="img/lecture20/cc3.png" style="width:70.0%"/><figcaption aria-hidden="true">Adjusted final sequence by removing the last k-1 samples</figcaption>
 </figure>
 <h3 class="unnumbered" id="dilated-convolutions">Dilated Convolutions</h3>
 <p>To extend the receptive field without significantly increasing the network depth, TCNs utilize dilated convolutions. A dilated convolution introduces a dilation factor <span class="math inline">\(d\)</span>, spacing the elements in the convolutional filter, allowing TCNs to capture long-range dependencies, shown by Figure 20.13. The dilated convolution at time <span class="math inline">\(t\)</span> with kernel size <span class="math inline">\(k\)</span> and dilation <span class="math inline">\(d\)</span> is defined as: <span class="math display">\[\mathbf{y}^{(t)} = f\left(\mathbf{x}^{(t)}, \mathbf{x}^{(t-d)}, \dots, \mathbf{x}^{(t-d(k-1))}\right)\]</span></p>
 <p>The dilation factor typically grows exponentially with depth, such as <span class="math inline">\(d = 1, 2, 4, \dots\)</span>, expanding the receptive field while maintaining computational efficiency.</p>
 <figure>
-<img src="img/lecture20/d4.png" id="fig:figure_label10" style="width:80.0%" alt="Stacking multiple layers" /><figcaption aria-hidden="true">Stacking multiple layers</figcaption>
+<img alt="Stacking multiple layers" id="fig:figure_label10" src="img/lecture20/d4.png" style="width:80.0%"/><figcaption aria-hidden="true">Stacking multiple layers</figcaption>
 </figure>
 <figure>
-<img src="img/lecture20/d1.png" id="fig:figure_label11" style="width:50.0%" alt="Stacking multiple layers" /><figcaption aria-hidden="true">Stacking multiple layers</figcaption>
+<img alt="Stacking multiple layers" id="fig:figure_label11" src="img/lecture20/d1.png" style="width:50.0%"/><figcaption aria-hidden="true">Stacking multiple layers</figcaption>
 </figure>
 <figure>
-<img src="img/lecture20/d2.png" id="fig:figure_label12" style="width:50.0%" alt="Multiresolution kernels" /><figcaption aria-hidden="true">Multiresolution kernels</figcaption>
+<img alt="Multiresolution kernels" id="fig:figure_label12" src="img/lecture20/d2.png" style="width:50.0%"/><figcaption aria-hidden="true">Multiresolution kernels</figcaption>
 </figure>
 <figure>
-<img src="img/lecture20/d3.png" id="fig:figure_label13" style="width:50.0%" alt="Dilated Convolutions" /><figcaption aria-hidden="true">Dilated Convolutions</figcaption>
+<img alt="Dilated Convolutions" id="fig:figure_label13" src="img/lecture20/d3.png" style="width:50.0%"/><figcaption aria-hidden="true">Dilated Convolutions</figcaption>
 </figure>
-<section id="computational-complexity" data-number="0.6.4">
+<section data-number="0.6.4" id="computational-complexity">
 <h3 data-number="1.6.4"><span class="header-section-number">1.6.4</span> Computational Complexity</h3>
 <p>One of the major advantages of TCNs over RNNs is their computational complexity. By leveraging convolutions, TCNs process all time steps in parallel, reducing training and inference time. The computational complexity per layer in a TCN depends primarily on the number of filters and the kernel size, rather than the sequence length, making TCNs highly scalable for long sequences which is shown by Figure 20.15 with the effect of multiresolution kernels. Figure 20.14 demonstrates how the concept of stacked dilated convolutions allows each layer to capture broader dependencies within the sequence by skipping elements based on dilation factor.</p>
 <figure>
-<img src="img/lecture20/c1.png" id="fig:figure_label14" style="width:80.0%" alt="Skipping elements based on dilation factor in a stacked dilated convolution" /><figcaption aria-hidden="true">Skipping elements based on dilation factor in a stacked dilated convolution</figcaption>
+<img alt="Skipping elements based on dilation factor in a stacked dilated convolution" id="fig:figure_label14" src="img/lecture20/c1.png" style="width:80.0%"/><figcaption aria-hidden="true">Skipping elements based on dilation factor in a stacked dilated convolution</figcaption>
 </figure>
 <figure>
-<img src="img/lecture20/c2.png" id="fig:figure_label15" style="width:80.0%" alt="Multiresolution kernels with convolutions of various kernel sizes and dilation factors" /><figcaption aria-hidden="true">Multiresolution kernels with convolutions of various kernel sizes and dilation factors</figcaption>
+<img alt="Multiresolution kernels with convolutions of various kernel sizes and dilation factors" id="fig:figure_label15" src="img/lecture20/c2.png" style="width:80.0%"/><figcaption aria-hidden="true">Multiresolution kernels with convolutions of various kernel sizes and dilation factors</figcaption>
 </figure>
 </section>
-<section id="advantages-of-tcns" data-number="0.6.5">
+<section data-number="0.6.5" id="advantages-of-tcns">
 <h3 data-number="1.6.5"><span class="header-section-number">1.6.5</span> Advantages of TCNs</h3>
 <p>Temporal Convolutional Networks (TCNs) offer several distinct advantages over traditional sequence models, such as RNNs and LSTMs, due to their unique architectural design:</p>
 <ul>
@@ -239,19 +238,19 @@
 <li><p><strong>Optimal Receptive Field Design</strong>: Through the use of dilated causal convolutions across multiple layers, TCNs achieve a receptive field that covers the entire range of past inputs necessary for accurate predictions. This design enables TCNs to capture long-range dependencies more effectively than RNNs.</p></li>
 </ul>
 </section>
-<section id="residual-units" data-number="0.6.6">
+<section data-number="0.6.6" id="residual-units">
 <h3 data-number="1.6.6"><span class="header-section-number">1.6.6</span> Residual Units</h3>
 <p>Residual units in TCNs add a direct path from the input to the output of each layer, which allows the network to learn residual mappings and aids in the backpropagation of gradients. A residual block is defined as: <span class="math display">\[\mathbf{h}^{(t)} = \text{ReLU}\left(W_2 \cdot \text{ReLU}(W_1 \cdot \mathbf{x}^{(t)} + b_1) + b_2\right) + \mathbf{x}^{(t)}\]</span> The residual connection helps prevent gradient degradation in deeper networks, enabling TCNs to train efficiently even with many layers. Figure 20.16 shows the structure of a single residual block in a TCN.</p>
 <figure>
-<img src="img/lecture20/r.png" id="fig:figure_label16" style="width:80.0%" alt="Structure of a single residual block in a TCN" /><figcaption aria-hidden="true">Structure of a single residual block in a TCN</figcaption>
+<img alt="Structure of a single residual block in a TCN" id="fig:figure_label16" src="img/lecture20/r.png" style="width:80.0%"/><figcaption aria-hidden="true">Structure of a single residual block in a TCN</figcaption>
 </figure>
 </section>
-<section id="weight-normalization" data-number="0.6.7">
+<section data-number="0.6.7" id="weight-normalization">
 <h3 data-number="1.6.7"><span class="header-section-number">1.6.7</span> Weight Normalization</h3>
 <p>Weight normalization is often applied in TCNs to stabilize training and control gradient magnitudes. Weight normalization reparameterizes the weights <span class="math inline">\(\mathbf{w}\)</span> as: <span class="math display">\[\mathbf{w} = \frac{\mathbf{g}\mathbf{v}}{\|\mathbf{v}\|}\]</span> where <span class="math inline">\(\mathbf{g}\)</span> is a learnable scaling factor, and <span class="math inline">\(\mathbf{v}\)</span> is the original weight vector. Dividing <span class="math inline">\(\mathbf{v}\)</span> by <span class="math inline">\(||\mathbf{v}||\)</span> gives the direction of the weight vector. This normalization technique helps maintain consistent gradients across layers, leading to improved convergence and training stability.</p>
 </section>
 </section>
-<section id="appendix-notations" data-number="0.7">
+<section data-number="0.7" id="appendix-notations">
 <h2 data-number="1.7"><span class="header-section-number">1.7</span> Appendix: Notations</h2>
 <ul>
 <li><p><span class="math inline">\(x_i\)</span>: Single feature</p></li>

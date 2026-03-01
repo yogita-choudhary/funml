@@ -12,33 +12,32 @@
 </nav>
 <main>
 <div class="center">
-
 </div>
-<p><strong>Contributors:</strong> Dr. Ahmad Mustafa, Dr. Motaz Alfarraj, Dr. Ashraf Alattar, Dr. Chen Zhou</p>
-<p><strong>Teaching Assistants</strong> with remarkable contributions include: Kuo-Wei Lai, Wuyang Du, Shiva Mahato, Michael Zhou, Ninghan Zhong</p>
-<p><strong>Disclaimer</strong>: <span>All content of these notes are part of this course at Georgia Tech. Any re-use or distribution is not permitted without pre-approved permission. All these notes belong to, created by, and copyrighted for Ghassan AlRegib and Mohit Prabhushankar, Georgia Tech, 2021–2028.</span></p>
-<p><strong>License</strong>: <span>These lecture notes are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</span></p>
-<p><strong>Errata</strong>: <span><em>Please submit any errata you find using the following form: <a href="https://forms.office.com/r/fbg9dMWPgY">Errata Form for FunML Textbook</a> or visit: <a href="https://forms.office.com/r/fbg9dMWPgY">https://forms.office.com/r/fbg9dMWPgY</a></em></span></p>
-<section id="lecture-objectives" data-number="0.1">
+
+
+
+
+
+<section data-number="0.1" id="lecture-objectives">
 <h2 data-number="1.1"><span class="header-section-number">1.1</span> Lecture Objectives</h2>
 <p>In the previous lecture, we extended clustering from hard assignments to a <strong>probabilistic framework</strong> using Gaussian Mixture Models and the Expectation–Maximization (EM) algorithm. In this lecture, we move from probabilistic latent-variable models to <strong>neural networks and deep learning</strong>. Building on linear models and logistic regression, we show how stacking nonlinear transformations enables learning complex, non-linear decision boundaries. We introduce the architecture of feedforward neural networks, including neurons, layers, parameters, and nonlinear activation functions, and formulate forward propagation in vectorized form. We then derive the backpropagation algorithm using the chain rule to compute gradients of the loss with respect to model parameters and discuss why training neural networks leads to <strong>non-convex optimization</strong> and how gradient-based methods are applied in practice. Finally, we introduce the Softmax function and cross-entropy loss for multi-class classification and provide a first hands-on introduction to PyTorch and automatic differentiation.</p>
 </section>
-<section id="overview" data-number="0.2">
+<section data-number="0.2" id="overview">
 <h2 data-number="1.2"><span class="header-section-number">1.2</span> Overview</h2>
 <p>Neural networks are powerful function approximators that have achieved state-of-the-art performance in tasks such as image recognition, natural language processing, speech processing, and regression analysis. A neural network is composed of layers of computational units (neurons) organized into an input layer, one or more hidden layers, and an output layer. Each layer applies an affine transformation followed by a nonlinear activation function, allowing the network to model complex, nonlinear relationships between inputs and outputs.</p>
 <p>Formally, a neural network defines a parameterized function <span class="math inline">\(f(x; \theta)\)</span>, where <span class="math inline">\(\theta\)</span> denotes the collection of all weights and biases in the network. Training the network consists of finding parameter values that minimize a loss function measuring the discrepancy between predicted outputs and true targets.</p>
 <p>The central challenge in training neural networks is computing gradients of the loss function with respect to all parameters efficiently. This is accomplished using the <strong>backpropagation algorithm</strong>, which applies the chain rule of calculus to propagate error signals backward through the network. Backpropagation enables efficient gradient-based optimization methods such as gradient descent and its variants, which iteratively update the network parameters to reduce the training loss.</p>
 </section>
-<section id="backpropagation" data-number="0.3">
+<section data-number="0.3" id="backpropagation">
 <h2 data-number="1.3"><span class="header-section-number">1.3</span> Backpropagation</h2>
 <p>Backpropagation is the fundamental algorithm used to train neural networks. It enables efficient computation of gradients of the loss function with respect to the network parameters by applying the chain rule of calculus.</p>
-<section id="notations-and-terminologies" data-number="0.3.1">
+<section data-number="0.3.1" id="notations-and-terminologies">
 <h3 data-number="1.3.1"><span class="header-section-number">1.3.1</span> Notations and Terminologies</h3>
-<section id="neuron-1-in-layer-1" data-number="0.3.1.0.1">
+<section data-number="0.3.1.0.1" id="neuron-1-in-layer-1">
 <h5 data-number="1.3.1.0.1"><span class="header-section-number">1.3.1.0.1</span> Neuron 1 in Layer 1</h5>
-<p>As illustrated in Figure <a href="#fig:single layer perceptron" data-reference-type="ref" data-reference="fig:single layer perceptron">1</a>, consider neuron 1 in layer 1 processing input sample <span class="math inline">\(\mathbf{x}_i\)</span> to produce the output <span class="math inline">\(z_{i1}^{(1)}\)</span>.</p>
+<p>As illustrated in Figure <a data-reference="fig:single layer perceptron" data-reference-type="ref" href="#fig:single layer perceptron">1</a>, consider neuron 1 in layer 1 processing input sample <span class="math inline">\(\mathbf{x}_i\)</span> to produce the output <span class="math inline">\(z_{i1}^{(1)}\)</span>.</p>
 <figure>
-<img src="img/lecture13/single SLP.png" id="fig:single layer perceptron" style="width:50.0%" alt="Single layer perceptron" /><figcaption aria-hidden="true">Single layer perceptron</figcaption>
+<img alt="Single layer perceptron" id="fig:single layer perceptron" src="img/lecture13/single SLP.png" style="width:50.0%"/><figcaption aria-hidden="true">Single layer perceptron</figcaption>
 </figure>
 <p>We now introduce the notation that will be used throughout the derivation of the backpropagation algorithm:</p>
 <ul>
@@ -50,10 +49,10 @@
 </ul>
 <p>These quantities define the forward propagation of information through the network. In the following sections, we will derive how gradients of the loss function propagate backward through the same structure.</p>
 <figure>
-<img src="img/lecture13/multiple hidden layers.png" id="fig:multiple_hidden_layers_network" alt="A neural network with multiple hidden layers" /><figcaption aria-hidden="true">A neural network with multiple hidden layers</figcaption>
+<img alt="A neural network with multiple hidden layers" id="fig:multiple_hidden_layers_network" src="img/lecture13/multiple hidden layers.png"/><figcaption aria-hidden="true">A neural network with multiple hidden layers</figcaption>
 </figure>
 </section>
-<section id="neuron-j-in-layer-k" data-number="0.3.1.0.2">
+<section data-number="0.3.1.0.2" id="neuron-j-in-layer-k">
 <h5 data-number="1.3.1.0.2"><span class="header-section-number">1.3.1.0.2</span> Neuron <span class="math inline">\(j\)</span> in Layer <span class="math inline">\(k\)</span></h5>
 <p>For a more general case, consider neuron <span class="math inline">\(j\)</span> in layer <span class="math inline">\(k\)</span>. The quantities associated with this neuron are defined as follows:</p>
 <ul>
@@ -93,10 +92,10 @@ w_{24}^{(5)}
 <p><span class="math display">\[\mathbf{h}_i^{(k)} = \mathbf{W}^{(k)} \mathbf{z}_i^{(k-1)} + \mathbf{b}^{(k)},\]</span> <span class="math display">\[\mathbf{z}_i^{(k)} = \varphi\!\left(\mathbf{h}_i^{(k)}\right),\]</span></p>
 <p>where <span class="math inline">\(\mathbf{h}_i^{(k)}\)</span> and <span class="math inline">\(\mathbf{z}_i^{(k)}\)</span> denote the vectors of pre-activations and activations for all neurons in layer <span class="math inline">\(k\)</span>. This matrix-vector formulation will be essential for describing forward and backward propagation in the next section.</p>
 </section>
-<section id="forward-and-backward-propagation" data-number="0.3.1.0.3">
+<section data-number="0.3.1.0.3" id="forward-and-backward-propagation">
 <h5 data-number="1.3.1.0.3"><span class="header-section-number">1.3.1.0.3</span> Forward and Backward Propagation</h5>
 <p>Training a neural network proceeds in two main phases: <strong>forward propagation</strong> and <strong>backward propagation (backpropagation)</strong>. Together, these steps allow the network to compute predictions and iteratively adjust its parameters to minimize a loss function.</p>
-<section id="forward-propagation" data-number="0.3.1.0.3.1">
+<section data-number="0.3.1.0.3.1" id="forward-propagation">
 <h6 data-number="1.3.1.0.3.1"><span class="header-section-number">1.3.1.0.3.1</span> Forward Propagation</h6>
 <p>During forward propagation, an input sample is passed through the network layer by layer to produce a prediction. At each layer, neurons compute weighted linear combinations of their inputs followed by a nonlinear activation.</p>
 <p>For a neuron <span class="math inline">\(j\)</span> in layer <span class="math inline">\(k\)</span>, the forward computation is <span class="math display">\[h_{ij}^{(k)} = (\mathbf{w}_j^{(k)})^T \mathbf{z}_i^{(k-1)} + b_j^{(k)},
@@ -110,7 +109,7 @@ z_{ij}^{(k)} = \varphi\!\left(h_{ij}^{(k)}\right),\]</span> where <span class="m
 <li><p><strong>Output Layer:</strong> Produces the final prediction (e.g., regression value or class probabilities).</p></li>
 </ul>
 </section>
-<section id="backward-propagation-backpropagation" data-number="0.3.1.0.3.2">
+<section data-number="0.3.1.0.3.2" id="backward-propagation-backpropagation">
 <h6 data-number="1.3.1.0.3.2"><span class="header-section-number">1.3.1.0.3.2</span> Backward Propagation (Backpropagation)</h6>
 <p>Once the forward pass produces a prediction, the network evaluates a <strong>loss function</strong> <span class="math inline">\(\mathcal{L}(\hat{y}_i, y_i)\)</span> that measures the discrepancy between the predicted and true outputs. The goal of training is to minimize this loss with respect to all weights and biases in the network.</p>
 <p>Backpropagation computes the gradient of the loss function using the <strong>chain rule of calculus</strong>. Gradients are propagated from the output layer back toward the input layer, determining how each parameter contributes to the prediction error.</p>
@@ -126,14 +125,14 @@ z_{ij}^{(k)} = \varphi\!\left(h_{ij}^{(k)}\right),\]</span> where <span class="m
 </section>
 </section>
 </section>
-<section id="learning-the-weights" data-number="0.3.2">
+<section data-number="0.3.2" id="learning-the-weights">
 <h3 data-number="1.3.2"><span class="header-section-number">1.3.2</span> Learning the Weights</h3>
 <p>Finding optimal weights involves minimizing the loss function using iterative optimization techniques.</p>
-<section id="gradient-based-optimization" data-number="0.3.2.1">
+<section data-number="0.3.2.1" id="gradient-based-optimization">
 <h4 data-number="1.3.2.1"><span class="header-section-number">1.3.2.1</span> Gradient-Based Optimization</h4>
 <p>For a simple linear perceptron model, we can try to find the optimum weights <span class="math inline">\(w\)</span> and bias <span class="math inline">\(b\)</span> by minimizing a <strong>Least Squares</strong> cost function. Let <span class="math inline">\(L(\mathbf{\theta})\)</span> be the <strong>MSE loss</strong> function defined over the entire dataset such that:</p>
 <figure>
-<img src="img/lecture13/loss function and its gradients.png" id="fig:loss function and its gradients" alt="Loss Function and Its Gradients" /><figcaption aria-hidden="true">Loss Function and Its Gradients</figcaption>
+<img alt="Loss Function and Its Gradients" id="fig:loss function and its gradients" src="img/lecture13/loss function and its gradients.png"/><figcaption aria-hidden="true">Loss Function and Its Gradients</figcaption>
 </figure>
 <p><span class="math display">\[L(\mathbf{\theta}) \texttt{=} MSE(X, \mathbf{\theta}) \texttt{=} \frac{1}{N} \lVert \hat{Y} - Y \rVert_F^2\]</span></p>
 <p>where <span class="math inline">\(Y\)</span> is a matrix of all target outputs <span class="math inline">\(y\)</span> and <span class="math inline">\(\hat{Y}\)</span> is a matrix of all predicted outputs <span class="math inline">\(\hat{y}\)</span>. The notation <span class="math inline">\(\lVert X \rVert_F^2 = Tr(XX^T)\)</span> denotes the squared Frobenius norm of a matrix, equal to the sum of the squares of all its elements.</p>
@@ -142,18 +141,18 @@ z_{ij}^{(k)} = \varphi\!\left(h_{ij}^{(k)}\right),\]</span> where <span class="m
 <p>Considering the change in the loss function with respect to <span class="math inline">\(\mathbf{\theta}\)</span>, the loss function is minimum when:</p>
 <p><span class="math display">\[\frac{dL(\mathbf{\theta})}{d\mathbf{\theta}} \texttt{=} 0\]</span></p>
 <p>For linear models, the optimum can sometimes be obtained in closed form using the <strong>Normal Equation</strong>. However, for neural networks the loss function is highly non-convex, and closed-form solutions are not available. In practice, the parameters are learned using iterative optimization methods such as <strong>Gradient Descent</strong>.</p>
-<p>Figure <a href="#fig:loss function and its gradients" data-reference-type="ref" data-reference="fig:loss function and its gradients">3</a> illustrates a quadratic loss function. The gradient indicates the direction of steepest increase of the loss: it is negative on the left side, positive on the right side, and zero at the minimum. Gradient descent therefore updates the parameters in the opposite direction of the gradient in order to move toward the minimum.</p>
-<p>In contrast, the loss surface of neural networks is typically non-convex, containing flat regions and saddle points, as illustrated in Figure <a href="#fig:nonconvex loss function" data-reference-type="ref" data-reference="fig:nonconvex loss function">4</a>.</p>
+<p>Figure <a data-reference="fig:loss function and its gradients" data-reference-type="ref" href="#fig:loss function and its gradients">3</a> illustrates a quadratic loss function. The gradient indicates the direction of steepest increase of the loss: it is negative on the left side, positive on the right side, and zero at the minimum. Gradient descent therefore updates the parameters in the opposite direction of the gradient in order to move toward the minimum.</p>
+<p>In contrast, the loss surface of neural networks is typically non-convex, containing flat regions and saddle points, as illustrated in Figure <a data-reference="fig:nonconvex loss function" data-reference-type="ref" href="#fig:nonconvex loss function">4</a>.</p>
 <figure>
-<img src="img/lecture13/nonconvex loss function.png" id="fig:nonconvex loss function" alt="Non-convex Loss Function" /><figcaption aria-hidden="true">Non-convex Loss Function</figcaption>
+<img alt="Non-convex Loss Function" id="fig:nonconvex loss function" src="img/lecture13/nonconvex loss function.png"/><figcaption aria-hidden="true">Non-convex Loss Function</figcaption>
 </figure>
 </section>
-<section id="optimum-weights-for-a-single-neuron" data-number="0.3.2.2">
+<section data-number="0.3.2.2" id="optimum-weights-for-a-single-neuron">
 <h4 data-number="1.3.2.2"><span class="header-section-number">1.3.2.2</span> Optimum Weights for a Single Neuron</h4>
 <p>For a single linear neuron, the objective is to minimize the Mean Squared Error (MSE) between the predicted output <span class="math inline">\(\hat{y}\)</span> and the true target <span class="math inline">\(y\)</span>. For a single sample, the gradient of the loss with respect to a weight <span class="math inline">\(w_j\)</span> is</p>
 <p><span class="math display">\[\frac{\partial L}{\partial w_j} = -(y - \hat{y}) x_j,\]</span></p>
 <p>where <span class="math inline">\(x_j\)</span> is the input feature corresponding to weight <span class="math inline">\(w_j\)</span>.</p>
-<section id="matrix-formulation" data-number="0.3.2.2.1">
+<section data-number="0.3.2.2.1" id="matrix-formulation">
 <h5 data-number="1.3.2.2.1"><span class="header-section-number">1.3.2.2.1</span> Matrix Formulation</h5>
 <p>Consider the dataset in matrix form: <span class="math display">\[X \in \mathbb{R}^{N \times P}, \quad
 Y \in \mathbb{R}^{N \times K}, \quad
@@ -168,13 +167,13 @@ W \in \mathbb{R}^{P \times K},\]</span> where <span class="math inline">\(N\)</s
 \label{eq:normal_equation}\]</span></p>
 <p>known as the <strong>Normal Equation</strong>. While this provides an analytical solution for linear models, it becomes computationally expensive for large datasets and is not applicable to nonlinear neural networks.</p>
 </section>
-<section id="gradient-descent" data-number="0.3.2.2.2">
+<section data-number="0.3.2.2.2" id="gradient-descent">
 <h5 data-number="1.3.2.2.2"><span class="header-section-number">1.3.2.2.2</span> Gradient Descent</h5>
-<p>Instead of solving <a href="#eq:normal_equation" data-reference-type="eqref" data-reference="eq:normal_equation">[eq:normal_equation]</a> directly, we can iteratively update the parameters using gradient descent:</p>
+<p>Instead of solving <a data-reference="eq:normal_equation" data-reference-type="eqref" href="#eq:normal_equation">[eq:normal_equation]</a> directly, we can iteratively update the parameters using gradient descent:</p>
 <p><span class="math display">\[W^{(t+1)} = W^{(t)} - \alpha \frac{2}{N} X^T(\hat{Y} - Y),\]</span></p>
 <p>where <span class="math inline">\(\alpha &gt; 0\)</span> is the learning rate.</p>
 </section>
-<section id="including-the-bias" data-number="0.3.2.2.3">
+<section data-number="0.3.2.2.3" id="including-the-bias">
 <h5 data-number="1.3.2.2.3"><span class="header-section-number">1.3.2.2.3</span> Including the Bias</h5>
 <p>When including a bias term <span class="math inline">\(b \in \mathbb{R}^{K}\)</span>, the prediction becomes</p>
 <p><span class="math display">\[\hat{Y} = XW + \mathbf{1}_N b^T,\]</span></p>
@@ -185,7 +184,7 @@ W \in \mathbb{R}^{P \times K},\]</span> where <span class="math inline">\(N\)</s
 <p>Thus, the bias update rule is</p>
 <p><span class="math display">\[b^{(t+1)} = b^{(t)} - \alpha \frac{2}{N} (\hat{Y} - Y)^T \mathbf{1}_N.\]</span></p>
 </section>
-<section id="batch-gradient-descent-algorithm" data-number="0.3.2.2.4">
+<section data-number="0.3.2.2.4" id="batch-gradient-descent-algorithm">
 <h5 data-number="1.3.2.2.4"><span class="header-section-number">1.3.2.2.4</span> Batch Gradient Descent Algorithm</h5>
 <p>Training proceeds iteratively as follows. Starting from initialized values of <span class="math inline">\(W\)</span> and <span class="math inline">\(b\)</span>, the model repeatedly:</p>
 <ol>
@@ -199,11 +198,11 @@ W \in \mathbb{R}^{P \times K},\]</span> where <span class="math inline">\(N\)</s
 </section>
 </section>
 <h3 class="unnumbered" id="example-of-gradient-descent-for-a-single-layer-perceptron">Example of Gradient Descent for a Single-Layer Perceptron</h3>
-<p>Figure <a href="#fig:a dataset for perception classification" data-reference-type="ref" data-reference="fig:a dataset for perception classification">5</a> shows a simple two–dimensional dataset consisting of two classes. We now walk through how a single neuron (single-layer perceptron) is trained on this dataset using batch gradient descent.</p>
+<p>Figure <a data-reference="fig:a dataset for perception classification" data-reference-type="ref" href="#fig:a dataset for perception classification">5</a> shows a simple two–dimensional dataset consisting of two classes. We now walk through how a single neuron (single-layer perceptron) is trained on this dataset using batch gradient descent.</p>
 <figure>
-<img src="img/lecture13/dataset for SLP.png" id="fig:a dataset for perception classification" alt="A dataset for perception classification" /><figcaption aria-hidden="true">A dataset for perception classification</figcaption>
+<img alt="A dataset for perception classification" id="fig:a dataset for perception classification" src="img/lecture13/dataset for SLP.png"/><figcaption aria-hidden="true">A dataset for perception classification</figcaption>
 </figure>
-<section id="dataset-and-model-dimensions" data-number="0.3.2.2.5">
+<section data-number="0.3.2.2.5" id="dataset-and-model-dimensions">
 <h5 data-number="1.3.2.2.5"><span class="header-section-number">1.3.2.2.5</span> Dataset and Model Dimensions</h5>
 <p>Assume we have <span class="math inline">\(N=10\)</span> training samples, each with <span class="math inline">\(P=2\)</span> features. The input matrix and target vector are</p>
 <p><span class="math display">\[X =
@@ -233,19 +232,19 @@ w_{2}
 \qquad
 b^{(1)}\in\mathbb{R}.\]</span></p>
 </section>
-<section id="forward-pass" data-number="0.3.2.2.6">
+<section data-number="0.3.2.2.6" id="forward-pass">
 <h5 data-number="1.3.2.2.6"><span class="header-section-number">1.3.2.2.6</span> Forward Pass</h5>
 <p>For all samples, predictions are computed simultaneously using matrix form:</p>
 <p><span class="math display">\[\hat Y = XW^{(1)} + \mathbf{1}_N b^{(1)}.\]</span></p>
 <p>Each entry <span class="math inline">\(\hat y_i\)</span> represents the predicted output of the neuron for training sample <span class="math inline">\(i\)</span>.</p>
 </section>
-<section id="loss-function" data-number="0.3.2.2.7">
+<section data-number="0.3.2.2.7" id="loss-function">
 <h5 data-number="1.3.2.2.7"><span class="header-section-number">1.3.2.2.7</span> Loss Function</h5>
 <p>Training aims to minimize the Mean Squared Error (MSE):</p>
 <p><span class="math display">\[L = \frac{1}{N}\|\hat Y - Y\|_F^2.\]</span></p>
 <p>This measures the average squared difference between predictions and targets.</p>
 </section>
-<section id="gradient-computation" data-number="0.3.2.2.8">
+<section data-number="0.3.2.2.8" id="gradient-computation">
 <h5 data-number="1.3.2.2.8"><span class="header-section-number">1.3.2.2.8</span> Gradient Computation</h5>
 <p>To update the parameters, we compute gradients of the loss.</p>
 <p><span class="math display">\[\frac{\partial L}{\partial W^{(1)}}=
@@ -255,12 +254,12 @@ b^{(1)}\in\mathbb{R}.\]</span></p>
 \frac{2}{N}(\hat Y-Y)^T\mathbf{1}_N.\]</span></p>
 <p>These gradients tell us how the loss changes with respect to each parameter.</p>
 </section>
-<section id="parameter-update-step" data-number="0.3.2.2.9">
+<section data-number="0.3.2.2.9" id="parameter-update-step">
 <h5 data-number="1.3.2.2.9"><span class="header-section-number">1.3.2.2.9</span> Parameter Update Step</h5>
 <p>Using learning rate <span class="math inline">\(\alpha\)</span>, the parameters are updated as</p>
 <p><span class="math display">\[W^{(1)} \leftarrow W^{(1)} - \alpha \frac{2}{N}X^T(\hat Y-Y),\]</span> <span class="math display">\[b^{(1)} \leftarrow b^{(1)} - \alpha \frac{2}{N}(\hat Y-Y)^T\mathbf{1}_N.\]</span></p>
 </section>
-<section id="training-procedure" data-number="0.3.2.2.10">
+<section data-number="0.3.2.2.10" id="training-procedure">
 <h5 data-number="1.3.2.2.10"><span class="header-section-number">1.3.2.2.10</span> Training Procedure</h5>
 <p>Training proceeds iteratively over epochs. At each epoch, the algorithm performs:</p>
 <ol>
@@ -269,12 +268,12 @@ b^{(1)}\in\mathbb{R}.\]</span></p>
 <li><p>Compute gradients of <span class="math inline">\(W^{(1)}\)</span> and <span class="math inline">\(b^{(1)}\)</span>.</p></li>
 <li><p>Update parameters using gradient descent.</p></li>
 </ol>
-<p>As training progresses, the neuron learns a linear decision boundary that separates the two classes in Figure <a href="#fig:a dataset for perception classification" data-reference-type="ref" data-reference="fig:a dataset for perception classification">5</a>.</p>
+<p>As training progresses, the neuron learns a linear decision boundary that separates the two classes in Figure <a data-reference="fig:a dataset for perception classification" data-reference-type="ref" href="#fig:a dataset for perception classification">5</a>.</p>
 </section>
-<section id="review-of-derivatives" data-number="0.3.3">
+<section data-number="0.3.3" id="review-of-derivatives">
 <h3 data-number="1.3.3"><span class="header-section-number">1.3.3</span> Review of Derivatives</h3>
 <p>Backpropagation relies heavily on multivariable calculus. In particular, it repeatedly applies the chain rule to propagate gradients from the output layer back through the network. This section reviews several derivative rules that will be used throughout the backpropagation derivations.</p>
-<section id="chain-rule" data-number="0.3.3.0.1">
+<section data-number="0.3.3.0.1" id="chain-rule">
 <h5 data-number="1.3.3.0.1"><span class="header-section-number">1.3.3.0.1</span> Chain Rule</h5>
 <p>Neural networks are compositions of functions. If a function <span class="math inline">\(f\)</span> depends on <span class="math inline">\(g(\theta)\)</span>, which itself depends on parameter <span class="math inline">\(\theta\)</span>, the derivative is obtained using the chain rule:</p>
 <p><span class="math display">\[\frac{\partial}{\partial \theta} f(g(\theta))
@@ -284,7 +283,7 @@ b^{(1)}\in\mathbb{R}.\]</span></p>
 \frac{\partial g}{\partial \theta}.\]</span></p>
 <p>This rule allows gradients to be propagated backward through layers, which is the central idea of backpropagation.</p>
 </section>
-<section id="derivative-of-a-sum" data-number="0.3.3.0.2">
+<section data-number="0.3.3.0.2" id="derivative-of-a-sum">
 <h5 data-number="1.3.3.0.2"><span class="header-section-number">1.3.3.0.2</span> Derivative of a Sum</h5>
 <p>Loss functions are typically sums over training samples or neurons. Differentiation distributes over summation:</p>
 <p><span class="math display">\[\frac{\partial}{\partial \theta} \sum_i f_i(\theta)
@@ -292,7 +291,7 @@ b^{(1)}\in\mathbb{R}.\]</span></p>
 \sum_i \frac{\partial}{\partial \theta} f_i(\theta).\]</span></p>
 <p>This property allows gradients to be computed sample-by-sample and then aggregated.</p>
 </section>
-<section id="derivative-with-respect-to-a-single-parameter" data-number="0.3.3.0.3">
+<section data-number="0.3.3.0.3" id="derivative-with-respect-to-a-single-parameter">
 <h5 data-number="1.3.3.0.3"><span class="header-section-number">1.3.3.0.3</span> Derivative with Respect to a Single Parameter</h5>
 <p>Often, a function depends on many parameters, but we differentiate with respect to only one of them:</p>
 <p><span class="math display">\[\frac{\partial}{\partial \theta_k}
@@ -301,12 +300,12 @@ b^{(1)}\in\mathbb{R}.\]</span></p>
 a_k \frac{\partial}{\partial \theta_k} f(\theta_k).\]</span></p>
 <p>All terms independent of <span class="math inline">\(\theta_k\)</span> vanish. This property greatly simplifies gradient calculations in networks with many weights.</p>
 </section>
-<section id="special-property-of-the-sigmoid-function" data-number="0.3.3.0.4">
+<section data-number="0.3.3.0.4" id="special-property-of-the-sigmoid-function">
 <h5 data-number="1.3.3.0.4"><span class="header-section-number">1.3.3.0.4</span> Special Property of the Sigmoid Function</h5>
 <p>The sigmoid activation function</p>
 <p><span class="math display">\[\sigma(x)=\frac{1}{1+e^{-x}}\]</span></p>
 <p>has a particularly convenient derivative:</p>
-<p><span class="math display">\[\sigma&#39;(x)
+<p><span class="math display">\[\sigma'(x)
 =
 \frac{\partial}{\partial x}(1+e^{-x})^{-1}
 =
@@ -321,14 +320,14 @@ a_k \frac{\partial}{\partial \theta_k} f(\theta_k).\]</span></p>
 <p>This identity will be used repeatedly when deriving the backpropagation algorithm.</p>
 </section>
 </section>
-<section id="backpropagation-procedure" data-number="0.3.4">
+<section data-number="0.3.4" id="backpropagation-procedure">
 <h3 data-number="1.3.4"><span class="header-section-number">1.3.4</span> Backpropagation Procedure</h3>
 <p>Backpropagation computes how the error changes with respect to every weight in the network. It applies the chain rule repeatedly to propagate the error from the output layer backward through the hidden layers.</p>
-<p>We illustrate the procedure using the network in Fig. <a href="#fig:backpropagation network" data-reference-type="ref" data-reference="fig:backpropagation network">6</a>.</p>
+<p>We illustrate the procedure using the network in Fig. <a data-reference="fig:backpropagation network" data-reference-type="ref" href="#fig:backpropagation network">6</a>.</p>
 <figure>
-<img src="img/lecture13/backpropagation network.png" id="fig:backpropagation network" alt="Backpropagation Network" /><figcaption aria-hidden="true">Backpropagation Network</figcaption>
+<img alt="Backpropagation Network" id="fig:backpropagation network" src="img/lecture13/backpropagation network.png"/><figcaption aria-hidden="true">Backpropagation Network</figcaption>
 </figure>
-<section id="forward-pass-1" data-number="0.3.4.0.1">
+<section data-number="0.3.4.0.1" id="forward-pass-1">
 <h5 data-number="1.3.4.0.1"><span class="header-section-number">1.3.4.0.1</span> Forward Pass</h5>
 <p>For a new input sample <span class="math inline">\(\mathbf{x}=[x_1,\ldots,x_n]\)</span>, the hidden units <span class="math inline">\(g_j\)</span> are computed from the previous layer activations <span class="math inline">\(f_k\)</span> as</p>
 <p><span class="math display">\[g_j=\sigma\!\left(b_{j0}+\sum_k u_{jk}f_k\right).\]</span></p>
@@ -338,57 +337,57 @@ a_k \frac{\partial}{\partial \theta_k} f(\theta_k).\]</span></p>
 <p><span class="math display">\[e=\frac{1}{2}(y-y^*)^2.\]</span></p>
 <p>The goal of training is to update all weights to reduce this error.</p>
 </section>
-<section id="error-signal-at-the-output-layer" data-number="0.3.4.0.2">
+<section data-number="0.3.4.0.2" id="error-signal-at-the-output-layer">
 <h5 data-number="1.3.4.0.2"><span class="header-section-number">1.3.4.0.2</span> Error Signal at the Output Layer</h5>
 <p>We first compute how the error changes with respect to the output:</p>
 <p><span class="math display">\[\frac{\partial e}{\partial y}=y-y^*.\]</span></p>
-<p>Because the output neuron uses a sigmoid activation, we use the identity <span class="math display">\[\sigma&#39;(x)=\sigma(x)(1-\sigma(x)).\]</span></p>
+<p>Because the output neuron uses a sigmoid activation, we use the identity <span class="math display">\[\sigma'(x)=\sigma(x)(1-\sigma(x)).\]</span></p>
 <p>Thus,</p>
 <p><span class="math display">\[\frac{\partial e}{\partial h_i}
 = (y-y^*)\,y(1-y)\,w_i.\]</span></p>
 <p>This quantity tells us how much each hidden neuron contributed to the output error.</p>
 </section>
-<section id="backpropagating-to-hidden-units" data-number="0.3.4.0.3">
+<section data-number="0.3.4.0.3" id="backpropagating-to-hidden-units">
 <h5 data-number="1.3.4.0.3"><span class="header-section-number">1.3.4.0.3</span> Backpropagating to Hidden Units</h5>
 <p>Next we determine how the error changes with respect to hidden activations <span class="math inline">\(g_j\)</span>. Using the chain rule through the weights <span class="math inline">\(v_{ij}\)</span>:</p>
 <p><span class="math display">\[\frac{\partial e}{\partial g_j}
-=\sum_i \sigma&#39;(h_i)\,v_{ij}\,\frac{\partial e}{\partial h_i}.\]</span></p>
-<p>Substituting <span class="math inline">\(\sigma&#39;(h_i)=h_i(1-h_i)\)</span> gives</p>
+=\sum_i \sigma'(h_i)\,v_{ij}\,\frac{\partial e}{\partial h_i}.\]</span></p>
+<p>Substituting <span class="math inline">\(\sigma'(h_i)=h_i(1-h_i)\)</span> gives</p>
 <p><span class="math display">\[\frac{\partial e}{\partial g_j}
 =(y-y^*)\,y(1-y)\sum_i w_i\,h_i(1-h_i)\,v_{ij}.\]</span></p>
 <p>This equation shows the key idea of backpropagation: the error is **distributed backward** through all outgoing connections.</p>
 </section>
-<section id="gradient-with-respect-to-inputhidden-weights" data-number="0.3.4.0.4">
+<section data-number="0.3.4.0.4" id="gradient-with-respect-to-inputhidden-weights">
 <h5 data-number="1.3.4.0.4"><span class="header-section-number">1.3.4.0.4</span> Gradient with Respect to Input–Hidden Weights</h5>
 <p>We now compute the gradient for weights <span class="math inline">\(u_{jk}\)</span> connecting inputs to hidden units:</p>
 <p><span class="math display">\[\frac{\partial e}{\partial u_{jk}}
-=\frac{\partial e}{\partial g_j}\,\sigma&#39;(g_j)\,f_k.\]</span></p>
-<p>Since <span class="math inline">\(\sigma&#39;(g_j)=g_j(1-g_j)\)</span>,</p>
+=\frac{\partial e}{\partial g_j}\,\sigma'(g_j)\,f_k.\]</span></p>
+<p>Since <span class="math inline">\(\sigma'(g_j)=g_j(1-g_j)\)</span>,</p>
 <p><span class="math display">\[\frac{\partial e}{\partial u_{jk}}
 =\frac{\partial e}{\partial g_j}\,g_j(1-g_j)\,f_k.\]</span></p>
 <p>This expression determines whether increasing or decreasing <span class="math inline">\(u_{jk}\)</span> will reduce the error.</p>
 </section>
-<section id="weight-updates" data-number="0.3.4.0.5">
+<section data-number="0.3.4.0.5" id="weight-updates">
 <h5 data-number="1.3.4.0.5"><span class="header-section-number">1.3.4.0.5</span> Weight Updates</h5>
 <p>Using gradient descent with learning rate <span class="math inline">\(\eta\)</span>, the weights are updated as</p>
 <p><span class="math display">\[u_{jk} \leftarrow u_{jk}-\eta\,\frac{\partial e}{\partial u_{jk}}.\]</span></p>
 <p>The same idea applies to all weights in the network.</p>
 </section>
-<section id="important-insight" data-number="0.3.4.0.6">
+<section data-number="0.3.4.0.6" id="important-insight">
 <h5 data-number="1.3.4.0.6"><span class="header-section-number">1.3.4.0.6</span> Important Insight</h5>
-<p>The factor <span class="math inline">\(\sigma&#39;(x)=\sigma(x)(1-\sigma(x))\)</span> plays a critical role. When neuron outputs are close to <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>, this derivative becomes very small. As gradients propagate through many layers, they can shrink rapidly, slowing learning. This phenomenon is known as the <strong>vanishing gradient problem</strong>.</p>
+<p>The factor <span class="math inline">\(\sigma'(x)=\sigma(x)(1-\sigma(x))\)</span> plays a critical role. When neuron outputs are close to <span class="math inline">\(0\)</span> or <span class="math inline">\(1\)</span>, this derivative becomes very small. As gradients propagate through many layers, they can shrink rapidly, slowing learning. This phenomenon is known as the <strong>vanishing gradient problem</strong>.</p>
 </section>
 </section>
 </section>
-<section id="softmax-and-labels" data-number="0.4">
+<section data-number="0.4" id="softmax-and-labels">
 <h2 data-number="1.4"><span class="header-section-number">1.4</span> Softmax and Labels</h2>
 <p>In the previous sections, we considered neural networks with a single sigmoid output neuron and squared error loss. While this setup works for binary classification, it does not naturally extend to problems involving more than two classes. For multi-class classification, the network must produce a probability distribution over all possible classes. To achieve this, we introduce the Softmax function and the cross-entropy loss.</p>
-<section id="softmax-probabilities" data-number="0.4.1">
+<section data-number="0.4.1" id="softmax-probabilities">
 <h3 data-number="1.4.1"><span class="header-section-number">1.4.1</span> Softmax Probabilities</h3>
 <p>The raw outputs of the final layer of a neural network are not directly interpretable as probabilities. These outputs are typically called <strong>logits</strong>. They can take any real value and are not constrained to lie between 0 and 1 or sum to one.</p>
 <p>To convert logits into probabilities, we apply the <strong>Softmax</strong> function.</p>
 <figure>
-<img src="img/lecture13/softmax score.png" id="fig:softmax normalization" alt="Softmax normalization" /><figcaption aria-hidden="true">Softmax normalization</figcaption>
+<img alt="Softmax normalization" id="fig:softmax normalization" src="img/lecture13/softmax score.png"/><figcaption aria-hidden="true">Softmax normalization</figcaption>
 </figure>
 <p>Given logits <span class="math inline">\(\mathbf{s}=[s_0,s_1,\ldots,s_{C-1}]\)</span>, the Softmax function produces a probability distribution:</p>
 <p><span class="math display">\[\text{softmax}(s_i)=
@@ -397,7 +396,7 @@ a_k \frac{\partial}{\partial \theta_k} f(\theta_k).\]</span></p>
 \qquad
 \text{softmax}(s_i)\ge0\]</span></p>
 <p>Hence, the outputs can be interpreted as class probabilities.</p>
-<section id="numerical-stability" data-number="0.4.1.0.1">
+<section data-number="0.4.1.0.1" id="numerical-stability">
 <h5 data-number="1.4.1.0.1"><span class="header-section-number">1.4.1.0.1</span> Numerical Stability</h5>
 <p>In practice, exponentials can overflow for large logits. To prevent this, we subtract the maximum logit before exponentiating:</p>
 <p><span class="math display">\[\text{softmax}(s_i)=
@@ -405,7 +404,7 @@ a_k \frac{\partial}{\partial \theta_k} f(\theta_k).\]</span></p>
 <p>This transformation does not change the final probabilities but greatly improves numerical stability.</p>
 </section>
 </section>
-<section id="categorical-labels" data-number="0.4.2">
+<section data-number="0.4.2" id="categorical-labels">
 <h3 data-number="1.4.2"><span class="header-section-number">1.4.2</span> Categorical Labels</h3>
 <p>For multi-class classification, class labels are encoded using <strong>one-hot vectors</strong>.</p>
 <p>If the true class is <span class="math inline">\(y\in\{0,1,\ldots,C-1\}\)</span>, the one-hot vector <span class="math inline">\(\mathbf{y}\)</span> is a length-<span class="math inline">\(C\)</span> vector with</p>
@@ -416,7 +415,7 @@ a_k \frac{\partial}{\partial \theta_k} f(\theta_k).\]</span></p>
 \end{cases}\]</span></p>
 <p>This representation allows us to compute losses using vector operations.</p>
 </section>
-<section id="cross-entropy-loss-with-softmax" data-number="0.4.3">
+<section data-number="0.4.3" id="cross-entropy-loss-with-softmax">
 <h3 data-number="1.4.3"><span class="header-section-number">1.4.3</span> Cross-Entropy Loss with Softmax</h3>
 <p>Given predicted probabilities <span class="math inline">\(\hat{\mathbf{y}}=\text{softmax}(\mathbf{s})\)</span> and the true one-hot label <span class="math inline">\(\mathbf{y}\)</span>, the <strong>cross-entropy loss</strong> for one sample is</p>
 <p><span class="math display">\[L = -\mathbf{y}^T \log(\hat{\mathbf{y}})\]</span></p>
@@ -436,7 +435,7 @@ a_k \frac{\partial}{\partial \theta_k} f(\theta_k).\]</span></p>
 \right)\]</span></p>
 <p>This is the standard loss used for multi-class classification.</p>
 </section>
-<section id="why-softmax-cross-entropy-works-so-well" data-number="0.4.4">
+<section data-number="0.4.4" id="why-softmax-cross-entropy-works-so-well">
 <h3 data-number="1.4.4"><span class="header-section-number">1.4.4</span> Why Softmax + Cross-Entropy Works So Well</h3>
 <p>A key reason this combination is widely used is the remarkably simple gradient.</p>
 <p>Let <span class="math inline">\(\hat{\mathbf{y}}=\text{softmax}(\mathbf{s})\)</span>. Then the gradient of the loss with respect to the logits is</p>
@@ -446,11 +445,11 @@ a_k \frac{\partial}{\partial \theta_k} f(\theta_k).\]</span></p>
 <p>This elegant property is one of the main reasons Softmax combined with cross-entropy is the standard choice for training neural networks for classification.</p>
 </section>
 </section>
-<section id="image-classification" data-number="0.5">
+<section data-number="0.5" id="image-classification">
 <h2 data-number="1.5"><span class="header-section-number">1.5</span> Image Classification</h2>
 <p>Image classification is one of the most common applications of neural networks. The goal is to map an input image to a probability distribution over a set of classes.</p>
 <p>In the previous section, we introduced the Softmax function and cross-entropy loss. We now connect those ideas to a concrete task: predicting the class of an image.</p>
-<section id="linear-model-for-image-classification" data-number="0.5.1">
+<section data-number="0.5.1" id="linear-model-for-image-classification">
 <h3 data-number="1.5.1"><span class="header-section-number">1.5.1</span> Linear Model for Image Classification</h3>
 <p>To build intuition, we begin with the simplest possible classifier: a linear Softmax classifier (also known as multinomial logistic regression).</p>
 <p>Suppose we have a dataset of <span class="math inline">\(N\)</span> images. Each image is flattened into a vector of pixel values.</p>
@@ -471,7 +470,7 @@ a_k \frac{\partial}{\partial \theta_k} f(\theta_k).\]</span></p>
 <p><span class="math display">\[\hat{Y} = \text{Softmax}(XW + \mathbf{1} b^T).\]</span></p>
 <p>This model converts raw pixel values directly into class probabilities.</p>
 </section>
-<section id="example-cat-vs-dog-classification" data-number="0.5.2">
+<section data-number="0.5.2" id="example-cat-vs-dog-classification">
 <h3 data-number="1.5.2"><span class="header-section-number">1.5.2</span> Example: Cat vs Dog Classification</h3>
 <p>Consider a binary classification problem: determining whether an image contains a cat or a dog.</p>
 <p>Assume the input image is a <span class="math inline">\(32\times32\)</span> RGB image: <span class="math display">\[x_i \in \mathbb{R}^{32\times32\times3}.\]</span></p>
@@ -491,20 +490,20 @@ P(\text{dog}|x_i)
 0.2
 \end{bmatrix}\]</span> indicates an <span class="math inline">\(80\%\)</span> probability that the image contains a cat.</p>
 </section>
-<section id="why-flatten-images" data-number="0.5.3">
+<section data-number="0.5.3" id="why-flatten-images">
 <h3 data-number="1.5.3"><span class="header-section-number">1.5.3</span> Why Flatten Images?</h3>
 <p>A linear classifier expects vector inputs. Therefore, images must be converted from a 3-D tensor into a vector: <span class="math display">\[(H\times W\times c) \;\rightarrow\; P.\]</span></p>
 <p>This operation is called flattening or vectorization.</p>
 <p>Although simple, this approach ignores spatial structure in images. This limitation motivates convolutional neural networks (CNNs), which we will study later.</p>
 </section>
-<section id="cross-entropy-training-objective" data-number="0.5.4">
+<section data-number="0.5.4" id="cross-entropy-training-objective">
 <h3 data-number="1.5.4"><span class="header-section-number">1.5.4</span> Cross-Entropy Training Objective</h3>
 <p>Given the predicted probabilities <span class="math inline">\(\hat{y}_i\)</span> and true one-hot labels <span class="math inline">\(y_i\)</span>, the training objective is the Softmax cross-entropy loss: <span class="math display">\[L = -\frac{1}{N}\sum_{i=1}^N y_i^T \log \hat{y}_i.\]</span></p>
 <p>The model parameters <span class="math inline">\((W,b)\)</span> are learned using gradient descent and backpropagation.</p>
 </section>
-<section id="common-benchmark-datasets" data-number="0.5.5">
+<section data-number="0.5.5" id="common-benchmark-datasets">
 <h3 data-number="1.5.5"><span class="header-section-number">1.5.5</span> Common Benchmark Datasets</h3>
-<section id="mnist" data-number="0.5.5.0.1">
+<section data-number="0.5.5.0.1" id="mnist">
 <h5 data-number="1.5.5.0.1"><span class="header-section-number">1.5.5.0.1</span> MNIST</h5>
 <ul>
 <li><p>70,000 grayscale images of handwritten digits</p></li>
@@ -514,7 +513,7 @@ P(\text{dog}|x_i)
 <li><p>Test set: 10,000 images</p></li>
 </ul>
 </section>
-<section id="cifar-10" data-number="0.5.5.0.2">
+<section data-number="0.5.5.0.2" id="cifar-10">
 <h5 data-number="1.5.5.0.2"><span class="header-section-number">1.5.5.0.2</span> CIFAR-10</h5>
 <ul>
 <li><p>60,000 color images</p></li>
@@ -524,23 +523,23 @@ P(\text{dog}|x_i)
 <li><p>Test set: 10,000 images</p></li>
 </ul>
 <figure>
-<img src="img/lecture13/minist.png" id="fig:cifar-10 dataset" alt="CIFAR-10 Dataset" /><figcaption aria-hidden="true">CIFAR-10 Dataset</figcaption>
+<img alt="CIFAR-10 Dataset" id="fig:cifar-10 dataset" src="img/lecture13/minist.png"/><figcaption aria-hidden="true">CIFAR-10 Dataset</figcaption>
 </figure>
 <figure>
-<img src="img/lecture13/CIFAR-10.png" id="fig:cifar-10 dataset" alt="CIFAR-10 Dataset" /><figcaption aria-hidden="true">CIFAR-10 Dataset</figcaption>
+<img alt="CIFAR-10 Dataset" id="fig:cifar-10 dataset" src="img/lecture13/CIFAR-10.png"/><figcaption aria-hidden="true">CIFAR-10 Dataset</figcaption>
 </figure>
 </section>
 </section>
 </section>
-<section id="pytorch" data-number="0.6">
+<section data-number="0.6" id="pytorch">
 <h2 data-number="1.6"><span class="header-section-number">1.6</span> PyTorch</h2>
 <p>PyTorch is a widely used open-source framework for building, training, and deploying neural networks. It provides efficient tensor computation, automatic differentiation, and seamless GPU acceleration, making it one of the primary tools used in modern deep learning research and applications.</p>
-<section id="basics" data-number="0.6.1">
+<section data-number="0.6.1" id="basics">
 <h3 data-number="1.6.1"><span class="header-section-number">1.6.1</span> Basics</h3>
 <p>PyTorch is a Python-based scientific computing package that supports tensor operations similar to NumPy, but extends them with automatic differentiation and GPU support. A key feature of PyTorch is its <em>dynamic computational graph</em> (also called <em>define-by-run</em>). In this paradigm, the computational graph is constructed during execution, allowing models to be modified and debugged more easily than in static-graph frameworks.</p>
 <p>Tensors are the fundamental data structure in PyTorch. They behave similarly to NumPy arrays but can be executed on GPUs for accelerated computation, which is essential for training large neural networks.</p>
 </section>
-<section id="autograd" data-number="0.6.2">
+<section data-number="0.6.2" id="autograd">
 <h3 data-number="1.6.2"><span class="header-section-number">1.6.2</span> AutoGrad</h3>
 <p>PyTorch’s <em>AutoGrad</em> system automates gradient computation for optimization. Whenever operations are performed on tensors with <code>requires_grad=True</code>, PyTorch records these operations and constructs a computational graph. When a scalar loss is computed, calling <code>backward()</code> automatically computes gradients of the loss with respect to all parameters.</p>
 <p>AutoGrad applies the chain rule efficiently through the computational graph. Internally, PyTorch computes a <em>vector–Jacobian product (VJP)</em>, which enables gradients to be propagated backward from a scalar loss to all parameters without explicitly forming the full Jacobian matrix.</p>
@@ -570,16 +569,16 @@ P(\text{dog}|x_i)
     #        [-1.2993,  2.1217]], grad_fn=&lt;MulBackward0&gt;)</code></pre>
 <p>Here, the loss is a scalar function of the tensors. Calling <code>backward()</code> propagates gradients through the computational graph and stores them in the <code>.grad</code> field of each tensor. The output shows the calculated gradient, which matches the expected gradient and demonstrates how PyTorch’s AutoGrad system computes derivatives for optimization.</p>
 </section>
-<section id="numpy-vs-pytorch" data-number="0.6.3">
+<section data-number="0.6.3" id="numpy-vs-pytorch">
 <h3 data-number="1.6.3"><span class="header-section-number">1.6.3</span> NumPy vs PyTorch</h3>
 <p>Both NumPy and PyTorch provide efficient tensor operations, but PyTorch extends NumPy in two important ways. First, PyTorch supports GPU acceleration, enabling large-scale numerical computations to be performed efficiently on modern hardware. Second, PyTorch includes the AutoGrad system, which automates gradient computation and makes the framework suitable for training deep neural networks. In contrast, NumPy is primarily designed for general numerical computation and does not provide built-in support for gradient-based optimization.</p>
 </section>
-<section id="basic-modules" data-number="0.6.4">
+<section data-number="0.6.4" id="basic-modules">
 <h3 data-number="1.6.4"><span class="header-section-number">1.6.4</span> Basic Modules</h3>
 <p>PyTorch includes several modules that simplify the construction and training of neural networks. The <code>nn.Module</code> class serves as the base class for all neural network models and automatically tracks trainable parameters. The <code>torch.optim</code> package provides optimization algorithms such as stochastic gradient descent (SGD), Adam, and RMSProp. PyTorch also provides a wide range of loss functions, including cross-entropy and mean squared error, which are used to measure model performance.</p>
 <p>To build a neural network using PyTorch, one typically subclasses <code>nn.Module</code>, defines the network layers in the constructor, and implements the forward pass in the <code>forward()</code> method.</p>
 </section>
-<section id="code-example-implementing-single-neuron-classifier" data-number="0.6.5">
+<section data-number="0.6.5" id="code-example-implementing-single-neuron-classifier">
 <h3 data-number="1.6.5"><span class="header-section-number">1.6.5</span> Code Example: Implementing Single Neuron Classifier</h3>
 <p>The following example trains a single-neuron classifier using PyTorch:</p>
 <pre><code>    import torch
@@ -645,15 +644,15 @@ P(\text{dog}|x_i)
     with torch.no_grad():
         y_pred = network(X_tensor).numpy()
         y_pred_labels = (y_pred &gt; 0.5).astype(int).flatten()</code></pre>
-<p>After training, the model learns a nonlinear decision boundary that separates the two classes. Figure <a href="#fig:two-dimensional data" data-reference-type="ref" data-reference="fig:two-dimensional data">[fig:two-dimensional data]</a> shows the training dataset, and Figure <a href="#fig:predicted labels for validation" data-reference-type="ref" data-reference="fig:predicted labels for validation">11</a> shows the predictions produced by the trained model.</p>
+<p>After training, the model learns a nonlinear decision boundary that separates the two classes. Figure <a data-reference="fig:two-dimensional data" data-reference-type="ref" href="#fig:two-dimensional data">[fig:two-dimensional data]</a> shows the training dataset, and Figure <a data-reference="fig:predicted labels for validation" data-reference-type="ref" href="#fig:predicted labels for validation">11</a> shows the predictions produced by the trained model.</p>
 <figure>
-<img src="img/lecture13/dataset for SNC.png" id="fig:predicted labels for validation" alt="Predicted Labels for Validation" /><figcaption aria-hidden="true">Predicted Labels for Validation</figcaption>
+<img alt="Predicted Labels for Validation" id="fig:predicted labels for validation" src="img/lecture13/dataset for SNC.png"/><figcaption aria-hidden="true">Predicted Labels for Validation</figcaption>
 </figure>
 <figure>
-<img src="img/lecture13/result for SNC.png" id="fig:predicted labels for validation" alt="Predicted Labels for Validation" /><figcaption aria-hidden="true">Predicted Labels for Validation</figcaption>
+<img alt="Predicted Labels for Validation" id="fig:predicted labels for validation" src="img/lecture13/result for SNC.png"/><figcaption aria-hidden="true">Predicted Labels for Validation</figcaption>
 </figure>
 </section>
-<section id="code-example-implementing-mlp" data-number="0.6.6">
+<section data-number="0.6.6" id="code-example-implementing-mlp">
 <h3 data-number="1.6.6"><span class="header-section-number">1.6.6</span> Code Example: Implementing MLP</h3>
 <p>A multi-layer perceptron (MLP) can learn more complex nonlinear decision boundaries.</p>
 <pre><code>    import torch
@@ -718,70 +717,34 @@ P(\text{dog}|x_i)
 
     # Plot the predicted labels
     plt.figure(figsize=(8, 6))
-    plt.scatter(class_1[:, 0], class_1[:, 1], label=&#39;Class 1&#39;, color=&#39;blue&#39;)
-    plt.scatter(class_2[:, 0], class_2[:, 1], label=&#39;Class 2&#39;, color=&#39;orange&#39;)
+    plt.scatter(class_1[:, 0], class_1[:, 1], label='Class 1', color='blue')
+    plt.scatter(class_2[:, 0], class_2[:, 1], label='Class 2', color='orange')
     
-    plt.xlabel(r&#39;$x_{1,1}$&#39;, fontsize=14)
-    plt.ylabel(r&#39;$x_{1,2}$&#39;, fontsize=14)
-    plt.title(&#39;Predicted Labels for Validation&#39;, fontsize=16)
+    plt.xlabel(r'$x_{1,1}$', fontsize=14)
+    plt.ylabel(r'$x_{1,2}$', fontsize=14)
+    plt.title('Predicted Labels for Validation', fontsize=16)
     plt.legend()
     plt.grid(True)
     plt.show()
     
     # plot raw data
     plt.figure(figsize=(8, 6))
-    plt.scatter(X[:, 0], X[:, 1], c=y, cmap=&#39;coolwarm&#39;, edgecolor=&#39;k&#39;)
-    plt.xlabel(&#39;Feature 1&#39;)
-    plt.ylabel(&#39;Feature 2&#39;)
-    plt.colorbar(label=&#39;Class&#39;)
+    plt.scatter(X[:, 0], X[:, 1], c=y, cmap='coolwarm', edgecolor='k')
+    plt.xlabel('Feature 1')
+    plt.ylabel('Feature 2')
+    plt.colorbar(label='Class')
     plt.show()</code></pre>
-<p>Figure <a href="#fig:two-dimensional nonlinaer separable data" data-reference-type="ref" data-reference="fig:two-dimensional nonlinaer separable data">[fig:two-dimensional nonlinaer separable data]</a> shows the nonlinear dataset used for training, and Figure <a href="#fig:predicted labels for validation MLP" data-reference-type="ref" data-reference="fig:predicted labels for validation MLP">13</a> shows the predictions generated by the trained network.</p>
+<p>Figure <a data-reference="fig:two-dimensional nonlinaer separable data" data-reference-type="ref" href="#fig:two-dimensional nonlinaer separable data">[fig:two-dimensional nonlinaer separable data]</a> shows the nonlinear dataset used for training, and Figure <a data-reference="fig:predicted labels for validation MLP" data-reference-type="ref" href="#fig:predicted labels for validation MLP">13</a> shows the predictions generated by the trained network.</p>
 <figure>
-<img src="img/lecture13/dataset for MLP.png" id="fig:predicted labels for validation MLP" alt="Predicted Labels for Validation" /><figcaption aria-hidden="true">Predicted Labels for Validation</figcaption>
+<img alt="Predicted Labels for Validation" id="fig:predicted labels for validation MLP" src="img/lecture13/dataset for MLP.png"/><figcaption aria-hidden="true">Predicted Labels for Validation</figcaption>
 </figure>
 <figure>
-<img src="img/lecture13/result for MLP.png" id="fig:predicted labels for validation MLP" alt="Predicted Labels for Validation" /><figcaption aria-hidden="true">Predicted Labels for Validation</figcaption>
+<img alt="Predicted Labels for Validation" id="fig:predicted labels for validation MLP" src="img/lecture13/result for MLP.png"/><figcaption aria-hidden="true">Predicted Labels for Validation</figcaption>
 </figure>
 </section>
 </section>
-<section id="sec:qanda" data-number="0.7">
-<h2 data-number="1.7"><span class="header-section-number">1.7</span> Q&amp;A Section</h2>
-<ol>
-<li><p><strong>Question 1:</strong><br />
-Consider a 3-class classification problem where the neural network outputs raw scores for a sample as follows: <span class="math display">\[s_0 = 2.0, \quad s_1 = 1.0, \quad s_2 = 0.1\]</span> The true label for this sample is class 0. Compute the cross-entropy loss for this sample.</p>
-<p><strong>Solution:</strong></p>
-<p>We first compute the Softmax probabilities. Compute the exponentials: <span class="math display">\[e^{s_0}=e^{2.0}=7.3891,\quad
-e^{s_1}=e^{1.0}=2.7183,\quad
-e^{s_2}=e^{0.1}=1.1052.\]</span></p>
-<p>Compute the normalization term: <span class="math display">\[\sum_j e^{s_j}=7.3891+2.7183+1.1052=11.2126.\]</span></p>
-<p>Softmax probabilities: <span class="math display">\[f(s_0)=0.6590,\quad
-f(s_1)=0.2424,\quad
-f(s_2)=0.0986.\]</span></p>
-<p>Cross-entropy loss (true class = 0): <span class="math display">\[L=-\log(0.6590)=0.417.\]</span></p>
-<p>Thus, the cross-entropy loss is <span class="math inline">\(L\approx0.417\)</span>.</p></li>
-<li><p><strong>Question 2:</strong><br />
-Suppose a dataset with two features and three classes is not linearly separable and exhibits complex decision boundaries. What neural network architecture is appropriate?</p>
-<p><strong>Solution:</strong></p>
-<p>A multi-layer perceptron (MLP) is appropriate because hidden layers with nonlinear activation functions can model complex decision boundaries. The final layer should contain three output neurons followed by a Softmax function to produce class probabilities, and the network can be trained using cross-entropy loss.</p></li>
-<li><p><strong>Question 3:</strong><br />
-Let <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> be tensors with <code>requires_grad=True</code>. Consider the scalar loss <span class="math display">\[y=\sum_{i,j}(x_{1,ij}-x_{2,ij})^2.\]</span> Compute <span class="math inline">\(\nabla_{x_1}y\)</span> and explain how PyTorch obtains this result.</p>
-<p><strong>Solution:</strong></p>
-<p>Differentiating elementwise: <span class="math display">\[\frac{\partial y}{\partial x_{1,ij}}=2(x_{1,ij}-x_{2,ij}).\]</span> Hence, <span class="math display">\[\nabla_{x_1}y=2(x_1-x_2).\]</span> PyTorch records the operations in a computational graph and applies the chain rule during <code>backward()</code> using vector–Jacobian products to compute and store this gradient in <code>x1.grad</code>.</p></li>
-<li><p><strong>Question 4:</strong><br />
-What is the role of <code>requires_grad=True</code> in PyTorch, and how does this differ from NumPy arrays?</p>
-<p><strong>Solution:</strong></p>
-<p>Setting <code>requires_grad=True</code> instructs PyTorch to track operations involving the tensor and build a computational graph so gradients can be computed automatically. NumPy arrays do not track operations and therefore do not support automatic differentiation.</p></li>
-<li><p><strong>Question 5:</strong><br />
-A fully connected layer is defined as <code>nn.Linear(2, 4)</code>. How many trainable parameters does this layer contain?</p>
-<p><strong>Solution:</strong></p>
-<p>The layer has a weight matrix of size <span class="math inline">\(4\times2\)</span> and a bias vector of size <span class="math inline">\(4\)</span>. <span class="math display">\[\text{Parameters}=4\cdot2+4=12.\]</span></p></li>
-<li><p><strong>Question 6:</strong><br />
-Why must the training loop follow the order <code>zero_grad()</code>, <code>loss.backward()</code>, then <code>optimizer.step()</code>?</p>
-<p><strong>Solution:</strong></p>
-<p>Gradients accumulate in PyTorch by default. Calling <code>zero_grad()</code> clears previous gradients. <code>loss.backward()</code> computes new gradients via backpropagation. <code>optimizer.step()</code> updates the model parameters using those gradients. Changing this order would either accumulate incorrect gradients or update parameters using stale values.</p></li>
-</ol>
-</section>
-<section id="reference" data-number="0.8">
+
+<section data-number="0.8" id="reference">
 <h2 data-number="1.8"><span class="header-section-number">1.8</span> Reference</h2>
 <p>[alregib2024neural] @misc<span>alregib2024neural, author = <span>Ghassan AlRegib and Mohit Prabhushankar</span>, title = <span>Lecture 13: Neural Networks</span>, year = <span>2024</span>, howpublished = <span>ECE 4803/8803: Fundamentals of Machine Learning (FunML), Georgia Institute of Technology, Lecture Notes</span>, note = <span>Available from FunML course materials</span>, </span></p>
 </section>

@@ -12,18 +12,17 @@
 </nav>
 <main>
 <div class="center">
-
 </div>
-<p><strong>Contributors:</strong> Dr. Ahmad Mustafa, Dr. Motaz Alfarraj, Dr. Ashraf Alattar, Dr. Chen Zhou</p>
-<p><strong>Teaching Assistants</strong> with remarkable contributions include: Kuo-Wei Lai, Wuyang Du, Shiva Mahato, Michael Zhou, Ninghan Zhong</p>
-<p><strong>Disclaimer</strong>: <span>All content of these notes are part of this course at Georgia Tech. Any re-use or distribution is not permitted without pre-approved permission. All these notes belong to, created by, and copyrighted for Ghassan AlRegib and Mohit Prabhushankar, Georgia Tech, 2021–2028.</span></p>
-<p><strong>License</strong>: <span>These lecture notes are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</span></p>
-<p><strong>Errata</strong>: <span><em>Please submit any errata you find using the following form: <a href="https://forms.office.com/r/fbg9dMWPgY">Errata Form for FunML Textbook</a> or visit: <a href="https://forms.office.com/r/fbg9dMWPgY">https://forms.office.com/r/fbg9dMWPgY</a></em></span></p>
-<section id="lecture-objectives" data-number="0.1">
+
+
+
+
+
+<section data-number="0.1" id="lecture-objectives">
 <h2 data-number="1.1"><span class="header-section-number">1.1</span> Lecture Objectives</h2>
 <p>This lecture aims to expand sequence and image modeling techniques by introducing Temporal Convolutional Networks (TCNs), Encoder-Decoder architectures, and the Vision Transformer. The objective is to show how TCNs use causal and dilated convolutions for efficient sequence processing, how Encoder-Decoders enable sequence-to-sequence tasks like machine translation with embeddings and attention, and how Vision Transformers apply transformer principles to image data as sequences of patches, bridging sequence modeling with computer vision applications.</p>
 </section>
-<section id="recap-of-last-lecture" data-number="0.2">
+<section data-number="0.2" id="recap-of-last-lecture">
 <h2 data-number="1.2"><span class="header-section-number">1.2</span> Recap of Last Lecture</h2>
 <ul>
 <li><p>Understand the fundamentals of sequence modeling and its applications in tasks like machine translation.</p>
@@ -51,12 +50,12 @@
 </ul></li>
 </ul>
 </section>
-<section id="temporal-convolutional-networks" data-number="0.3">
+<section data-number="0.3" id="temporal-convolutional-networks">
 <h2 data-number="1.3"><span class="header-section-number">1.3</span> Temporal Convolutional Networks</h2>
 <ul>
 <li><p><strong>Causal Convolutions</strong>: In TCNs, <em>causal convolutions</em> ensure that each output at time step <span class="math inline">\(t\)</span> depends only on the current and previous inputs, preserving the sequence order and preventing information from the future from affecting the present. This is achieved by padding the input sequence with <span class="math inline">\(k-1\)</span> zeros on both sides for a kernel of length <span class="math inline">\(k\)</span>. As the kernel slides along the sequence, the output at time <span class="math inline">\(t\)</span> is computed as: <span class="math display">\[y^{(t)} = f(x^{(t)}, x^{(t-1)}, \dots, x^{(1)})\]</span> This setup maintains causality, making it suitable for predictive tasks where future data should not influence present outcomes.</p></li>
-<li><p><strong>Dilated Convolutions</strong>: Dilated convolutions are used in TCNs to increase the effective receptive field of the network without increasing the depth or number of parameters. By introducing a <em>dilation factor</em> <span class="math inline">\(d\)</span>, TCNs can capture long-range dependencies more efficiently.<br />
-In a dilated convolution, the input sequence is sampled with gaps, where the dilation factor <span class="math inline">\(d\)</span> determines the spacing between elements. With increasing layers, the dilation factor increases exponentially, allowing the network to cover a large context.<br />
+<li><p><strong>Dilated Convolutions</strong>: Dilated convolutions are used in TCNs to increase the effective receptive field of the network without increasing the depth or number of parameters. By introducing a <em>dilation factor</em> <span class="math inline">\(d\)</span>, TCNs can capture long-range dependencies more efficiently.<br/>
+In a dilated convolution, the input sequence is sampled with gaps, where the dilation factor <span class="math inline">\(d\)</span> determines the spacing between elements. With increasing layers, the dilation factor increases exponentially, allowing the network to cover a large context.<br/>
 The number of zeros padded on each side of the input sequence becomes <span class="math inline">\(d \cdot (k - 1)\)</span>, where <span class="math inline">\(k\)</span> is the kernel size, and d is the dilation factor. The convolution remains causal, respecting the sequence order.</p></li>
 <li><p><strong>Computational Complexity</strong>: TCNs are computationally more efficient than Recurrent Neural Networks (RNNs) due to their use of convolutional layers, which can be parallelized. Unlike RNNs, which rely on intermediate state variables and sequential updates, TCNs use a fixed set of kernels per layer, reducing computational bottlenecks and allowing for faster processing of long sequences. This parallelizability makes TCNs particularly suitable for tasks that require processing large amounts of sequential data.</p></li>
 <li><p><strong>Advantages of TCNs</strong>: TCNs offer several advantages over traditional RNN-based models:</p>
@@ -79,33 +78,33 @@ The number of zeros padded on each side of the input sequence becomes <span clas
 <p>Residual connections enhance the depth of TCNs by allowing gradients to pass through layers effectively, making it feasible to train deep networks while retaining important information across layers.</p></li>
 </ul>
 </section>
-<section id="encoder-decoder-architectures" data-number="0.4">
+<section data-number="0.4" id="encoder-decoder-architectures">
 <h2 data-number="1.4"><span class="header-section-number">1.4</span> Encoder-Decoder Architectures</h2>
-<section id="section" data-number="0.4.0.0.1">
+<section data-number="0.4.0.0.1" id="section">
 <h5 data-number="1.4.0.0.1"><span class="header-section-number">1.4.0.0.1</span> </h5>
 <p>Encoder-Decoder models are widely used for sequence-to-sequence tasks where input and output sequences may differ in length, such as in language translation. In these models, the encoder processes the input sequence into a fixed-dimensional context vector that summarizes the input data. This context vector is then used by the decoder to generate the output sequence step-by-step.</p>
 </section>
-<section id="encoder-and-decoder-mechanisms" data-number="0.4.1">
+<section data-number="0.4.1" id="encoder-and-decoder-mechanisms">
 <h3 data-number="1.4.1"><span class="header-section-number">1.4.1</span> Encoder and Decoder Mechanisms</h3>
 <ul>
 <li><p><strong>Encoder</strong>: The input sequence is represented as a sequence of tokens <span class="math inline">\(\mathbf{x}=(x_1, x_2,..., x_T)\)</span>. For each time step <span class="math inline">\(t\)</span>, the encoder updates its hidden state <span class="math inline">\(\mathbf{h}_t\)</span> based on the current input <span class="math inline">\(x_t\)</span> and the previous hidden state <span class="math inline">\(\mathbf{h}_{t-1}\)</span>: <span class="math display">\[\mathbf{h}_t = f_{\text{enc}}(\mathbf{x}_t, \mathbf{h}_{t-1}; \theta_{\text{enc}})\]</span> where <span class="math inline">\(f_{enc}\)</span> is the encoder function (often an RNN, LSTM, or GRU), and <span class="math inline">\(\theta_{\text{enc}}\)</span> are the encoder parameters. After processing the input sequence, the final encoder hidden state <span class="math inline">\(h_t\)</span> serves as the context vector <span class="math inline">\(c\)</span>, which encapsulates the information from the entire input sequence: <span class="math display">\[\mathbf{c} = \mathbf{h}_t\]</span></p></li>
 <li><p><strong>Decode</strong>r: The decoder initializes its hidden state <span class="math inline">\(\mathbf{s}_0\)</span> using the context vector <span class="math inline">\(\mathbf{c}\)</span>. For each time step <span class="math inline">\(t\)</span>, the decoder updates its hidden state <span class="math inline">\(\mathbf{s}_t\)</span> based on the previous output <span class="math inline">\(y_{t-1}\)</span>, the previous hidden state <span class="math inline">\(\mathbf{s}_{t-1}\)</span>, and the context vector <span class="math inline">\(\mathbf{c}\)</span>: <span class="math display">\[\mathbf{s}_t = f_{\text{dec}}(y_{t-1}, \mathbf{s}_{t-1}, \mathbf{c}; \theta_{\text{dec}})\]</span> where <span class="math inline">\(f_{dec}\)</span> is the decoder function and <span class="math inline">\(\theta_{\text{dec}}\)</span> are the decoder parameters. At each decoding step, the decoder generates a probability distribution over the vocabulary <span class="math inline">\(V\)</span> to predict the next token: <span class="math display">\[P(y_t \mid y_{&lt;t}, c) = \text{softmax}(\mathbf{W} \mathbf{s}_t + \mathbf{b})\]</span> where <span class="math inline">\(\mathbf{W}\)</span> and <span class="math inline">\(\mathbf{b}\)</span> are learned parameters.</p></li>
 </ul>
 </section>
-<section id="word-embeddings-for-encoder-decoder-models" data-number="0.4.2">
+<section data-number="0.4.2" id="word-embeddings-for-encoder-decoder-models">
 <h3 data-number="1.4.2"><span class="header-section-number">1.4.2</span> Word Embeddings for Encoder-Decoder Models</h3>
-<section id="section-1" data-number="0.4.2.0.1">
+<section data-number="0.4.2.0.1" id="section-1">
 <h5 data-number="1.4.2.0.1"><span class="header-section-number">1.4.2.0.1</span> </h5>
 <p>Word embeddings are projections of meaningful elements, like words in NLP, into a continuous vector space that captures syntactic and semantic relationships. These embeddings position contextually similar words close together, preserving relationships such as “king" to “queen" (Male-Female), “walking" to “walked" (Verb Tense), and “Canada" to “Ottawa" (Country-Capital), as shown in the figure below.</p>
 <figure>
-<img src="img/lecture21/1_SYiW1MUZul1NvL1kc1RxwQ.png" id="fig:enter-label" alt="Linear Relationships between Words." /><figcaption aria-hidden="true">Linear Relationships between Words.</figcaption>
+<img alt="Linear Relationships between Words." id="fig:enter-label" src="img/lecture21/1_SYiW1MUZul1NvL1kc1RxwQ.png"/><figcaption aria-hidden="true">Linear Relationships between Words.</figcaption>
 </figure>
 <p>Encoder-Decoder architectures leverage these embeddings to create contextual representations of word sequences, enabling tasks like machine translation. By embedding words in a continuous space, the Encoder-Decoder model can effectively capture and use syntactic and semantic relationships, allowing it to process and generate meaningful sequences. Unlike autoencoders, Encoder-Decoder models focus on transforming input sequences into context-rich outputs, making them essential for sequence-to-sequence applications.</p>
 </section>
 </section>
-<section id="word2vec" data-number="0.4.3">
+<section data-number="0.4.3" id="word2vec">
 <h3 data-number="1.4.3"><span class="header-section-number">1.4.3</span> Word2Vec</h3>
-<section id="section-2" data-number="0.4.3.0.1">
+<section data-number="0.4.3.0.1" id="section-2">
 <h5 data-number="1.4.3.0.1"><span class="header-section-number">1.4.3.0.1</span> </h5>
 <p>The Word2Vec model is a widely used method for learning word embeddings, where words are transformed into a continuous vector space based on their context within a large corpus of text. Word2Vec offers two main approaches to generate embeddings: the Skip-Gram model and the Continuous Bag-of-Words (CBOW) model.</p>
 <ul>
@@ -119,96 +118,96 @@ The number of zeros padded on each side of the input sequence becomes <span clas
 </ul>
 <p>The visual below illustrates the different structures of CBOW and Skip-Gram. CBOW uses multiple context words to predict a single target word, while Skip-Gram leverages a single target word to predict multiple context words.</p>
 <figure>
-<img src="img/lecture21/skipgram-vs-cbow-continuous-bag-of-words-word2vec-word-representation-2048x1075.png" id="fig:SkipGram" alt="Difference between SkipGram and CBOW training architectures." /><figcaption aria-hidden="true">Difference between SkipGram and CBOW training architectures.</figcaption>
+<img alt="Difference between SkipGram and CBOW training architectures." id="fig:SkipGram" src="img/lecture21/skipgram-vs-cbow-continuous-bag-of-words-word2vec-word-representation-2048x1075.png"/><figcaption aria-hidden="true">Difference between SkipGram and CBOW training architectures.</figcaption>
 </figure>
 <p>These word embedding models lay the foundation for Encoder-Decoder architectures, where the learned embeddings are used to capture syntactic and semantic relationships between words. By transforming words into continuous vectors, the Encoder-Decoder models can better process and generate contextually rich sequences, making them suitable for applications like machine translation and text summarization.</p>
 </section>
 </section>
-<section id="sequence-to-sequence-seq2seq-model" data-number="0.4.4">
+<section data-number="0.4.4" id="sequence-to-sequence-seq2seq-model">
 <h3 data-number="1.4.4"><span class="header-section-number">1.4.4</span> Sequence-to-Sequence (Seq2Seq) Model</h3>
-<section id="section-3" data-number="0.4.4.0.1">
+<section data-number="0.4.4.0.1" id="section-3">
 <h5 data-number="1.4.4.0.1"><span class="header-section-number">1.4.4.0.1</span> </h5>
 <p>The Sequence-to-Sequence (Seq2seq) model is an encoder-decoder architecture designed for handling variable-length input and output sequences, such as in language translation. The encoder processes an input sentence word by word, generating a hidden state for each input word. The final hidden state of the encoder serves as the context vector, summarizing the entire input sequence.</p>
 <figure>
-<img src="img/lecture21/ezgif-5-d49a166959.jpg" id="fig:seq2seq_model" alt="LSTM-based Seq2Seq Encoder-Decoder Architecture" /><figcaption aria-hidden="true">LSTM-based Seq2Seq Encoder-Decoder Architecture</figcaption>
+<img alt="LSTM-based Seq2Seq Encoder-Decoder Architecture" id="fig:seq2seq_model" src="img/lecture21/ezgif-5-d49a166959.jpg"/><figcaption aria-hidden="true">LSTM-based Seq2Seq Encoder-Decoder Architecture</figcaption>
 </figure>
-<p>As illustrated in Figure <a href="#fig:seq2seq_model" data-reference-type="ref" data-reference="fig:seq2seq_model">3</a>, let <span class="math inline">\(x_i\)</span> represent the input word at position <span class="math inline">\(i\)</span>, and let <span class="math inline">\(h_i\)</span> denote the hidden state at that step. In a recurrent neural network (RNN) with Long Short-Term Memory (LSTM) units, the hidden state <span class="math inline">\(h_i\)</span> can be updated as follows:</p>
+<p>As illustrated in Figure <a data-reference="fig:seq2seq_model" data-reference-type="ref" href="#fig:seq2seq_model">3</a>, let <span class="math inline">\(x_i\)</span> represent the input word at position <span class="math inline">\(i\)</span>, and let <span class="math inline">\(h_i\)</span> denote the hidden state at that step. In a recurrent neural network (RNN) with Long Short-Term Memory (LSTM) units, the hidden state <span class="math inline">\(h_i\)</span> can be updated as follows:</p>
 <p><span class="math display">\[h_i = \text{LSTM}(x_i, h_{i-1})\]</span> where <span class="math inline">\(h_{i-1}\)</span> is the previous hidden state. After processing the entire input sequence, the encoder’s final hidden state <span class="math inline">\(h_T\)</span> serves as the initial context vector <span class="math inline">\(c\)</span> for the decoder.</p>
 </section>
-<section id="section-4" data-number="0.4.4.0.2">
+<section data-number="0.4.4.0.2" id="section-4">
 <h5 data-number="1.4.4.0.2"><span class="header-section-number">1.4.4.0.2</span> </h5>
 <p>The decoder then generates the output sequence step-by-step. Each decoding step <span class="math inline">\(j\)</span> uses the previous word <span class="math inline">\(y_{j-1}\)</span>, the previous hidden state <span class="math inline">\(s_{j-1}\)</span>, and the context vector <span class="math inline">\(c\)</span>:</p>
 <p><span class="math display">\[s_j = \text{LSTM}(y_{j-1}, s_{j-1}, c)\]</span> The probability of each word in the output sequence is computed by passing <span class="math inline">\(s_j\)</span> through a softmax layer.</p>
 </section>
 </section>
-<section id="dot-product-attention" data-number="0.4.5">
+<section data-number="0.4.5" id="dot-product-attention">
 <h3 data-number="1.4.5"><span class="header-section-number">1.4.5</span> Dot-Product Attention</h3>
-<section id="section-5" data-number="0.4.5.0.1">
+<section data-number="0.4.5.0.1" id="section-5">
 <h5 data-number="1.4.5.0.1"><span class="header-section-number">1.4.5.0.1</span> </h5>
 <p>While the Seq2seq model works well on short sequences, it struggles with longer ones due to the fixed-size context vector <span class="math inline">\(c\)</span>, which cannot capture all the information from the input sequence. To address this, we introduce Dot-Product Attention, allowing the decoder to focus on relevant parts of the input sequence dynamically.</p>
 </section>
-<section id="section-6" data-number="0.4.5.0.2">
+<section data-number="0.4.5.0.2" id="section-6">
 <h5 data-number="1.4.5.0.2"><span class="header-section-number">1.4.5.0.2</span> </h5>
 <p>In the attention mechanism, each decoder step <span class="math inline">\(j\)</span> computes an alignment score <span class="math inline">\(e_{j,i}\)</span> between the decoder’s hidden state <span class="math inline">\(s_j\)</span> and each encoder hidden state <span class="math inline">\(h_i\)</span> using the dot product:</p>
 <p><span class="math display">\[e_{j,i} = s_j^{\top} h_i\]</span> These scores are then normalized via softmax to generate attention weights <span class="math inline">\(\alpha_{j,i}\)</span>, which indicate the importance of each encoder hidden state <span class="math inline">\(h_i\)</span> for the current decoding step:</p>
 <p><span class="math display">\[\alpha_{j,i} = \frac{\exp(e_{j,i})}{\sum_{k=1}^T \exp(e_{j,k})}\]</span> The context vector <span class="math inline">\(c_j\)</span> for each decoder step is a weighted sum of the encoder hidden states:</p>
-<p><span class="math display">\[c_j = \sum_{i=1}^T \alpha_{j,i} h_i\]</span> This dynamic context vector <span class="math inline">\(c_j\)</span> is then used by the decoder to generate each word in the output sequence, allowing it to selectively focus on the most relevant parts of the input sequence as shown in Figure <a href="#fig:seq2seq_model" data-reference-type="ref" data-reference="fig:seq2seq_model">3</a>.</p>
+<p><span class="math display">\[c_j = \sum_{i=1}^T \alpha_{j,i} h_i\]</span> This dynamic context vector <span class="math inline">\(c_j\)</span> is then used by the decoder to generate each word in the output sequence, allowing it to selectively focus on the most relevant parts of the input sequence as shown in Figure <a data-reference="fig:seq2seq_model" data-reference-type="ref" href="#fig:seq2seq_model">3</a>.</p>
 </section>
 </section>
 </section>
-<section id="vision-transformer" data-number="0.5">
+<section data-number="0.5" id="vision-transformer">
 <h2 data-number="1.5"><span class="header-section-number">1.5</span> Vision Transformer</h2>
-<section id="section-7" data-number="0.5.0.0.1">
+<section data-number="0.5.0.0.1" id="section-7">
 <h5 data-number="1.5.0.0.1"><span class="header-section-number">1.5.0.0.1</span> </h5>
 <p>The Vision Transformer (ViT) processes an image as a sequence of patches, akin to treating a sentence as a sequence of words in NLP transformers. Each patch undergoes linear embedding, is combined with positional encodings, and is then fed into a transformer encoder.</p>
 </section>
-<section id="patchify-step-in-vit" data-number="0.5.1">
+<section data-number="0.5.1" id="patchify-step-in-vit">
 <h3 data-number="1.5.1"><span class="header-section-number">1.5.1</span> Patchify Step in ViT</h3>
-<section id="section-8" data-number="0.5.1.0.1">
+<section data-number="0.5.1.0.1" id="section-8">
 <h5 data-number="1.5.1.0.1"><span class="header-section-number">1.5.1.0.1</span> </h5>
 <p>ViT begins by dividing the input image into fixed-size patches, similar to tokenizing words in NLP. Each patch is then flattened and linearly embedded, creating a sequence of patch embeddings that retain spatial structure through positional encodings.</p>
 </section>
-<section id="section-9" data-number="0.5.1.0.2">
+<section data-number="0.5.1.0.2" id="section-9">
 <h5 data-number="1.5.1.0.2"><span class="header-section-number">1.5.1.0.2</span> </h5>
 <figure>
-<img src="img/lecture21/截圖 2024-11-10 下午5.15.24.png" id="fig:the_model" alt="Vision Transformer (ViT) Architecture" /><figcaption aria-hidden="true">Vision Transformer (ViT) Architecture</figcaption>
+<img alt="Vision Transformer (ViT) Architecture" id="fig:the_model" src="img/lecture21/截圖 2024-11-10 下午5.15.24.png"/><figcaption aria-hidden="true">Vision Transformer (ViT) Architecture</figcaption>
 </figure>
 <ul>
 <li><p><strong>Step 1: Image Partitioning</strong></p>
-<p>Given an input image <span class="math inline">\(x \in \mathbb{R}^{H \times W \times C}\)</span>, where <span class="math inline">\(H\)</span> and <span class="math inline">\(W\)</span> are the height and width of the image, and <span class="math inline">\(C\)</span> is the number of color channels (e.g., 3 for RGB images). The image is divided into non-overlapping patches, each of size <span class="math inline">\(P \times P\)</span>, where <span class="math inline">\(P\)</span> is the patch dimension, as shown in Figure <a href="#fig:the_model" data-reference-type="ref" data-reference="fig:the_model">4</a>.</p></li>
+<p>Given an input image <span class="math inline">\(x \in \mathbb{R}^{H \times W \times C}\)</span>, where <span class="math inline">\(H\)</span> and <span class="math inline">\(W\)</span> are the height and width of the image, and <span class="math inline">\(C\)</span> is the number of color channels (e.g., 3 for RGB images). The image is divided into non-overlapping patches, each of size <span class="math inline">\(P \times P\)</span>, where <span class="math inline">\(P\)</span> is the patch dimension, as shown in Figure <a data-reference="fig:the_model" data-reference-type="ref" href="#fig:the_model">4</a>.</p></li>
 <li><p><strong>Step 2: Flattening Patches</strong></p>
 <p>Each patch is flattened into a 1D vector. The total number of patches <span class="math inline">\(N\)</span> can be calculated as: <span class="math display">\[N = \frac{H \times W}{P^2}\]</span> Each patch is then reshaped to a vector of dimension <span class="math inline">\(P^2 \times C\)</span>.</p></li>
 <li><p><strong>Step 3: Linear Projection of Patches</strong></p>
-<p>Each patch vector is linearly projected to a <span class="math inline">\(D\)</span>-dimensional embedding space using a learnable linear projection. This operation can be represented as: <span class="math display">\[z_p = x_p \cdot E\]</span> where <span class="math inline">\(x_p\)</span> is the flattened patch vector, and <span class="math inline">\(E \in \mathbb{R}^{(P^2 \cdot C) \times D}\)</span> is the learnable embedding matrix. This step produces a sequence of embeddings for the patches, which serves as input to the transformer encoder, as illustrated in Figure <a href="#fig:the_model" data-reference-type="ref" data-reference="fig:the_model">4</a>.</p></li>
+<p>Each patch vector is linearly projected to a <span class="math inline">\(D\)</span>-dimensional embedding space using a learnable linear projection. This operation can be represented as: <span class="math display">\[z_p = x_p \cdot E\]</span> where <span class="math inline">\(x_p\)</span> is the flattened patch vector, and <span class="math inline">\(E \in \mathbb{R}^{(P^2 \cdot C) \times D}\)</span> is the learnable embedding matrix. This step produces a sequence of embeddings for the patches, which serves as input to the transformer encoder, as illustrated in Figure <a data-reference="fig:the_model" data-reference-type="ref" href="#fig:the_model">4</a>.</p></li>
 <li><p><strong>Step 4: Position Embedding</strong></p>
 <p>To retain spatial information (i.e., where each patch is located in the image), positional embeddings are added to each patch embedding. These positional embeddings are learnable and allow the model to maintain the spatial structure of the input image, despite the flattening and embedding process.</p></li>
 <li><p><strong>Step 5: Classification Token</strong></p>
 <p>Similar to the <code>[CLS]</code> token used in NLP, a learnable "classification token" is prepended to the sequence of patch embeddings. This token accumulates the information from the patches through the transformer layers and is ultimately used for classification tasks.</p></li>
 </ul>
 </section>
-<section id="section-10" data-number="0.5.1.0.3">
+<section data-number="0.5.1.0.3" id="section-10">
 <h5 data-number="1.5.1.0.3"><span class="header-section-number">1.5.1.0.3</span> </h5>
-<p>The resulting sequence, with the classification token and embedded patches, is then passed to the transformer encoder. This approach allows the transformer to process an image as a series of patches, focusing on relationships between them rather than processing individual pixels, as shown in Figure <a href="#fig:the_model" data-reference-type="ref" data-reference="fig:the_model">4</a>.</p>
+<p>The resulting sequence, with the classification token and embedded patches, is then passed to the transformer encoder. This approach allows the transformer to process an image as a series of patches, focusing on relationships between them rather than processing individual pixels, as shown in Figure <a data-reference="fig:the_model" data-reference-type="ref" href="#fig:the_model">4</a>.</p>
 </section>
 </section>
-<section id="layer-normalization" data-number="0.5.2">
+<section data-number="0.5.2" id="layer-normalization">
 <h3 data-number="1.5.2"><span class="header-section-number">1.5.2</span> Layer Normalization</h3>
-<section id="section-11" data-number="0.5.2.0.1">
+<section data-number="0.5.2.0.1" id="section-11">
 <h5 data-number="1.5.2.0.1"><span class="header-section-number">1.5.2.0.1</span> </h5>
 <p>Layer normalization is essential in transformer architectures, addressing the limitations of batch normalization for sequence data. Unlike batch normalization, which calculates mean and variance across the batch, layer normalization operates independently on each token, making it better suited for varying sequence lengths.</p>
 </section>
-<section id="section-12" data-number="0.5.2.0.2">
+<section data-number="0.5.2.0.2" id="section-12">
 <h5 data-number="1.5.2.0.2"><span class="header-section-number">1.5.2.0.2</span> </h5>
 <p>Batch normalization requires a fixed batch size and relies on running mean and variance statistics, which can lead to inconsistencies during inference, especially in sequence tasks. In contrast, layer normalization applies normalization within each token, making it invariant to batch size and sequence length—ideal for transformers. The formula is: <span class="math display">\[y = \frac{x - \mathbb{E}[x]}{\sqrt{\text{Var}[x] + \epsilon}} \cdot \gamma + \beta\]</span> where <span class="math inline">\(\mathbb{E}[x]\)</span> and <span class="math inline">\(\text{Var}[x]\)</span> denote the mean and variance of the input <span class="math inline">\(x\)</span>, computed across the features of each token. The parameters <span class="math inline">\(\gamma\)</span> and <span class="math inline">\(\beta\)</span> are learnable, allowing the model to scale and shift the normalized values. This operation standardizes the input for each token, enabling the model to maintain consistency across different sequence lengths and ensuring stable representations without being affected by varying batch sizes.</p>
 </section>
-<section id="section-13" data-number="0.5.2.0.3">
+<section data-number="0.5.2.0.3" id="section-13">
 <h5 data-number="1.5.2.0.3"><span class="header-section-number">1.5.2.0.3</span> </h5>
-<p>Layer normalization offers several advantages over batch normalization, including the ability to operate effectively with any batch size. It also does not require storage of mean and variance statistics during training, reducing memory requirements and avoiding potential discrepancies between training and inference phases. Figure <a href="#fig:layer_norm" data-reference-type="ref" data-reference="fig:layer_norm">5</a> illustrates the structural differences between batch normalization and layer normalization, highlighting how layer normalization processes data independently within each token.</p>
+<p>Layer normalization offers several advantages over batch normalization, including the ability to operate effectively with any batch size. It also does not require storage of mean and variance statistics during training, reducing memory requirements and avoiding potential discrepancies between training and inference phases. Figure <a data-reference="fig:layer_norm" data-reference-type="ref" href="#fig:layer_norm">5</a> illustrates the structural differences between batch normalization and layer normalization, highlighting how layer normalization processes data independently within each token.</p>
 <figure>
-<img src="img/lecture21/e068e06a.png" id="fig:layer_norm" alt="Enter Caption" /><figcaption aria-hidden="true">Enter Caption</figcaption>
+<img alt="Enter Caption" id="fig:layer_norm" src="img/lecture21/e068e06a.png"/><figcaption aria-hidden="true">Enter Caption</figcaption>
 </figure>
 </section>
-<section id="section-14" data-number="0.5.2.0.4">
+<section data-number="0.5.2.0.4" id="section-14">
 <h5 data-number="1.5.2.0.4"><span class="header-section-number">1.5.2.0.4</span> </h5>
 <p>Advantages of layer normalization include:</p>
 <ul>
@@ -217,36 +216,36 @@ The number of zeros padded on each side of the input sequence becomes <span clas
 </ul>
 </section>
 </section>
-<section id="attention-mechanism" data-number="0.5.3">
+<section data-number="0.5.3" id="attention-mechanism">
 <h3 data-number="1.5.3"><span class="header-section-number">1.5.3</span> Attention Mechanism</h3>
-<section id="section-15" data-number="0.5.3.0.1">
+<section data-number="0.5.3.0.1" id="section-15">
 <h5 data-number="1.5.3.0.1"><span class="header-section-number">1.5.3.0.1</span> </h5>
 <p>The attention mechanism is a fundamental component in transformer architectures, allowing the model to dynamically focus on specific parts of the input sequence. This focus is particularly valuable in sequence-to-sequence tasks, where different parts of the input hold varying levels of importance depending on the context.</p>
 </section>
-<section id="section-16" data-number="0.5.3.0.2">
+<section data-number="0.5.3.0.2" id="section-16">
 <h5 data-number="1.5.3.0.2"><span class="header-section-number">1.5.3.0.2</span> </h5>
 <p>Attention is computed using three matrices: the query <span class="math inline">\(Q\)</span>, the key <span class="math inline">\(K\)</span>, and the value <span class="math inline">\(V\)</span>, each derived from the input sequence but with distinct weights. The model computes the relevance of each token by calculating the dot product between the query and each key, resulting in an “attention score.” This score is scaled by <span class="math inline">\(\sqrt{d_k}\)</span>, where <span class="math inline">\(d_k\)</span> is the dimensionality of the key vectors, to control the variance. The formula for scaled dot-product attention is:</p>
 <p><span class="math display">\[\text{Attention}(Q, K, V) = \text{softmax}\left( \frac{QK^{\top}}{\sqrt{d_k}} \right) V\]</span></p>
 </section>
-<section id="section-17" data-number="0.5.3.0.3">
+<section data-number="0.5.3.0.3" id="section-17">
 <h5 data-number="1.5.3.0.3"><span class="header-section-number">1.5.3.0.3</span> </h5>
 <p>The resulting attention scores are normalized using a softmax function, producing weights that highlight the most relevant tokens. These weights are then applied to the value vectors, producing the final attention output. This mechanism captures both local and global dependencies within the input sequence.</p>
 </section>
-<section id="section-18" data-number="0.5.3.0.4">
+<section data-number="0.5.3.0.4" id="section-18">
 <h5 data-number="1.5.3.0.4"><span class="header-section-number">1.5.3.0.4</span> </h5>
 <p>Transformers also employ multi-head attention to enhance their ability to capture diverse relationships in the data. In multi-head attention, several sets of query, key, and value matrices are used, each capturing a different aspect of the relationships within the sequence. The output from each attention head is concatenated and transformed by a weight matrix <span class="math inline">\(W_O\)</span>, forming the final representation:</p>
 <p><span class="math display">\[\text{MultiHead}(Q, K, V) = \text{Concat}(\text{head}_1, \dots, \text{head}_h) W_O\]</span></p>
 </section>
-<section id="section-19" data-number="0.5.3.0.5">
+<section data-number="0.5.3.0.5" id="section-19">
 <h5 data-number="1.5.3.0.5"><span class="header-section-number">1.5.3.0.5</span> </h5>
 <p>Each head in multi-head attention is computed as:</p>
 <p><span class="math display">\[\text{head}_i = \text{Attention}(QW_i^Q, KW_i^K, VW_i^V)\]</span></p>
 </section>
-<section id="section-20" data-number="0.5.3.0.6">
+<section data-number="0.5.3.0.6" id="section-20">
 <h5 data-number="1.5.3.0.6"><span class="header-section-number">1.5.3.0.6</span> </h5>
-<p>This multi-headed approach allows the model to attend to different parts of the input sequence simultaneously, enriching its capacity to understand complex relationships. Figure <a href="#fig:attention" data-reference-type="ref" data-reference="fig:attention">6</a> illustrates this concept, showing both the scaled dot-product attention and the multi-head attention mechanism used in transformers.</p>
+<p>This multi-headed approach allows the model to attend to different parts of the input sequence simultaneously, enriching its capacity to understand complex relationships. Figure <a data-reference="fig:attention" data-reference-type="ref" href="#fig:attention">6</a> illustrates this concept, showing both the scaled dot-product attention and the multi-head attention mechanism used in transformers.</p>
 <figure>
-<img src="img/lecture21/圖片 1.png" id="fig:attention" alt="Diagram of Scaled Dot-Product Attention (left) and Multi-Head Attention (right)" /><figcaption aria-hidden="true">Diagram of Scaled Dot-Product Attention (left) and Multi-Head Attention (right)</figcaption>
+<img alt="Diagram of Scaled Dot-Product Attention (left) and Multi-Head Attention (right)" id="fig:attention" src="img/lecture21/圖片 1.png"/><figcaption aria-hidden="true">Diagram of Scaled Dot-Product Attention (left) and Multi-Head Attention (right)</figcaption>
 </figure>
 </section>
 </section>

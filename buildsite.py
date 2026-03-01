@@ -4,6 +4,7 @@ import argparse
 import subprocess
 import shutil
 import re
+from bs4 import BeautifulSoup
 
 
 PROJECT_TITLE = "ECE 4252/6252 – FunML Lecture Notes"
@@ -129,6 +130,7 @@ def build_single_html(tex: Path, out_html_path: Path, out_root: Path, title: str
   ])
 
   body = tmp_html.read_text(errors="ignore")
+  body, qanda_html = clean_lecture_body(body)
 
   final_html = f"""<!doctype html>
 <html>
@@ -152,6 +154,39 @@ def build_single_html(tex: Path, out_html_path: Path, out_root: Path, title: str
   out_html_path.write_text(final_html)
   tmp_html.unlink()
   tmp_tex.unlink()
+  return qanda_html
+
+
+def clean_lecture_body(body_html: str):
+  soup = BeautifulSoup(body_html, "html.parser")
+
+  # Remove repeated boilerplate block that appears at the top of many lectures.
+  boilerplate_keys = {
+    "contributors:",
+    "teaching assistants",
+    "disclaimer",
+    "license",
+    "errata",
+  }
+  for p in soup.find_all("p"):
+    strong = p.find("strong")
+    if not strong:
+      continue
+    key = strong.get_text(" ", strip=True).strip().lower()
+    if any(key.startswith(k) for k in boilerplate_keys):
+      p.decompose()
+
+  # Extract Q&A sections to publish them in Exercises instead of each lecture.
+  qanda_sections = []
+  for sec in soup.find_all("section"):
+    sec_id = (sec.get("id") or "").lower()
+    heading = sec.find(re.compile(r"^h[1-6]$"))
+    heading_text = heading.get_text(" ", strip=True).lower() if heading else ""
+    if "qanda" in sec_id or "q&a" in heading_text or "q and a" in heading_text:
+      qanda_sections.append(str(sec))
+      sec.decompose()
+
+  return str(soup), qanda_sections
 
 
 def build_site(src_root: Path, out_root: Path, write_index: bool):
@@ -170,6 +205,7 @@ def build_site(src_root: Path, out_root: Path, write_index: bool):
     shutil.copytree(img_dir, lectures_out / "img", dirs_exist_ok=True)
 
   lecture_pages = []
+  qanda_entries = []
   # Ensure in-class exercise artifacts are not published.
   for old in lectures_out.glob("*_exercise*.html"):
     old.unlink()
@@ -186,9 +222,40 @@ def build_site(src_root: Path, out_root: Path, write_index: bool):
     tex = pick_main_tex(tex_files, lecture_number)
     title = extract_title(tex)
     out_html = f"{lec_dir.name}.html"
-    build_single_html(tex, lectures_out / out_html, out_root, title)
+    qanda_sections = build_single_html(tex, lectures_out / out_html, out_root, title)
+    if qanda_sections:
+      qanda_entries.append((lec_dir.name, title, qanda_sections))
 
     lecture_pages.append((title, out_html))
+
+  # Build a shared Exercises page using all extracted Q&A sections.
+  if qanda_entries:
+    qanda_blocks = []
+    for lecture_name, lecture_title, sections in qanda_entries:
+      section_html = "\n".join(sections)
+      qanda_blocks.append(
+        f"<section><h2>{lecture_name} - {lecture_title}</h2>{section_html}</section>"
+      )
+    exercises_body = "\n".join(qanda_blocks)
+  else:
+    exercises_body = "<p>No Q&A sections are currently available.</p>"
+
+  exercises_html = f"""<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>FunML Exercises (Q&A)</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<main>
+  <h1>Exercises (Q&amp;A)</h1>
+  {exercises_body}
+</main>
+</body>
+</html>
+"""
+  (assets_out / "exercises.html").write_text(exercises_html)
 
   if write_index:
     links = "\\n".join(

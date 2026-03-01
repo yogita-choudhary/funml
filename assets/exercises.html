@@ -1,0 +1,1467 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>FunML Exercises (Q&A)</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<main>
+  <h1>Exercises (Q&amp;A)</h1>
+  <section><h2>Lecture10 - Lecture 10 (slide 27):</h2><section data-number="0.5" id="qa-section">
+<h2 data-number="1.5"><span class="header-section-number">1.5</span> Q&amp;A Section</h2>
+<p>The following table shows the regression outputs from three different models on five samples, along with the ground-truth (GT) values. We will use this table to build intuition about bias, variance, and underfitting.</p>
+<table>
+<caption>Regression outputs of three models along with ground truth values.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Sample</th>
+<th style="text-align: center;">GT</th>
+<th style="text-align: center;">Model 1</th>
+<th style="text-align: center;">Model 2</th>
+<th style="text-align: center;">Model 3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">4.8</td>
+<td style="text-align: center;">5.2</td>
+<td style="text-align: center;">5.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">4.7</td>
+<td style="text-align: center;">5.3</td>
+<td style="text-align: center;">6.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">4.9</td>
+<td style="text-align: center;">5.5</td>
+<td style="text-align: center;">7.2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">5.0</td>
+<td style="text-align: center;">5.7</td>
+<td style="text-align: center;">8.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">9</td>
+<td style="text-align: center;">5.2</td>
+<td style="text-align: center;">5.9</td>
+<td style="text-align: center;">9.3</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Important note.</strong> In the formal bias–variance decomposition, bias and variance are defined with respect to many possible training datasets. Since we only have one dataset here, we will use a <strong>simplified empirical proxy</strong>: we treat the model predictions across samples as if they were repeated predictions. This lets us build intuition about bias and variance without requiring multiple datasets.</p>
+<ol>
+<li><p><strong>Question:</strong> What is the average <strong>empirical bias proxy</strong> for each model across the five samples? <strong>Options:</strong></p>
+<ol>
+<li><p>Model 1: 2.92, Model 2: 0.44, Model 3: 0.08</p></li>
+<li><p>Model 1: 6.33, Model 2: 4.19, Model 3: 2.01</p></li>
+<li><p>Model 1: 2.92, Model 2: 1.44, Model 3: 0.08</p></li>
+<li><p>Model 1: 1.92, Model 2: 4.19, Model 3: 2.01</p></li>
+</ol>
+<p><strong>Solution:</strong> We approximate bias using the squared difference between the model’s mean prediction and the ground truth values for each sample.</p>
+<p><strong>Model 1</strong>: <span class="math display">\[\text{Mean of Model 1's predictions} = \frac{4.8 + 4.7 + 4.9 + 5.0 + 5.2}{5} = 4.92\]</span> <span class="math display">\[\text{Avg Bias for Model 1} = \frac{(4.92 - 5)^2 + (4.92 - 6)^2 + (4.92 - 7)^2 + (4.92 - 8)^2 + (4.92 - 9)^2}{5} = 6.33\]</span></p>
+<p><strong>Model 2</strong>: <span class="math display">\[\text{Mean of Model 2's predictions} = \frac{5.2 + 5.3 + 5.5 + 5.7 + 5.9}{5} = 5.52\]</span> <span class="math display">\[\text{Avg Bias for Model 2} = \frac{(5.52 - 5)^2 + (5.52 - 6)^2 + (5.52 - 7)^2 + (5.52 - 8)^2 + (5.52 - 9)^2}{5} = 4.19\]</span></p>
+<p><strong>Model 3</strong>: <span class="math display">\[\text{Mean of Model 3's predictions} = \frac{5.0 + 6.0 + 7.2 + 8.0 + 9.3}{5} = 7.1\]</span> <span class="math display">\[\text{Avg Bias for Model 3} = \frac{(7.1 - 5)^2 + (7.1 - 6)^2 + (7.1 - 7)^2 + (7.1 - 8)^2 + (7.1 - 9)^2}{5} = 2.01\]</span> The correct answer is <strong>(b) Model 1: 6.33, Model 2: 4.19, Model 3: 2.01</strong>.</p></li>
+<li><p><strong>Question:</strong> What is the average <strong>empirical variance proxy</strong> for each model? <strong>Options:</strong></p>
+<ol>
+<li><p>Model 1: 0.03, Model 2: 0.08, Model 3: 0.13</p></li>
+<li><p>Model 1: 0.05, Model 2: 0.12, Model 3: 0.15</p></li>
+<li><p>Model 1: 0.04, Model 2: 0.08, Model 3: 0.12</p></li>
+<li><p>Model 1: 0.03, Model 2: 0.07, Model 3: 2.26</p></li>
+</ol>
+<p><strong>Solution:</strong> We approximate variance as the variance of the model’s predictions.</p>
+<p>Variance is calculated as the average of the squared differences between each model’s predictions and its mean prediction.</p>
+<p><strong>Model 1</strong>: <span class="math display">\[\text{Variance for Model 1} = \frac{(4.8 - 4.92)^2 + (4.7 - 4.92)^2 + (4.9 - 4.92)^2 + (5.0 - 4.92)^2 + (5.2 - 4.92)^2}{5} = 0.03\]</span></p>
+<p><strong>Model 2</strong>: <span class="math display">\[\text{Variance for Model 2} = \frac{(5.2 - 5.52)^2 + (5.3 - 5.52)^2 + (5.5 - 5.52)^2 + (5.7 - 5.52)^2 + (5.9 - 5.52)^2}{5} = 0.07\]</span></p>
+<p><strong>Model 3</strong>: <span class="math display">\[\text{Variance for Model 3} = \frac{(5.0 - 7.1)^2 + (6.0 - 7.1)^2 + (7.2 - 7.1)^2 + (8.0 - 7.1)^2 + (9.3 - 7.1)^2}{5} = 2.26\]</span></p>
+<p>The correct answer is <strong>(d) Model 1: 0.03, Model 2: 0.07, Model 3: 2.26</strong>.</p></li>
+<li><p><strong>Question:</strong> If the differences in bias/variance values are significant enough, would we expect model 1 is more likely to have overfit or underfit? <strong>Options:</strong></p>
+<ol>
+<li><p>Underfit</p></li>
+<li><p>Overfit</p></li>
+</ol>
+<p><strong>Solution:</strong> Model 1 exhibits <strong>underfitting</strong> because it has high bias and low variance, meaning it is too simple and fails to capture the complexity of the data. Hence, the correct answer is <strong>(a) Underfit</strong>.</p></li>
+</ol>
+</section></section>
+<section><h2>Lecture11 - ECE4252-8803_Notes_Template</h2><section data-number="0.13" id="qa-section">
+<h2 data-number="1.13"><span class="header-section-number">1.13</span> Q&amp;A Section</h2>
+<ol>
+<li><p><strong>Question:</strong> Given the following centroids for a k-means clustering model: <span class="math display">\[M_1 = (2, 3), \quad M_2 = (7, 8), \quad M_3 = (5, 2)\]</span> and a new data point <span class="math inline">\(x_{\text{new}} = (4, 4)\)</span>, which cluster should <span class="math inline">\(x_{\text{new}}\)</span> be assigned to using the Euclidean distance metric? <strong>If there is a tie, choose the cluster with the smaller index.</strong> <strong>Options:</strong></p>
+<ol>
+<li><p>Cluster 1</p></li>
+<li><p>Cluster 2</p></li>
+<li><p>Cluster 3</p></li>
+</ol>
+<p><strong>Solution:</strong> We compute the Euclidean distance from <span class="math inline">\(x_{\text{new}}=(4,4)\)</span> to each centroid: <span class="math display">\[d(x_{\text{new}}, M_1) = \sqrt{(4 - 2)^2 + (4 - 3)^2} = \sqrt{5} \approx 2.24\]</span> <span class="math display">\[d(x_{\text{new}}, M_2) = \sqrt{(4 - 7)^2 + (4 - 8)^2} = \sqrt{25} = 5\]</span> <span class="math display">\[d(x_{\text{new}}, M_3) = \sqrt{(4 - 5)^2 + (4 - 2)^2} = \sqrt{5} \approx 2.24\]</span> There is a tie between Cluster 1 and Cluster 3. By the tie-break rule (smaller index), we assign <span class="math inline">\(x_{\text{new}}\)</span> to <strong>Cluster 1</strong>. Therefore, the correct answer is <strong>(a) Cluster 1</strong>.</p></li>
+<li><p><strong>Question:</strong> In a k-Medoids clustering model, the following medoids were determined after training: <span class="math display">\[M_1 = (1, 5), \quad M_2 = (4, 5)\]</span> A new data point <span class="math inline">\(x_{\text{new}} = (3, 6)\)</span> arrives. Using the Chebyshev distance (L-infinity norm), which cluster does <span class="math inline">\(x_{\text{new}}\)</span> belong to? <strong>Options:</strong></p>
+<ol>
+<li><p>Cluster 1</p></li>
+<li><p>Cluster 2</p></li>
+</ol>
+<p><strong>Solution:</strong> The Chebyshev distance between two points <span class="math inline">\((x_1, y_1)\)</span> and <span class="math inline">\((x_2, y_2)\)</span> is calculated as: <span class="math display">\[d(x_{\text{new}}, M_j) = \max\{|x_1 - x_2|, |y_1 - y_2|\}\]</span> We calculate the Chebyshev distance between <span class="math inline">\(x_{\text{new}} = (3, 6)\)</span> and each medoid: <span class="math display">\[d(x_{\text{new}}, M_1) = \max\{|3 - 1|, |6 - 5|\} = \max\{2, 1\} = 2\]</span> <span class="math display">\[d(x_{\text{new}}, M_2) = \max\{|3 - 4|, |6 - 5|\} = \max\{1, 1\} = 1\]</span> Since the distance to Cluster 2 is lower, we will assign <span class="math inline">\(x_{\text{new}}\)</span> to Cluster. The correct answer is <strong>(b) Cluster 2</strong>.</p></li>
+<li><p><strong>Question:</strong> In standard k-means, each iteration alternates between: (i) assigning each point to its nearest centroid, and (ii) updating each centroid to be the mean of its assigned points. Which statement is <strong>most correct</strong> about the SSD objective <span class="math display">\[\mathrm{SSD} = \sum_{j=1}^k \sum_{x_i \in C_j} \|x_i - m_j\|_2^2\]</span> during these steps? <strong>Options:</strong></p>
+<ol>
+<li><p>The assignment step can increase SSD, but the update step always decreases it.</p></li>
+<li><p>The assignment step never increases SSD, and the update step never increases SSD.</p></li>
+<li><p>The assignment step always decreases SSD, but the update step can increase it.</p></li>
+<li><p>SSD can increase in both steps, but typically decreases in practice.</p></li>
+</ol>
+<p><strong>Solution:</strong> Fix the centroids <span class="math inline">\(\{m_j\}_{j=1}^k\)</span>. The assignment step chooses, for each <span class="math inline">\(x_i\)</span>, the cluster whose centroid is closest, which minimizes <span class="math inline">\(\|x_i - m_j\|_2^2\)</span> among all clusters. Therefore, reassigning points to their nearest centroids cannot increase the total SSD. Next, fix the assignments <span class="math inline">\(\{C_j\}_{j=1}^k\)</span>. For each cluster <span class="math inline">\(C_j\)</span>, the centroid update sets <span class="math display">\[m_j \leftarrow \frac{1}{|C_j|}\sum_{x_i \in C_j} x_i,\]</span> which is the minimizer of <span class="math inline">\(\sum_{x_i\in C_j}\|x_i - m\|_2^2\)</span> over <span class="math inline">\(m\)</span> (the mean minimizes squared Euclidean error). Thus the update step also cannot increase SSD. Hence SSD is non-increasing in both steps. The correct answer is <strong>(b)</strong>.</p></li>
+<li><p><strong>Question:</strong> In k-means++, after selecting some centroids, each remaining point <span class="math inline">\(x_i\)</span> is sampled as the next centroid with probability <span class="math display">\[p(x_i)=\frac{D(x_i)^2}{\sum_r D(x_r)^2},
+\quad\text{where } D(x_i)=\min_{1\le j\le t}\|x_i-m_j\|_2.\]</span> Which statement best captures the <strong>effect</strong> of this rule? <strong>Options:</strong></p>
+<ol>
+<li><p>Points closer to existing centroids are more likely to be selected next.</p></li>
+<li><p>Points farther from existing centroids are more likely to be selected next.</p></li>
+<li><p>All points are equally likely to be selected next (uniform sampling).</p></li>
+<li><p>The next centroid must be the single farthest point (deterministic).</p></li>
+</ol>
+<p><strong>Solution:</strong> Because <span class="math inline">\(p(x_i)\)</span> is proportional to <span class="math inline">\(D(x_i)^2\)</span>, points with larger distance to their nearest already-chosen centroid receive larger probability mass. This encourages centroids to be well-separated and spread across the dataset. Therefore, the correct answer is <strong>(b)</strong>.</p></li>
+<li><p><strong>Question:</strong> Mini-batch k-means uses a running-average style centroid update rather than recomputing the exact mean over all points in a cluster each iteration. Which is the <strong>main reason</strong> for using a running average? <strong>Options:</strong></p>
+<ol>
+<li><p>It guarantees convergence to the global minimum of SSD.</p></li>
+<li><p>It reduces per-iteration computation by avoiding full passes over all <span class="math inline">\(N\)</span> points.</p></li>
+<li><p>It makes the method robust to outliers by replacing the mean with the median.</p></li>
+<li><p>It eliminates the need to choose the number of clusters <span class="math inline">\(k\)</span>.</p></li>
+</ol>
+<p><strong>Solution:</strong> Mini-batch k-means processes only a small batch of size <span class="math inline">\(b\ll N\)</span> per iteration. Since each update sees only a subset of points, the algorithm cannot compute the true full-dataset cluster means every step. A running average incorporates past information across many mini-batches while keeping each iteration cheap. Thus the main motivation is computational scalability. The correct answer is <strong>(b)</strong>.</p></li>
+<li><p><strong>Question:</strong> You have a dataset with occasional extreme outliers. You want cluster centers to be less affected by these outliers. Which modification is <strong>most appropriate</strong>? <strong>Options:</strong></p>
+<ol>
+<li><p>Use k-means with Euclidean distance and means (standard k-means).</p></li>
+<li><p>Use k-medians with Manhattan (L1) distance and medians.</p></li>
+<li><p>Use k-means++ initialization; this alone makes k-means robust to outliers.</p></li>
+<li><p>Increase <span class="math inline">\(k\)</span>; more clusters always makes the solution robust to outliers.</p></li>
+</ol>
+<p><strong>Solution:</strong> The mean is sensitive to extreme values, so standard k-means centroids can be pulled toward outliers. Replacing the mean with the median improves robustness, and pairing this with Manhattan (L1) distance aligns naturally with median-based updates. Therefore, the best choice is <strong>k-medians with L1 distance</strong>. The correct answer is <strong>(b)</strong>.</p></li>
+</ol>
+</section></section>
+<section><h2>Lecture12 - ECE4252-8803_Notes_Template</h2><section data-number="0.5" id="qa-section">
+<h2 data-number="1.5"><span class="header-section-number">1.5</span> Q&amp;A Section</h2>
+<p>The following table shows the clustering results from two different methods on five samples, along with the ground truth (GT) cluster assignments.</p>
+<table>
+<caption>Clustering outputs of two methods along with ground truth values.</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Sample</th>
+<th style="text-align: center;">Features</th>
+<th style="text-align: center;">GT Cluster</th>
+<th style="text-align: center;">Method 1</th>
+<th style="text-align: center;">Method 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">[0,1]</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">[1,1]</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">[3,1]</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">[5,1]</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">[6,1]</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">3</td>
+</tr>
+</tbody>
+</table>
+<ol>
+<li><p><strong>Question:</strong> What is the <strong>Rand Index (RI)</strong> for each method, calculated across all five samples? <strong>Options:</strong></p>
+<ol>
+<li><p>Method 1: 0.80, Method 2: 0.60</p></li>
+<li><p>Method 1: 0.60, Method 2: 0.85</p></li>
+<li><p>Method 1: 0.75, Method 2: 0.90</p></li>
+<li><p>Method 1: 0.80, Method 2: 0.95</p></li>
+</ol>
+<p><strong>Solution:</strong> The Rand Index (RI) is calculated as the ratio of the number of agreements between the two clusterings (both in-cluster and out-of-cluster pairs) to the total number of possible pairs. We first need to examine each pair of samples and compare their cluster assignments in both the ground truth and the clustering methods.<br/>
+<br/>
+For Method 1:</p>
+<table>
+<caption>Cluster Assignments for Ground Truth and Method 1</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Pairs of Samples</th>
+<th style="text-align: center;">Ground Truth Clusters (GT)</th>
+<th style="text-align: center;">Method 1 Clusters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">(S1, S2)</td>
+<td style="text-align: center;">(C1, C1)</td>
+<td style="text-align: center;">(C1, C1)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(S1, S3)</td>
+<td style="text-align: center;">(C1, C2)</td>
+<td style="text-align: center;">(C1, C2)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(S1, S4)</td>
+<td style="text-align: center;">(C1, C2)</td>
+<td style="text-align: center;">(C1, C3)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(S1, S5)</td>
+<td style="text-align: center;">(C1, C3)</td>
+<td style="text-align: center;">(C1, C3)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(S2, S3)</td>
+<td style="text-align: center;">(C1, C2)</td>
+<td style="text-align: center;">(C1, C2)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(S2, S4)</td>
+<td style="text-align: center;">(C1, C2)</td>
+<td style="text-align: center;">(C1, C3)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(S2, S5)</td>
+<td style="text-align: center;">(C1, C3)</td>
+<td style="text-align: center;">(C1, C3)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(S3, S4)</td>
+<td style="text-align: center;">(C2, C2)</td>
+<td style="text-align: center;">(C2, C3)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(S3, S5)</td>
+<td style="text-align: center;">(C2, C3)</td>
+<td style="text-align: center;">(C2, C3)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(S4, S5)</td>
+<td style="text-align: center;">(C2, C3)</td>
+<td style="text-align: center;">(C3, C3)</td>
+</tr>
+</tbody>
+</table>
+<p>From the table, we can count:</p>
+<ul>
+<li><p><span class="math inline">\(a = 1\)</span> (pair (S1, S2) where both GT and Method 1 agree that the clusters are in the same cluster).</p></li>
+<li><p><span class="math inline">\(b = 1\)</span> (pair (S3, S4) where GT says same cluster but Method 1 says different).</p></li>
+<li><p><span class="math inline">\(c = 1\)</span> (pair (S4, S5) where Method 1 says same cluster but GT says different).</p></li>
+<li><p><span class="math inline">\(d = 7\)</span> (remaining pairs where both GT and Method 1 agree that the samples are in different clusters).</p></li>
+</ul>
+<p>Thus, the Rand Index for Method 1 is: <span class="math display">\[\text{Rand Index for Method 1} = \frac{a + d}{a + b + c + d} = \frac{1+7}{1+1+1+7} = 0.80\]</span></p>
+<p>For Method 2:</p>
+<table>
+<caption>Cluster Assignments for Ground Truth and Method 2</caption>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Pairs of Samples</th>
+<th style="text-align: center;">Ground Truth Clusters (GT)</th>
+<th style="text-align: center;">Method 2 Clusters</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">(S1, S2)</td>
+<td style="text-align: center;">(C1, C1)</td>
+<td style="text-align: center;">(C1, C2)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(S1, S3)</td>
+<td style="text-align: center;">(C1, C2)</td>
+<td style="text-align: center;">(C1, C2)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(S1, S4)</td>
+<td style="text-align: center;">(C1, C2)</td>
+<td style="text-align: center;">(C1, C3)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(S1, S5)</td>
+<td style="text-align: center;">(C1, C3)</td>
+<td style="text-align: center;">(C1, C3)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(S2, S3)</td>
+<td style="text-align: center;">(C1, C2)</td>
+<td style="text-align: center;">(C2, C2)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(S2, S4)</td>
+<td style="text-align: center;">(C1, C2)</td>
+<td style="text-align: center;">(C2, C3)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(S2, S5)</td>
+<td style="text-align: center;">(C1, C3)</td>
+<td style="text-align: center;">(C2, C3)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(S3, S4)</td>
+<td style="text-align: center;">(C2, C2)</td>
+<td style="text-align: center;">(C2, C3)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">(S3, S5)</td>
+<td style="text-align: center;">(C2, C3)</td>
+<td style="text-align: center;">(C2, C3)</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">(S4, S5)</td>
+<td style="text-align: center;">(C2, C3)</td>
+<td style="text-align: center;">(C3, C3)</td>
+</tr>
+</tbody>
+</table>
+<p>From the table, we can count:</p>
+<ul>
+<li><p><span class="math inline">\(a = 0\)</span> (no pairs where both GT and Method 1 agree that the clusters are in the same cluster).</p></li>
+<li><p><span class="math inline">\(b = 2\)</span> (pairs (S1, S2) and (S3, S4) where GT says same cluster but Method 1 says different).</p></li>
+<li><p><span class="math inline">\(c = 2\)</span> (pairs (S2, S3) and (S4, S5) where Method 1 says same cluster but GT says different).</p></li>
+<li><p><span class="math inline">\(d = 6\)</span> (remaining pairs where both GT and Method 1 agree that the samples are in different clusters).</p></li>
+</ul>
+<p>Thus, the Rand Index for Method 2 is: <span class="math display">\[\text{Rand Index for Method 2} = \frac{a + d}{a + b + c + d} = \frac{0 + 6}{0+2+2+6} = 0.60\]</span></p>
+<p>Hence, the correct answer is <strong>(a) Method 1: 0.80, Method 2: 0.60</strong>.</p></li>
+<li><p><strong>Question 2:</strong> Compute the Silhouette Score for each sample based on the clusters in Method 1.</p>
+<p><strong>Solution:</strong> We use Euclidean distance on the feature vectors. In Method 1 the clusters are: <span class="math display">\[C_1=\{S1,S2\}, \quad C_2=\{S3\}, \quad C_3=\{S4,S5\}.\]</span> Recall:</p>
+<ul>
+<li><p><span class="math inline">\(a_i\)</span> = average distance to points in the same cluster</p></li>
+<li><p><span class="math inline">\(b_i\)</span> = minimum average distance to points in another cluster</p></li>
+<li><p><span class="math inline">\(s(x_i)=\frac{b_i-a_i}{\max(a_i,b_i)}\)</span></p></li>
+</ul>
+<p>By convention, if a point is the <strong>only sample in its cluster</strong>, its silhouette value is set to <span class="math inline">\(0\)</span>.</p>
+<p><strong>Example: Sample 1</strong></p>
+<ul>
+<li><p>Sample 1 is in Cluster 1 with Sample 2.</p></li>
+<li><p>Internal dissimilarity: <span class="math display">\[a_1 = d(S1,S2) = \sqrt{(1-0)^2+(1-1)^2}=1\]</span></p></li>
+<li><p>Distance to Cluster 2: <span class="math display">\[d(S1,S3)=\sqrt{(3-0)^2}=3\]</span></p></li>
+<li><p>Average distance to Cluster 3: <span class="math display">\[\frac{d(S1,S4)+d(S1,S5)}{2}=\frac{5+6}{2}=5.5\]</span> Therefore <span class="math inline">\(b_1=\min(3,5.5)=3\)</span>. <span class="math display">\[s(x_1)=\frac{3-1}{\max(1,3)}=\frac{2}{3}\approx0.67\]</span></p></li>
+</ul>
+<p>Using the same procedure for all samples:</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Sample</th>
+<th style="text-align: center;">Cluster (Method 1)</th>
+<th style="text-align: center;"><span class="math inline">\(a_i\)</span></th>
+<th style="text-align: center;"><span class="math inline">\(b_i\)</span></th>
+<th style="text-align: center;">Silhouette Score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">3.00</td>
+<td style="text-align: center;">0.67</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">2.00</td>
+<td style="text-align: center;">0.50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">0.00</td>
+<td style="text-align: center;">2.50</td>
+<td style="text-align: center;">0.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">2.00</td>
+<td style="text-align: center;">0.50</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1.00</td>
+<td style="text-align: center;">3.00</td>
+<td style="text-align: center;">0.67</td>
+</tr>
+</tbody>
+</table>
+<p>Hence, the silhouette scores for all samples are shown above.</p></li>
+<li><p><strong>Question 3:</strong> Compute the Cluster Purity for both Method 1 and Method 2 based on the ground truth clusters.</p>
+<p><strong>Solution:</strong> For Method 1:</p>
+<ul>
+<li><p>Cluster 1 (Method 1) has 2 samples, both from GT Cluster 1.</p></li>
+<li><p>Cluster 2 (Method 1) has 1 sample, which belongs to GT Cluster 2.</p></li>
+<li><p>Cluster 3 (Method 1) has 2 samples, one from GT Cluster 2 and one from GT Cluster 3.</p></li>
+</ul>
+<p>Purity (Method 1): <span class="math display">\[\text{Purity} = \frac{1}{5} (2 + 1 + 1) = 0.8\]</span></p>
+<p>For Method 2:</p>
+<ul>
+<li><p>Cluster 1 (Method 2) has 1 sample, from Ground Truth Cluster 1.</p></li>
+<li><p>Cluster 2 (Method 2) has 2 samples, one from Ground Truth Cluster 1 and one from Ground Truth Cluster 2.</p></li>
+<li><p>Cluster 3 (Method 2) has 2 samples, one from Ground Truth Cluster 2 and one from Ground Truth Cluster 3.</p></li>
+</ul>
+<p>Purity (Method 2): <span class="math display">\[\text{Purity} = \frac{1}{5} (1 + 1 + 1) = 0.60\]</span></p>
+<p>Thus, Method 1 has a purity score of 0.80, while Method 2 has a purity score of 0.60.</p></li>
+<li><p><strong>Question:</strong> Which of the three metrics (Rand Index, Silhouette Coefficient, Purity) would be <strong>more appropriate</strong> for a dataset where the number of ground truth clusters is unknown, and why? <strong>Options:</strong></p>
+<ol>
+<li><p>Rand Index, since it compares to a ground truth.</p></li>
+<li><p>Silhouette Coefficient, since it measures separation between clusters.</p></li>
+<li><p>Purity, since it indicates correctness of clustering assignment.</p></li>
+<li><p>None, because no metric is sufficient when ground truth is unknown.</p></li>
+</ol>
+<p><strong>Solution:</strong> The <strong>Silhouette Coefficient</strong> is more appropriate in cases where the number of ground truth clusters is unknown because it evaluates the quality of the clustering based on how well-separated and compact the clusters are, without needing ground truth labels.</p>
+<p>The correct answer is <strong>(b) Silhouette Coefficient</strong>.</p></li>
+</ol>
+</section></section>
+<section><h2>Lecture13 - Lecture 13: Neural Networks},</h2><section data-number="0.7" id="sec:qanda">
+<h2 data-number="1.7"><span class="header-section-number">1.7</span> Q&amp;A Section</h2>
+<ol>
+<li><p><strong>Question 1:</strong><br/>
+Consider a 3-class classification problem where the neural network outputs raw scores for a sample as follows: <span class="math display">\[s_0 = 2.0, \quad s_1 = 1.0, \quad s_2 = 0.1\]</span> The true label for this sample is class 0. Compute the cross-entropy loss for this sample.</p>
+<p><strong>Solution:</strong></p>
+<p>We first compute the Softmax probabilities. Compute the exponentials: <span class="math display">\[e^{s_0}=e^{2.0}=7.3891,\quad
+e^{s_1}=e^{1.0}=2.7183,\quad
+e^{s_2}=e^{0.1}=1.1052.\]</span></p>
+<p>Compute the normalization term: <span class="math display">\[\sum_j e^{s_j}=7.3891+2.7183+1.1052=11.2126.\]</span></p>
+<p>Softmax probabilities: <span class="math display">\[f(s_0)=0.6590,\quad
+f(s_1)=0.2424,\quad
+f(s_2)=0.0986.\]</span></p>
+<p>Cross-entropy loss (true class = 0): <span class="math display">\[L=-\log(0.6590)=0.417.\]</span></p>
+<p>Thus, the cross-entropy loss is <span class="math inline">\(L\approx0.417\)</span>.</p></li>
+<li><p><strong>Question 2:</strong><br/>
+Suppose a dataset with two features and three classes is not linearly separable and exhibits complex decision boundaries. What neural network architecture is appropriate?</p>
+<p><strong>Solution:</strong></p>
+<p>A multi-layer perceptron (MLP) is appropriate because hidden layers with nonlinear activation functions can model complex decision boundaries. The final layer should contain three output neurons followed by a Softmax function to produce class probabilities, and the network can be trained using cross-entropy loss.</p></li>
+<li><p><strong>Question 3:</strong><br/>
+Let <span class="math inline">\(x_1\)</span> and <span class="math inline">\(x_2\)</span> be tensors with <code>requires_grad=True</code>. Consider the scalar loss <span class="math display">\[y=\sum_{i,j}(x_{1,ij}-x_{2,ij})^2.\]</span> Compute <span class="math inline">\(\nabla_{x_1}y\)</span> and explain how PyTorch obtains this result.</p>
+<p><strong>Solution:</strong></p>
+<p>Differentiating elementwise: <span class="math display">\[\frac{\partial y}{\partial x_{1,ij}}=2(x_{1,ij}-x_{2,ij}).\]</span> Hence, <span class="math display">\[\nabla_{x_1}y=2(x_1-x_2).\]</span> PyTorch records the operations in a computational graph and applies the chain rule during <code>backward()</code> using vector–Jacobian products to compute and store this gradient in <code>x1.grad</code>.</p></li>
+<li><p><strong>Question 4:</strong><br/>
+What is the role of <code>requires_grad=True</code> in PyTorch, and how does this differ from NumPy arrays?</p>
+<p><strong>Solution:</strong></p>
+<p>Setting <code>requires_grad=True</code> instructs PyTorch to track operations involving the tensor and build a computational graph so gradients can be computed automatically. NumPy arrays do not track operations and therefore do not support automatic differentiation.</p></li>
+<li><p><strong>Question 5:</strong><br/>
+A fully connected layer is defined as <code>nn.Linear(2, 4)</code>. How many trainable parameters does this layer contain?</p>
+<p><strong>Solution:</strong></p>
+<p>The layer has a weight matrix of size <span class="math inline">\(4\times2\)</span> and a bias vector of size <span class="math inline">\(4\)</span>. <span class="math display">\[\text{Parameters}=4\cdot2+4=12.\]</span></p></li>
+<li><p><strong>Question 6:</strong><br/>
+Why must the training loop follow the order <code>zero_grad()</code>, <code>loss.backward()</code>, then <code>optimizer.step()</code>?</p>
+<p><strong>Solution:</strong></p>
+<p>Gradients accumulate in PyTorch by default. Calling <code>zero_grad()</code> clears previous gradients. <code>loss.backward()</code> computes new gradients via backpropagation. <code>optimizer.step()</code> updates the model parameters using those gradients. Changing this order would either accumulate incorrect gradients or update parameters using stale values.</p></li>
+</ol>
+</section></section>
+<section><h2>Lecture14 - main</h2><section data-number="0.9" id="qa-section">
+<h2 data-number="1.9"><span class="header-section-number">1.9</span> Q&amp;A Section</h2>
+<ol>
+<li><p><strong>Question:</strong></p>
+<p>Given an input image of size <span class="math inline">\(64 \times 64 \times 3\)</span>, apply a convolutional layer with a filter of size <span class="math inline">\(8 \times 8 \times 3\)</span>, stride <span class="math inline">\(4\)</span>, and no padding. Then, apply a <span class="math inline">\(4 \times 4\)</span> max pooling layer with stride <span class="math inline">\(1\)</span> and no padding. Compute the size of the final output after the pooling layer.</p>
+<p><strong>Solution:</strong></p>
+<p>After the convolutional layer (input size: <span class="math inline">\(H_{\text{in}} = 64\)</span>, <span class="math inline">\(W_{\text{in}} = 64\)</span>; filter size: <span class="math inline">\(k = 8\)</span>; stride: <span class="math inline">\(S = 4\)</span>; padding: <span class="math inline">\(P = 0\)</span>), the output dimensions are: <span class="math display">\[H_{\text{out}} = \frac{H_{\text{in}} - k + 2P}{S} + 1 = \frac{64 - 8 + 0}{4} + 1 = \frac{56}{4} + 1 = 14 + 1 = 15\]</span> <span class="math display">\[W_{\text{out}} = 15\]</span></p>
+<p>So, the output size after the convolutional layer is <span class="math inline">\(15 \times 15\)</span>.</p>
+<p>After the pooling layer (input size: <span class="math inline">\(H_{\text{in}} = 15\)</span>, <span class="math inline">\(W_{\text{in}} = 15\)</span>; filter size: <span class="math inline">\(k = 4\)</span>; stride: <span class="math inline">\(S = 1\)</span>; padding: <span class="math inline">\(P = 0\)</span>), the output dimensions are: <span class="math display">\[H_{\text{out}} = \frac{15 - 4}{1} + 1 = 11 + 1 = 12\]</span> <span class="math display">\[W_{\text{out}} = 12\]</span></p>
+<p>Therefore, the final output size after the pooling layer is <span class="math inline">\(12 \times 12\)</span>.</p></li>
+<li><p><strong>Question:</strong></p>
+<p>An input image has size <span class="math inline">\(28 \times 28 \times 1\)</span>. A convolutional layer uses <span class="math inline">\(16\)</span> filters of size <span class="math inline">\(5 \times 5\)</span>, stride <span class="math inline">\(1\)</span>, and padding <span class="math inline">\(P=2\)</span>.</p>
+<ol>
+<li><p>What is the spatial size of the output?</p></li>
+<li><p>What is the depth of the output?</p></li>
+<li><p>What is the full output volume?</p></li>
+</ol>
+<p><strong>Solution:</strong></p>
+<p>Spatial size: <span class="math display">\[\frac{28 + 2(2) - 5}{1} + 1
+= \frac{28 + 4 - 5}{1} + 1
+= 27 + 1 = 28\]</span></p>
+<p>So height and width are preserved.</p>
+<p>Depth equals the number of filters: <span class="math display">\[C_{out} = 16\]</span></p>
+<p>Final output volume: <span class="math display">\[28 \times 28 \times 16\]</span></p></li>
+<li><p><strong>Question:</strong></p>
+<p>A convolutional layer receives an input of size <span class="math inline">\(32 \times 32 \times 3\)</span>. It uses <span class="math inline">\(20\)</span> filters of size <span class="math inline">\(7 \times 7\)</span> with bias terms.</p>
+<p>How many learnable parameters does this layer contain?</p>
+<p><strong>Solution:</strong></p>
+<p>Parameters per filter: <span class="math display">\[7 \times 7 \times 3 + 1 = 148\]</span></p>
+<p>Total parameters: <span class="math display">\[148 \times 20 = 2960\]</span></p>
+<p>So the convolutional layer has <span class="math inline">\(\boxed{2960}\)</span> learnable parameters.</p></li>
+<li><p><strong>Question:</strong></p>
+<p>An input has size <span class="math inline">\(31 \times 31\)</span> and a filter of size <span class="math inline">\(5 \times 5\)</span> is used with no padding.</p>
+<p>Which stride values <span class="math inline">\(S \in \{1,2,3,4\}\)</span> produce a valid output size?</p>
+<p><strong>Solution:</strong></p>
+<p>A stride is valid only if <span class="math display">\[\frac{N - F}{S} + 1\]</span> is an integer.</p>
+<p>Here <span class="math inline">\(N=31, F=5\Rightarrow N-F=26\)</span>.</p>
+<p>Check each stride:</p>
+<p><span class="math display">\[S=1:\ \frac{26}{1}+1=27 \quad \text{valid}\]</span> <span class="math display">\[S=2:\ \frac{26}{2}+1=14 \quad \text{valid}\]</span> <span class="math display">\[S=3:\ \frac{26}{3}+1=9.67 \quad \text{invalid}\]</span> <span class="math display">\[S=4:\ \frac{26}{4}+1=7.5 \quad \text{invalid}\]</span></p>
+<p>Valid strides: <span class="math inline">\(\boxed{S=1,2}\)</span>.</p></li>
+</ol>
+</section></section>
+<section><h2>Lecture15 - Lecture 15: CNN Architectures},</h2><section data-number="0.10" id="qa-section">
+<h2 data-number="1.10"><span class="header-section-number">1.10</span> Q&amp;A Section</h2>
+<ol>
+<li><p><strong>Question:</strong> Why is stacking multiple <span class="math inline">\(3\times3\)</span> convolutions preferred over a single <span class="math inline">\(7\times7\)</span> convolution?</p>
+<p><strong>Solution:</strong> Stacking three <span class="math inline">\(3\times3\)</span> layers yields the same receptive field but:</p>
+<ul>
+<li><p>Uses fewer parameters: <span class="math inline">\(27C^2\)</span> vs <span class="math inline">\(49C^2\)</span></p></li>
+<li><p>Adds more nonlinearities (ReLU between layers)</p></li>
+<li><p>Improves representational power</p></li>
+</ul></li>
+<li><p><strong>Question:</strong> What design choice made VGG computationally expensive?</p>
+<p><strong>Solution:</strong> VGG is very deep and uses large fully connected layers, resulting in roughly <strong>138 million parameters</strong>.</p></li>
+<li><p><strong>Question:</strong> What is the core idea behind the Inception module?</p>
+<p><strong>Solution:</strong> Apply multiple operations in parallel (<span class="math inline">\(1\times1\)</span>, <span class="math inline">\(3\times3\)</span>, <span class="math inline">\(5\times5\)</span>, pooling) and concatenate outputs to capture multi-scale features efficiently.</p></li>
+<li><p><strong>Question:</strong> Why are <span class="math inline">\(1\times1\)</span> convolutions critical in GoogLeNet?</p>
+<p><strong>Solution:</strong> They act as bottleneck layers that reduce channel depth and computational cost before expensive convolutions.</p></li>
+<li><p><strong>Question:</strong> Write the Batch Normalization transformation.</p>
+<p><strong>Solution:</strong> <span class="math display">\[\mu_B=\frac{1}{m}\sum x_i,\quad
+\sigma_B^2=\frac{1}{m}\sum (x_i-\mu_B)^2\]</span> <span class="math display">\[\hat{x}_i=\frac{x_i-\mu_B}{\sqrt{\sigma_B^2+\epsilon}},\quad
+y_i=\gamma \hat{x}_i+\beta\]</span></p></li>
+<li><p><strong>Question:</strong> What is the key idea of a residual block?</p>
+<p><strong>Solution:</strong> Instead of learning <span class="math inline">\(H(x)\)</span> directly, ResNet learns the residual: <span class="math display">\[H(x)=F(x)+x\]</span> This identity shortcut ensures gradients flow easily during backpropagation.</p></li>
+<li><p><strong>Question:</strong> Why was ResNet a turning point in deep learning?</p>
+<p><strong>Solution:</strong> It showed that depth was not the main limitation—<strong>optimization</strong> was. Residual connections enabled training of extremely deep networks and achieved super-human ImageNet performance.</p></li>
+</ol>
+</section></section>
+<section><h2>Lecture16 - ECE4252-8803_Notes_Template</h2><section data-number="0.11" id="qa-section">
+<h2 data-number="1.11"><span class="header-section-number">1.11</span> Q&amp;A Section</h2>
+<ol>
+<li><p><strong>Question 1:</strong> You are training a Neural Network on a dataset with 1 million datapoints. Describe the advantages and disadvantages of using SGD, MBGD, and BGD? <strong>Answer:</strong></p>
+<ul>
+<li><p>SGD</p>
+<ul>
+<li><p>Advantages: Very memory efficient due to weight and bias updates from each datapoint. Can help escape local minima due to high update variance.</p></li>
+<li><p>Disadvantages: High variance in update steps can lead to slower and less stable convergence paths.</p></li>
+</ul></li>
+<li><p>MBGD</p>
+<ul>
+<li><p>Advantages: Balances stability and efficiency by calculating gradients over small batches. Allows for a faster convergence than BGD, but also a smoother convergence path than SGD.</p></li>
+<li><p>Disadvantages: Variable sizes of batches can affect the speed and stability of training.</p></li>
+</ul></li>
+<li><p>BGD</p>
+<ul>
+<li><p>Advantages: Most stable updates and smoothes convergence path due to gradient updates from then entire dataset.</p></li>
+<li><p>Disadvantages: Significantly expensive computationally due to the requirement of processing every datapoint, and almost never implemented in practice.</p></li>
+</ul></li>
+</ul></li>
+<li><p><strong>Question 2:</strong> You are tasked with training a Neural Network on a large dataset consisting of sparse and dense features. You need to choose an appropriate optimizer to ensure stable convergence and adaptability to varying feature importance. Discuss the advantages and disadvantages of Adagrad, RMSprop, and Adam. <strong>Answer:</strong></p>
+<ul>
+<li><p>Adagrad</p>
+<ul>
+<li><p>Advantages: Suitable for sparse data since it changes the learning rates per parameter.</p></li>
+<li><p>Disadvantages: Experiences rapid learning decay, which is less ideal for long-term training on dense features.</p></li>
+</ul></li>
+<li><p>RMSprop</p>
+<ul>
+<li><p>Advantages: Improves upon Adagrad’s rapid decay issue by utilizing a moving average of squared gradients. This stabilizes the learning rate.</p></li>
+<li><p>Disadvantages: Can be sensitive to the choice of learning rate. It does not include momentum, which can limit its convergence speed. Due to the moving average of squared gradients, RMS prop may also struggle with sparse gradients as the moving average may diminsh.</p></li>
+</ul></li>
+<li><p>Adam</p>
+<ul>
+<li><p>Advantages: Improves upon RMSprop by incorporating momentum, allowing for smoother convergence and adaptation to varying feature importance..</p></li>
+<li><p>Disadvantages: Can sometimes lead to poorer performance compared to SGD with momentum because adaptive learning rates can cause the optimizer to settle in sharp minima of the loss function.</p></li>
+</ul></li>
+</ul></li>
+<li><p><strong>Question 3:</strong> Explain why ill-conditioned loss surfaces cause gradient descent to converge slowly. How do adaptive optimizers help address this issue?</p>
+<p><strong>Answer:</strong> Ill-conditioned loss surfaces have very different curvature in different directions. This creates a long, narrow valley where the loss changes rapidly in one direction and slowly in another. Gradient descent must use a small learning rate to avoid overshooting in steep directions, which leads to slow progress along flat directions and a zig-zag optimization path. Adaptive optimizers rescale updates for each parameter based on gradient history, allowing larger steps in flat directions and smaller steps in steep directions, improving convergence speed.</p></li>
+<li><p><strong>Question 4:</strong> Why is Mini-batch Gradient Descent the standard training method in deep learning?</p>
+<p><strong>Answer:</strong> Mini-batch Gradient Descent provides a balance between the stability of Batch Gradient Descent and the efficiency of Stochastic Gradient Descent. It reduces computational cost while maintaining a relatively low-variance gradient estimate. Additionally, mini-batches allow efficient parallel computation on GPUs and introduce a small amount of stochasticity that helps escape saddle points and local minima. For these reasons, it is the default optimization strategy in modern deep learning.</p></li>
+<li><p><strong>Question 5:</strong> Describe how the features learned by CNN filters change as we move from early layers to deeper layers.</p>
+<p><strong>Answer:</strong> Early convolutional layers learn low-level features such as edges, gradients, and color contrasts. Middle layers combine these features to detect textures, shapes, and patterns. Deeper layers learn high-level semantic features such as object parts and meaningful visual concepts (e.g., wheels or faces). This hierarchical feature learning enables CNNs to transform raw pixels into high-level representations useful for classification.</p></li>
+</ol>
+</section></section>
+<section><h2>Lecture17 - lec17</h2><section data-number="0.12" id="qa-section">
+<h2 data-number="1.12"><span class="header-section-number">1.12</span> Q&amp;A Section</h2>
+<ol>
+<li><p><strong>Question:</strong> You are training a model to classify images into one of ten categories. The dataset has roughly an equal number of samples for each category. Select the most suitable loss function.</p>
+<ul>
+<li><p>A. Mean Squared Error (MSE) Loss</p></li>
+<li><p>B. Cross-Entropy Loss</p></li>
+<li><p>C. L1 Loss</p></li>
+<li><p>D. Weighted Cross-Entropy Loss</p></li>
+</ul>
+<p><strong>Solution:</strong> <strong>B. Cross-Entropy Loss.</strong> For multi-class classification with balanced classes, standard cross-entropy loss is the most appropriate choice because it directly optimizes predicted class probabilities. MSE and L1 are primarily used for regression tasks, and weighted cross-entropy is unnecessary when the dataset is balanced.</p></li>
+<li><p><strong>Question:</strong> You are working on a medical image segmentation task where the goal is to identify tumor regions in MRI scans. Tumor pixels are far fewer than non-tumor pixels. Select the most suitable loss function.</p>
+<ul>
+<li><p>A. Cross-Entropy Loss</p></li>
+<li><p>B. Weighted Cross-Entropy Loss</p></li>
+<li><p>C. MSE Loss</p></li>
+<li><p>D. Focal Loss</p></li>
+</ul>
+<p><strong>Solution:</strong> <strong>D. Focal Loss.</strong> Severe class imbalance is common in medical segmentation tasks. Focal loss down-weights easy background examples and focuses training on hard, minority-class examples. While weighted cross-entropy can help, focal loss is typically more effective when the imbalance is extreme.</p></li>
+<li><p><strong>Question:</strong> The activation histogram slope increases in each successive layer, with values extending to large magnitudes, suggesting exploding gradients. What is the most appropriate corrective action?</p>
+<ul>
+<li><p>A. Increase the learning rate</p></li>
+<li><p>B. Decrease the learning rate</p></li>
+<li><p>C. Change the activation function to a more aggressive variant like ReLU</p></li>
+</ul>
+<p><strong>Solution:</strong> <strong>B. Decrease the learning rate.</strong> Exploding gradients cause excessively large parameter updates that destabilize training. Reducing the learning rate helps stabilize optimization and prevent divergence. Additional remedies include gradient clipping and improved weight initialization.</p></li>
+</ol>
+</section></section>
+<section><h2>Lecture18 - ECE4252-8803_Notes_Template</h2><section data-number="0.6" id="qa-section">
+<h2 data-number="1.6"><span class="header-section-number">1.6</span> Q&amp;A Section</h2>
+<ol>
+<li><p><strong>Question:</strong> What is the main objective of an autoencoder, and how does it differ from supervised learning?</p>
+<p><strong>Solution:</strong> An autoencoder learns a compact latent representation of the input and reconstructs the original data from this representation. Unlike supervised learning, it does not use labels and is trained by minimizing reconstruction error. Its goal is to capture the underlying structure of the data rather than predict target outputs.</p></li>
+<li><p><strong>Question:</strong> Under what conditions is a linear autoencoder equivalent to PCA?</p>
+<p><strong>Solution:</strong> When the network has no nonlinear activations and is trained using squared reconstruction loss, a linear autoencoder learns the same principal subspace as PCA. In this case, <span class="math display">\[\hat{\mathbf{X}}=\mathbf{X}V_KV_K^T,\]</span> which corresponds to projection onto the top <span class="math inline">\(K\)</span> principal components.</p></li>
+<li><p><strong>Question:</strong> Why do nonlinear autoencoders often achieve lower reconstruction error than linear autoencoders on image data?</p>
+<p><strong>Solution:</strong> Image data typically lies on nonlinear manifolds. Nonlinear activation functions allow the encoder and decoder to learn nonlinear transformations, enabling the model to capture more complex patterns than linear subspace methods.</p></li>
+<li><p><strong>Question:</strong> When training a fully-connected autoencoder on MNIST, what is the dimensionality of each input sample?</p>
+<p><strong>Solution:</strong> Each MNIST image is <span class="math inline">\(28\times28\)</span>. Fully-connected networks require vector inputs, so the image is flattened into a vector of length <span class="math display">\[28\times28=784.\]</span></p></li>
+<li><p><strong>Question:</strong> What is a key limitation of fully-connected autoencoders for image data?</p>
+<p><strong>Solution:</strong> They treat pixels independently and ignore spatial structure, leading to many parameters and inefficient learning of spatial patterns.</p></li>
+<li><p><strong>Question:</strong> Why are convolutional autoencoders better suited for image reconstruction?</p>
+<p><strong>Solution:</strong> Convolutional layers share weights across spatial locations and preserve locality, allowing the network to learn spatial features efficiently with far fewer parameters.</p></li>
+<li><p><strong>Question:</strong> Compute the output size of a transposed convolution with input size <span class="math inline">\(4\)</span>, kernel size <span class="math inline">\(3\)</span>, stride <span class="math inline">\(2\)</span>, and padding <span class="math inline">\(1\)</span>.</p>
+<p><strong>Solution:</strong> <span class="math display">\[\text{output size}=s(n-1)+k-2p\]</span> <span class="math display">\[=2(4-1)+3-2(1)=7.\]</span></p></li>
+<li><p><strong>Question:</strong> Why do digit clusters overlap in the 2D latent space learned by a fully-connected autoencoder?</p>
+<p><strong>Solution:</strong> The autoencoder is trained only to reconstruct inputs, not to separate classes. Therefore, the latent space reflects visual similarity rather than class separability, leading to overlapping clusters.</p></li>
+</ol>
+</section></section>
+<section><h2>Lecture2 - L2_ECE4252-8803_NaiveBayes</h2><section data-number="0.7" id="qa-section">
+<h2 data-number="1.7"><span class="header-section-number">1.7</span> Q&amp;A Section</h2>
+<ol>
+<li><p>Assume that you are given the Iris dataset, consisting of flower measurements. Recall that each measurement is comprised of four variables, denoted by <span class="math inline">\([x_1 x_2 x_3 x_4]\)</span>. Here <span class="math inline">\(x_1\)</span> is the sepal length, <span class="math inline">\(x_2\)</span> is the sepal width, <span class="math inline">\(x_3\)</span> is the petal length, and <span class="math inline">\(x_4\)</span> is the petal width. All the measurements are continuous variables in centimeter units. A machine learning model <span class="math inline">\(f(\cdot)\)</span> is trained to estimate <span class="math inline">\(x_4\)</span> given <span class="math inline">\([x_1 x_2 x_3]\)</span> as the inputs. Which one of the following tasks does <span class="math inline">\(f(\cdot)\)</span> perform?</p>
+<ol>
+<li><p>Classification</p></li>
+<li><p>Regression</p></li>
+</ol>
+<p><strong>Solution:</strong><br/>
+b) Regression</p>
+<p><strong>Explanation:</strong><br/>
+The model <span class="math inline">\(f(\cdot)\)</span> is predicting a continuous variable <span class="math inline">\(x_4\)</span> based on other continuous variables <span class="math inline">\([x_1 x_2 x_3]\)</span>. Therefore, it is performing a regression task.</p></li>
+<li><p><strong>Question:</strong><br/>
+You are given a dataset of handwritten digit images. Each image has been labeled with the correct digit (0-9). However, you are asked to develop a system that groups the images based on similarity, without using the provided labels during the training process.</p>
+<p>Which type of learning approach should you use for this task?</p>
+<ol>
+<li><p>Supervised Learning</p></li>
+<li><p>Unsupervised Learning</p></li>
+</ol>
+<p><strong>Solution:</strong><br/>
+b) Unsupervised Learning</p>
+<p><strong>Explanation:</strong><br/>
+Even though the dataset comes with labels, the task is to group the images based on their similarity without using these labels during the training process.</p></li>
+<li><p>Given the following four points in a 2D space:</p>
+<p><span class="math display">\[P_1 = (1, 2), \quad P_2 = (3, 4), \quad P_3 = (5, 1), \quad P_4 = (7, 3)\]</span></p>
+<p>Calculate the <span class="math inline">\(k=2\)</span> nearest neighbors to the new point <span class="math inline">\(P_{\text{new}} = (4, 2)\)</span> using the Manhattan distance metric.</p>
+<p><strong>Solution:</strong><br/>
+<span class="math inline">\(P_3\)</span> and one of {<span class="math inline">\(P_1\)</span>, <span class="math inline">\(P_2\)</span>}</p>
+<p><strong>Explanation:</strong><br/>
+First, compute the Manhattan distances between <span class="math inline">\(P_{\text{new}}\)</span> and each of the four points:</p>
+<p><span class="math display">\[\text{Distance to } P_1 = |4 - 1| + |2 - 2| = 3 + 0 = 3\]</span> <span class="math display">\[\text{Distance to } P_2 = |4 - 3| + |2 - 4| = 1 + 2 = 3\]</span> <span class="math display">\[\text{Distance to } P_3 = |4 - 5| + |2 - 1| = 1 + 1 = 2\]</span> <span class="math display">\[\text{Distance to } P_4 = |4 - 7| + |2 - 3| = 3 + 1 = 4\]</span></p>
+<p>The two nearest neighbors to <span class="math inline">\(P_{\text{new}}\)</span> are <span class="math inline">\(P_3\)</span> with a distance of 2, and either <span class="math inline">\(P_1\)</span> or <span class="math inline">\(P_2\)</span>, both with a distance of 3.</p></li>
+<li><p>Given the following feature values for a dataset (feature 1):</p>
+<p><span class="math display">\[\mathbf{x}_{:,1} = [42, 23, 4, 16, 15, 8]\]</span></p>
+<p>Standardize the data using min-max normalization to scale the features to the range [0, 1]. Provide the standardized value for <span class="math inline">\(x_{4,1} = 16\)</span>.</p>
+<p><strong>Solution:</strong><br/>
+0.316</p>
+<p><strong>Explanation:</strong><br/>
+First, calculate the minimum and maximum values of the dataset:</p>
+<p><span class="math display">\[\min(\mathbf{x}_{:,1}) = 4, \quad \max(\mathbf{x}_{:,1}) = 42\]</span></p>
+<p>Apply the min-max normalization formula:</p>
+<p><span class="math display">\[x_{4,1} := \frac{x_{4,1} - \min(\mathbf{x}_{:,1})}{\max(\mathbf{x}_{:,1}) - \min(\mathbf{x}_{:,1})} = \frac{16 - 4}{42 - 4} = \frac{12}{38} \approx 0.316\]</span></p>
+<p>The min-max normalization scales the value <span class="math inline">\(x_{4,1} = 16\)</span> to approximately 0.316.</p></li>
+<li><p>In a Naïve Bayes classifier, you are given the following prior probabilities and likelihoods for two binary features “free” and “win”:</p>
+<p><span class="math display">\[P(\text{Spam}) = 0.5, \qquad P(\text{Not Spam}) = 0.5\]</span> <span class="math display">\[P(\text{``free''}=1 \mid \text{Spam}) = 0.6, \qquad
+P(\text{``free''}=1 \mid \text{Not Spam}) = 0.3\]</span> <span class="math display">\[P(\text{``win''}=1 \mid \text{Spam}) = 0.7, \qquad
+P(\text{``win''}=1 \mid \text{Not Spam}) = 0.2\]</span></p>
+<p><strong>(i)</strong> Calculate the <strong>unnormalized Naïve Bayes score</strong> for the email being “Spam” given that it contains the words “free” and “win” (i.e., <span class="math inline">\(\text{``free''}=1\)</span> and <span class="math inline">\(\text{``win''}=1\)</span>).</p>
+<p><strong>Solution:</strong><br/>
+<span class="math inline">\(0.21\)</span></p>
+<p><strong>Explanation:</strong><br/>
+Using the Naïve Bayes conditional independence assumption, <span class="math display">\[P(\text{``free''}=1,\,\text{``win''}=1 \mid \text{Spam})
+= P(\text{``free''}=1 \mid \text{Spam})P(\text{``win''}=1 \mid \text{Spam})
+= 0.6 \times 0.7 = 0.42.\]</span></p>
+<p>Multiplying by the prior gives the unnormalized posterior score: <span class="math display">\[P(\text{Spam} \mid \text{``free''}=1,\,\text{``win''}=1)
+\propto P(\text{``free''}=1,\,\text{``win''}=1 \mid \text{Spam})P(\text{Spam})
+= 0.42 \times 0.5 = 0.21.\]</span></p>
+<p><strong>(ii)</strong> Compute the <strong>normalized posterior probability</strong> <span class="math display">\[P(\text{Spam}\mid \text{``free''}=1,\text{``win''}=1).\]</span> (Compute the corresponding unnormalized score for and normalize.)</p>
+<p><strong>Solution:</strong><br/>
+<span class="math display">\[P(\text{Spam}\mid \text{``free''}=1,\text{``win''}=1) = \frac{0.21}{0.21 + 0.03} = 0.875.\]</span></p>
+<p><strong>Explanation:</strong><br/>
+First compute the unnormalized Naïve Bayes score for : <span class="math display">\[P(\text{``free''}=1,\,\text{``win''}=1 \mid \text{Not Spam})
+= 0.3 \times 0.2 = 0.06,\]</span> <span class="math display">\[\text{Score}(\text{Not Spam})
+= P(\text{``free''}=1,\,\text{``win''}=1 \mid \text{Not Spam})P(\text{Not Spam})
+= 0.06 \times 0.5 = 0.03.\]</span></p>
+<p>Now normalize: <span class="math display">\[P(\text{Spam}\mid x)
+=
+\frac{\text{Score}(\text{Spam})}
+{\text{Score}(\text{Spam}) + \text{Score}(\text{Not Spam})}
+=
+\frac{0.21}{0.21+0.03}
+=
+0.875,\]</span> where <span class="math inline">\(x=(\text{``free''}=1,\text{``win''}=1)\)</span>.</p>
+<p><strong>(iii)</strong> Based on your result in (ii), classify the email as Spam or Not Spam.</p>
+<p><strong>Solution:</strong><br/>
+Spam</p>
+<p><strong>Explanation:</strong><br/>
+Since <span class="math inline">\(P(\text{Spam}\mid x)=0.875 &gt; P(\text{Not Spam}\mid x)=1-0.875=0.125\)</span>, we classify the email as <strong>Spam</strong>.</p></li>
+</ol>
+</section></section>
+<section><h2>Lecture24 - main</h2><section data-number="0.8" id="qa-section">
+<h2 data-number="1.8"><span class="header-section-number">1.8</span> Q&amp;A Section</h2>
+<ol>
+<li><p>What is the primary challenge in defining anomalies within a dataset? <strong>Answer:</strong> The primary challenge is accurately defining “normal" behavior within the data. Since anomalies are identified based on deviations from normal patterns, an unclear or incorrect definition of normality can lead to either false positives (normal data misclassified as anomalies) or false negatives (anomalies classified as normal). <strong>Explanation:</strong> The process of anomaly detection relies heavily on understanding the statistical properties of normal data. In many cases, normal behavior can vary significantly across contexts, requiring careful consideration of the domain, data patterns, and use case. This challenge underscores the importance of robust statistical modeling or machine learning techniques.</p></li>
+<li><p>Why are anomalies often considered the most significant data points in a dataset? <strong>Answer:</strong> Anomalies typically highlight rare and unusual events that may signal critical insights or important occurrences, such as fraudulent transactions, system failures, or medical conditions. <strong>Explanation:</strong> While anomalies represent only a small fraction of the data, they are often highly informative because they stand out from the background of normal behavior. This makes them valuable in applications where detecting rare events can have substantial impacts, such as cybersecurity or medical diagnostics.</p></li>
+<li><p>What are the two main components of an anomaly detection algorithm in a statistical framework? <strong>Answer:</strong> The two main components are (1)Statistic: A measurement that quantifies the behavior of the data and responds predictably under normal conditions, and (2) Decision Rule: A mechanism to interpret the statistic and classify data points as normal or anomalous. <strong>Explanation:</strong> The statistic provides a mathematical or computational representation of the data’s characteristics, while the decision rule applies thresholds or confidence intervals to make a binary decision (normal vs. anomalous). Together, these components form the foundation for statistical anomaly detection.</p></li>
+<li><p>What is the trade-off between the True Positive Rate (TPR) and False Positive Rate (FPR) in anomaly detection? <strong>Answer:</strong> There is an inherent trade-off where lowering the threshold parameter (<span class="math inline">\(\gamma\)</span>) increases TPR (detecting more anomalies) but also raises FPR (increasing false positives). Conversely, raising <span class="math inline">\(\gamma\)</span> reduces FPR but may lower TPR, leading to missed anomalies. <strong>Explanation:</strong> The threshold <span class="math inline">\(\gamma\)</span> determines the sensitivity of the anomaly detection algorithm. Adjusting <span class="math inline">\(\gamma\)</span> too low makes the model more inclusive, detecting more anomalies but potentially misclassifying normal points as anomalies. A higher threshold does the opposite, making the model more conservative.</p></li>
+<li><p>What is the main challenge of density-based methods in anomaly detection? <strong>Answer:</strong> The main challenge is handling high-dimensional data, as estimating probability density functions (PDFs) in high dimensions is computationally expensive and prone to overfitting. <strong>Explanation:</strong> Density-based methods rely on accurate modeling of the normal data distribution, but as dimensionality increases, data sparsity and computational complexity make it difficult to achieve robust estimations. This is often referred to as the "curse of dimensionality."</p></li>
+<li><p>What are the primary advantages of using the optimization techniques discussed in the lecture for reducing computational overhead in neural networks? <strong>Answer:</strong> The optimization techniques such as quantization, pruning, and knowledge distillation help in: Reducing model size - These techniques decreases the memory footprint, making models feasible for edge devices. Improving inference speed - By simplifying computations, these methods ensure faster inference without significant loss of accuracy. Energy efficiency - Optimization reduces power consumption, which is critical for deploying models on mobile or IoT devices. <strong>Explanation:</strong> Quantization reduces the precision of the weights and activations, thereby lowering the computational requirements. Pruning removes redundant parameters, maintaining the key structure of the model while improving efficiency. Knowledge distillation transfers knowledge from a larger “teacher" model to a smaller “student" model, maintaining performance while reducing complexity.</p></li>
+<li><p>Explain the role of gradient clipping in addressing exploding gradients during backpropagation through time (BPTT) in RNNs. <strong>Answer:</strong> Gradient clipping restricts the magnitude of gradients to a predefined threshold during the backpropagation process. If a gradient’s norm exceeds this threshold, it is scaled down proportionally to fit within the limit. <strong>Explanation:</strong> In RNNs, gradients can grow exponentially during BPTT, leading to numerical instability and poor convergence (exploding gradients). Gradient clipping ensures stable training by preventing gradients from becoming excessively large. It acts as a safeguard, especially in deep networks where long-term dependencies are critical but prone to instability.</p></li>
+<li><p>What is the significance of attention mechanisms in transformers compared to traditional RNN-based sequence models? <strong>Answer:</strong> Attention mechanisms allow models to focus on relevant parts of the input sequence dynamically, rather than relying solely on sequential processing like RNNs. This improves parallelism and efficiency. <strong>Explanation:</strong> RNNs process sequences step-by-step, making them computationally expensive for long inputs. Attention mechanisms, a core component of transformers, compute relationships between all parts of the sequence simultaneously. This approach enhances the ability to capture long-term dependencies, enabling state-of-the-art performance in tasks like machine translation and text summarization.</p></li>
+<li><p>How does the choice of activation function affect the training dynamics and expressiveness of a neural network? <strong>Answer:</strong> The activation function determines the network’s ability to capture non-linear relationships and influences gradient propagation during backpropagation. <strong>Explanation:</strong> ReLU (Rectified Linear Unit) is commonly used due to its simplicity and efficiency, avoiding vanishing gradient issues seen in sigmoid and tanh. However, ReLU can suffer from "dead neurons." Alternatives like Leaky ReLU and GELU address these issues by allowing small gradients for negative inputs, improving learning dynamics and overall expressiveness.</p></li>
+<li><p>What are the trade-offs involved in using batch normalization for stabilizing training in deep networks? <strong>Answer:</strong> Batch normalization accelerates training by normalizing intermediate layer outputs, reducing internal covariate shift. However, it introduces computational overhead and can cause issues during inference when batch statistics differ from training statistics. <strong>Explanation:</strong> During training, batch normalization reduces sensitivity to weight initialization and learning rates. However, it relies on batch statistics, which can vary significantly for small batch sizes or during inference, potentially affecting performance. Despite these challenges, its ability to stabilize training often outweighs the drawbacks.</p></li>
+</ol>
+</section></section>
+<section><h2>Lecture3 - L3_ECE4252-8803_LogisticRegression</h2><section data-number="0.5" id="qa-section">
+<h2 data-number="1.5"><span class="header-section-number">1.5</span> Q&amp;A Section</h2>
+<ol>
+<li><p><strong>Question:</strong><br/>
+Consider a linear regression model <span class="math inline">\(f(\mathbf{x}; \mathbf{\theta}) = \theta_1 x_1 + \theta_2 x_2\)</span> where <span class="math inline">\(\mathbf{x} = [x_1, x_2]^T\)</span> is the 2D input vector, and <span class="math inline">\(\mathbf{\theta} = [\theta_1, \theta_2]^T\)</span> are the model parameters. Given the Mean Squared Error (MSE) loss function: <span class="math display">\[\mathcal{L}_{\text{MSE}}(\mathbf{\theta}) = \frac{1}{N} \sum_{i=1}^{N} \left( y_i - \hat{y}_i \right)^2\]</span> where <span class="math inline">\(\hat{y}_i=\theta_1 x_{i1} + \theta_2 x_{i2}\)</span>, derive the gradient of the MSE loss with respect to <span class="math inline">\(\theta_1\)</span> and <span class="math inline">\(\theta_2\)</span>.</p>
+<p><strong>Solution:</strong><br/>
+To find the gradient, we first differentiate the MSE loss function with respect to <span class="math inline">\(\theta_1\)</span> and <span class="math inline">\(\theta_2\)</span> separately.</p>
+<p>Step 1: Differentiate with respect to <span class="math inline">\(\theta_1\)</span>: <span class="math display">\[\frac{\partial \mathcal{L}_{\text{MSE}}(\mathbf{\theta})}{\partial \theta_1} = \frac{\partial}{\partial \theta_1} \left[ \frac{1}{N} \sum_{i=1}^{N} \left( y_i - \theta_1 x_{i1} - \theta_2 x_{i2} \right)^2 \right]\]</span> Applying the chain rule: <span class="math display">\[\frac{\partial \mathcal{L}_{\text{MSE}}(\mathbf{\theta})}{\partial \theta_1} = \frac{2}{N} \sum_{i=1}^{N} \left( y_i - \theta_1 x_{i1} - \theta_2 x_{i2} \right) (-x_{i1})\]</span> Simplifying: <span class="math display">\[\frac{\partial \mathcal{L}_{\text{MSE}}(\mathbf{\theta})}{\partial \theta_1} = -\frac{2}{N} \sum_{i=1}^{N} x_{i1} \left( y_i - \theta_1 x_{i1} - \theta_2 x_{i2} \right)\]</span></p>
+<p>Step 2: Differentiate with respect to <span class="math inline">\(\theta_2\)</span>: <span class="math display">\[\frac{\partial \mathcal{L}_{\text{MSE}}(\mathbf{\theta})}{\partial \theta_2} = \frac{\partial}{\partial \theta_2} \left[ \frac{1}{N} \sum_{i=1}^{N} \left( y_i - \theta_1 x_{i1} - \theta_2 x_{i2} \right)^2 \right]\]</span> Again, applying the chain rule: <span class="math display">\[\frac{\partial \mathcal{L}_{\text{MSE}}(\mathbf{\theta})}{\partial \theta_2} = \frac{2}{N} \sum_{i=1}^{N} \left( y_i - \theta_1 x_{i1} - \theta_2 x_{i2} \right) (-x_{i2})\]</span> Simplifying: <span class="math display">\[\frac{\partial \mathcal{L}_{\text{MSE}}(\mathbf{\theta})}{\partial \theta_2} = -\frac{2}{N} \sum_{i=1}^{N} x_{i2} \left( y_i - \theta_1 x_{i1} - \theta_2 x_{i2} \right)\]</span></p>
+<p>Thus, the gradient of the MSE loss function with respect to <span class="math inline">\(\mathbf{\theta} = [\theta_1, \theta_2]^T\)</span> is: <span class="math display">\[\nabla_{\mathbf{\theta}} \mathcal{L}_{\text{MSE}}(\mathbf{\theta}) = -\frac{2}{N} \sum_{i=1}^{N} \begin{bmatrix} x_{i1} \\ x_{i2} \end{bmatrix} \left( y_i - \theta_1 x_{i1} - \theta_2 x_{i2} \right) = -\frac{2}{N} \sum_{i=1}^{N} \left( y_i - \hat{y}_i \right) \mathbf{x}\]</span></p></li>
+<li><p><strong>Question:</strong><br/>
+For a binary classification problem, consider a logistic regression model <span class="math inline">\(\hat{y}_i = \sigma(\theta_1 x_{i1} + \theta_2 x_{i2})\)</span> where <span class="math inline">\(\sigma(z)\)</span> is the sigmoid function, <span class="math inline">\(\mathbf{x}_i = [x_{i1}, x_{i2}]^T\)</span> is the 2D input, and <span class="math inline">\(y_i \in \{0, 1\}\)</span> is the target label. The Cross-Entropy loss function is defined as: <span class="math display">\[\mathcal{L}_{\text{CE}}(\mathbf{\theta}) = -\frac{1}{N} \sum_{i=1}^{N} \left[ y_i \log(\hat{y}_i) + (1 - y_i) \log(1 - \hat{y}_i) \right]\]</span> Derive the gradient of the Cross-Entropy loss with respect to <span class="math inline">\(\theta_1\)</span> and <span class="math inline">\(\theta_2\)</span>.</p>
+<p><strong>Solution:</strong><br/>
+To find the gradient, we need to differentiate the Cross-Entropy loss function with respect to <span class="math inline">\(\theta_1\)</span> and <span class="math inline">\(\theta_2\)</span> separately.</p>
+<p>Step 1: Differentiate with respect to <span class="math inline">\(\theta_1\)</span>:</p>
+<p>The Cross-Entropy loss function is given by: <span class="math display">\[\mathcal{L}_{\text{CE}}(\mathbf{\theta}) = -\frac{1}{N} \sum_{i=1}^{N} \left[ y_i \log(\hat{y}_i) + (1 - y_i) \log(1 - \hat{y}_i) \right]\]</span> where <span class="math inline">\(\hat{y}_i = \sigma(\theta_1 x_{i1} + \theta_2 x_{i2})\)</span> and <span class="math inline">\(\sigma(z) = \frac{1}{1 + e^{-z}}\)</span> is the sigmoid function.</p>
+<p>First, let’s compute the derivative of <span class="math inline">\(\hat{y}_i\)</span> with respect to <span class="math inline">\(\theta_1\)</span>: <span class="math display">\[\frac{\partial \hat{y}_i}{\partial \theta_1} = \frac{\partial}{\partial \theta_1} \sigma(\theta_1 x_{i1} + \theta_2 x_{i2})\]</span> Using the chain rule: <span class="math display">\[\frac{\partial \hat{y}_i}{\partial \theta_1} = \sigma(\theta_1 x_{i1} + \theta_2 x_{i2}) \left( 1 - \sigma(\theta_1 x_{i1} + \theta_2 x_{i2}) \right) x_{i1}\]</span> This simplifies to: <span class="math display">\[\frac{\partial \hat{y}_i}{\partial \theta_1} = \hat{y}_i (1 - \hat{y}_i) x_{i1}\]</span></p>
+<p>Now, let’s differentiate the Cross-Entropy loss function with respect to <span class="math inline">\(\theta_1\)</span>: <span class="math display">\[\frac{\partial \mathcal{L}_{\text{CE}}(\mathbf{\theta})}{\partial \theta_1} = \frac{\partial}{\partial \theta_1} \left[ -\frac{1}{N} \sum_{i=1}^{N} \left( y_i \log(\hat{y}_i) + (1 - y_i) \log(1 - \hat{y}_i) \right) \right]\]</span> Applying the chain rule to differentiate the logarithm terms: <span class="math display">\[\frac{\partial \mathcal{L}_{\text{CE}}(\mathbf{\theta})}{\partial \theta_1} = -\frac{1}{N} \sum_{i=1}^{N} \left[ \frac{y_i}{\hat{y}_i} \cdot \frac{\partial \hat{y}_i}{\partial \theta_1} - \frac{1 - y_i}{1 - \hat{y}_i} \cdot \frac{\partial (1 - \hat{y}_i)}{\partial \theta_1} \right]\]</span> Since <span class="math inline">\(\frac{\partial (1 - \hat{y}_i)}{\partial \theta_1} = -\frac{\partial \hat{y}_i}{\partial \theta_1}\)</span>, we get: <span class="math display">\[\frac{\partial \mathcal{L}_{\text{CE}}(\mathbf{\theta})}{\partial \theta_1} = -\frac{1}{N} \sum_{i=1}^{N} \left[ \frac{y_i}{\hat{y}_i} \hat{y}_i (1 - \hat{y}_i) x_{i1} + \frac{1 - y_i}{1 - \hat{y}_i} \hat{y}_i (1 - \hat{y}_i) x_{i1} \right]\]</span> Simplifying the expression: <span class="math display">\[\frac{\partial \mathcal{L}_{\text{CE}}(\mathbf{\theta})}{\partial \theta_1} = -\frac{1}{N} \sum_{i=1}^{N} \left( y_i - \hat{y}_i \right) x_{i1}\]</span></p>
+<p>Step 2: Differentiate with respect to <span class="math inline">\(\theta_2\)</span>:</p>
+<p>The process of differentiating with respect to <span class="math inline">\(\theta_2\)</span> is symmetric to the steps outlined above for <span class="math inline">\(\theta_1\)</span>. Thus, we have: <span class="math display">\[\frac{\partial \mathcal{L}_{\text{CE}}(\mathbf{\theta})}{\partial \theta_2} = -\frac{1}{N} \sum_{i=1}^{N} \left( y_i - \hat{y}_i \right) x_{i2}\]</span></p>
+<p>Conclusion:</p>
+<p>The gradient of the Cross-Entropy loss function with respect to the parameter vector <span class="math inline">\(\mathbf{\theta} = [\theta_1, \theta_2]^T\)</span> is: <span class="math display">\[\nabla_{\mathbf{\theta}} \mathcal{L}_{\text{CE}}(\mathbf{\theta}) = \frac{\partial \mathcal{L}_{\text{CE}}(\mathbf{\theta})}{\partial \mathbf{\theta}} = -\frac{1}{N} \sum_{i=1}^{N} \begin{bmatrix} x_{i1} \\ x_{i2} \end{bmatrix} \left( y_i - \sigma(\theta_1 x_{i1} + \theta_2 x_{i2}) \right) = -\frac{1}{N} \sum_{i=1}^{N} \left( y_i - \hat{y}_i \right) \mathbf{x}\]</span> This gradient can then be used in gradient descent to update the parameters <span class="math inline">\(\mathbf{\theta}\)</span> during the optimization process.</p></li>
+<li><p><strong>Question:</strong><br/>
+Given a binary classification problem with output labels <span class="math inline">\(y_i \in \{-1, 1\}\)</span>, the hinge loss is defined as: <span class="math display">\[\mathcal{L}_{\text{hinge}}(\mathbf{x}_i, y_i; \mathbf{\theta}) = \max(0,  - y_i (\theta_1 x_{i1} + \theta_2 x_{i2}))\]</span> Derive the subgradient of the hinge loss function with respect to <span class="math inline">\(\theta_1\)</span> and <span class="math inline">\(\theta_2\)</span>.</p>
+<p><strong>Solution:</strong><br/>
+The hinge loss function is not differentiable at <span class="math inline">\(- y_i (\theta_1 x_{i1} + \theta_2 x_{i2}) = 0\)</span>, so we use subgradients.</p>
+<p>Step 1: Subgradient with respect to <span class="math inline">\(\theta_1\)</span>: <span class="math display">\[\frac{\partial \mathcal{L}_{\text{hinge}}(\mathbf{x}_i, y_i; \mathbf{\theta})}{\partial \theta_1} = 
+\begin{cases}
+    -y_i x_{i1}, &amp; \text{if }  - y_i (\theta_1 x_{i1} + \theta_2 x_{i2}) &gt; 0 \\
+    0, &amp; \text{otherwise}
+\end{cases}\]</span></p>
+<p>Step 2: Subgradient with respect to <span class="math inline">\(\theta_2\)</span>: <span class="math display">\[\frac{\partial \mathcal{L}_{\text{hinge}}(\mathbf{x}_i, y_i; \mathbf{\theta})}{\partial \theta_2} = 
+\begin{cases}
+    -y_i x_{i2}, &amp; \text{if }  - y_i (\theta_1 x_{i1} + \theta_2 x_{i2}) &gt; 0 \\
+    0, &amp; \text{otherwise}
+\end{cases}\]</span></p>
+<p>Thus, the subgradient of the hinge loss function with respect to <span class="math inline">\(\mathbf{\theta} = [\theta_1, \theta_2]^T\)</span> is: <span class="math display">\[\frac{\partial \mathcal{L}_{\text{hinge}}(\mathbf{x}_i, y_i; \mathbf{\theta})}{\partial \mathbf{\theta}} = 
+\begin{cases}
+    -y_i \begin{bmatrix} x_{i1} \\ x_{i2} \end{bmatrix}, &amp; \text{if }  - y_i (\theta_1 x_{i1} + \theta_2 x_{i2}) &gt; 0 \\
+    \begin{bmatrix} 0 \\ 0 \end{bmatrix}, &amp; \text{otherwise}
+\end{cases}\]</span></p></li>
+</ol>
+</section></section>
+<section><h2>Lecture4 - Lecture 2}</h2><section data-number="0.6" id="qa-section">
+<h2 data-number="1.6"><span class="header-section-number">1.6</span> Q&amp;A Section</h2>
+<ol>
+<li><p>Consider the two figures below:</p>
+<div class="center">
+<p><img alt="image" src="img/lecture4/qa1-soft-hard.png"/></p>
+</div>
+<p>The left figure shows a dataset with a hard margin SVM classifier, while the right figure shows the same dataset with a soft margin SVM classifier.</p>
+<p>Now, imagine introducing an outlier close to the decision boundary but on the incorrect side of it.</p>
+<div class="center">
+<p><img alt="image" src="img/lecture4/qa1-outlier-scatter.png"/></p>
+</div>
+<p>Which classifier will better handle the outlier, and why?</p>
+<ol>
+<li><p>Hard Margin SVM: Because it maximizes the margin, it will automatically adjust the decision boundary to accommodate the outlier, resulting in a better separation of classes.</p></li>
+<li><p>Soft Margin SVM: Because it allows some misclassification, it will tolerate the outlier and not drastically change the decision boundary, leading to a more stable classification.</p></li>
+<li><p>Hard Margin SVM: Because it doesn’t allow misclassification, it will better manage the outlier by pushing it to the correct side of the decision boundary.</p></li>
+<li><p>Soft Margin SVM: Because it uses a nonlinear kernel, it will correctly classify the outlier without affecting the other data points.</p></li>
+</ol>
+<p><strong>Solution:</strong> The correct answer is <strong>B) Soft Margin SVM</strong>.</p>
+<p>The soft margin SVM is designed to allow some misclassification or margin violations, which makes it more robust in the presence of outliers. When an outlier is introduced near the decision boundary but on the incorrect side, the soft margin SVM can tolerate this outlier without significantly altering the decision boundary. This is due to the introduction of slack variables <span class="math inline">\(\xi_i\)</span> in the optimization problem, allowing some points to fall within the margin or even be misclassified: <span class="math display">\[\min_{\mathbf{w}, b, \xi} \quad \frac{1}{2} \|\mathbf{w}\|^2 + C \sum_{i=1}^{N} \xi_i\]</span> <span class="math display">\[\text{subject to} \quad y_i (\mathbf{w}^T \mathbf{x}_i + b) \geq 1 - \xi_i, \quad \xi_i \geq 0, \quad \forall i\]</span> The term <span class="math inline">\(C \sum_{i=1}^{N} \xi_i\)</span> penalizes the slack variables, balancing the margin width and the tolerance for misclassified points. A smaller <span class="math inline">\(C\)</span> allows for a wider margin and more tolerance for outliers, resulting in a more stable model in the presence of noise or misclassified points.</p>
+<p>In contrast, the hard margin SVM does not allow any misclassification, so introducing an outlier forces the SVM to adjust the decision boundary to perfectly classify all points, including the outlier. This can lead to significant changes in the decision boundary, potentially resulting in overfitting and poor generalization.</p>
+<div class="center">
+<p><img alt="image" src="img/lecture4/qa1-svms-outlier.png"/></p>
+</div></li>
+<li><p>For the next few questions, we’ll be looking at the kernel trick. Let’s consider the following dataset:</p>
+<div class="center">
+<p><img alt="image" src="img/lecture4/qa2-nonlinear-2d.png"/></p>
+</div>
+<p>Notice that the data is not linearly separable. Now we can either use a nonlinear classifier, or we could introduce nonlinearity into the data input itself. What if we transform the inputs into a higher dimension space, where some of the dimensions introduce nonlinearity? For example,</p>
+<p><span class="math display">\[\phi: \mathbb{R}^2 \rightarrow \mathbb{R}^3 \quad \text{with} \quad (x,y) \mapsto (x,y,xy)\]</span></p>
+<div class="center">
+<p><img alt="image" src="img/lecture4/qa2-nonlinear-3d.png"/></p>
+</div>
+<p>Now we can fit a linear boundary (a plane) to separate the data. Great, but what if we start in a higher dimension <span class="math inline">\(d\)</span>?</p>
+<p>Given a <span class="math inline">\(d\)</span>-dimensional input, how many possible nonlinear interaction terms can be introduced in the transformation?</p>
+<ol>
+<li><p><span class="math inline">\(2^d\)</span></p></li>
+<li><p><span class="math inline">\(d^2\)</span></p></li>
+<li><p><span class="math inline">\(\binom{d}{2}\)</span></p></li>
+<li><p><span class="math inline">\(d \times (d-1)\)</span></p></li>
+</ol>
+<p><strong>Solution:</strong> The correct answer is <span class="math inline">\(\textbf{a) } 2^d\)</span>.</p>
+<p>A subset-product feature is formed by choosing any subset of the <span class="math inline">\(d\)</span> input dimensions and multiplying the chosen coordinates together. For each dimension, we have two choices: include it or exclude it from the product. Therefore, the total number of possible subset-products is <span class="math inline">\(2^d\)</span> (including the empty subset, which corresponds to the constant feature <span class="math inline">\(1\)</span>). This exponential growth is one reason explicit feature expansion becomes infeasible in high dimensions, and motivates using kernels to compute these inner products implicitly.</p></li>
+<li><p>But do we actually need to compute the transformations? Recall the loss function we derived from the original optimization problem:</p>
+<p><span class="math display">\[L = -\frac{1}{2}\sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_i \alpha_j y_i y_j \mathbf{x^T_i} \mathbf{x_j} + \sum_{i=1}^{N} \alpha_i\]</span></p>
+<p>It turns out that if we modify the original optimization problem to:</p>
+<p><span class="math display">\[\min_{\mathbf{w}, b} \quad \frac{1}{2} \|\mathbf{w}\|^2 \\
+\]</span> <span class="math display">\[\text{subject to} \quad y_i (\mathbf{w}^T \phi(\mathbf{x}_i) + b) - 1 \geq 0, \quad \forall i\]</span></p>
+<p>Then the resulting dual problem and corresponding loss function involve the kernel <span class="math inline">\(K(\mathbf{x}_i, \mathbf{x}_j) = \phi(\mathbf{x}_i)^T \phi(\mathbf{x}_j)\)</span>:</p>
+<p><span class="math display">\[L = -\frac{1}{2} \sum_{i=1}^{N} \sum_{j=1}^{N} \alpha_i \alpha_j y_i y_j K(\mathbf{x}_i, \mathbf{x}_j) + \sum_{i=1}^{N} \alpha_i\]</span></p>
+<p>So all we care about computing is the kernel <span class="math inline">\(K(\mathbf{x}_i,\mathbf{x}_j)\)</span>. As an example, what is the kernel corresponding to the following input mapping (<span class="math inline">\(\phi:\mathbb{R}^2\rightarrow\mathbb{R}^6\)</span>)?</p>
+<p><span class="math display">\[\phi(\mathbf{x}) = (x_1^2, \sqrt{2}x_1x_2, x_2^2, \sqrt{2}x_1, \sqrt{2}x_2, 1)\]</span></p>
+<ol>
+<li><p><span class="math inline">\(K(\mathbf{x}_i,\mathbf{x}_j) = (\mathbf{x}_i^T \mathbf{x}_j)^2\)</span></p></li>
+<li><p><span class="math inline">\(K(\mathbf{x}_i,\mathbf{x}_j) = (\mathbf{x}_i^T \mathbf{x}_j + 1)^2\)</span></p></li>
+<li><p><span class="math inline">\(K(\mathbf{x}_i,\mathbf{x}_j) = \sqrt{(\mathbf{x}_i^T \mathbf{x}_j + 1)}\)</span></p></li>
+<li><p><span class="math inline">\(K(\mathbf{x}_i,\mathbf{x}_j) = (\mathbf{x}_i^T \mathbf{x}_j + 1)\)</span></p></li>
+</ol>
+<p><strong>Solution:</strong> The correct answer is <span class="math inline">\(\textbf{b) } K(\mathbf{x}_i,\mathbf{x}_j) = (\mathbf{x}_i^T \mathbf{x}_j + 1)^2\)</span>.</p>
+<p>To see why this is true, consider the expansion: <span class="math display">\[\begin{aligned}
+\phi(\mathbf{x}_i)^T \phi(\mathbf{x}_j) &amp;= x_{i1}^2x_{j1}^2 + \sqrt{2}x_{i1}x_{i2}\sqrt{2}x_{j1}x_{j2} + x_{i2}^2x_{j2}^2 + \sqrt{2}x_{i1}\sqrt{2}x_{j1} + \sqrt{2}x_{i2}\sqrt{2}x_{j2} + 1 \\
+&amp;= x_{i1}^2x_{j1}^2 + 2x_{i1}x_{i2}x_{j1}x_{j2} + x_{i2}^2x_{j2}^2 + 2x_{i1}x_{j1} + 2x_{i2}x_{j2} + 1 \\
+&amp;= (x_{i1}x_{j1} + x_{i2}x_{j2} + 1)^2 \\
+&amp;= (\mathbf{x}_i^T \mathbf{x}_j + 1)^2\end{aligned}\]</span></p>
+<p>Notice that <span class="math inline">\(K(\mathbf{x}_i, \mathbf{x}_j)\)</span> is much easier to compute directly than computing the dot product of the transformed vectors separately.</p></li>
+<li><p><strong>(Conceptual)</strong> Logistic Regression and a linear SVM can both produce linear decision boundaries of the form <span class="math inline">\(\mathbf{w}^T\mathbf{x}+b=0\)</span>. What is the <em>main difference</em> in what they optimize?</p>
+<ol>
+<li><p>Logistic Regression maximizes the geometric margin; SVM maximizes likelihood.</p></li>
+<li><p>Logistic Regression minimizes cross-entropy (negative log-likelihood); SVM maximizes the margin (equivalently minimizes <span class="math inline">\(\|\mathbf{w}\|\)</span> with margin constraints).</p></li>
+<li><p>Logistic Regression requires kernels; SVM cannot use kernels.</p></li>
+<li><p>Logistic Regression only works for separable data; SVM works for all data.</p></li>
+</ol>
+<p><strong>Solution:</strong> The correct answer is <strong>B)</strong>.</p>
+<p>Logistic Regression fits probabilities by minimizing cross-entropy (negative log-likelihood). Hard/soft-margin SVMs instead choose a separator with a large margin (and with soft margin, trade off violations via <span class="math inline">\(C\)</span>).</p></li>
+<li><p><strong>(Applied)</strong> You are training a linear SVM on a real dataset with a few mislabeled points (label noise). As you increase <span class="math inline">\(C\)</span> from very small to very large, what behavior do you expect, and why?</p>
+<ol>
+<li><p>Increasing <span class="math inline">\(C\)</span> typically increases the margin width and improves robustness to noise.</p></li>
+<li><p>Increasing <span class="math inline">\(C\)</span> typically decreases the margin width and makes the classifier fit the training data more tightly, which can overfit noisy labels.</p></li>
+<li><p>Increasing <span class="math inline">\(C\)</span> has no effect because SVMs ignore misclassified points.</p></li>
+<li><p>Increasing <span class="math inline">\(C\)</span> forces the use of a nonlinear kernel, which always improves generalization.</p></li>
+</ol>
+<p><strong>Solution:</strong> The correct answer is <strong>B)</strong>.</p>
+<p>A larger <span class="math inline">\(C\)</span> penalizes slack variables more, so the optimizer prefers fewer margin violations even if that means a narrower margin and a more complex boundary in feature space. With label noise/outliers, this can reduce robustness and hurt test performance.</p></li>
+</ol>
+</section></section>
+<section><h2>Lecture5 - L5_ECE4252-8803_NNs</h2><section data-number="0.7" id="qa-section">
+<h2 data-number="1.7"><span class="header-section-number">1.7</span> Q&amp;A Section</h2>
+<ol>
+<li><p><strong>Question:</strong>You are solving a binary classification task in which you design an ANN with a single output neuron in order to solve. Let the output of this neuron be <span class="math inline">\(z\)</span>. The final output of your network, <span class="math inline">\(y'\)</span> is given by: <span class="math inline">\(y'=\sigma(ReLU(z))\)</span>. You classify all inputs with a final value <span class="math inline">\(y' \geq 0.5\)</span> as a part of <span class="math inline">\(class\)</span> <span class="math inline">\(A\)</span> and all values with a final value of <span class="math inline">\(y' &lt; 0.5\)</span> as a part of <span class="math inline">\(class\)</span> <span class="math inline">\(B\)</span>. What problem are you going to encounter in this instance? <strong>Solution:</strong>The issue in this instance is that everything would always be classified as a member of <span class="math inline">\(class\)</span> <span class="math inline">\(A\)</span>. This is because using <span class="math inline">\(ReLU\)</span> will always output a result in the range of <span class="math inline">\([0,\infty]\)</span>. Since any input value greater than or equal to <span class="math inline">\(0\)</span> will always cause the sigmoid function to output a value greater than or equal to <span class="math inline">\(0.5\)</span>, this means that <span class="math inline">\(\sigma(ReLU(z))\geq0.5\)</span> regardless of the value of <span class="math inline">\(z\)</span>. Therefore, this will always result in everything being classified as a member of <span class="math inline">\(class\)</span> <span class="math inline">\(A\)</span> which is a problem.</p></li>
+<li><p><strong>Question:</strong>An artificial neural network is designed with <span class="math inline">\(k\)</span> inputs, and is wanting to make a boolean function to determine its class. In the worst case, how many hidden units might be required to solve for its class? <strong>Solution:</strong>In the worst case, exactly representing an arbitrary Boolean function with a single-hidden-layer network may require an exponential number of hidden units in <span class="math inline">\(k\)</span> (e.g., <span class="math inline">\(\Theta(2^k)\)</span> in the worst case).</p></li>
+<li><p><strong>Question:</strong> How many tunable parameters are there in this Neural Network?</p>
+<div class="center">
+<p><img alt="image" src="img/lecture5/network.png" style="width:10cm"/></p>
+</div>
+<p><strong>Solution:</strong> Assuming the network is fully connected between consecutive layers and each non-input neuron has a bias: <span class="math display">\[\#\text{weights} = 3\cdot 4 + 4\cdot 4 + 4\cdot 2 = 36,\qquad
+    \#\text{biases} = 4+4+2 = 10.\]</span> Thus the total number of tunable parameters is <span class="math inline">\(36+10=46\)</span>.</p></li>
+<li><p><strong>Question:</strong>You train a network on 20 samples trying to solve a classification task. Training converges and you see that the training loss is very high. You then decide to train this network on 10,000 more examples. Is your approach to fixing the problem correct? <strong>Solution:</strong> Probably not. If the training loss is high even after training has converged, the model is underfitting (high bias) or optimization is failing. Adding more data typically helps with variance/generalization, but it usually does not reduce training loss by itself. Better fixes include increasing model capacity (more hidden units/layers), improving optimization (learning rate/optimizer), feature scaling, and checking data/labels.</p></li>
+<li><p><strong>Question:</strong>What is the derivative of the Sigmoid function? <strong>Solution:</strong><span class="math inline">\(        \sigma^{'}(x) = \frac{\delta}{\delta x} (1+ e^{-x})^{-1} = -(1+e^{-x})^{-2} (-e^{-x}) = \frac{1}{1+e^{-x}} \frac{e^{-x}}{1+e^{-x}} = \sigma(x) (1 - \sigma(x))
+    \)</span> This is an interesting characteristic of the Sigmoid function, that the derivative is simply 1 minus itself, times itself!</p></li>
+<li><p><strong>Question (Applied):</strong> You train a deep neural network and notice training accuracy is stuck near random chance. List two possible causes related to activation functions.</p>
+<p><strong>Solution:</strong> Possible causes include vanishing gradients (e.g., sigmoid/tanh saturation), dead ReLU neurons, poor weight initialization, or learning rate issues.</p></li>
+<li><p><strong>Question (Computational):</strong> A fully connected layer maps 20 inputs to 15 hidden units. How many parameters does this layer have?</p>
+<p><strong>Solution:</strong> Weights: <span class="math inline">\(20 \times 15 = 300\)</span>, Biases: <span class="math inline">\(15\)</span>, Total = 315 parameters.</p></li>
+</ol>
+</section></section>
+<section><h2>Lecture6 - L6_ECE4252-8803_PerformanceEval</h2><section data-number="0.7" id="qa-section">
+<h2 data-number="1.7"><span class="header-section-number">1.7</span> Q&amp;A Section</h2>
+<ol>
+<li><p><strong>Question:</strong> Given the following softmax output matrix for 5 inputs and 3 possible classes, where each row represents the softmax probabilities for the corresponding input across the 3 classes:</p>
+<p><span class="math display">\[\begin{bmatrix}
+    0.2 &amp; 0.5 &amp; 0.3 \\
+    0.1 &amp; 0.7 &amp; 0.2 \\
+    0.6 &amp; 0.3 &amp; 0.1 \\
+    0.3 &amp; 0.3 &amp; 0.4 \\
+    0.5 &amp; 0.2 &amp; 0.3
+    \end{bmatrix}\]</span></p>
+<p>The true labels for the 5 inputs are given in the table below:</p>
+<div class="center">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Input</th>
+<th style="text-align: center;">True Label</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">1</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">1</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Find the predicted labels, calculate the number of incorrect predictions, and construct the confusion matrix based on the predicted and true labels.</p>
+<p><strong>Solution:</strong> The predicted class for each input is obtained by taking the <em>argmax</em> of each row of the softmax matrix. We assume class labels are indexed as <span class="math inline">\(\{1,2,3\}\)</span>.</p>
+<p><span class="math display">\[\begin{aligned}
+\text{Input 1: } &amp; [0.2,\,0.5,\,0.3] \rightarrow \hat{y}_1 = 2 \\
+\text{Input 2: } &amp; [0.1,\,0.7,\,0.2] \rightarrow \hat{y}_2 = 2 \\
+\text{Input 3: } &amp; [0.6,\,0.3,\,0.1] \rightarrow \hat{y}_3 = 1 \\
+\text{Input 4: } &amp; [0.3,\,0.3,\,0.4] \rightarrow \hat{y}_4 = 3 \\
+\text{Input 5: } &amp; [0.5,\,0.2,\,0.3] \rightarrow \hat{y}_5 = 1
+\end{aligned}\]</span></p>
+<p>Thus, the predicted labels are:</p>
+<p><span class="math display">\[\{\hat{y}_i\} = \{2, 2, 1, 3, 1\}\]</span></p>
+<p>The true labels are:</p>
+<p><span class="math display">\[\{y_i\} = \{2, 1, 1, 3, 1\}\]</span></p>
+<p>Comparing predictions with true labels, only Input 2 is misclassified (true label <span class="math inline">\(1\)</span>, predicted <span class="math inline">\(2\)</span>). Therefore, there is <strong>1 incorrect prediction</strong>.</p>
+<p>To construct the confusion matrix, we use a <span class="math inline">\(3\times3\)</span> matrix where:</p>
+<p><span class="math display">\[\text{rows} = \text{true classes}, \quad
+\text{columns} = \text{predicted classes}.\]</span></p>
+<p>We count occurrences of each <span class="math inline">\((\text{true},\text{predicted})\)</span> pair:</p>
+<p><span class="math display">\[\begin{aligned}
+\text{True class 1: } &amp; \text{predicted as }1 \text{ twice (inputs 3,5)}, \\
+                      &amp; \text{predicted as }2 \text{ once (input 2)} \\[2mm]
+\text{True class 2: } &amp; \text{predicted as }2 \text{ once (input 1)} \\[2mm]
+\text{True class 3: } &amp; \text{predicted as }3 \text{ once (input 4)}
+\end{aligned}\]</span></p>
+<p>Hence, the confusion matrix is:</p>
+<p><span class="math display">\[\begin{bmatrix}
+2 &amp; 1 &amp; 0 \\
+0 &amp; 1 &amp; 0 \\
+0 &amp; 0 &amp; 1
+\end{bmatrix}\]</span></p>
+<p>Row <span class="math inline">\(i\)</span> corresponds to true class <span class="math inline">\(i\)</span>, and column <span class="math inline">\(j\)</span> corresponds to predicted class <span class="math inline">\(j\)</span>. For example, entry <span class="math inline">\((1,2)=1\)</span> indicates one sample from class 1 was predicted as class 2.</p></li>
+<li><p><strong>Question:</strong> You are given a <em>balanced</em> dataset for a binary classification task where the number of positive and negative samples is equal (in general, balanced is to say that they are roughly equal). After training your model, you receive the following confusion matrix:</p>
+<p><span class="math display">\[\begin{bmatrix}
+    40 &amp; 10 \\
+    10 &amp; 40
+    \end{bmatrix}\]</span></p>
+<p>What are the accuracy and F1 score for this model?</p>
+<ol>
+<li><p>Accuracy = 0.80, F1 Score = 0.80</p></li>
+<li><p>Accuracy = 0.90, F1 Score = 0.90</p></li>
+<li><p>Accuracy = 0.90, F1 Score = 0.89</p></li>
+<li><p>Accuracy = 0.95, F1 Score = 0.94</p></li>
+</ol>
+<p><strong>Solution:</strong> In this balanced dataset, the number of positive and negative samples is equal, so both accuracy and F1 score should give a good representation of model performance. To calculate accuracy, we use the formula:</p>
+<p><span class="math display">\[\text{Accuracy} = \frac{\text{TP} + \text{TN}}{\text{TP} + \text{TN} + \text{FP} + \text{FN}} = \frac{40 + 40}{40 + 40 + 10 + 10} = 0.80\]</span></p>
+<p>Next, for the F1 score, we calculate precision and recall:</p>
+<p><span class="math display">\[\text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}} = \frac{40}{40 + 10} = 0.80\]</span></p>
+<p><span class="math display">\[\text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} = \frac{40}{40 + 10} = 0.80\]</span></p>
+<p>Then, the F1 score is:</p>
+<p><span class="math display">\[\text{F1 Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}} = 2 \times \frac{0.80 \times 0.80}{0.80 + 0.80} = 0.80\]</span></p>
+<p>Thus, the correct answer is: <strong>(a) Accuracy = 0.80, F1 Score = 0.80</strong>.</p></li>
+<li><p><strong>Question:</strong> Now suppose you are given an <em>imbalanced</em> dataset for a binary classification task where 90% of the samples are negative, and only 10% are positive. After training your model, you receive the following confusion matrix:</p>
+<p><span class="math display">\[\begin{bmatrix}
+    85 &amp; 5 \\
+    10 &amp; 0
+    \end{bmatrix}\]</span></p>
+<p>What are the accuracy and F1 score for this model?</p>
+<ol>
+<li><p>Accuracy = 0.85, F1 Score = 0.00</p></li>
+<li><p>Accuracy = 0.90, F1 Score = 0.00</p></li>
+<li><p>Accuracy = 0.85, F1 Score = 0.91</p></li>
+<li><p>Accuracy = 0.90, F1 Score = 0.25</p></li>
+</ol>
+<p><strong>Solution:</strong> In this imbalanced dataset, accuracy can be misleading because the model may perform well on the majority class (negative samples) while failing completely on the minority positive class.</p>
+<p>From the confusion matrix</p>
+<p><span class="math display">\[\begin{bmatrix}
+85 &amp; 5 \\
+10 &amp; 0
+\end{bmatrix}\]</span></p>
+<p>using the standard layout (rows = true class, columns = predicted class):</p>
+<p><span class="math display">\[\text{TN} = 85, \quad
+\text{FP} = 5, \quad
+\text{FN} = 10, \quad
+\text{TP} = 0\]</span></p>
+<p><span class="math display">\[\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}
+= \frac{0 + 85}{0 + 85 + 5 + 10}
+= 0.85\]</span></p>
+<p>Although accuracy appears high, the model completely fails to detect the positive class.</p>
+<p><span class="math display">\[\text{Precision} = \frac{TP}{TP + FP} = \frac{0}{0 + 5} = 0\]</span></p>
+<p><span class="math display">\[\text{Recall} = \frac{TP}{TP + FN} = \frac{0}{0 + 10} = 0\]</span></p>
+<p><span class="math display">\[\text{F1 Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}} = 0\]</span></p>
+<p>Therefore, the correct answer is:</p>
+<p><span class="math display">\[\boxed{\textbf{(a) Accuracy = 0.85, F1 Score = 0.00}}\]</span></p>
+<p>In this imbalanced setting, accuracy is misleading because the model can score high by predicting the majority (negative) class. In contrast, the F1 score for the positive class is 0, correctly reflecting that the model completely fails to identify positive examples. Notice that if the positive and negative classes were flipped, we would see the following calculations instead: <span class="math display">\[\text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}} = \frac{0}{0 + 10} = 0\]</span></p>
+<p><span class="math display">\[\text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}} = \frac{0}{0 + 5} = 0\]</span></p>
+<p><span class="math display">\[\text{F1 Score} = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}} = 0\]</span></p>
+<p>This again reflects poorly on the performance of the negative class, which is now the original positive class (fairly good accuracy). From this exercise, we can see that we must be careful on how we report on the performance of a classifier using these different metrics, especially in class imbalanced settings.</p></li>
+<li><p>Consider the table below, which shows model predictions and ground truth for a binary classification task.</p>
+<p><span class="math display">\[\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Sample} &amp; \textbf{Ground Truth} &amp; \textbf{Model Prediction} \\
+\hline
+1 &amp; 1 &amp; 1 \\
+2 &amp; 1 &amp; 0 \\
+3 &amp; 0 &amp; 1 \\
+4 &amp; 1 &amp; 1 \\
+5 &amp; 0 &amp; 0 \\
+6 &amp; 0 &amp; 0 \\
+7 &amp; 0 &amp; 0 \\
+8 &amp; 0 &amp; 1 \\
+\hline
+\end{tabular}\]</span></p>
+<p>Calculate the following evaluation metrics:</p>
+<ul>
+<li><p>True Positive Rate (TPR), i.e. Sensitivity/Recall</p></li>
+<li><p>False Positive Rate (FPR)</p></li>
+<li><p>Precision</p></li>
+<li><p>Specificity</p></li>
+<li><p>F1 score</p></li>
+</ul>
+<p><strong>Solution:</strong></p>
+<p><strong>Step 1: Identify TP, FP, TN, FN for each sample</strong></p>
+<div class="center">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: center;"><strong>Sample</strong></th>
+<th style="text-align: center;"><strong>Ground Truth</strong></th>
+<th style="text-align: center;"><strong>Prediction</strong></th>
+<th style="text-align: center;"><strong>Type</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">TP</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">FN</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">3</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">FP</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">4</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">TP</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">5</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">TN</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">6</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">TN</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;">7</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">TN</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;">8</td>
+<td style="text-align: center;">0</td>
+<td style="text-align: center;">1</td>
+<td style="text-align: center;">FP</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Step 2: Count each category</strong></p>
+<ul>
+<li><p><strong>True Positives (TP)</strong> = 2 (samples 1, 4)</p></li>
+<li><p><strong>False Positives (FP)</strong> = 2 (samples 3, 8)</p></li>
+<li><p><strong>True Negatives (TN)</strong> = 3 (samples 5, 6, 7)</p></li>
+<li><p><strong>False Negatives (FN)</strong> = 1 (sample 2)</p></li>
+</ul>
+<p><strong>Step 3: Compute evaluation metrics</strong></p>
+<p><span class="math display">\[\begin{aligned}
+R=\text{True Positive Rate (TPR)} &amp;= \frac{TP}{TP + FN} = \frac{2}{2 + 1} = \frac{2}{3} \\[6pt]
+\text{False Positive Rate (FPR)} &amp;= \frac{FP}{FP + TN} = \frac{2}{2 + 3} = \frac{2}{5} \\[6pt]
+P=\text{Precision} &amp;= \frac{TP}{TP + FP} = \frac{2}{2 + 2} = \frac{1}{2} \\[6pt]
+\text{Specificity} &amp;= \frac{TN}{TN + FP} = \frac{3}{3 + 2} = \frac{3}{5} \\[6pt]
+\text{F1 Score} &amp;= 2\times\frac{P\times R}{P + R} 
+= 2\times\frac{(1/2)(2/3)}{1/2 + 2/3}
+= \frac{4}{7}
+\end{aligned}\]</span></p>
+<p>Notice that</p>
+<p><span class="math display">\[1-\text{Specificity} = 1-\frac{3}{5} = \frac{2}{5} = \text{FPR}.\]</span></p></li>
+</ol>
+</section></section>
+<section><h2>Lecture7 - L7_ECE4252-8803_LinearRegression</h2><section data-number="0.7" id="qa-section">
+<h2 data-number="1.7"><span class="header-section-number">1.7</span> Q&amp;A Section</h2>
+<ol>
+<li><p>Consider the following dataset with 3 data points and 3 features:</p>
+<p><span class="math display">\[\mathbf{X} = \begin{bmatrix}
+1 &amp; 1 &amp; 0 \\
+0 &amp; 2 &amp; 1 \\
+1 &amp; 0 &amp; 1
+\end{bmatrix},
+\quad \mathbf{y} = \begin{bmatrix}
+2 \\
+3 \\
+4
+\end{bmatrix}\]</span> Find the least squares solution for this linear regression problem.</p>
+<p><strong>Solution:</strong> First, compute <span class="math inline">\(\mathbf{X}^T \mathbf{X}\)</span>: <span class="math display">\[\mathbf{X}^T \mathbf{X} = 
+\begin{bmatrix}
+1 &amp; 0 &amp; 1 \\
+1 &amp; 2 &amp; 0 \\
+0 &amp; 1 &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+1 &amp; 1 &amp; 0 \\
+0 &amp; 2 &amp; 1 \\
+1 &amp; 0 &amp; 1
+\end{bmatrix}
+= \begin{bmatrix}
+2 &amp; 1 &amp; 1 \\
+1 &amp; 5 &amp; 2 \\
+1 &amp; 2 &amp; 2
+\end{bmatrix}\]</span> Notice that <span class="math inline">\(\det(\mathbf{X}^T \mathbf{X})=2(10-4)-(2-2)+(2-5)=9\neq 0\)</span>, hence this matrix is invertible. Now compute <span class="math inline">\(\mathbf{X}^T \mathbf{y}\)</span>: <span class="math display">\[\mathbf{X}^T \mathbf{y} = \begin{bmatrix}
+1 &amp; 0 &amp; 1 \\
+1 &amp; 2 &amp; 0 \\
+0 &amp; 1 &amp; 1
+\end{bmatrix}
+\begin{bmatrix}
+2 \\
+3 \\
+4
+\end{bmatrix}
+= \begin{bmatrix}
+6 \\
+8 \\
+7
+\end{bmatrix}\]</span> Finally, since <span class="math inline">\(\mathbf{X}^T \mathbf{X}\)</span> is invertible, we can now compute: <span class="math display">\[\hat{\boldsymbol{\theta}} = (\mathbf{X}^T \mathbf{X})^{-1} \mathbf{X}^T \mathbf{y} = \begin{bmatrix}
+2 &amp; 1 &amp; 1 \\
+1 &amp; 5 &amp; 2 \\
+1 &amp; 2 &amp; 2
+\end{bmatrix}^{-1}
+\begin{bmatrix}
+6 \\
+8 \\
+7
+\end{bmatrix} = \begin{bmatrix}
+5/3 \\
+1/3 \\
+7/3
+\end{bmatrix}\]</span></p></li>
+<li><p><strong>(Geometric interpretation / projection matrix)</strong> Let <span class="math inline">\(\mathbf{X}\in\mathbb{R}^{N\times(P+1)}\)</span> have full column rank. Define the projection matrix <span class="math display">\[\mathbf{P} = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T.\]</span></p>
+<ol>
+<li><p>Show that <span class="math inline">\(\mathbf{P}\)</span> is <em>symmetric</em>.</p></li>
+<li><p>Show that <span class="math inline">\(\mathbf{P}\)</span> is <em>idempotent</em>, i.e., <span class="math inline">\(\mathbf{P}^2=\mathbf{P}\)</span>.</p></li>
+<li><p>Explain (in one sentence) what <span class="math inline">\(\hat{\mathbf{y}}=\mathbf{P}\mathbf{y}\)</span> represents.</p></li>
+</ol>
+<p><strong>Solution:</strong></p>
+<ol>
+<li><p>Symmetry: <span class="math display">\[\mathbf{P}^T = \left(\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\right)^T
+    = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T = \mathbf{P},\]</span> since <span class="math inline">\((\mathbf{X}^T\mathbf{X})^{-1}\)</span> is symmetric.</p></li>
+<li><p>Idempotence: <span class="math display">\[\mathbf{P}^2
+    = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T\mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T
+    = \mathbf{X}(\mathbf{X}^T\mathbf{X})^{-1}\mathbf{X}^T
+    = \mathbf{P}.\]</span></p></li>
+<li><p>Interpretation: <span class="math inline">\(\hat{\mathbf{y}}=\mathbf{P}\mathbf{y}\)</span> is the <em>orthogonal projection</em> of <span class="math inline">\(\mathbf{y}\)</span> onto <span class="math inline">\(\mathrm{span}(\mathbf{X})\)</span> (the column space of <span class="math inline">\(\mathbf{X}\)</span>).</p></li>
+</ol></li>
+<li><p><strong>(Ridge regression closed form)</strong> Consider Ridge regression: <span class="math display">\[L(\boldsymbol{\theta})=\frac{1}{N}\|\mathbf{X}\boldsymbol{\theta}-\mathbf{y}\|_2^2+\lambda\|\boldsymbol{\theta}\|_2^2,\qquad \lambda\ge 0.\]</span> Derive the closed-form minimizer <span class="math inline">\(\hat{\boldsymbol{\theta}}_{\mathrm{ridge}}\)</span>.</p>
+<p><strong>Solution:</strong> Differentiate and set the gradient to zero: <span class="math display">\[\nabla_{\boldsymbol{\theta}}L
+= \frac{2}{N}\mathbf{X}^T(\mathbf{X}\boldsymbol{\theta}-\mathbf{y}) + 2\lambda\boldsymbol{\theta} = \mathbf{0}.\]</span> Rearrange: <span class="math display">\[\left(\frac{1}{N}\mathbf{X}^T\mathbf{X}+\lambda \mathbf{I}\right)\boldsymbol{\theta}
+= \frac{1}{N}\mathbf{X}^T\mathbf{y}.\]</span> Thus, <span class="math display">\[\hat{\boldsymbol{\theta}}_{\mathrm{ridge}}
+= \left(\mathbf{X}^T\mathbf{X}+N\lambda \mathbf{I}\right)^{-1}\mathbf{X}^T\mathbf{y}.\]</span> (Equivalently, if the <span class="math inline">\(1/N\)</span> scaling is omitted in the loss definition, the solution becomes <span class="math inline">\(\hat{\boldsymbol{\theta}}_{\mathrm{ridge}}=(\mathbf{X}^T\mathbf{X}+\lambda\mathbf{I})^{-1}\mathbf{X}^T\mathbf{y}\)</span>.)</p></li>
+</ol>
+</section></section>
+<section><h2>Lecture8 - L8_ECE4252-8803_PolynomialRegression</h2><section data-number="0.5" id="qa-section">
+<h2 data-number="1.5"><span class="header-section-number">1.5</span> Q&amp;A Section</h2>
+<ol>
+<li><p><strong>Question 1:</strong></p>
+<p>Suppose you are training a machine learning model using Gradient Descent (GD) on a dataset with <span class="math inline">\(N = 1{,}000{,}000\)</span> training examples and <span class="math inline">\(P = 100\)</span> features. You consider the following options:</p>
+<ul>
+<li><p>Batch Gradient Descent</p></li>
+<li><p>Stochastic Gradient Descent</p></li>
+<li><p>Mini-batch Gradient Descent with a batch size of <span class="math inline">\(b = 10{,}000\)</span></p></li>
+</ul>
+<p>Assuming you perform one full epoch of training for each method, calculate the number of iterations required for each optimization scheme.</p>
+<ol>
+<li><p>Batch GD: 1 iteration; Stochastic GD: 1<span>,</span>000<span>,</span>000 iterations; Mini-batch GD: 100 iterations</p></li>
+<li><p>Batch GD: 1<span>,</span>000<span>,</span>000 iterations; Stochastic GD: 1 iteration; Mini-batch GD: 100 iterations</p></li>
+<li><p>Batch GD: 100 iterations; Stochastic GD: 10 iterations; Mini-batch GD: 1<span>,</span>000 iterations</p></li>
+<li><p>Batch GD: 1 iteration; Stochastic GD: 100<span>,</span>000 iterations; Mini-batch GD: 10 iterations</p></li>
+</ol>
+<p><strong>Answer:</strong> The correct answer is <strong>A)</strong>.</p>
+<p><strong>Solution:</strong></p>
+<p>In <strong>Batch GD</strong>, one iteration computes the gradient using the <em>entire</em> dataset. Therefore, <strong>one epoch</strong> corresponds to <strong>1 iteration</strong>.</p>
+<p>In <strong>Stochastic GD</strong>, one iteration uses <em>one</em> training example. Therefore, <strong>one epoch</strong> requires <span class="math display">\[N = 1{,}000{,}000 \text{ iterations.}\]</span></p>
+<p>In <strong>Mini-batch GD</strong> with batch size <span class="math inline">\(b = 10{,}000\)</span>, one iteration processes one batch. The number of batches per epoch is <span class="math display">\[\frac{N}{b} \;=\; \frac{1{,}000{,}000}{10{,}000} \;=\; 100,\]</span> so <strong>one epoch</strong> requires <strong>100 iterations</strong>.</p></li>
+<li><p><strong>Question 2:</strong></p>
+<p>Suppose you have a limited memory capacity that allows you to process a maximum of 50<span>,</span>000 data points at a time. Which optimization methods can you use without exceeding the memory limit?</p>
+<ol>
+<li><p>Only Stochastic GD</p></li>
+<li><p>Stochastic GD and Mini-batch GD with <span class="math inline">\(b \leq 50{,}000\)</span></p></li>
+<li><p>Batch GD and Mini-batch GD with <span class="math inline">\(b = 50{,}000\)</span></p></li>
+<li><p>All methods can be used without exceeding the memory limit</p></li>
+</ol>
+<p><strong>Answer:</strong> The correct answer is <strong>B)</strong>.</p>
+<p><strong>Solution:</strong></p>
+<p><strong>Batch GD</strong> processes the entire dataset per iteration. For <span class="math inline">\(N=1{,}000{,}000\)</span>, this exceeds the memory limit of 50<span>,</span>000 samples.</p>
+<p><strong>Stochastic GD</strong> processes one sample per iteration, which is always within the memory limit.</p>
+<p><strong>Mini-batch GD</strong> processes <span class="math inline">\(b\)</span> samples per iteration, so it is feasible as long as <span class="math inline">\(b \le 50{,}000\)</span>.</p></li>
+<li><p><strong>Question 3:</strong></p>
+<p>If you wish to perform 10 full passes over the data using Mini-batch GD with <span class="math inline">\(b = 20{,}000\)</span>, how many iterations will this require?</p>
+<ol>
+<li><p>50 iterations</p></li>
+<li><p>5<span>,</span>000 iterations</p></li>
+<li><p>1<span>,</span>000 iterations</p></li>
+<li><p>500 iterations</p></li>
+</ol>
+<p><strong>Answer:</strong> The correct answer is <strong>D)</strong>.</p>
+<p><strong>Solution:</strong></p>
+<p>Batches per epoch: <span class="math display">\[\frac{N}{b} \;=\; \frac{1{,}000{,}000}{20{,}000} \;=\; 50.\]</span> For <span class="math inline">\(10\)</span> epochs, total iterations: <span class="math display">\[50 \times 10 \;=\; 500 \text{ iterations.}\]</span></p></li>
+<li><p><strong>Question 4:</strong></p>
+<p>Consider the following contour plot for MSE loss of a 2D linear model, as well as the contour plot for the <span class="math inline">\(L_1\)</span>-norm of the parameters.</p>
+<div class="center">
+<p><img alt="image" src="img/lecture8/qa-mse-contour.png"/></p>
+</div>
+<p>Which of the following contour plots most likely represents the contour plot for the <span class="math inline">\(L_1\)</span>-regularized MSE loss on the same model?</p>
+<div class="center">
+<p><img alt="image" src="img/lecture8/qa-mse-l1-options.png"/></p>
+</div>
+<p><strong>Answer:</strong> The correct answer is <strong>A)</strong>.</p>
+<p><strong>Solution:</strong></p>
+<p>The <span class="math inline">\(L_1\)</span>-regularized objective is <span class="math display">\[J(\theta) = \mathrm{MSE}(\theta) + \lambda \|\theta\|_1 .\]</span></p>
+<p>This objective combines two different contour geometries:</p>
+<ul>
+<li><p>The MSE loss produces <em>smooth elliptical contours</em>.</p></li>
+<li><p>The <span class="math inline">\(L_1\)</span> norm produces <em>diamond-shaped contours with sharp corners on the coordinate axes</em>.</p></li>
+</ul>
+<p>When the <span class="math inline">\(L_1\)</span> penalty is added to the MSE loss, the resulting contours become a <em>distorted ellipse</em> that inherits the <em>axis-aligned corners (kinks)</em> from the <span class="math inline">\(L_1\)</span> norm. These corners reflect the sparsity-inducing behavior of <span class="math inline">\(L_1\)</span> regularization, which encourages parameters to become exactly zero.</p>
+<p>Options (c) and (d) resemble the contours of the individual terms (MSE alone or <span class="math inline">\(L_1\)</span> alone), so they cannot represent the combined objective.</p>
+<p>Among the remaining choices, option (b) still appears too smooth and elliptical, similar to the unregularized MSE loss. Option (a) shows the expected <em>elliptical shape with visible axis-aligned kinks</em>, which is characteristic of an <span class="math inline">\(L_1\)</span>-regularized objective.</p>
+<p>Therefore, option (a) is the correct contour plot.</p></li>
+<li><p><strong>Question 5: Linear vs Polynomial Regression (Numerical + Visual)</strong></p>
+<p>We generate synthetic data from a nonlinear function and compare how well a linear model and a polynomial model fit the data using Mean Squared Error (MSE).</p>
+<p>We sample data from the ground-truth function <span class="math display">\[y = \sin(2\pi x) + \epsilon, \qquad \epsilon \sim \mathcal{N}(0,\,0.1^2).\]</span></p>
+<p>We fit two models:</p>
+<ul>
+<li><p>Linear regression (degree 1)</p></li>
+<li><p>Polynomial regression (degree 5)</p></li>
+</ul>
+<p>Which model should achieve the lower training MSE? Why?</p>
+<p><strong>Answer:</strong> Polynomial regression (degree 5).</p>
+<p><strong>Solution:</strong></p>
+<p><strong>Step 1: Generate synthetic dataset</strong></p>
+<p>We sample training inputs and noisy targets: <span class="math display">\[x_i \sim \text{Uniform}(0,1), \qquad 
+y_i = \sin(2\pi x_i) + \epsilon_i.\]</span></p>
+<p>This produces a clearly <strong>nonlinear</strong> dataset.</p>
+<figure>
+<img alt="Linear vs Polynomial Regression fit on nonlinear data" src="img/lecture8/qa_q5_linear_vs_poly_fit.png"/><figcaption aria-hidden="true">Linear vs Polynomial Regression fit on nonlinear data</figcaption>
+</figure>
+<p><strong>Step 2: Fit linear regression</strong></p>
+<p>Design matrix: <span class="math display">\[\mathbf{X}_{\text{lin}} =
+\begin{bmatrix}
+1 &amp; x_1\\
+\vdots &amp; \vdots\\
+1 &amp; x_N
+\end{bmatrix}\]</span></p>
+<p>Model: <span class="math display">\[\hat{\mathbf{y}} = \mathbf{X}_{\text{lin}}\boldsymbol{\theta}_{\text{lin}}.\]</span></p>
+<p>Training MSE: <span class="math display">\[\mathrm{MSE}_{\text{linear}}
+= \frac{1}{N}\|\mathbf{y} - \hat{\mathbf{y}}\|_2^2.\]</span></p>
+<p>Because the true relationship is nonlinear, the linear model has <strong>high bias</strong> and cannot capture the curvature of the data.</p>
+<p><strong>Step 3: Fit polynomial regression (degree 5)</strong></p>
+<p>Polynomial feature map: <span class="math display">\[\boldsymbol{\phi}(x) = [1, x, x^2, x^3, x^4, x^5]^T.\]</span></p>
+<p>Design matrix: <span class="math display">\[\mathbf{X}_{\text{poly}} =
+\begin{bmatrix}
+\boldsymbol{\phi}(x_1)^T\\
+\vdots\\
+\boldsymbol{\phi}(x_N)^T
+\end{bmatrix}.\]</span></p>
+<p>Model: <span class="math display">\[\hat{\mathbf{y}} = \mathbf{X}_{\text{poly}}\boldsymbol{\theta}_{\text{poly}}.\]</span></p>
+<p>This model has greater flexibility and can approximate the sinusoidal shape of the data.</p>
+<p><strong>Step 4: Numerical comparison (reproducible simulation)</strong></p>
+<p>For the generated dataset (<span class="math inline">\(N=50\)</span>):</p>
+<p><span class="math display">\[\mathrm{MSE}_{\text{linear}} = 0.1691\]</span> <span class="math display">\[\mathrm{MSE}_{\text{poly}} = 0.0052\]</span></p>
+<figure>
+<img alt="Training MSE comparison" src="img/lecture8/qa_q5_mse_comparison.png"/><figcaption aria-hidden="true">Training MSE comparison</figcaption>
+</figure>
+<p>Polynomial regression achieves a dramatically lower training error.</p>
+<p><strong>Key Insight</strong></p>
+<ul>
+<li><p>Linear regression <strong>underfits</strong> nonlinear data (high bias).</p></li>
+<li><p>Polynomial regression reduces bias and captures curvature.</p></li>
+<li><p>Increasing model complexity can significantly reduce training MSE.</p></li>
+</ul></li>
+</ol>
+</section></section>
+<section><h2>Lecture9 - Lecture 8 (first-order methods)</h2><section data-number="0.14" id="qa-section">
+<h2 data-number="1.14"><span class="header-section-number">1.14</span> Q&amp;A Section</h2>
+<ol>
+<li><p><strong>Question 1:</strong></p>
+<p>Which optimization method uses Second-order curvature information of the loss function?</p>
+<ol>
+<li><p>Gradient Descent</p></li>
+<li><p>Coordinate Descent</p></li>
+<li><p>Newton’s Method</p></li>
+<li><p>Stochastic Gradient Descent</p></li>
+</ol>
+<p><strong>Answer:</strong> The correct answer is <strong>C)</strong>.</p>
+<p><strong>Solution:</strong></p>
+<p>Newton’s Method uses both the gradient and the Hessian matrix: <span class="math display">\[\boldsymbol{\theta}^{t+1}
+=
+\boldsymbol{\theta}^{t}
+-\alpha \mathbf{H}(\boldsymbol{\theta})^{-1}
+\nabla_{\boldsymbol{\theta}} L(\boldsymbol{\theta}).\]</span></p>
+<p>The Hessian contains second derivatives and captures curvature of the loss surface.</p></li>
+<li><p><strong>Question 2:</strong></p>
+<p>Why is Newton’s Method rarely used for very large models?</p>
+<ol>
+<li><p>It does not converge.</p></li>
+<li><p>It requires storing and inverting a <span class="math inline">\(P\times P\)</span> Hessian matrix.</p></li>
+<li><p>It cannot minimize convex functions.</p></li>
+<li><p>It requires labeled data.</p></li>
+</ol>
+<p><strong>Answer:</strong> The correct answer is <strong>B)</strong>.</p>
+<p><strong>Solution:</strong></p>
+<p>The Hessian has size <span class="math inline">\(P\times P\)</span>. Storing it costs <span class="math inline">\(O(P^2)\)</span> memory and inverting it costs <span class="math inline">\(O(P^3)\)</span> time, which becomes infeasible when <span class="math inline">\(P\)</span> is large.</p></li>
+<li><p><strong>Question 3:</strong></p>
+<p>Which optimization method can be used when gradients are unavailable?</p>
+<ol>
+<li><p>Newton’s Method</p></li>
+<li><p>Gradient Descent</p></li>
+<li><p>Coordinate Search</p></li>
+<li><p>Ridge Regression</p></li>
+</ol>
+<p><strong>Answer:</strong> The correct answer is <strong>C)</strong>.</p>
+<p><strong>Solution:</strong></p>
+<p>Coordinate Search is a derivative-free method. It explores directions <span class="math inline">\(\boldsymbol{\theta} \pm \alpha \mathbf{e}_j\)</span> and accepts moves that reduce the loss.</p></li>
+<li><p><strong>Question 4:</strong></p>
+<p>What is the main effect of Ridge (<span class="math inline">\(\ell_2\)</span>) regularization on model coefficients?</p>
+<ol>
+<li><p>Sets many coefficients exactly to zero</p></li>
+<li><p>Shrinks coefficients smoothly toward zero</p></li>
+<li><p>Increases model variance</p></li>
+<li><p>Removes correlated features automatically</p></li>
+</ol>
+<p><strong>Answer:</strong> The correct answer is <strong>B)</strong>.</p>
+<p><strong>Solution:</strong></p>
+<p>Ridge adds the penalty <span class="math inline">\(\lambda\|\boldsymbol{\theta}\|_2^2\)</span>, which discourages large parameter values and reduces variance, but does not usually force coefficients to exactly zero.</p></li>
+<li><p><strong>Question 5:</strong></p>
+<p>Which regularization technique performs automatic feature selection?</p>
+<ol>
+<li><p>Ridge Regression</p></li>
+<li><p>Lasso Regression</p></li>
+<li><p>Elastic Net with <span class="math inline">\(r=0\)</span></p></li>
+<li><p>Mean Squared Error</p></li>
+</ol>
+<p><strong>Answer:</strong> The correct answer is <strong>B)</strong>.</p>
+<p><strong>Solution:</strong></p>
+<p>Lasso uses the <span class="math inline">\(L_1\)</span> penalty applied to the parameter vector <span class="math inline">\(\boldsymbol{\theta}\)</span>: <span class="math inline">\(\sum |\theta_j|\)</span>, which creates sharp corners in the optimization landscape. Solutions often lie on these corners, causing some coefficients to become exactly zero.</p></li>
+<li><p><strong>Question 6:</strong></p>
+<p>Which metric is most sensitive to large outliers?</p>
+<ol>
+<li><p>MAE</p></li>
+<li><p>MSE</p></li>
+<li><p>Accuracy</p></li>
+<li><p><span class="math inline">\(R^2\)</span></p></li>
+</ol>
+<p><strong>Answer:</strong> The correct answer is <strong>B)</strong>.</p>
+<p><strong>Solution:</strong></p>
+<p>MSE squares the error: <span class="math display">\[(\hat{y}_i - y_i)^2,\]</span> which heavily penalizes large errors, making it sensitive to outliers.</p></li>
+<li><p><strong>Question 7:</strong></p>
+<p>A model achieves <span class="math inline">\(R^2 = -0.3\)</span> on a test set. What does this mean?</p>
+<ol>
+<li><p>Perfect predictions</p></li>
+<li><p>Better than predicting the mean</p></li>
+<li><p>Worse than predicting the mean</p></li>
+<li><p>Overfitting has been eliminated</p></li>
+</ol>
+<p><strong>Answer:</strong> The correct answer is <strong>C)</strong>.</p>
+<p><strong>Solution:</strong></p>
+<p><span class="math display">\[R^2 = 1 - \frac{SS_{res}}{SS_{tot}}.\]</span> If <span class="math inline">\(R^2 &lt; 0\)</span>, the model performs worse than simply predicting the mean of the data.</p></li>
+<li><p><strong>Question 8:</strong></p>
+<p>Why must the test set never be used during training or hyperparameter tuning?</p>
+<ol>
+<li><p>It increases computation time</p></li>
+<li><p>It causes underfitting</p></li>
+<li><p>It introduces evaluation bias</p></li>
+<li><p>It reduces training accuracy</p></li>
+</ol>
+<p><strong>Answer:</strong> The correct answer is <strong>C)</strong>.</p>
+<p><strong>Solution:</strong></p>
+<p>Using the test set during model development leaks information and produces overly optimistic performance estimates.</p></li>
+<li><p><strong>Question 9:</strong></p>
+<p>Suppose <span class="math inline">\(10\%\)</span> of dataset labels are incorrect. What is the maximum achievable measured accuracy of a perfect model?</p>
+<ol>
+<li><p>100%</p></li>
+<li><p>95%</p></li>
+<li><p>90%</p></li>
+<li><p>80%</p></li>
+</ol>
+<p><strong>Answer:</strong> The correct answer is <strong>C)</strong>.</p>
+<p><strong>Solution:</strong></p>
+<p>With label noise <span class="math inline">\(\epsilon\)</span>: <span class="math display">\[\text{Observed Accuracy} \le 1-\epsilon.\]</span> If <span class="math inline">\(\epsilon=0.1\)</span>, the maximum observed accuracy is <span class="math inline">\(0.9\)</span>.</p></li>
+<li><p><strong>Question 10:</strong></p>
+<p>Which method helps estimate generalization performance while using all available data efficiently?</p>
+<ol>
+<li><p>Cross-validation</p></li>
+<li><p>Gradient Descent</p></li>
+<li><p>Newton’s Method</p></li>
+<li><p>Coordinate Search</p></li>
+</ol>
+<p><strong>Answer:</strong> The correct answer is <strong>A)</strong>.</p>
+<p><strong>Solution:</strong></p>
+<p>In <span class="math inline">\(k\)</span>-fold cross-validation, the model is trained <span class="math inline">\(k\)</span> times using different validation splits, and performance is averaged to estimate generalization error.</p></li>
+<li><p><strong>Question 11:</strong></p>
+<p>Consider the model complexity vs. prediction error curve below.</p>
+<div class="center">
+<p><img alt="image" src="img/lecture9/qa_bias_variance_curve.png"/></p>
+</div>
+<p>Which region corresponds to an <strong>underfitting</strong> model?</p>
+<ol>
+<li><p>Region A (left side)</p></li>
+<li><p>Region B (middle)</p></li>
+<li><p>Region C (right side)</p></li>
+<li><p>All regions equally</p></li>
+</ol>
+<p><strong>Answer:</strong> The correct answer is <strong>A)</strong>.</p>
+<p><strong>Solution:</strong></p>
+<p>On the left side of the curve, the model has low complexity and high bias. It cannot capture patterns in the data, leading to high training and validation error. This is the definition of <strong>underfitting</strong>.</p></li>
+</ol>
+</section></section>
+</main>
+</body>
+</html>

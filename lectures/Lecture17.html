@@ -12,76 +12,75 @@
 </nav>
 <main>
 <div class="center">
-
 </div>
-<p><strong>Contributors:</strong> Dr. Ahmad Mustafa, Dr. Motaz Alfarraj, Dr. Ashraf Alattar, Dr. Chen Zhou</p>
-<p><strong>Teaching Assistants</strong> with remarkable contributions include: Kuo-Wei Lai, Wuyang Du, Shiva Mahato, Michael Zhou, Ninghan Zhong</p>
-<p><strong>Disclaimer</strong>: <span>All content of these notes are part of this course at Georgia Tech. Any re-use or distribution is not permitted without pre-approved permission. All these notes belong to, created by, and copyrighted for Ghassan AlRegib and Mohit Prabhushankar, Georgia Tech, 2021–2028.</span></p>
-<p><strong>License</strong>: <span>These lecture notes are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</span></p>
-<p><strong>Errata</strong>: <span><em>Please submit any errata you find using the following form: <a href="https://forms.office.com/r/fbg9dMWPgY">Errata Form for FunML Textbook</a> or visit: <a href="https://forms.office.com/r/fbg9dMWPgY">https://forms.office.com/r/fbg9dMWPgY</a></em></span></p>
-<section id="lecture-objectives" data-number="0.1">
+
+
+
+
+
+<section data-number="0.1" id="lecture-objectives">
 <h2 data-number="1.1"><span class="header-section-number">1.1</span> Lecture Objectives</h2>
 <p>In this lecture, we focus on practical best practices for designing, training, evaluating, and debugging deep learning models. We discuss how architectural choices, loss functions, and evaluation metrics influence model performance, and how to handle challenges such as class imbalance and limited data. The lecture also introduces data augmentation, transfer learning, and hyperparameter tuning as strategies for improving generalization. Finally, we explore the role of visualization and diagnostic tools in identifying and resolving common training issues such as underfitting, overfitting, and unstable gradients.</p>
 </section>
-<section id="model-architecture-selection" data-number="0.2">
+<section data-number="0.2" id="model-architecture-selection">
 <h2 data-number="1.2"><span class="header-section-number">1.2</span> Model Architecture Selection</h2>
 <p>Choosing the right model architecture depends on the nature of the task. This lecture distinguishes between two main types of CNN architectures: those suited for classification and those for dense prediction tasks. Classification architectures produce a single prediction label for the entire image, while dense prediction architecture produces a label for each pixel in the image. Once the best architecture type is determined, it is generally accepted to use pre-trained models available online instead of starting from scratch. <a href="https://pytorch.org/vision/stable/models.html">PyTorch</a> has a plethora of pre-trained modules for most applications.</p>
-<section id="classification-architectures" data-number="0.2.1">
+<section data-number="0.2.1" id="classification-architectures">
 <h3 data-number="1.2.1"><span class="header-section-number">1.2.1</span> Classification Architectures</h3>
 <p>Classification CNNs follow a pipeline in which 2D convolutional kernels are stacked across multiple layers to progressively reduce the spatial size of activations while increasing the richness of learned feature representations. As the network depth increases, the model transitions from detecting simple low-level patterns to capturing higher-level semantic features useful for classification.</p>
 <p>After the final convolutional layer, the resulting feature maps are flattened and passed through fully connected layers. The network typically concludes with a softmax layer that outputs class probabilities, enabling the model to assign each input image to a specific category.</p>
 <p>Careful hyperparameter tuning plays an important role in achieving strong performance. In deeper layers, the number of kernels is often increased to capture more complex patterns. Different pooling strategies, such as max pooling and average pooling, can be explored to balance information retention and dimensionality reduction. Activation functions like ReLU, sigmoid, and variants such as leaky ReLU help introduce nonlinearity and improve training stability. Regularization techniques, including dropout and batch normalization, are commonly used to reduce overfitting. For very deep networks, skip connections—such as those introduced in ResNet—can be incorporated to improve gradient flow and enable more effective training.</p>
 <figure>
-<img src="img/lecture17/scribeim1.png" id="0" alt="Classification Pipeline" /><figcaption aria-hidden="true">Classification Pipeline</figcaption>
+<img alt="Classification Pipeline" id="0" src="img/lecture17/scribeim1.png"/><figcaption aria-hidden="true">Classification Pipeline</figcaption>
 </figure>
 </section>
-<section id="dense-prediction-architectures" data-number="0.2.2">
+<section data-number="0.2.2" id="dense-prediction-architectures">
 <h3 data-number="1.2.2"><span class="header-section-number">1.2.2</span> Dense Prediction Architectures</h3>
 <p>For tasks that require dense, pixel-level outputs—such as image segmentation, super-resolution, depth estimation, and optical flow—fully convolutional architectures are better suited than standard classification CNNs. Unlike classification models that collapse spatial dimensions into a single vector, dense prediction models preserve spatial structure throughout the network so that predictions can be made at every pixel location.</p>
 <p>A common design pattern for dense prediction is the <strong>encoder–decoder structure</strong>. The <strong>encoder</strong> is similar to a standard classification CNN in that it progressively extracts higher-level feature representations from the input image. However, it does not include fully connected layers, since removing them allows the network to accept variable-sized inputs and maintain spatial correspondence. The encoder typically reduces spatial resolution while increasing the number of feature channels, enabling the model to learn abstract, high-level representations.</p>
 <p>The <strong>decoder</strong> then reconstructs high-resolution outputs from the encoder’s compressed feature representation. This is typically done using upsampling operations such as transposed convolutions (also known as deconvolutions), interpolation followed by convolution, or learned upsampling blocks. The goal is to gradually restore the spatial resolution while refining feature maps to produce accurate pixel-level predictions. In many architectures, skip connections are added between corresponding encoder and decoder layers (e.g., as in U-Net) to help recover fine-grained spatial details lost during downsampling.</p>
 <p><strong>Pooling layers</strong> are often avoided or used cautiously in dense prediction tasks because they reduce spatial resolution and may degrade fine structural details. Instead, convolutional layers with stride 1 are commonly preferred to preserve resolution. Dilated (atrous) convolutions can also be used to increase the receptive field without reducing spatial dimensions, allowing the network to capture broader contextual information while maintaining high-resolution feature maps.</p>
 <figure>
-<img src="img/lecture17/scribeim2.png" id="1" alt="Dense prediction architecture using mainly convolution" /><figcaption aria-hidden="true">Dense prediction architecture using mainly convolution</figcaption>
+<img alt="Dense prediction architecture using mainly convolution" id="1" src="img/lecture17/scribeim2.png"/><figcaption aria-hidden="true">Dense prediction architecture using mainly convolution</figcaption>
 </figure>
 </section>
 </section>
-<section id="loss-functions" data-number="0.3">
+<section data-number="0.3" id="loss-functions">
 <h2 data-number="1.3"><span class="header-section-number">1.3</span> Loss Functions</h2>
 <p>Choosing an appropriate loss function is essential for effective model training, as the loss defines the objective the network optimizes and directly influences the quality of learned representations.</p>
 <p>For <strong>classification tasks</strong>, the most common choice is <strong>cross-entropy loss</strong>, which measures the discrepancy between predicted class probabilities and the true labels. This loss encourages the model to assign high probability to the correct class while penalizing incorrect predictions, making it well suited for multi-class classification problems.</p>
 <p>For <strong>dense prediction tasks</strong>, such as image segmentation, losses must operate at the pixel level. <strong>Pixel-wise cross-entropy loss</strong> is widely used to evaluate classification accuracy for each pixel independently. In addition, the <strong>Dice loss</strong> is often employed to directly optimize overlap between predicted and ground-truth segmentation masks, making it especially useful when dealing with class imbalance.</p>
 <p>For <strong>image enhancement tasks</strong>, including super-resolution and denoising, reconstruction-based losses are commonly used. <strong>Mean Squared Error (MSE)</strong> encourages overall pixel-wise fidelity, while <strong>L1 loss</strong> is often preferred for producing sharper images and reducing excessive smoothing. In practice, these losses are sometimes combined or supplemented with perceptual losses to further improve visual quality.</p>
-<section id="cross-entropy-loss" data-number="0.3.1">
+<section data-number="0.3.1" id="cross-entropy-loss">
 <h3 data-number="1.3.1"><span class="header-section-number">1.3.1</span> Cross-Entropy Loss</h3>
 <p><strong>Cross-entropy loss</strong> is a standard loss function for classification problems and is best used when class imbalance is limited. It measures how well the predicted probability distribution matches the true label distribution.</p>
 <p><span class="math display">\[L = - \sum_{i} y_i \log(\hat{y}_i)\]</span></p>
 <p>Here, <span class="math inline">\(i\)</span> denotes the class index, <span class="math inline">\(y_i\)</span> represents the ground-truth label for the correct class (typically one-hot encoded), and <span class="math inline">\(\hat{y}_i\)</span> denotes the softmax probability predicted by the network for class <span class="math inline">\(i\)</span>. The negative sign ensures that the loss decreases as the predicted probability of the correct class increases.</p>
 </section>
-<section id="mean-squared-error-mse-loss" data-number="0.3.2">
+<section data-number="0.3.2" id="mean-squared-error-mse-loss">
 <h3 data-number="1.3.2"><span class="header-section-number">1.3.2</span> Mean Squared Error (MSE) Loss</h3>
 <p><strong>Mean Squared Error (MSE) loss</strong> is commonly used for regression tasks and measures the average squared difference between predicted and actual values. Because the error is squared, larger deviations are penalized more heavily, making MSE particularly sensitive to large prediction errors and encouraging the model to reduce large mistakes.</p>
 <p><span class="math display">\[L = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2\]</span></p>
 <p>Here, <span class="math inline">\(N\)</span> denotes the number of samples in the dataset, <span class="math inline">\(y_i\)</span> represents the ground-truth value for sample <span class="math inline">\(i\)</span>, and <span class="math inline">\(\hat{y}_i\)</span> denotes the model’s predicted value for sample <span class="math inline">\(i\)</span>.</p>
 </section>
-<section id="l1-loss" data-number="0.3.3">
+<section data-number="0.3.3" id="l1-loss">
 <h3 data-number="1.3.3"><span class="header-section-number">1.3.3</span> L1 Loss</h3>
 <p><strong>L1 loss</strong>, also known as <strong>Mean Absolute Error (MAE)</strong>, measures the absolute difference between predicted and actual values. Unlike MSE, this loss does not square the error, making it less sensitive to outliers and often better suited for tasks where robustness to large deviations is desired.</p>
 <p><span class="math display">\[L = \frac{1}{N} \sum_{i=1}^{N} |y_i - \hat{y}_i|\]</span></p>
 <p>Here, <span class="math inline">\(N\)</span> denotes the number of samples in the dataset, <span class="math inline">\(y_i\)</span> represents the ground-truth value for sample <span class="math inline">\(i\)</span>, and <span class="math inline">\(\hat{y}_i\)</span> denotes the predicted value for sample <span class="math inline">\(i\)</span>.</p>
 </section>
 </section>
-<section id="handling-class-imbalance" data-number="0.4">
+<section data-number="0.4" id="handling-class-imbalance">
 <h2 data-number="1.4"><span class="header-section-number">1.4</span> Handling Class Imbalance</h2>
 <p>Class imbalance occurs when certain classes appear more frequently than others in a dataset. This poses a problem because, without special precautions, the model may prioritize predicting the majority class accurately at the expense of the minority class. As a result, overall accuracy may appear high while performance on the minority class remains poor.</p>
 <p>A common example of class imbalance occurs in medical diagnosis. Although most test results may be negative, it is critically important to correctly identify the relatively rare positive cases. In such settings, failing to detect minority-class examples can have significant real-world consequences.</p>
-<section id="weighted-cross-entropy" data-number="0.4.1">
+<section data-number="0.4.1" id="weighted-cross-entropy">
 <h3 data-number="1.4.1"><span class="header-section-number">1.4.1</span> Weighted Cross Entropy</h3>
 <p><strong>Weighted cross-entropy loss</strong> is used to address class imbalance by assigning larger penalties to mistakes on underrepresented classes. By increasing the importance of rare classes during training, the model is encouraged to learn more balanced decision boundaries.</p>
 <p><span class="math display">\[L = - \sum_i w_i \, y_i \log(\hat{y}_i)\]</span></p>
 <p>Here, <span class="math inline">\(i\)</span> denotes the class index, <span class="math inline">\(y_i\)</span> represents the ground-truth label (typically one-hot encoded), and <span class="math inline">\(\hat{y}_i\)</span> denotes the softmax probability predicted by the network for class <span class="math inline">\(i\)</span>. The term <span class="math inline">\(w_i\)</span> is the weight assigned to class <span class="math inline">\(i\)</span>, where larger weights are typically given to less frequent classes. A common rule of thumb is to set the weight inversely proportional to class frequency, <span class="math inline">\(w_i = \frac{1}{f_i}\)</span>, where <span class="math inline">\(f_i\)</span> is the frequency of class <span class="math inline">\(i\)</span> in the dataset.</p>
 </section>
-<section id="focal-loss" data-number="0.4.2">
+<section data-number="0.4.2" id="focal-loss">
 <h3 data-number="1.4.2"><span class="header-section-number">1.4.2</span> Focal Loss</h3>
 <p><strong>Focal loss</strong> is designed to emphasize hard-to-classify examples by reducing the loss contribution from well-classified samples. This makes it particularly useful for highly imbalanced classification problems, such as object detection, where many easy background examples can dominate training.</p>
 <p><span class="math display">\[L = -\sum_{i} (1 - p_t)^{\gamma} \log(p_t)\]</span></p>
@@ -91,14 +90,14 @@
 1 - \hat{p} &amp; \text{if the true label } y = 0.
 \end{cases}\]</span> where <span class="math inline">\(\hat{p}\)</span> is the probability assigned to the true class. The parameter <span class="math inline">\(\gamma &gt; 0\)</span> is a focusing hyperparameter, typically chosen between 1 and 3. Larger values of <span class="math inline">\(\gamma\)</span> increase the emphasis on harder examples by further down-weighting easy, well-classified samples.</p>
 <figure>
-<img src="img/lecture17/scribeim3.png" id="2" alt="Effect of \gamma on focal loss" /><figcaption aria-hidden="true">Effect of <span class="math inline">\(\gamma\)</span> on focal loss</figcaption>
+<img alt="Effect of \gamma on focal loss" id="2" src="img/lecture17/scribeim3.png"/><figcaption aria-hidden="true">Effect of <span class="math inline">\(\gamma\)</span> on focal loss</figcaption>
 </figure>
 </section>
 </section>
-<section id="performance-metrics" data-number="0.5">
+<section data-number="0.5" id="performance-metrics">
 <h2 data-number="1.5"><span class="header-section-number">1.5</span> Performance Metrics</h2>
 <p>Performance metrics are used to evaluate the effectiveness of a trained model. Choosing the appropriate metric is crucial, as accuracy alone may not provide a complete picture of model performance—especially in the presence of class imbalance. Different metrics capture different aspects of performance and can also be used during hyperparameter tuning by comparing results across multiple configurations and selecting the best-performing model.</p>
-<section id="precision-recall-and-f1-score" data-number="0.5.1">
+<section data-number="0.5.1" id="precision-recall-and-f1-score">
 <h3 data-number="1.5.1"><span class="header-section-number">1.5.1</span> Precision, Recall, and F1-Score</h3>
 <p><strong>Precision</strong>, <strong>recall</strong>, and the <strong>F1-score</strong> are commonly used evaluation metrics for classification, especially when dealing with imbalanced datasets.</p>
 <p><strong>Precision</strong> measures how many of the predicted positive samples are actually positive, while <strong>recall</strong> measures how many of the true positive samples were correctly identified by the model. The <strong>F1-score</strong> is the harmonic mean of precision and recall, providing a single metric that balances both quantities. The F1-score ranges from 0 to 1, where a value closer to 1 indicates better performance.</p>
@@ -107,7 +106,7 @@
 <p><span class="math display">\[\text{Precision} = \frac{\text{TP}}{\text{TP} + \text{FP}}, \qquad
 \text{Recall} = \frac{\text{TP}}{\text{TP} + \text{FN}}\]</span></p>
 </section>
-<section id="structural-similarity-index-ssim" data-number="0.5.2">
+<section data-number="0.5.2" id="structural-similarity-index-ssim">
 <h3 data-number="1.5.2"><span class="header-section-number">1.5.2</span> Structural Similarity Index (SSIM)</h3>
 <p><strong>Structural Similarity Index (SSIM)</strong> is commonly used for evaluating dense prediction tasks such as denoising and super-resolution because it measures perceptual image quality by accounting for spatial structure rather than relying only on pixel-wise differences.</p>
 <p><span class="math display">\[\text{SSIM}(X, Y) =
@@ -118,7 +117,7 @@
 <p><span class="math display">\[l(x,y) = \frac{2\mu_x\mu_y + C_1}{\mu_x^2 + \mu_y^2 + C_1}, \qquad
 c(x,y) = \frac{2\sigma_x\sigma_y + C_2}{\sigma_x^2 + \sigma_y^2 + C_2},\]</span> <span class="math display">\[s(x,y) = \frac{\sigma_{xy} + C_3}{\sigma_x\sigma_y + C_3},\]</span> where <span class="math inline">\(C_3=\frac{C_2}{2}\)</span>. The full SSIM metric combines these components as <span class="math display">\[\text{SSIM}(X,Y) = l(x,y)^\alpha \, c(x,y)^\beta \, s(x,y)^\gamma,\]</span> where the exponents <span class="math inline">\(\alpha\)</span>, <span class="math inline">\(\beta\)</span>, and <span class="math inline">\(\gamma\)</span> are typically set to 1.</p>
 </section>
-<section id="complex-wavelet-ssim-cw-ssim" data-number="0.5.3">
+<section data-number="0.5.3" id="complex-wavelet-ssim-cw-ssim">
 <h3 data-number="1.5.3"><span class="header-section-number">1.5.3</span> Complex Wavelet SSIM (CW-SSIM)</h3>
 <p><strong>Complex Wavelet Structural Similarity (CW-SSIM)</strong> is an extension of SSIM that operates in the complex wavelet domain. Unlike standard SSIM, CW-SSIM is more robust to small geometric distortions such as scaling, translation, and rotation. The output ranges from 0 to 1, where a value of 1 indicates that two signals are perfectly structurally similar, while a value near 0 indicates little to no structural similarity.</p>
 <p><span class="math display">\[\text{CW-SSIM}(c_x, c_y)
@@ -130,10 +129,10 @@ c(x,y) = \frac{2\sigma_x\sigma_y + C_2}{\sigma_x^2 + \sigma_y^2 + C_2},\]</span>
 {2 \sum_{i=1}^{N} |c_{x,i} c_{y,i}^*| + K}\]</span></p>
 <p>Here, <span class="math inline">\(c_{x,i}\)</span> and <span class="math inline">\(c_{y,i}\)</span> denote the complex wavelet coefficients of images <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> at the <span class="math inline">\(i\)</span>-th spatial location, and <span class="math inline">\((\cdot)^*\)</span> denotes complex conjugation. The constant <span class="math inline">\(K\)</span> is a small positive value added to prevent numerical instability and division by zero.</p>
 </section>
-<section id="analyzing-image-reconstructions-with-various-performance-metrics" data-number="0.5.4">
+<section data-number="0.5.4" id="analyzing-image-reconstructions-with-various-performance-metrics">
 <h3 data-number="1.5.4"><span class="header-section-number">1.5.4</span> Analyzing Image Reconstructions with Various Performance Metrics</h3>
 <figure>
-<img src="img/lecture17/scribeim4.png" id="3" alt="Image Reconstructions and their Performance Scores" /><figcaption aria-hidden="true">Image Reconstructions and their Performance Scores</figcaption>
+<img alt="Image Reconstructions and their Performance Scores" id="3" src="img/lecture17/scribeim4.png"/><figcaption aria-hidden="true">Image Reconstructions and their Performance Scores</figcaption>
 </figure>
 <p>This figure above highlights how different image quality metrics can evaluate reconstructions very differently, emphasizing the importance of choosing metrics carefully.</p>
 <p>The first row of reconstructions (a–d) contains visually valid reconstructions. Image (a) represents a perfect reconstruction of the original image, while image (c) achieves a perfect CW-SSIM score, indicating that it preserves structural similarity extremely well even if small pixel-level differences exist.</p>
@@ -142,76 +141,76 @@ c(x,y) = \frac{2\sigma_x\sigma_y + C_2}{\sigma_x^2 + \sigma_y^2 + C_2},\]</span>
 <p>Overall, this comparison demonstrates that no single metric fully captures perceptual image quality, and multiple metrics are often needed when evaluating image reconstruction tasks.</p>
 </section>
 </section>
-<section id="model-debugging" data-number="0.6">
+<section data-number="0.6" id="model-debugging">
 <h2 data-number="1.6"><span class="header-section-number">1.6</span> Model Debugging</h2>
 <p>Model debugging is the process of identifying and resolving issues that prevent a model from learning effectively or generalizing well. Effective debugging helps ensure robust performance on both training and testing datasets by diagnosing problems such as underfitting, overfitting, unstable gradients, poor initialization, or data-related issues.</p>
-<section id="low-model-capacity" data-number="0.6.1">
+<section data-number="0.6.1" id="low-model-capacity">
 <h3 data-number="1.6.1"><span class="header-section-number">1.6.1</span> Low Model Capacity</h3>
 <p>A model is said to <strong>underfit</strong> when it achieves low accuracy on both the training and test datasets. This typically indicates that the model is too simple to capture the underlying patterns in the data. In such cases, the solution is to <strong>increase the model capacity</strong> by adding more layers or units, using richer feature representations, or tuning hyperparameters to allow the model to learn more complex relationships.</p>
 </section>
-<section id="high-model-capacity" data-number="0.6.2">
+<section data-number="0.6.2" id="high-model-capacity">
 <h3 data-number="1.6.2"><span class="header-section-number">1.6.2</span> High Model Capacity</h3>
 <p><strong>Overfitting</strong> occurs when a model achieves high training accuracy but low test accuracy, indicating that it has memorized the training data rather than learning generalizable patterns. To address this issue, the model capacity should be reduced by decreasing the number of layers or units, or by introducing <strong>regularization techniques</strong> such as dropout, weight decay, or data augmentation.</p>
 <figure>
-<img src="img/lecture17/scribeim5.png" id="4" alt="Underfitting, Proper Fitting, and Overfitting" /><figcaption aria-hidden="true">Underfitting, Proper Fitting, and Overfitting</figcaption>
+<img alt="Underfitting, Proper Fitting, and Overfitting" id="4" src="img/lecture17/scribeim5.png"/><figcaption aria-hidden="true">Underfitting, Proper Fitting, and Overfitting</figcaption>
 </figure>
 </section>
 </section>
-<section id="data-augmentation" data-number="0.7">
+<section data-number="0.7" id="data-augmentation">
 <h2 data-number="1.7"><span class="header-section-number">1.7</span> Data Augmentation</h2>
 <p><strong>Data augmentation</strong> is a technique used to improve model performance when working with limited datasets. By artificially expanding the training set through label-preserving transformations, we can make models more robust and reduce overfitting without collecting additional data.</p>
 <p>Common augmentation techniques involve applying various <strong>transformations</strong> to training images. These include random cropping, horizontal and vertical flipping, rotation, scaling, blurring, and the addition of Gaussian noise. Such transformations help the model learn invariances to changes in orientation, position, and noise, improving generalization to unseen data.</p>
 <figure>
-<img src="img/lecture17/scriveim6.png" id="fig:5" alt="Examples of Transformations Applied to an Image" /><figcaption aria-hidden="true">Examples of Transformations Applied to an Image</figcaption>
+<img alt="Examples of Transformations Applied to an Image" id="fig:5" src="img/lecture17/scriveim6.png"/><figcaption aria-hidden="true">Examples of Transformations Applied to an Image</figcaption>
 </figure>
 </section>
-<section id="transfer-learning" data-number="0.8">
+<section data-number="0.8" id="transfer-learning">
 <h2 data-number="1.8"><span class="header-section-number">1.8</span> Transfer Learning</h2>
 <p><strong>Transfer learning</strong> leverages models that have been pre-trained on large datasets, making it especially useful when the available training data for a new task is limited. By reusing previously learned feature representations, models can converge faster and often achieve better performance than training from scratch. The effectiveness of transfer learning typically depends on how closely the pre-training dataset is related to the target task.</p>
 <p>A common strategy in transfer learning is to use <strong>frozen layers</strong>. In this approach, the early layers of a pretrained network are kept fixed, preserving their learned feature representations, while only the final layers are fine-tuned on the target dataset. This allows the model to adapt to the new task while avoiding overfitting and reducing training time.</p>
 </section>
-<section id="visualization-and-diagnostics" data-number="0.9">
+<section data-number="0.9" id="visualization-and-diagnostics">
 <h2 data-number="1.9"><span class="header-section-number">1.9</span> Visualization and Diagnostics</h2>
 <p><strong>Visualization and diagnostic tools</strong> are essential for understanding model behavior and identifying performance bottlenecks. By visualizing activations, gradients, loss curves, and network outputs, practitioners can detect issues such as vanishing or exploding gradients, dead neurons, overfitting, or poor convergence.</p>
-<section id="gradient-checking" data-number="0.9.1">
+<section data-number="0.9.1" id="gradient-checking">
 <h3 data-number="1.9.1"><span class="header-section-number">1.9.1</span> Gradient Checking</h3>
 <p><strong>Gradient checking</strong> is a debugging technique used to verify the correctness of backpropagation implementations. The idea is to compare analytically computed gradients (via backpropagation) with numerically approximated gradients computed using finite differences. If the two gradients closely match, the implementation is likely correct.</p>
 <p>A numerical approximation of the derivative can be computed as</p>
-<p><span class="math display">\[f&#39;(x) \approx \frac{f(x + \epsilon) - f(x)}{\epsilon},\]</span></p>
+<p><span class="math display">\[f'(x) \approx \frac{f(x + \epsilon) - f(x)}{\epsilon},\]</span></p>
 <p>where <span class="math inline">\(\epsilon\)</span> is a small constant (e.g., <span class="math inline">\(10^{-5}\)</span>). In practice, a symmetric (central) difference approximation is often preferred for higher accuracy.</p>
 </section>
-<section id="activation-histograms" data-number="0.9.2">
+<section data-number="0.9.2" id="activation-histograms">
 <h3 data-number="1.9.2"><span class="header-section-number">1.9.2</span> Activation Histograms</h3>
 <p><strong>Activation histograms</strong> are a valuable diagnostic tool for understanding the behavior of neurons in a convolutional neural network (CNN). By visualizing the distribution of activation values across layers, practitioners can detect common training issues such as dead neurons, vanishing gradients, and exploding gradients. These histograms are generated by collecting the output values of neurons in a layer and plotting their distribution, allowing us to observe the range and frequency of activations during training.</p>
 <p>One important use of activation histograms is identifying <strong>dead neurons</strong>. These are neurons that consistently output zero or near-zero values and therefore do not contribute to learning. This issue commonly occurs in networks using ReLU activation functions, where large negative inputs cause neurons to output zero and remain inactive.</p>
 <figure>
-<img src="img/lecture17/scribeim6.png" id="fig:6" alt="Activation Histogram with Dead Neurons and Vanishing Gradients" /><figcaption aria-hidden="true">Activation Histogram with Dead Neurons and Vanishing Gradients</figcaption>
+<img alt="Activation Histogram with Dead Neurons and Vanishing Gradients" id="fig:6" src="img/lecture17/scribeim6.png"/><figcaption aria-hidden="true">Activation Histogram with Dead Neurons and Vanishing Gradients</figcaption>
 </figure>
 <p>Activation histograms also help diagnose <strong>vanishing and exploding gradients</strong>. If activation magnitudes become progressively smaller across layers, gradients may vanish; if they grow excessively large, gradients may explode. Observing these trends can guide adjustments to network architecture, initialization, or learning rates. For example, decreasing the learning rate can help mitigate exploding activations, while increasing it or improving initialization may help when activations shrink too quickly.</p>
 <figure>
-<img src="img/lecture17/scribeim8.png" id="fig:7" alt="Activation Histogram with Exploding Gradients" /><figcaption aria-hidden="true">Activation Histogram with Exploding Gradients</figcaption>
+<img alt="Activation Histogram with Exploding Gradients" id="fig:7" src="img/lecture17/scribeim8.png"/><figcaption aria-hidden="true">Activation Histogram with Exploding Gradients</figcaption>
 </figure>
 <p>A healthy network typically exhibits a <strong>balanced activation distribution</strong>, where values are reasonably spread around zero rather than collapsing to a spike near zero. Maintaining stable parameter updates—often around 1% of parameter magnitudes—can contribute to stable training and well-behaved activation distributions.</p>
 <figure>
-<img src="img/lecture17/scribeim9.png" id="fig:8" alt="Ideal Activation Histogram" /><figcaption aria-hidden="true">Ideal Activation Histogram</figcaption>
+<img alt="Ideal Activation Histogram" id="fig:8" src="img/lecture17/scribeim9.png"/><figcaption aria-hidden="true">Ideal Activation Histogram</figcaption>
 </figure>
 <p>Activation histograms can also reveal <strong>outliers</strong>, where extremely large or small activation values indicate overactive neurons. Such outliers can lead to unstable training and exploding gradients, and may be mitigated using normalization techniques.</p>
 <figure>
-<img src="img/lecture17/scribeim7.png" id="fig:9" alt="Activation Histogram with Outliers" /><figcaption aria-hidden="true">Activation Histogram with Outliers</figcaption>
+<img alt="Activation Histogram with Outliers" id="fig:9" src="img/lecture17/scribeim7.png"/><figcaption aria-hidden="true">Activation Histogram with Outliers</figcaption>
 </figure>
 <p>In practice, activation histograms should be monitored regularly during training to diagnose network health and guide hyperparameter tuning. If many neurons appear inactive, one might switch from ReLU to Leaky ReLU or adjust the learning rate. Histograms can also indicate whether normalization techniques are needed. <strong>Batch normalization</strong> stabilizes training by normalizing layer inputs within each mini-batch to have zero mean and unit variance, helping prevent vanishing or exploding gradients. <strong>Layer normalization</strong>, which normalizes across features for each individual sample, is particularly useful when batch sizes are small or variable, such as in recurrent neural networks.</p>
 </section>
 </section>
-<section id="weight-initialization" data-number="0.10">
+<section data-number="0.10" id="weight-initialization">
 <h2 data-number="1.10"><span class="header-section-number">1.10</span> Weight Initialization</h2>
 <p><strong>Weight initialization</strong> plays a crucial role in training deep neural networks. Poor initialization can lead to vanishing or exploding gradients, which slows down or completely prevents learning. Proper initialization helps maintain stable signal and gradient magnitudes as they propagate through the network.</p>
-<section id="xavier-initialization" data-number="0.10.1">
+<section data-number="0.10.1" id="xavier-initialization">
 <h3 data-number="1.10.1"><span class="header-section-number">1.10.1</span> Xavier Initialization</h3>
 <p><strong>Xavier initialization</strong> (also known as Glorot initialization) is designed to keep the variance of activations and gradients approximately constant across layers. This helps prevent the signal from shrinking or growing as it moves forward and backward through the network. Xavier initialization is most suitable for networks using <strong>sigmoid</strong> or <strong>tanh</strong> activation functions.</p>
 <p><span class="math display">\[W \sim U\left(-\frac{\sqrt{6}}{\sqrt{n_{in} + n_{out}}}, \frac{\sqrt{6}}{\sqrt{n_{in} + n_{out}}}\right)\]</span></p>
 <p>Here, <span class="math inline">\(n_{in}\)</span> and <span class="math inline">\(n_{out}\)</span> denote the number of input and output units of the layer. The scaling factor balances the flow of information between layers and helps stabilize training in moderately deep networks.</p>
 </section>
-<section id="kaiming-initialization" data-number="0.10.2">
+<section data-number="0.10.2" id="kaiming-initialization">
 <h3 data-number="1.10.2"><span class="header-section-number">1.10.2</span> Kaiming Initialization</h3>
 <p><strong>Kaiming initialization</strong> (also known as He initialization) is specifically designed for networks that use <strong>ReLU</strong> or ReLU-like activation functions. Since ReLU units output zero for negative inputs, they effectively drop about half of the signal. Kaiming initialization compensates for this by increasing the initial variance of the weights, helping maintain stable forward activations and backward gradients in deep networks.</p>
 <p><span class="math display">\[W \sim \mathcal{N}\left(0, \frac{2}{n_{in}}\right)\]</span></p>
@@ -223,48 +222,21 @@ c(x,y) = \frac{2\sigma_x\sigma_y + C_2}{\sigma_x^2 + \sigma_y^2 + C_2},\]</span>
 </ul>
 </section>
 </section>
-<section id="hyperparameter-tuning" data-number="0.11">
+<section data-number="0.11" id="hyperparameter-tuning">
 <h2 data-number="1.11"><span class="header-section-number">1.11</span> Hyperparameter Tuning</h2>
 <p><strong>Hyperparameter tuning</strong> is a critical step in building high-performing machine learning and deep learning models. Hyperparameters—such as learning rate, batch size, number of layers, regularization strength, and optimizer settings—are not learned during training and must be selected externally. While manual tuning is possible, it is often slow, inefficient, and unlikely to discover optimal configurations, especially as model complexity grows. Systematic search strategies help automate this process and improve performance in a more principled way.</p>
-<section id="grid-search" data-number="0.11.1">
+<section data-number="0.11.1" id="grid-search">
 <h3 data-number="1.11.1"><span class="header-section-number">1.11.1</span> Grid Search</h3>
 <p><strong>Grid search</strong> is a straightforward and exhaustive approach to hyperparameter optimization. In this method, the practitioner specifies a discrete set of values for each hyperparameter and evaluates the model on <em>all possible combinations</em>. This guarantees that the best configuration within the predefined search space is found.</p>
 <p>Despite its simplicity, grid search becomes computationally expensive as the number of hyperparameters increases, since the search space grows exponentially. As a result, grid search is most practical when the number of hyperparameters is small or when the search ranges are narrow.</p>
 </section>
-<section id="random-search" data-number="0.11.2">
+<section data-number="0.11.2" id="random-search">
 <h3 data-number="1.11.2"><span class="header-section-number">1.11.2</span> Random Search</h3>
 <p><strong>Random search</strong> improves efficiency by sampling hyperparameter combinations randomly from predefined distributions rather than exhaustively enumerating all possibilities. Surprisingly, random search is often more effective than grid search in high-dimensional spaces because not all hyperparameters contribute equally to performance. By exploring more diverse configurations, random search is more likely to discover strong hyperparameter settings with fewer evaluations.</p>
 <p>In practice, random search is widely used as a strong baseline for hyperparameter tuning, especially when computational resources are limited.</p>
 </section>
 </section>
-<section id="qa-section" data-number="0.12">
-<h2 data-number="1.12"><span class="header-section-number">1.12</span> Q&amp;A Section</h2>
-<ol>
-<li><p><strong>Question:</strong> You are training a model to classify images into one of ten categories. The dataset has roughly an equal number of samples for each category. Select the most suitable loss function.</p>
-<ul>
-<li><p>A. Mean Squared Error (MSE) Loss</p></li>
-<li><p>B. Cross-Entropy Loss</p></li>
-<li><p>C. L1 Loss</p></li>
-<li><p>D. Weighted Cross-Entropy Loss</p></li>
-</ul>
-<p><strong>Solution:</strong> <strong>B. Cross-Entropy Loss.</strong> For multi-class classification with balanced classes, standard cross-entropy loss is the most appropriate choice because it directly optimizes predicted class probabilities. MSE and L1 are primarily used for regression tasks, and weighted cross-entropy is unnecessary when the dataset is balanced.</p></li>
-<li><p><strong>Question:</strong> You are working on a medical image segmentation task where the goal is to identify tumor regions in MRI scans. Tumor pixels are far fewer than non-tumor pixels. Select the most suitable loss function.</p>
-<ul>
-<li><p>A. Cross-Entropy Loss</p></li>
-<li><p>B. Weighted Cross-Entropy Loss</p></li>
-<li><p>C. MSE Loss</p></li>
-<li><p>D. Focal Loss</p></li>
-</ul>
-<p><strong>Solution:</strong> <strong>D. Focal Loss.</strong> Severe class imbalance is common in medical segmentation tasks. Focal loss down-weights easy background examples and focuses training on hard, minority-class examples. While weighted cross-entropy can help, focal loss is typically more effective when the imbalance is extreme.</p></li>
-<li><p><strong>Question:</strong> The activation histogram slope increases in each successive layer, with values extending to large magnitudes, suggesting exploding gradients. What is the most appropriate corrective action?</p>
-<ul>
-<li><p>A. Increase the learning rate</p></li>
-<li><p>B. Decrease the learning rate</p></li>
-<li><p>C. Change the activation function to a more aggressive variant like ReLU</p></li>
-</ul>
-<p><strong>Solution:</strong> <strong>B. Decrease the learning rate.</strong> Exploding gradients cause excessively large parameter updates that destabilize training. Reducing the learning rate helps stabilize optimization and prevent divergence. Additional remedies include gradient clipping and improved weight initialization.</p></li>
-</ol>
-</section>
+
 
 </main>
 </body>

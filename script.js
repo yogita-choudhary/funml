@@ -8,6 +8,7 @@ const lectureTitle = document.getElementById('lecture-title');
 const lectureMeta = document.getElementById('lecture-meta');
 const notesLink = document.getElementById('notes-link');
 const slidesLink = document.getElementById('slides-link');
+const exerciseLink = document.getElementById('exercise-link');
 const videoLinks = document.getElementById('video-links');
 const demosLink = document.getElementById('demos-link');
 const topDemosLink = document.getElementById('top-demos-link');
@@ -172,6 +173,10 @@ if (slidesLink) {
   slidesLink.addEventListener('click', (event) => openResourceInViewer(event, 'Slides'));
 }
 
+if (exerciseLink) {
+  exerciseLink.addEventListener('click', (event) => openResourceInViewer(event, 'Exercises'));
+}
+
 if (notesLink) {
   notesLink.addEventListener('click', (event) => openResourceInViewer(event, 'Lecture Notes'));
 }
@@ -210,6 +215,8 @@ document.querySelectorAll('.click-card').forEach((card) => {
     if (!link) return;
     const kind = link.id === 'slides-link'
       ? 'Slides'
+      : link.id === 'exercise-link'
+        ? 'Exercises'
       : link.id === 'notes-link'
         ? 'Lecture Notes'
         : link.id === 'demos-link'

@@ -12,36 +12,35 @@
 </nav>
 <main>
 <div class="center">
-
 </div>
-<p><strong>Contributors:</strong> Dr. Ahmad Mustafa, Dr. Motaz Alfarraj, Dr. Ashraf Alattar, Dr. Chen Zhou</p>
-<p><strong>Teaching Assistants</strong> with remarkable contributions include: Kuo-Wei Lai, Wuyang Du, Shiva Mahato, Michael Zhou, Ninghan Zhong</p>
-<p><strong>Disclaimer</strong>: <span>All content of these notes are part of this course at Georgia Tech. Any re-use or distribution is not permitted without pre-approved permission. All these notes belong to, created by, and copyrighted for Ghassan AlRegib and Mohit Prabhushankar, Georgia Tech, 2021–2028.</span></p>
-<p><strong>License</strong>: <span>These lecture notes are licensed under the <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.</span></p>
-<p><strong>Errata</strong>: <span><em>Please submit any errata you find using the following form: <a href="https://forms.office.com/r/fbg9dMWPgY">Errata Form for FunML Textbook</a> or visit: <a href="https://forms.office.com/r/fbg9dMWPgY">https://forms.office.com/r/fbg9dMWPgY</a></em></span></p>
-<section id="lecture-objectives" data-number="0.1">
+
+
+
+
+
+<section data-number="0.1" id="lecture-objectives">
 <h2 data-number="1.1"><span class="header-section-number">1.1</span> Lecture Objectives</h2>
 <p>The objective of this lecture is to explore the concept of explainability in machine learning and its application to neural networks. They cover key methods and paradigms such as Grad-CAM, saliency maps, and counterfactual explanations, as well as the evaluation of these techniques through human-centered and application-based approaches. The lectures aim to provide a comprehensive understanding of how explainability enhances trust, transparency, and usability in machine learning models across various real-world domains.</p>
 </section>
-<section id="recap" data-number="0.2">
+<section data-number="0.2" id="recap">
 <h2 data-number="1.2"><span class="header-section-number">1.2</span> Recap</h2>
 <p>In the previous lecture, we dived into explainability in machine learning, particularly within neural networks, covering methods like Grad-CAM and saliency maps, and evaluating these techniques through both human-centered and application-based approaches to enhance understanding and trust in ML models.</p>
 </section>
-<section id="explainability" data-number="0.3">
+<section data-number="0.3" id="explainability">
 <h2 data-number="1.3"><span class="header-section-number">1.3</span> Explainability</h2>
-<section id="definition" data-number="0.3.1">
+<section data-number="0.3.1" id="definition">
 <h3 data-number="1.3.1"><span class="header-section-number">1.3.1</span> Definition</h3>
 <p>The ability of an entity to explain or justify its decisions or predictions in human-understandable terms</p>
 </section>
-<section id="why-do-we-choose-explainability" data-number="0.3.2">
+<section data-number="0.3.2" id="why-do-we-choose-explainability">
 <h3 data-number="1.3.2"><span class="header-section-number">1.3.2</span> Why do we choose explainability</h3>
 <p>Explainability in deep learning systems is crucial for establishing trust by developing transparent models that can clearly explain their predictions to humans. It is particularly valuable in fields such as medicine, where it aids doctors in diagnosis; in seismic interpretation, helping label seismic data accurately; and in autonomous systems, where it builds trust and confidence by making the operations of complex algorithms understandable. These models process input data and output class scores without being able to articulate their decision-making process, which is why explainability is so important.</p>
 </section>
-<section id="explainability-in-cnns" data-number="0.3.3">
+<section data-number="0.3.3" id="explainability-in-cnns">
 <h3 data-number="1.3.3"><span class="header-section-number">1.3.3</span> Explainability in CNNs</h3>
 <p>A brief look to AlexNet</p>
 <figure>
-<img src="img/lecture22/01.png" id="fig:Architecture of AlexNet" alt="Different layers in a CNN" /><figcaption aria-hidden="true">Different layers in a CNN</figcaption>
+<img alt="Different layers in a CNN" id="fig:Architecture of AlexNet" src="img/lecture22/01.png"/><figcaption aria-hidden="true">Different layers in a CNN</figcaption>
 </figure>
 <p>AlexNet contains eight layers:</p>
 <ul>
@@ -60,7 +59,7 @@
 <h3 id="visualizing-filters-in-first-layers">Visualizing Filters in First Layers</h3>
 <h4 id="alexnet">AlexNet</h4>
 <figure>
-<img src="img/lecture22/AlexNet.png" id="fig:The sequence of convolutional layers of AlexNet" alt="The sequence of convolutional layers of AlexNet" /><figcaption aria-hidden="true">The sequence of convolutional layers of AlexNet</figcaption>
+<img alt="The sequence of convolutional layers of AlexNet" id="fig:The sequence of convolutional layers of AlexNet" src="img/lecture22/AlexNet.png"/><figcaption aria-hidden="true">The sequence of convolutional layers of AlexNet</figcaption>
 </figure>
 <ul>
 <li><p>64 filters in the first convolutional layer</p></li>
@@ -69,7 +68,7 @@
 </ul>
 <h4 id="resnet">ResNet</h4>
 <figure>
-<img src="img/lecture22/ResNet.png" id="fig:The sequence of convolutional layers of ResNet" alt="The sequence of convolutional layers of ResNet" /><figcaption aria-hidden="true">The sequence of convolutional layers of ResNet</figcaption>
+<img alt="The sequence of convolutional layers of ResNet" id="fig:The sequence of convolutional layers of ResNet" src="img/lecture22/ResNet.png"/><figcaption aria-hidden="true">The sequence of convolutional layers of ResNet</figcaption>
 </figure>
 <ul>
 <li><p>The deeper and more complex connectivity patterns such as identity shortcuts and convolutional blocks that help in training deeper networks without suffering from vanishing gradients</p></li>
@@ -79,13 +78,13 @@
 <h4 id="summary">Summary</h4>
 <p>• Filters in the first convolutional layers across different architectures learn similar patterns</p>
 <figure>
-<img src="img/lecture22/sum1.png" id="fig:The Summary" alt="Outputs of AlexNet and ResNet" /><figcaption aria-hidden="true">Outputs of AlexNet and ResNet</figcaption>
+<img alt="Outputs of AlexNet and ResNet" id="fig:The Summary" src="img/lecture22/sum1.png"/><figcaption aria-hidden="true">Outputs of AlexNet and ResNet</figcaption>
 </figure>
 <h3 id="visualizing-filters-in-intermediate-layers">Visualizing Filters in Intermediate Layers</h3>
 <p>Filters in higher convolutional layers are not as interpretable as filters in the first layer.</p>
 <h4 id="layer-specific-details">Layer-specific Details</h4>
 <figure>
-<img src="img/lecture22/layers.png" id="fig:Layer-specific Outputs" alt="Layer-specific Outputs" /><figcaption aria-hidden="true">Layer-specific Outputs</figcaption>
+<img alt="Layer-specific Outputs" id="fig:Layer-specific Outputs" src="img/lecture22/layers.png"/><figcaption aria-hidden="true">Layer-specific Outputs</figcaption>
 </figure>
 <ul>
 <li><p>Initial layers (like Conv1) display interpretable weights visualized as RGB images, capturing basic features like edges and textures.</p></li>
@@ -96,7 +95,7 @@
 <li><p>The fifth convolutional layer (Conv5) in networks like AlexNet is particularly sensitive to specific features such as wheels, illustrating how higher layers focus on more refined aspects of the input.</p></li>
 <li><p>This sensitivity is shown through an activation map that highlights where in the image the filter is most activated, such as the wheel of a car in the example provided.</p>
 <figure>
-<img src="img/lecture22/conv5.png" id="fig:Conv5 of AlexNet" alt="Conv5 of AlexNet" /><figcaption aria-hidden="true">Conv5 of AlexNet</figcaption>
+<img alt="Conv5 of AlexNet" id="fig:Conv5 of AlexNet" src="img/lecture22/conv5.png"/><figcaption aria-hidden="true">Conv5 of AlexNet</figcaption>
 </figure></li>
 </ul>
 <h3 id="maximally-activating-patches">Maximally Activating Patches</h3>
@@ -137,7 +136,7 @@
 <h4 id="application-example-with-t-sne">Application Example with t-SNE</h4>
 <p>t-SNE, in particular, is highlighted for its effectiveness in preserving local relationships between data points while reducing dimensionality. This results in a clustered visualization where similar images form distinct groups, aiding in the intuitive understanding of the data’s structure and the model’s behavior.</p>
 <figure>
-<img src="img/lecture22/tsne ex.png" id="fig:Exaample usage of TSNE" alt="t-SNE visualization of MNIST" /><figcaption aria-hidden="true">t-SNE visualization of MNIST</figcaption>
+<img alt="t-SNE visualization of MNIST" id="fig:Exaample usage of TSNE" src="img/lecture22/tsne ex.png"/><figcaption aria-hidden="true">t-SNE visualization of MNIST</figcaption>
 </figure>
 <h3 id="summary-of-visualizing-cnns">Summary of Visualizing CNNs</h3>
 <h4 id="maximally-activating-patches-1">Maximally Activating Patches</h4>
@@ -162,7 +161,7 @@
 </ul>
 <p>Each weight <span class="math inline">\(w_i\)</span> represents the importance of feature <span class="math inline">\(x_i\)</span>, indicating how much <span class="math inline">\(x_i\)</span> contributes to the prediction.</p>
 <figure>
-<img src="img/lecture22/wi.png" id="fig:Demonstartion" alt="Demonstration" /><figcaption aria-hidden="true">Demonstration</figcaption>
+<img alt="Demonstration" id="fig:Demonstartion" src="img/lecture22/wi.png"/><figcaption aria-hidden="true">Demonstration</figcaption>
 </figure>
 <h3 id="saliency-via-gradients">Saliency via Gradients</h3>
 <p>Generate pixel saliency maps by deep models as feature importance maps.</p>
@@ -181,7 +180,7 @@
 <li><p>Gradients can be computed efficiently via backpropagation, making it feasible for high-dimensional inputs.</p></li>
 </ul>
 <figure>
-<img src="img/lecture22/a.png" id="Highly non-linear mapping function" alt="Highly non-linear mapping function" /><figcaption aria-hidden="true">Highly non-linear mapping function</figcaption>
+<img alt="Highly non-linear mapping function" id="Highly non-linear mapping function" src="img/lecture22/a.png"/><figcaption aria-hidden="true">Highly non-linear mapping function</figcaption>
 </figure>
 <h3 id="saliency-via-gradients-illustration">Saliency via Gradients (Illustration)</h3>
 <ul>
@@ -195,7 +194,7 @@
 <li><p>The class “Dog" is selected as it has the highest probability.</p></li>
 </ul>
 <figure>
-<img src="img/lecture22/forward.png" id="fig:enter-label" alt="Forward Pass" /><figcaption aria-hidden="true">Forward Pass</figcaption>
+<img alt="Forward Pass" id="fig:enter-label" src="img/lecture22/forward.png"/><figcaption aria-hidden="true">Forward Pass</figcaption>
 </figure>
 <h4 id="backward-pass">Backward Pass</h4>
 <ul>
@@ -222,7 +221,7 @@
 <li><p>Segmentations illustrate the network’s focus on different objects within an image (e.g., animals, objects, or regions of interest).</p></li>
 </ul>
 <figure>
-<img src="img/lecture22/Picture3.png" style="width:80.0%" alt="Examples of weakly-supervised segmentation using saliency maps." /><figcaption aria-hidden="true">Examples of weakly-supervised segmentation using saliency maps.</figcaption>
+<img alt="Examples of weakly-supervised segmentation using saliency maps." src="img/lecture22/Picture3.png" style="width:80.0%"/><figcaption aria-hidden="true">Examples of weakly-supervised segmentation using saliency maps.</figcaption>
 </figure>
 <h3 id="uncovering-biases">Uncovering Biases</h3>
 <p><strong>Saliency maps can reveal biases in models.</strong></p>
@@ -239,10 +238,10 @@
 </ul></li>
 </ul>
 <figure>
-<img src="img/lecture22/wolf.png" style="width:40.0%" alt="Image (a): Husky classified as a wolf." /><figcaption aria-hidden="true">Image (a): Husky classified as a wolf.</figcaption>
+<img alt="Image (a): Husky classified as a wolf." src="img/lecture22/wolf.png" style="width:40.0%"/><figcaption aria-hidden="true">Image (a): Husky classified as a wolf.</figcaption>
 </figure>
 <figure>
-<img src="img/lecture22/salient.png" style="width:40.0%" alt="Image (b): Saliency map showing snow pixels as influential features." /><figcaption aria-hidden="true">Image (b): Saliency map showing snow pixels as influential features.</figcaption>
+<img alt="Image (b): Saliency map showing snow pixels as influential features." src="img/lecture22/salient.png" style="width:40.0%"/><figcaption aria-hidden="true">Image (b): Saliency map showing snow pixels as influential features.</figcaption>
 </figure>
 <h2 id="gradient-based-explanations">Gradient-Based Explanations</h2>
 <p>Gradient-based explanations provide insights into neural network decisions by identifying which parts of the input image are most influential for the output prediction. These explanations utilize gradients computed during the backpropagation process to generate saliency maps, which visually highlight critical regions of the input. While they are computationally efficient and help approximate feature importance, these methods may not always reflect the actual decision-making process of the model effectively. Additionally, they can sometimes lack class discriminativity, meaning they may not clearly distinguish between different classes based on the highlighted features.</p>
@@ -275,12 +274,12 @@
 </ul></li>
 </ul>
 </section>
-<section id="forward-and-backward-pass-details" data-number="0.3.4">
+<section data-number="0.3.4" id="forward-and-backward-pass-details">
 <h3 data-number="1.3.4"><span class="header-section-number">1.3.4</span> Forward and Backward Pass Details</h3>
 <figure>
-<img src="img/lecture22/Details.png" id="fig:ReLU Activation Forward and Backward Pass Illustration" alt="ReLU Activation Forward and Backward Pass Illustration" /><figcaption aria-hidden="true">ReLU Activation Forward and Backward Pass Illustration</figcaption>
+<img alt="ReLU Activation Forward and Backward Pass Illustration" id="fig:ReLU Activation Forward and Backward Pass Illustration" src="img/lecture22/Details.png"/><figcaption aria-hidden="true">ReLU Activation Forward and Backward Pass Illustration</figcaption>
 </figure>
-<section id="relu-non-linearities-and-backpropagation" data-number="0.3.4.1">
+<section data-number="0.3.4.1" id="relu-non-linearities-and-backpropagation">
 <h4 data-number="1.3.4.1"><span class="header-section-number">1.3.4.1</span> ReLU Non-linearities and Backpropagation</h4>
 <ul>
 <li><p>Gradients are propagated only to regions of positive activations in the previous layer.</p></li>
@@ -296,7 +295,7 @@
 </ul></li>
 </ul>
 </section>
-<section id="deconvnet-backpropagation-1" data-number="0.3.4.2">
+<section data-number="0.3.4.2" id="deconvnet-backpropagation-1">
 <h4 data-number="1.3.4.2"><span class="header-section-number">1.3.4.2</span> Deconvnet Backpropagation</h4>
 <ul>
 <li><p>Handles ReLU non-linearities differently by propagating only positive gradients.</p></li>
@@ -313,10 +312,10 @@
 </ul>
 </section>
 </section>
-<section id="guided-backpropagation" data-number="0.3.5">
+<section data-number="0.3.5" id="guided-backpropagation">
 <h3 data-number="1.3.5"><span class="header-section-number">1.3.5</span> Guided Backpropagation</h3>
 <p>Guided Backpropagation combines positive gradient propagation with rectification by positive activations in earlier layers.</p>
-<section id="formula-1" data-number="0.3.5.1">
+<section data-number="0.3.5.1" id="formula-1">
 <h4 data-number="1.3.5.1"><span class="header-section-number">1.3.5.1</span> Formula</h4>
 <ul>
 <li><p><strong>Forward pass:</strong> <span class="math inline">\(h^{l+1} = \max\{0, h^l\}\)</span></p></li>
@@ -324,14 +323,14 @@
 <li><p>This combines positive activations and gradients, resulting in better saliency visualizations.</p></li>
 </ul>
 </section>
-<section id="visualization-1" data-number="0.3.5.2">
+<section data-number="0.3.5.2" id="visualization-1">
 <h4 data-number="1.3.5.2"><span class="header-section-number">1.3.5.2</span> Visualization</h4>
 <ul>
 <li><p>Produces even cleaner saliency maps compared to Deconvnet.</p></li>
 </ul>
 </section>
 </section>
-<section id="vanilla-vs.-deconvnet-vs.-guided-backpropagation" data-number="0.3.6">
+<section data-number="0.3.6" id="vanilla-vs.-deconvnet-vs.-guided-backpropagation">
 <h3 data-number="1.3.6"><span class="header-section-number">1.3.6</span> Vanilla vs. Deconvnet vs. Guided Backpropagation</h3>
 <ul>
 <li><p><strong>Observation:</strong> Guided backpropagation produces the “cleanest” saliency maps.</p></li>
@@ -343,7 +342,7 @@
 </ul></li>
 </ul>
 </section>
-<section id="problems-with-guided-backpropagation" data-number="0.3.7">
+<section data-number="0.3.7" id="problems-with-guided-backpropagation">
 <h3 data-number="1.3.7"><span class="header-section-number">1.3.7</span> Problems with Guided Backpropagation</h3>
 <ol>
 <li><p><strong>Issue 1: Not very class-discriminative.</strong></p>
@@ -362,12 +361,12 @@
 </ul></li>
 </ol>
 <figure>
-<img src="img/lecture22/xdog.png" id="fig:Example of backdrop" alt="Example of backdrop" /><figcaption aria-hidden="true">Example of backdrop</figcaption>
+<img alt="Example of backdrop" id="fig:Example of backdrop" src="img/lecture22/xdog.png"/><figcaption aria-hidden="true">Example of backdrop</figcaption>
 </figure>
 </section>
-<section id="summary-of-saliency-maps" data-number="0.3.8">
+<section data-number="0.3.8" id="summary-of-saliency-maps">
 <h3 data-number="1.3.8"><span class="header-section-number">1.3.8</span> Summary of Saliency Maps</h3>
-<section id="intervention-based-methods" data-number="0.3.8.1">
+<section data-number="0.3.8.1" id="intervention-based-methods">
 <h4 data-number="1.3.8.1"><span class="header-section-number">1.3.8.1</span> Intervention-Based Methods</h4>
 <ul>
 <li><p>Perturbing pixels and observing decision changes.</p></li>
@@ -388,9 +387,9 @@
 </ul>
 </section>
 </section>
-<section id="gradient-based-class-activation-map-grad-cam" data-number="0.4">
+<section data-number="0.4" id="gradient-based-class-activation-map-grad-cam">
 <h2 data-number="1.4"><span class="header-section-number">1.4</span> Gradient-Based Class Activation Map (Grad-CAM)</h2>
-<section id="motivation" data-number="0.4.1">
+<section data-number="0.4.1" id="motivation">
 <h3 data-number="1.4.1"><span class="header-section-number">1.4.1</span> Motivation</h3>
 <ul>
 <li><p><strong>Objective:</strong> Identify the important activations responsible for a specific class.</p></li>
@@ -407,7 +406,7 @@
 </ul></li>
 </ul>
 </section>
-<section id="method" data-number="0.4.2">
+<section data-number="0.4.2" id="method">
 <h3 data-number="1.4.2"><span class="header-section-number">1.4.2</span> Method</h3>
 <ul>
 <li><p><strong>Feedforward:</strong></p>
@@ -415,7 +414,7 @@
 <li><p>Input an image into the CNN.</p></li>
 <li><p>Extract feature maps from the last convolutional layer for task-specific layers (e.g., fully connected layer for classification).</p>
 <figure>
-<img src="img/lecture22/dog2.png" id="fig:CNN Architecture for Image Classification with Task-Specific Network" alt="CNN Architecture for Image Classification with Task-Specific Network" /><figcaption aria-hidden="true">CNN Architecture for Image Classification with Task-Specific Network</figcaption>
+<img alt="CNN Architecture for Image Classification with Task-Specific Network" id="fig:CNN Architecture for Image Classification with Task-Specific Network" src="img/lecture22/dog2.png"/><figcaption aria-hidden="true">CNN Architecture for Image Classification with Task-Specific Network</figcaption>
 </figure></li>
 </ul></li>
 <li><p><strong>Perturb Neuron Activations:</strong></p>
@@ -436,10 +435,10 @@
 </ul></li>
 </ul>
 <figure>
-<img src="img/lecture22/activation.png" id="figGradient-based Class Activation Map" alt="Gradient-based Class Activation Map" /><figcaption aria-hidden="true">Gradient-based Class Activation Map</figcaption>
+<img alt="Gradient-based Class Activation Map" id="figGradient-based Class Activation Map" src="img/lecture22/activation.png"/><figcaption aria-hidden="true">Gradient-based Class Activation Map</figcaption>
 </figure>
 </section>
-<section id="case-studies" data-number="0.4.3">
+<section data-number="0.4.3" id="case-studies">
 <h3 data-number="1.4.3"><span class="header-section-number">1.4.3</span> Case Studies</h3>
 <ul>
 <li><p><strong>Bathroom Scene:</strong></p>
@@ -455,35 +454,35 @@
 </ul>
 </section>
 </section>
-<section id="types-of-explanations" data-number="0.5">
+<section data-number="0.5" id="types-of-explanations">
 <h2 data-number="1.5"><span class="header-section-number">1.5</span> Types of Explanations:</h2>
-<section id="indirect-explanations" data-number="0.5.1">
+<section data-number="0.5.1" id="indirect-explanations">
 <h3 data-number="1.5.1"><span class="header-section-number">1.5.1</span> Indirect Explanations:</h3>
 <ul>
 <li><p>Analyze and present internal network parameters or features, necessitating deeper understanding from the user.</p></li>
 </ul>
 </section>
-<section id="direct-explanations" data-number="0.5.2">
+<section data-number="0.5.2" id="direct-explanations">
 <h3 data-number="1.5.2"><span class="header-section-number">1.5.2</span> Direct Explanations:</h3>
 <ul>
 <li><p>Identify and highlight critical regions or features in input data that significantly influence the model’s output.</p></li>
 </ul>
 </section>
-<section id="targeted-explanations" data-number="0.5.3">
+<section data-number="0.5.3" id="targeted-explanations">
 <h3 data-number="1.5.3"><span class="header-section-number">1.5.3</span> Targeted Explanations:</h3>
 <ul>
 <li><p>Focus on explaining specific decisions by highlighting relevant features and their influences on the model’s output.</p></li>
 </ul>
 </section>
 </section>
-<section id="network-evaluation" data-number="0.6">
+<section data-number="0.6" id="network-evaluation">
 <h2 data-number="1.6"><span class="header-section-number">1.6</span> Network Evaluation</h2>
 <h3 class="unnumbered" id="masking-techniques">Masking Techniques</h3>
 <ul>
 <li><p>Common evaluation technique includes using explanation heatmaps or pixel-wise importance to check prediction correctness.</p></li>
 <li><p>Masking using explanation heatmap and pixel-wise masking using explanation importance are demonstrated.</p></li>
 </ul>
-<section id="explanatory-evaluation" data-number="0.6.1">
+<section data-number="0.6.1" id="explanatory-evaluation">
 <h3 data-number="1.6.1"><span class="header-section-number">1.6.1</span> Explanatory Evaluation</h3>
 <ul>
 <li><p><strong>Progressive Pixel-wise Insertion and Deletion:</strong></p>
@@ -494,7 +493,7 @@
 </ul>
 </section>
 </section>
-<section id="visual-aids" data-number="0.7">
+<section data-number="0.7" id="visual-aids">
 <h2 data-number="1.7"><span class="header-section-number">1.7</span> Visual Aids</h2>
 <ul>
 <li><p><strong>Purpose and Implementation:</strong></p>
@@ -503,12 +502,12 @@
 </ul></li>
 </ul>
 </section>
-<section id="targeted-explanations-1" data-number="0.8">
+<section data-number="0.8" id="targeted-explanations-1">
 <h2 data-number="1.8"><span class="header-section-number">1.8</span> Targeted Explanations</h2>
 <figure>
-<img src="img/lecture22/target.png" id="fig:Types of Saliency Maps for Dog Image Classification" alt="Types of Saliency Maps for Dog Image Classification" /><figcaption aria-hidden="true">Types of Saliency Maps for Dog Image Classification</figcaption>
+<img alt="Types of Saliency Maps for Dog Image Classification" id="fig:Types of Saliency Maps for Dog Image Classification" src="img/lecture22/target.png"/><figcaption aria-hidden="true">Types of Saliency Maps for Dog Image Classification</figcaption>
 </figure>
-<section id="contrast-cam-and-counterfactual-cam" data-number="0.8.1">
+<section data-number="0.8.1" id="contrast-cam-and-counterfactual-cam">
 <h3 data-number="1.8.1"><span class="header-section-number">1.8.1</span> Contrast-CAM and Counterfactual-CAM</h3>
 <ul>
 <li><p><strong>Contrast-CAM:</strong> Focuses on providing visual comparisons between different classes, highlighting the distinct features that lead to one classification over another. This technique is particularly useful in scenarios where fine-grained differentiation between classes is crucial.</p></li>
@@ -521,7 +520,7 @@
 <li><p><strong>ReLU Combination for Visualizing Important Regions:</strong> <span class="math display">\[L_{\text{Grad-CAM}}^c = \text{ReLU} \left( \sum_k \alpha_k^c A^k \right)\]</span> This formula generates a visualization map <span class="math inline">\(L_{\text{Grad-CAM}}^c\)</span> by applying ReLU to the weighted sum of feature maps <span class="math inline">\(A^k\)</span>, isolating areas positively affecting the class outcome.</p></li>
 </ul>
 </section>
-<section id="key-questions-in-explainability" data-number="0.9">
+<section data-number="0.9" id="key-questions-in-explainability">
 <h2 data-number="1.9"><span class="header-section-number">1.9</span> Key Questions in Explainability</h2>
 <ul>
 <li><p><strong>Types of Questions Explored:</strong></p>
@@ -532,7 +531,7 @@
 </ul></li>
 </ul>
 </section>
-<section id="overview-of-explainability-techniques" data-number="0.10">
+<section data-number="0.10" id="overview-of-explainability-techniques">
 <h2 data-number="1.10"><span class="header-section-number">1.10</span> Overview of Explainability Techniques</h2>
 <ul>
 <li><p><strong>Visualization Techniques:</strong></p>
@@ -542,9 +541,9 @@
 </ul></li>
 </ul>
 </section>
-<section id="explanatory-evaluation-1" data-number="0.11">
+<section data-number="0.11" id="explanatory-evaluation-1">
 <h2 data-number="1.11"><span class="header-section-number">1.11</span> Explanatory Evaluation</h2>
-<section id="evaluation-metrics" data-number="0.11.1">
+<section data-number="0.11.1" id="evaluation-metrics">
 <h3 data-number="1.11.1"><span class="header-section-number">1.11.1</span> Evaluation Metrics:</h3>
 <ul>
 <li><p><strong>Human Interpretability:</strong> Assesses whether the explanations provided by the model are understandable to laypersons, facilitating broader comprehension and acceptance of machine learning decisions.</p></li>
@@ -553,16 +552,16 @@
 </ul>
 </section>
 </section>
-<section id="network-evaluation-1" data-number="0.12">
+<section data-number="0.12" id="network-evaluation-1">
 <h2 data-number="1.12"><span class="header-section-number">1.12</span> Network Evaluation</h2>
-<section id="purpose-and-methodology" data-number="0.12.1">
+<section data-number="0.12.1" id="purpose-and-methodology">
 <h3 data-number="1.12.1"><span class="header-section-number">1.12.1</span> Purpose and Methodology:</h3>
 <ul>
 <li><p>This section evaluates how different explanation techniques influence the performance and behavior of neural networks without direct human intervention.</p></li>
 <li><p><strong>Explanation Masking:</strong> Common techniques include masking parts of the input image using generated explanation heatmaps or assigning pixel-wise importance to verify the prediction’s accuracy. This helps in understanding which parts of the input are most critical to the network’s decision-making process.</p></li>
 </ul>
 </section>
-<section id="application-evaluation" data-number="0.12.2">
+<section data-number="0.12.2" id="application-evaluation">
 <h3 data-number="1.12.2"><span class="header-section-number">1.12.2</span> Application Evaluation</h3>
 <ul>
 <li><p><strong>Human-Centric Evaluation Tasks:</strong></p>
@@ -571,11 +570,11 @@
 <li><p><strong>Gaze Tracking and Pointing Games:</strong> These techniques assess how well explanations capture human attention and whether they align with intuitive visual processing. Gaze tracking observes where a person looks when trying to understand an explanation, while pointing games involve users indicating which parts of an explanation are most informative.</p></li>
 </ul>
 <figure>
-<img src="img/lecture22/vsi.png" id="fig:Saliency Map Visualization" alt="Saliency Map Visualization" /><figcaption aria-hidden="true">Saliency Map Visualization</figcaption>
+<img alt="Saliency Map Visualization" id="fig:Saliency Map Visualization" src="img/lecture22/vsi.png"/><figcaption aria-hidden="true">Saliency Map Visualization</figcaption>
 </figure></li>
 </ul>
 </section>
-<section id="human-evaluation" data-number="0.12.3">
+<section data-number="0.12.3" id="human-evaluation">
 <h3 data-number="1.12.3"><span class="header-section-number">1.12.3</span> Human Evaluation</h3>
 <ul>
 <li><p><strong>Direct Human Interaction:</strong></p>
@@ -584,12 +583,12 @@
 <li><p><strong>Comparative Methods:</strong> Techniques such as Backpropagation, Deconvolution, and Guided Backprop are employed and compared to determine which method yields explanations that are most intuitive and helpful for end-users in understanding AI decisions.</p></li>
 </ul>
 <figure>
-<img src="img/lecture22/aa.png" id="fig:Human Evaluation" alt="Human Evaluation" /><figcaption aria-hidden="true">Human Evaluation</figcaption>
+<img alt="Human Evaluation" id="fig:Human Evaluation" src="img/lecture22/aa.png"/><figcaption aria-hidden="true">Human Evaluation</figcaption>
 </figure></li>
 </ul>
 </section>
 </section>
-<section id="network-evaluation-via-masking" data-number="0.13">
+<section data-number="0.13" id="network-evaluation-via-masking">
 <h2 data-number="1.13"><span class="header-section-number">1.13</span> Network Evaluation via Masking</h2>
 <ul>
 <li><p><strong>Masking Techniques in Depth:</strong></p>
@@ -603,7 +602,7 @@
 </ul></li>
 </ul>
 </section>
-<section id="explanatory-evaluation-2" data-number="0.14">
+<section data-number="0.14" id="explanatory-evaluation-2">
 <h2 data-number="1.14"><span class="header-section-number">1.14</span> Explanatory Evaluation</h2>
 <ul>
 <li><p><strong>Progressive Pixel-wise Insertion and Deletion:</strong></p>
@@ -612,7 +611,7 @@
 <li><p><strong>Pixel-wise Insertion:</strong> In contrast to deletion, this method involves gradually adding pixels back into a blank or neutral input image in order of their importance. This technique helps in understanding how each pixel’s addition influences the model’s output, thereby assessing the sufficiency of the accumulated features for making accurate predictions. This approach is particularly useful for verifying the model’s behavior in reconstructing the decision-making process from minimal data.</p></li>
 </ul></li>
 </ul>
-<section id="additional-insights" data-number="0.14.1">
+<section data-number="0.14.1" id="additional-insights">
 <h3 data-number="1.14.1"><span class="header-section-number">1.14.1</span> Additional Insights</h3>
 <ul>
 <li><p><strong>Effectiveness of Masking Strategies:</strong></p>
