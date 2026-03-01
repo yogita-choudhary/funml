@@ -130,6 +130,20 @@ a {
   gap: 10px;
 }
 
+.top-link {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  padding: 8px 12px;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  line-height: 1;
+}
+
+.top-link:hover {
+  background: rgba(195, 172, 104, 0.22);
+  border-color: rgba(195, 172, 104, 0.75);
+}
+
 .dropdown {
   position: relative;
 }
@@ -302,10 +316,10 @@ a {
 
 .viewer-actions .viewer-foot {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: flex-end;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   min-width: 0;
 }
 
@@ -334,7 +348,7 @@ a {
 .foot-card {
   background: linear-gradient(180deg, #ffffff 0%, #faf6ea 100%);
   border-radius: 999px;
-  padding: 8px 14px;
+  padding: 10px 16px;
   box-shadow: var(--soft-shadow);
   border: 1px solid rgba(150, 127, 63, 0.35);
   display: flex;
@@ -357,7 +371,7 @@ a {
 .foot-value {
   font-weight: 600;
   margin-top: 0;
-  font-size: 0.9rem;
+  font-size: 1.02rem;
   white-space: nowrap;
 }
 
@@ -399,7 +413,7 @@ a {
   background: transparent;
   border-radius: 0;
   padding: 0;
-  font-size: 0.84rem;
+  font-size: 0.95rem;
 }
 
 .hero {

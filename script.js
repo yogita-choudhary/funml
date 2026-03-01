@@ -6,8 +6,12 @@ const lectureList = document.querySelector('.lecture-list');
 const lectureFrame = document.getElementById('lecture-frame');
 const lectureTitle = document.getElementById('lecture-title');
 const lectureMeta = document.getElementById('lecture-meta');
+const notesLink = document.getElementById('notes-link');
 const slidesLink = document.getElementById('slides-link');
 const videoLinks = document.getElementById('video-links');
+const demosLink = document.getElementById('demos-link');
+const topDemosLink = document.getElementById('top-demos-link');
+const topDisclaimerLink = document.getElementById('top-disclaimer-link');
 let lectureMedia = {};
 
 const closeAllDropdowns = () => {
@@ -56,7 +60,8 @@ const normalizeRecordingLabel = (label, idx) => {
     .replace(/\s{2,}/g, ' ')
     .replace(/\(\s*\)/g, '')
     .trim();
-  return cleaned || `Video ${idx + 1}`;
+  const core = cleaned || `${idx + 1}`;
+  return `Video · ${core}`;
 };
 
 const getActiveLectureKey = () => {
@@ -71,8 +76,12 @@ const updateLectureMedia = () => {
   const media = lectureMedia[lectureKey] || {};
   const localSlide = lectureKey ? `assets/slides/${lectureKey}.pdf` : '';
   const slideEmbed = media.slide_local || localSlide || (media.slide ? `https://docs.google.com/gview?embedded=1&url=${encodeURIComponent(media.slide)}` : '');
+  const lectureNotesHref = lectureKey ? `lectures/${lectureKey}.html` : '';
+  const demoHref = media.demo || 'assets/demos.html';
 
+  updateResourceLink(notesLink, lectureNotesHref, lectureNotesHref ? 'Lecture Notes' : 'No notes');
   updateResourceLink(slidesLink, slideEmbed, media.slide ? 'Slides' : 'No slides posted');
+  updateResourceLink(demosLink, demoHref, 'Demos');
   if (!videoLinks) return;
 
   const recordings = media.recordings || [];
@@ -166,6 +175,28 @@ if (slidesLink) {
   slidesLink.addEventListener('click', (event) => openResourceInViewer(event, 'Slides'));
 }
 
+if (notesLink) {
+  notesLink.addEventListener('click', (event) => openResourceInViewer(event, 'Lecture Notes'));
+}
+
+if (demosLink) {
+  demosLink.addEventListener('click', (event) => openResourceInViewer(event, 'Demos'));
+}
+
+if (topDemosLink) {
+  topDemosLink.addEventListener('click', (event) => {
+    event.preventDefault();
+    openResourceHref('assets/demos.html', 'Demos');
+  });
+}
+
+if (topDisclaimerLink) {
+  topDisclaimerLink.addEventListener('click', (event) => {
+    event.preventDefault();
+    openResourceHref('assets/disclaimer.html', 'Disclaimer');
+  });
+}
+
 if (videoLinks) {
   videoLinks.addEventListener('click', (event) => {
     const link = event.target.closest('a.resource-link');
@@ -180,7 +211,13 @@ document.querySelectorAll('.click-card').forEach((card) => {
     if (event.target.closest('a')) return;
     const link = card.querySelector('a.resource-link:not(.disabled)');
     if (!link) return;
-    const kind = link.id === 'slides-link' ? 'Slides' : 'Recording';
+    const kind = link.id === 'slides-link'
+      ? 'Slides'
+      : link.id === 'notes-link'
+        ? 'Lecture Notes'
+        : link.id === 'demos-link'
+          ? 'Demos'
+          : 'Recording';
     openResourceHref(link.getAttribute('href'), kind);
   });
 });
