@@ -7,9 +7,10 @@ const lectureFrame = document.getElementById('lecture-frame');
 const lectureTitle = document.getElementById('lecture-title');
 const lectureMeta = document.getElementById('lecture-meta');
 const openLecture = document.getElementById('open-lecture');
-const exerciseLink = document.getElementById('exercise-link');
-const solutionLink = document.getElementById('solution-link');
-let lectureResources = {};
+const slidesLink = document.getElementById('slides-link');
+const videoLink = document.getElementById('video-link');
+const videoLinkAlt = document.getElementById('video-link-alt');
+let lectureMedia = {};
 
 const closeAllDropdowns = () => {
   dropdownToggles.forEach((toggle) => {
@@ -32,13 +33,43 @@ const updateResourceLink = (linkEl, href, label) => {
   linkEl.textContent = label;
 };
 
-const updateLectureResources = (src) => {
-  if (!src) return;
+const toYouTubeEmbedUrl = (url) => {
+  if (!url) return '';
+  try {
+    const parsed = new URL(url);
+    if (parsed.hostname.includes('youtu.be')) {
+      const id = parsed.pathname.replace('/', '');
+      return id ? `https://www.youtube.com/embed/${id}?rel=0` : url;
+    }
+    if (parsed.hostname.includes('youtube.com')) {
+      const id = parsed.searchParams.get('v');
+      return id ? `https://www.youtube.com/embed/${id}?rel=0` : url;
+    }
+    return url;
+  } catch {
+    return url;
+  }
+};
+
+const getActiveLectureKey = () => {
+  const activeItem = document.querySelector('.lecture-item.active');
+  const src = activeItem?.dataset?.lecture || '';
   const match = src.match(/([^/]+)\.html$/);
-  const lectureKey = match ? match[1] : '';
-  const resource = lectureResources[lectureKey] || {};
-  updateResourceLink(exerciseLink, resource.exercise, resource.exercise ? 'Open in-class exercise' : 'No in-class exercise');
-  updateResourceLink(solutionLink, resource.solution, resource.solution ? 'Open exercise solutions' : 'No solutions posted');
+  return match ? match[1] : '';
+};
+
+const updateLectureMedia = () => {
+  const lectureKey = getActiveLectureKey();
+  const media = lectureMedia[lectureKey] || {};
+  const slideEmbed = media.slide ? `https://docs.google.com/gview?embedded=1&url=${encodeURIComponent(media.slide)}` : '';
+  const primaryVideo = media.recordings?.[0]?.url ? toYouTubeEmbedUrl(media.recordings[0].url) : '';
+  const primaryVideoLabel = media.recordings?.[0]?.label || '';
+  const altVideo = media.recordings?.[1]?.url ? toYouTubeEmbedUrl(media.recordings[1].url) : '';
+  const altVideoLabel = media.recordings?.[1]?.label || '';
+
+  updateResourceLink(slidesLink, slideEmbed, media.slide ? 'Open lecture slides' : 'No slides posted');
+  updateResourceLink(videoLink, primaryVideo, primaryVideo ? `Open recording (${primaryVideoLabel})` : 'No recording posted');
+  updateResourceLink(videoLinkAlt, altVideo, altVideo ? `Open alternate (${altVideoLabel})` : 'No alternate recording');
 };
 
 const getActiveLectureContext = () => {
@@ -83,7 +114,7 @@ const setActiveLecture = (item) => {
   if (lectureTitle) lectureTitle.textContent = title;
   if (lectureMeta) lectureMeta.textContent = meta ? `${meta} · Loaded` : 'Lecture selected.';
   if (openLecture) openLecture.setAttribute('href', src);
-  updateLectureResources(src);
+  updateLectureMedia();
 };
 
 if (lectureList) {
@@ -100,25 +131,27 @@ if (defaultLecture) {
   setActiveLecture(defaultLecture);
 }
 
-fetch('lectures/resources.json')
+fetch('assets/media_resources.json')
   .then((response) => (response.ok ? response.json() : {}))
   .then((data) => {
-    lectureResources = data || {};
-    const currentSrc = lectureFrame?.getAttribute('src');
-    updateLectureResources(currentSrc);
+    lectureMedia = data || {};
+    updateLectureMedia();
   })
   .catch(() => {
-    lectureResources = {};
-    const currentSrc = lectureFrame?.getAttribute('src');
-    updateLectureResources(currentSrc);
+    lectureMedia = {};
+    updateLectureMedia();
   });
 
-if (exerciseLink) {
-  exerciseLink.addEventListener('click', (event) => openResourceInViewer(event, 'In-class Exercise'));
+if (slidesLink) {
+  slidesLink.addEventListener('click', (event) => openResourceInViewer(event, 'Slides'));
 }
 
-if (solutionLink) {
-  solutionLink.addEventListener('click', (event) => openResourceInViewer(event, 'Exercise Solutions'));
+if (videoLink) {
+  videoLink.addEventListener('click', (event) => openResourceInViewer(event, 'Recording'));
+}
+
+if (videoLinkAlt) {
+  videoLinkAlt.addEventListener('click', (event) => openResourceInViewer(event, 'Alternate Recording'));
 }
 
 dropdownToggles.forEach((toggle) => {

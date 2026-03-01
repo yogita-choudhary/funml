@@ -19,4 +19,7 @@ rm -rf "$RAW_DIR"
 mkdir -p "$RAW_DIR"
 unzip -q "$ZIP_DEST" -d "$RAW_DIR"
 
+# Remove in-class exercise source files so they are never published.
+find "$RAW_DIR" -type f \( -iname "*in-class exercise*.tex" -o -iname "*in class exercise*.tex" \) -delete
+
 python3 "$ROOT/buildsite.py" --src "$RAW_DIR" --out "$ROOT"

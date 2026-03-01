@@ -4,7 +4,6 @@ import argparse
 import subprocess
 import shutil
 import re
-import json
 
 
 PROJECT_TITLE = "ECE 4252/6252 – FunML Lecture Notes"
@@ -109,18 +108,6 @@ def pick_main_tex(tex_files, lecture_number: str):
   return sorted(tex_files, key=lambda p: (-score(p), p.name.lower()))[0]
 
 
-def find_extras(tex_files):
-  exercise_tex = None
-  solution_tex = None
-  for tex in tex_files:
-    name = tex.stem.lower()
-    if "in-class exercise solution" in name or ("solution" in name and "exercise" in name):
-      solution_tex = tex
-    elif "in-class exercise" in name:
-      exercise_tex = tex
-  return exercise_tex, solution_tex
-
-
 def build_single_html(tex: Path, out_html_path: Path, out_root: Path, title: str):
   tex_text = tex.read_text(errors="ignore")
   tex_text = re.sub(r"\{\\bf\s+([^}]+)\}", r"\\textbf{\1}", tex_text)
@@ -183,7 +170,9 @@ def build_site(src_root: Path, out_root: Path, write_index: bool):
     shutil.copytree(img_dir, lectures_out / "img", dirs_exist_ok=True)
 
   lecture_pages = []
-  resources = {}
+  # Ensure in-class exercise artifacts are not published.
+  for old in lectures_out.glob("*_exercise*.html"):
+    old.unlink()
 
   for lec_dir in sorted(src_root.glob("Lecture*")):
     if not lec_dir.is_dir():
@@ -199,33 +188,7 @@ def build_site(src_root: Path, out_root: Path, write_index: bool):
     out_html = f"{lec_dir.name}.html"
     build_single_html(tex, lectures_out / out_html, out_root, title)
 
-    exercise_tex, solution_tex = find_extras(tex_files)
-    lecture_key = lec_dir.name
-    resources[lecture_key] = {}
-
-    if exercise_tex:
-      exercise_out = f"{lecture_key}_exercise.html"
-      build_single_html(
-        exercise_tex,
-        lectures_out / exercise_out,
-        out_root,
-        f"{lecture_key} In-class Exercise",
-      )
-      resources[lecture_key]["exercise"] = f"lectures/{exercise_out}"
-
-    if solution_tex:
-      solution_out = f"{lecture_key}_exercise_solutions.html"
-      build_single_html(
-        solution_tex,
-        lectures_out / solution_out,
-        out_root,
-        f"{lecture_key} In-class Exercise Solutions",
-      )
-      resources[lecture_key]["solution"] = f"lectures/{solution_out}"
-
     lecture_pages.append((title, out_html))
-
-  (lectures_out / "resources.json").write_text(json.dumps(resources, indent=2))
 
   if write_index:
     links = "\\n".join(
