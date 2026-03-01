@@ -60,7 +60,8 @@ const getActiveLectureKey = () => {
 const updateLectureMedia = () => {
   const lectureKey = getActiveLectureKey();
   const media = lectureMedia[lectureKey] || {};
-  const slideEmbed = media.slide_local || (media.slide ? `https://docs.google.com/gview?embedded=1&url=${encodeURIComponent(media.slide)}` : '');
+  const localSlide = lectureKey ? `assets/slides/${lectureKey}.pdf` : '';
+  const slideEmbed = media.slide_local || localSlide || (media.slide ? `https://docs.google.com/gview?embedded=1&url=${encodeURIComponent(media.slide)}` : '');
 
   updateResourceLink(slidesLink, slideEmbed, media.slide ? 'Open lecture slides' : 'No slides posted');
   if (!videoLinks) return;
