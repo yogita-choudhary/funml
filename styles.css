@@ -288,13 +288,13 @@ a {
 }
 
 .viewer-actions {
-  width: min(820px, 100%);
+  width: min(700px, 100%);
 }
 
 .viewer-actions .viewer-foot {
   display: grid;
-  grid-template-columns: repeat(4, minmax(130px, 1fr));
-  gap: 8px;
+  grid-template-columns: repeat(4, minmax(110px, 1fr));
+  gap: 6px;
 }
 
 .viewer-frame-wrap {
@@ -321,26 +321,26 @@ a {
 
 .foot-card {
   background: rgba(255, 255, 255, 0.9);
-  border-radius: 14px;
-  padding: 10px 12px;
+  border-radius: 12px;
+  padding: 7px 9px;
   box-shadow: var(--soft-shadow);
 }
 
 .foot-label {
   text-transform: uppercase;
   letter-spacing: 0.15em;
-  font-size: 0.62rem;
+  font-size: 0.56rem;
   color: var(--muted);
 }
 
 .foot-value {
   font-weight: 600;
-  margin-top: 4px;
-  font-size: 0.92rem;
+  margin-top: 2px;
+  font-size: 0.82rem;
 }
 
 .foot-sub {
-  font-size: 0.75rem;
+  font-size: 0.68rem;
   color: var(--muted);
 }
 
@@ -372,8 +372,8 @@ a {
 #video-links .resource-link {
   background: rgba(179, 163, 105, 0.2);
   border-radius: 999px;
-  padding: 3px 8px;
-  font-size: 0.74rem;
+  padding: 2px 6px;
+  font-size: 0.66rem;
 }
 
 .hero {

@@ -49,6 +49,16 @@ const toYouTubeEmbedUrl = (url) => {
   }
 };
 
+const normalizeRecordingLabel = (label, idx) => {
+  const base = (label || `Recording ${idx + 1}`).trim();
+  const cleaned = base
+    .replace(/\b[Rr]ecording\b/g, '')
+    .replace(/\s{2,}/g, ' ')
+    .replace(/\(\s*\)/g, '')
+    .trim();
+  return cleaned || `Video ${idx + 1}`;
+};
+
 const getActiveLectureKey = () => {
   const activeItem = document.querySelector('.lecture-item.active');
   const src = activeItem?.dataset?.lecture || '';
@@ -74,7 +84,7 @@ const updateLectureMedia = () => {
   videoLinks.innerHTML = recordings
     .map((rec, idx) => {
       const href = toYouTubeEmbedUrl(rec.url || '');
-      const label = rec.label || `Recording ${idx + 1}`;
+      const label = normalizeRecordingLabel(rec.label, idx);
       return `<a class="resource-link" href="${href}" data-kind="Recording">${label}</a>`;
     })
     .join(' · ');
