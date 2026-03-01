@@ -60,8 +60,7 @@ const normalizeRecordingLabel = (label, idx) => {
     .replace(/\s{2,}/g, ' ')
     .replace(/\(\s*\)/g, '')
     .trim();
-  const core = cleaned || `${idx + 1}`;
-  return `Video · ${core}`;
+  return cleaned || `Video ${idx + 1}`;
 };
 
 const getActiveLectureKey = () => {
@@ -89,14 +88,12 @@ const updateLectureMedia = () => {
     videoLinks.textContent = 'No recording posted';
     return;
   }
-
-  videoLinks.innerHTML = recordings
-    .map((rec, idx) => {
-      const href = toYouTubeEmbedUrl(rec.url || '');
-      const label = normalizeRecordingLabel(rec.label, idx);
-      return `<a class="resource-link" href="${href}" data-kind="Recording">${label}</a>`;
-    })
-    .join(' · ');
+  const first = recordings[0] || {};
+  const firstHref = toYouTubeEmbedUrl(first.url || '');
+  const firstLabel = normalizeRecordingLabel(first.label, 0);
+  const extraCount = Math.max(0, recordings.length - 1);
+  const extraText = extraCount ? ` <span class="video-extra">+${extraCount}</span>` : '';
+  videoLinks.innerHTML = `<a class="resource-link" href="${firstHref}" data-kind="Recording">${firstLabel}</a>${extraText}`;
 };
 
 const getActiveLectureContext = () => {
