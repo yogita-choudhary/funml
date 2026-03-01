@@ -2,178 +2,178 @@
   "Lecture2": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20240821_Lecture2_Classification.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/wYBZ6hY4m0s"},
-      {"label": "Spring 2023 recording", "url": "https://youtu.be/Dg0xGW5R9D8"}
+      {"label": "Spring 2024 recording", "url": "https://youtu.be/wYilG6z6NtQ"},
+      {"label": "Spring 2023 recording", "url": "https://youtu.be/Dg0lJSfKW-0"}
     ]
   },
   "Lecture3": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20240826_Lecture3_Classifiers.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/k4PKXc-J0nY"}
+      {"label": "Spring 2023 recording", "url": "https://youtu.be/k4PKu1W8EB4"}
     ]
   },
   "Lecture4": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20240828_Lecture4_Classifiers.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/G_uMUitxoxM"},
-      {"label": "Spring 2023 recording", "url": "https://youtu.be/63bs9A2h0V8"}
+      {"label": "Spring 2024 recording", "url": "https://youtu.be/G_uQ2fpCwMM"},
+      {"label": "Spring 2023 recording", "url": "https://youtu.be/63bsKlHP_Ds"}
     ]
   },
   "Lecture5": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20240904_Lecture5_Classifiers.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/FCnPrv7QKlc"},
-      {"label": "Spring 2023 recording", "url": "https://youtu.be/-q7Qvpui0_U"}
+      {"label": "Spring 2024 recording", "url": "https://youtu.be/FCn9NFICc6E"},
+      {"label": "Spring 2022 recording", "url": "https://youtu.be/-q7NaKaubLQ"}
     ]
   },
   "Lecture6": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20240909_Lecture6_PerformanceEval.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/rXIFwHjf5mc"},
-      {"label": "Spring 2023 recording", "url": "https://youtu.be/EkhgGkgt7EQ"}
+      {"label": "Spring 2024 recording", "url": "https://youtu.be/rXIX1-1PI30"},
+      {"label": "Spring 2023 recording", "url": "https://youtu.be/EkhFFIWtDmk"}
     ]
   },
   "Lecture7": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20240911_Lecture7_Regression.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/mTurJjNQvBM"},
-      {"label": "Spring 2023 recording", "url": "https://youtu.be/yO7A-0vN9zs"}
+      {"label": "Spring 2024 recording", "url": "https://youtu.be/mTurW5GnPo8"},
+      {"label": "Spring 2023 recording", "url": "https://youtu.be/yO7scJojkq8"}
     ]
   },
   "Lecture8": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20240916_Lecture8_Regression.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/KrBvDp3bXfM"},
-      {"label": "Spring 2023 recording", "url": "https://youtu.be/m9c2Yag8W8A"}
+      {"label": "Spring 2024 recording", "url": "https://youtu.be/KrB1omxTzvI"},
+      {"label": "Spring 2023 recording", "url": "https://youtu.be/m9cX6xNEF6k"}
     ]
   },
   "Lecture9": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20240918_Lecture9_Regression.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/WqW4JDlCg84"},
-      {"label": "Spring 2023 recording", "url": "https://youtu.be/R__5CC91f3s"}
+      {"label": "Spring 2024 recording", "url": "https://youtu.be/WqWgwNuCEHE"},
+      {"label": "Spring 2023 recording", "url": "https://youtu.be/R__5Fbs_LUI"}
     ]
   },
   "Lecture10": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20240923_Lecture10_Clustering.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/0_8xFYfJfhQ"},
-      {"label": "Spring 2023 recording", "url": "https://youtu.be/LWVa6reDKR4"}
+      {"label": "Spring 2024 recording", "url": "https://youtu.be/0_8xLrwUAAM"},
+      {"label": "Spring 2023 recording", "url": "https://youtu.be/LWVbt7iQans"}
     ]
   },
   "Lecture11": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20240925_Lecture11_Clustering.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/z5uATbXyVR0"},
-      {"label": "Spring 2023 recording", "url": "https://youtu.be/ngnZ9jl0kp8"}
+      {"label": "Spring 2024 recording", "url": "https://youtu.be/z5uinVccKes"},
+      {"label": "Spring 2023 recording", "url": "https://youtu.be/ngn9CpSc0Xo"}
     ]
   },
   "Lecture12": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20240930_Lecture12_Clustering.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/6TG6L2wYnuA"},
-      {"label": "Spring 2023 recording", "url": "https://youtu.be/3fE1PoxxCcM"}
+      {"label": "Spring 2024 recording", "url": "https://youtu.be/6TGGPsT1k_c"},
+      {"label": "Spring 2023 recording", "url": "https://youtu.be/3fEeYjRlrkA"}
     ]
   },
   "Lecture13": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20241007_Lecture13_NeuralNets.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/NdRJTzAjVgQ"},
-      {"label": "Spring 2023 recording", "url": "https://youtu.be/P1TTbq4H7zw"}
+      {"label": "Spring 2024 recording", "url": "https://youtu.be/NdRh1wnXWJc"},
+      {"label": "Spring 2022 recording", "url": "https://youtu.be/P1T8wdALZVM"}
     ]
   },
   "Lecture14": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20241009_Lecture14_CNNs.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/Z8Z8E27cxV4"}
+      {"label": "Spring 2024 recording", "url": "https://youtu.be/Z8ZtaPXQeUI"}
     ]
   },
   "Lecture15": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20241016_Lecture15_CNNArch_Train.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/UOB9IiR-Wgw"},
-      {"label": "Spring 2023 recording", "url": "https://youtu.be/O9zUaXYx6q0"}
+      {"label": "Spring 2024 recording", "url": "https://youtu.be/UOBpJ9odGFw"},
+      {"label": "Spring 2023 recording", "url": "https://youtu.be/O9zyke_5fOc"}
     ]
   },
   "Lecture16": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20241021_Lecture16_CNNTrain-1.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording (Part 2)", "url": "https://youtu.be/6s8-LKjo0rA"},
-      {"label": "Spring 2024 recording (Part 1)", "url": "https://youtu.be/6tfM4xT0qbQ"}
+      {"label": "Spring 2024 recording (Part 1)", "url": "https://youtu.be/6tfP3_ziuPQ"},
+      {"label": "Spring 2024 recording (Part 2)", "url": "https://youtu.be/6s8qribo8og"}
     ]
   },
   "Lecture17": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20241023_Lecture17_BestPractices.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/I7L93fGF6F8"}
+      {"label": "Spring 2023 recording", "url": "https://youtu.be/I7LggnfeoSI"}
     ]
   },
   "Lecture18": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20241028_Lecture18_AEs.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/PkSqB7k9h2Q"},
-      {"label": "Spring 2023 recording", "url": "https://youtu.be/MMenpg8siWI"}
+      {"label": "Spring 2024 recording", "url": "https://youtu.be/PkSFl_8G1gc"},
+      {"label": "Spring 2023 recording", "url": "https://youtu.be/MMenEZ7SlXQ"}
     ]
   },
   "Lecture19": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20241030_Lecture19_VAEs.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/y9j66h9Mu9k"}
+      {"label": "Spring 2024 recording", "url": "https://youtu.be/y9j6JZjzi1A"}
     ]
   },
   "Lecture20": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20241104_Lecture20_SequenceModeling-1.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/0jObE76tVWQ"},
-      {"label": "Spring 2023 recording", "url": "https://youtu.be/8kf2cq5Q0ZY"}
+      {"label": "Spring 2024 recording", "url": "https://youtu.be/0jOowM1PRwI"},
+      {"label": "Spring 2023 recording", "url": "https://youtu.be/8kfhdB0iQNY"}
     ]
   },
   "Lecture21": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20241106_Lecture21_SequenceModeling-1.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/IgDiG6fdrr8"},
-      {"label": "Spring 2023 recording", "url": "https://youtu.be/8kf2cq5Q0ZY"}
+      {"label": "Spring 2024 recording", "url": "https://youtu.be/IgDiO_atANs"},
+      {"label": "Spring 2023 recording", "url": "https://youtu.be/8kfhdB0iQNY"}
     ]
   },
   "Lecture22": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20241111_Lecture22_Explainability-1.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/HXFWfP9M1AE"},
-      {"label": "Spring 2023 recording", "url": "https://youtu.be/-ut_8f0ReBk"}
+      {"label": "Spring 2024 recording", "url": "https://youtu.be/HXFruCzjQUg"},
+      {"label": "Spring 2023 recording", "url": "https://youtu.be/-ut70FmzUpg"}
     ]
   },
   "Lecture23": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20241113_Lecture23_ExplainabilityParadigms.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/sO0RjgjmzlQ"},
-      {"label": "Spring 2023 recording", "url": "https://youtu.be/HXFWfP9M1AE"}
+      {"label": "Spring 2024 recording", "url": "https://youtu.be/sO0m67lBiUQ"},
+      {"label": "Spring 2023 recording", "url": "https://youtu.be/HXFruCzjQUg"}
     ]
   },
   "Lecture24": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20241118_Lecture24_AnomalyDetection.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording (Part 2)", "url": "https://youtu.be/Gdq4L5RO9hA"},
-      {"label": "Spring 2024 recording (Part 1)", "url": "https://youtu.be/2p-vnjXeTz4"}
+      {"label": "Spring 2024 recording", "url": "https://youtu.be/GdqH0froIrw"},
+      {"label": "Spring 2023 recording", "url": "https://youtu.be/2p-7DdquyZY"}
     ]
   },
   "Lecture25": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20241120_Lecture25_ActiveLearning.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/ycbaVVE8xBw"},
-      {"label": "Spring 2023 recording", "url": "https://youtu.be/ZnnAWQn-YqU"}
+      {"label": "Spring 2024 recording", "url": "https://youtu.be/ycba2uu38TY"},
+      {"label": "Spring 2023 recording", "url": "https://youtu.be/ZnnfX1S2z-0"}
     ]
   },
   "Lecture26": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20241125_Lecture26_Sef-SupevisedLearning.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/z57Yjd7fN5A"},
-      {"label": "Spring 2023 recording", "url": "https://youtu.be/Uns7Rys6D6s"}
+      {"label": "Spring 2024 recording", "url": "https://youtu.be/z57XZZwNwFI"},
+      {"label": "Spring 2023 recording", "url": "https://youtu.be/UnsHUTE-SHE"}
     ]
   },
   "Lecture27": {
     "slide": "https://alregib.ece.gatech.edu/files/2025/02/20241202_Lecture27_UncertaintyEstimation.pdf",
     "recordings": [
-      {"label": "Spring 2024 recording", "url": "https://youtu.be/EzSioSrQ8Vk"}
+      {"label": "Spring 2023 recording", "url": "https://youtu.be/EzSPJkq9Zi4"}
     ]
   }
 }

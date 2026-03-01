@@ -8,8 +8,7 @@ const lectureTitle = document.getElementById('lecture-title');
 const lectureMeta = document.getElementById('lecture-meta');
 const openLecture = document.getElementById('open-lecture');
 const slidesLink = document.getElementById('slides-link');
-const videoLink = document.getElementById('video-link');
-const videoLinkAlt = document.getElementById('video-link-alt');
+const videoLinks = document.getElementById('video-links');
 let lectureMedia = {};
 
 const closeAllDropdowns = () => {
@@ -62,14 +61,23 @@ const updateLectureMedia = () => {
   const lectureKey = getActiveLectureKey();
   const media = lectureMedia[lectureKey] || {};
   const slideEmbed = media.slide ? `https://docs.google.com/gview?embedded=1&url=${encodeURIComponent(media.slide)}` : '';
-  const primaryVideo = media.recordings?.[0]?.url ? toYouTubeEmbedUrl(media.recordings[0].url) : '';
-  const primaryVideoLabel = media.recordings?.[0]?.label || '';
-  const altVideo = media.recordings?.[1]?.url ? toYouTubeEmbedUrl(media.recordings[1].url) : '';
-  const altVideoLabel = media.recordings?.[1]?.label || '';
 
   updateResourceLink(slidesLink, slideEmbed, media.slide ? 'Open lecture slides' : 'No slides posted');
-  updateResourceLink(videoLink, primaryVideo, primaryVideo ? `Open recording (${primaryVideoLabel})` : 'No recording posted');
-  updateResourceLink(videoLinkAlt, altVideo, altVideo ? `Open alternate (${altVideoLabel})` : 'No alternate recording');
+  if (!videoLinks) return;
+
+  const recordings = media.recordings || [];
+  if (!recordings.length) {
+    videoLinks.textContent = 'No recording posted';
+    return;
+  }
+
+  videoLinks.innerHTML = recordings
+    .map((rec, idx) => {
+      const href = toYouTubeEmbedUrl(rec.url || '');
+      const label = rec.label || `Recording ${idx + 1}`;
+      return `<a class="resource-link" href="${href}" data-kind="Recording">${label}</a>`;
+    })
+    .join(' · ');
 };
 
 const getActiveLectureContext = () => {
@@ -81,17 +89,21 @@ const getActiveLectureContext = () => {
   };
 };
 
-const openResourceInViewer = (event, kindLabel) => {
-  const linkEl = event.currentTarget;
-  event.preventDefault();
-  if (!linkEl || linkEl.classList.contains('disabled')) return;
-  const href = linkEl.getAttribute('href');
+const openResourceHref = (href, kindLabel) => {
   if (!href || href === '#') return;
   const context = getActiveLectureContext();
   if (lectureFrame) lectureFrame.src = href;
   if (lectureTitle) lectureTitle.textContent = `${context.title} - ${kindLabel}`;
   if (lectureMeta) lectureMeta.textContent = context.meta ? `${context.meta} · ${kindLabel} loaded.` : `${kindLabel} loaded.`;
   if (openLecture) openLecture.setAttribute('href', href);
+};
+
+const openResourceInViewer = (event, kindLabel) => {
+  const linkEl = event.currentTarget;
+  event.preventDefault();
+  if (!linkEl || linkEl.classList.contains('disabled')) return;
+  const href = linkEl.getAttribute('href');
+  openResourceHref(href, kindLabel);
 };
 
 if (navToggle && navMenu) {
@@ -146,12 +158,13 @@ if (slidesLink) {
   slidesLink.addEventListener('click', (event) => openResourceInViewer(event, 'Slides'));
 }
 
-if (videoLink) {
-  videoLink.addEventListener('click', (event) => openResourceInViewer(event, 'Recording'));
-}
-
-if (videoLinkAlt) {
-  videoLinkAlt.addEventListener('click', (event) => openResourceInViewer(event, 'Alternate Recording'));
+if (videoLinks) {
+  videoLinks.addEventListener('click', (event) => {
+    const link = event.target.closest('a.resource-link');
+    if (!link) return;
+    event.preventDefault();
+    openResourceHref(link.getAttribute('href'), link.dataset.kind || 'Recording');
+  });
 }
 
 dropdownToggles.forEach((toggle) => {
