@@ -1,311 +1,300 @@
-<!doctype html>
+<!DOCTYPE html>
+
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ECE 4252/8803 - Fundamentals of Machine Learning (FunML)</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <div class="bg-orb orb-1"></div>
-    <div class="bg-orb orb-2"></div>
-    <div class="bg-grid"></div>
-
-    <header class="topbar">
-      <div class="brand">
-        <div class="logo">FM</div>
-        <div>
-          <div class="title">ECE 4252/8803 - Fundamentals of Machine Learning (FunML)</div>
-          <div class="subtitle">Georgia Institute of Technology - Course Materials</div>
-        </div>
-      </div>
-
-      <nav class="nav" aria-label="Primary">
-        <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>ECE 4252/8803 - Fundamentals of Machine Learning (FunML)</title>
+<link href="styles.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="bg-orb orb-1"></div>
+<div class="bg-orb orb-2"></div>
+<div class="bg-grid"></div>
+<header class="topbar">
+<div class="brand">
+<div class="logo">FM</div>
+<div>
+<div class="title">ECE 4252/8803 - Fundamentals of Machine Learning (FunML)</div>
+<div class="subtitle">Georgia Institute of Technology - Course Materials</div>
+</div>
+</div>
+<nav aria-label="Primary" class="nav">
+<button aria-controls="nav-menu" aria-expanded="false" class="nav-toggle">
           Menu
         </button>
-        <div class="nav-menu" id="nav-menu">
-          <div class="dropdown">
-            <button class="dropdown-toggle" aria-expanded="false">Slides</button>
-            <div class="dropdown-menu" role="menu">
-              <a href="#" role="menuitem">All Slides (PDF)</a>
-              <a href="#" role="menuitem">Slide Deck Index</a>
-              <a href="#" role="menuitem">Download Bundle</a>
-            </div>
-          </div>
-          <div class="dropdown">
-            <button class="dropdown-toggle" aria-expanded="false">Lecture Notes</button>
-            <div class="dropdown-menu" role="menu">
-              <a href="#" role="menuitem">Weekly Notes</a>
-              <a href="#" role="menuitem">Annotated Notes</a>
-              <a href="#" role="menuitem">Printable Packet</a>
-            </div>
-          </div>
-          <div class="dropdown">
-            <button class="dropdown-toggle" aria-expanded="false">Videos</button>
-            <div class="dropdown-menu" role="menu">
-              <a href="#" role="menuitem">Lecture Recordings</a>
-              <a href="#" role="menuitem">Mini Tutorials</a>
-              <a href="#" role="menuitem">Office Hours</a>
-            </div>
-          </div>
-          <div class="dropdown">
-            <button class="dropdown-toggle" aria-expanded="false">Exercises</button>
-            <div class="dropdown-menu" role="menu">
-              <a href="#" role="menuitem">Problem Sets</a>
-              <a href="#" role="menuitem">Quizzes</a>
-              <a href="#" role="menuitem">Practice Bank</a>
-            </div>
-          </div>
-          <div class="dropdown">
-            <button class="dropdown-toggle" aria-expanded="false">Handouts</button>
-            <div class="dropdown-menu" role="menu">
-              <a href="#" role="menuitem">Cheat Sheets</a>
-              <a href="#" role="menuitem">Formulas & Tables</a>
-              <a href="#" role="menuitem">Reference Cards</a>
-            </div>
-          </div>
-        </div>
-      </nav>
-    </header>
+<div class="nav-menu" id="nav-menu">
+<div class="dropdown">
+<button aria-expanded="false" class="dropdown-toggle">Slides</button>
+<div class="dropdown-menu" role="menu">
+<a href="#" role="menuitem">All Slides (PDF)</a>
+<a href="#" role="menuitem">Slide Deck Index</a>
+<a href="#" role="menuitem">Download Bundle</a>
+</div>
+</div>
+<div class="dropdown">
+<button aria-expanded="false" class="dropdown-toggle">Lecture Notes</button>
+<div class="dropdown-menu" role="menu">
+<a href="#" role="menuitem">Weekly Notes</a>
+<a href="#" role="menuitem">Annotated Notes</a>
+<a href="#" role="menuitem">Printable Packet</a>
+</div>
+</div>
+<div class="dropdown">
+<button aria-expanded="false" class="dropdown-toggle">Videos</button>
+<div class="dropdown-menu" role="menu">
+<a href="#" role="menuitem">Lecture Recordings</a>
+<a href="#" role="menuitem">Mini Tutorials</a>
+<a href="#" role="menuitem">Office Hours</a>
+</div>
+</div>
+<div class="dropdown">
+<button aria-expanded="false" class="dropdown-toggle">Exercises</button>
+<div class="dropdown-menu" role="menu">
+<a href="#" role="menuitem">Problem Sets</a>
+<a href="#" role="menuitem">Quizzes</a>
+<a href="#" role="menuitem">Practice Bank</a>
+</div>
+</div>
+<div class="dropdown">
+<button aria-expanded="false" class="dropdown-toggle">Handouts</button>
+<div class="dropdown-menu" role="menu">
+<a href="#" role="menuitem">Cheat Sheets</a>
+<a href="#" role="menuitem">Formulas &amp; Tables</a>
+<a href="#" role="menuitem">Reference Cards</a>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<main class="layout">
+<aside class="sidebar">
+<div class="sidebar-header">
+<div class="sidebar-title">Lectures</div>
+<div class="sidebar-caption">Spring 2026 · 26 sessions</div>
+</div>
+<div class="lecture-list" role="list">
+<a class="lecture-item active" data-lecture="lectures/Lecture2.html" data-meta="" data-title="Classification Basics" href="#" role="listitem">
+<span class="lecture-num">01</span>
+<div>
+<div class="lecture-title">Classification Basics</div>
 
-    <main class="layout">
-      <aside class="sidebar">
-        <div class="sidebar-header">
-          <div class="sidebar-title">Lectures</div>
-          <div class="sidebar-caption">Spring 2026 · 26 sessions</div>
-        </div>
-        <div class="lecture-list" role="list">
-          <a class="lecture-item active" href="#" role="listitem" data-lecture="lectures/Lecture2.html" data-title="Lecture 2" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">01</span>
-            <div>
-              <div class="lecture-title">Lecture 2</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture3.html" data-title="Lecture 3" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">02</span>
-            <div>
-              <div class="lecture-title">Lecture 3</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture4.html" data-title="Lecture 4" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">03</span>
-            <div>
-              <div class="lecture-title">Lecture 4</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture5.html" data-title="Lecture 5" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">04</span>
-            <div>
-              <div class="lecture-title">Lecture 5</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture6.html" data-title="Lecture 6" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">05</span>
-            <div>
-              <div class="lecture-title">Lecture 6</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture7.html" data-title="Lecture 7" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">06</span>
-            <div>
-              <div class="lecture-title">Lecture 7</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture8.html" data-title="Lecture 8" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">07</span>
-            <div>
-              <div class="lecture-title">Lecture 8</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture9.html" data-title="Lecture 9" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">08</span>
-            <div>
-              <div class="lecture-title">Lecture 9</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture10.html" data-title="Lecture 10" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">09</span>
-            <div>
-              <div class="lecture-title">Lecture 10</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture11.html" data-title="Lecture 11" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">10</span>
-            <div>
-              <div class="lecture-title">Lecture 11</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture12.html" data-title="Lecture 12" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">11</span>
-            <div>
-              <div class="lecture-title">Lecture 12</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture13.html" data-title="Lecture 13" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">12</span>
-            <div>
-              <div class="lecture-title">Lecture 13</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture14.html" data-title="Lecture 13" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">13</span>
-            <div>
-              <div class="lecture-title">Lecture 13</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture15.html" data-title="Lecture 15" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">14</span>
-            <div>
-              <div class="lecture-title">Lecture 15</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture16.html" data-title="Lecture 16" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">15</span>
-            <div>
-              <div class="lecture-title">Lecture 16</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture17.html" data-title="lec17" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">16</span>
-            <div>
-              <div class="lecture-title">lec17</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture18.html" data-title="Lecture 18" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">17</span>
-            <div>
-              <div class="lecture-title">Lecture 18</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture19.html" data-title="Lecture 19" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">18</span>
-            <div>
-              <div class="lecture-title">Lecture 19</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture20.html" data-title="Lecture 20" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">19</span>
-            <div>
-              <div class="lecture-title">Lecture 20</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture21.html" data-title="Lecture 21" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">20</span>
-            <div>
-              <div class="lecture-title">Lecture 21</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture22.html" data-title="Lecture 21" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">21</span>
-            <div>
-              <div class="lecture-title">Lecture 21</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture23.html" data-title="Lecture 23" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">22</span>
-            <div>
-              <div class="lecture-title">Lecture 23</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture24.html" data-title="Lecture 23" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">23</span>
-            <div>
-              <div class="lecture-title">Lecture 23</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture25.html" data-title="Lecture 25" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">24</span>
-            <div>
-              <div class="lecture-title">Lecture 25</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture26.html" data-title="Lecture 26" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">25</span>
-            <div>
-              <div class="lecture-title">Lecture 26</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-          <a class="lecture-item" href="#" role="listitem" data-lecture="lectures/Lecture27.html" data-title="Lecture 27" data-meta="ECE 4252 FunML">
-            <span class="lecture-num">26</span>
-            <div>
-              <div class="lecture-title">Lecture 27</div>
-              <div class="lecture-meta">ECE 4252 FunML</div>
-            </div>
-          </a>
-        </div>
-      </aside>
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture3.html" data-meta="" data-title="Logistic Classifiers" href="#" role="listitem">
+<span class="lecture-num">02</span>
+<div>
+<div class="lecture-title">Logistic Classifiers</div>
 
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture4.html" data-meta="" data-title="SVM Classifiers" href="#" role="listitem">
+<span class="lecture-num">03</span>
+<div>
+<div class="lecture-title">SVM Classifiers</div>
 
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture5.html" data-meta="" data-title="Neural Networks I" href="#" role="listitem">
+<span class="lecture-num">04</span>
+<div>
+<div class="lecture-title">Neural Networks I</div>
 
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture6.html" data-meta="" data-title="Performance Evaluation" href="#" role="listitem">
+<span class="lecture-num">05</span>
+<div>
+<div class="lecture-title">Performance Evaluation</div>
 
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture7.html" data-meta="" data-title="Linear Regression" href="#" role="listitem">
+<span class="lecture-num">06</span>
+<div>
+<div class="lecture-title">Linear Regression</div>
 
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture8.html" data-meta="" data-title="Polynomial Regression" href="#" role="listitem">
+<span class="lecture-num">07</span>
+<div>
+<div class="lecture-title">Polynomial Regression</div>
 
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture9.html" data-meta="" data-title="Regularization" href="#" role="listitem">
+<span class="lecture-num">08</span>
+<div>
+<div class="lecture-title">Regularization</div>
 
-      <section class="content">
-        <div class="viewer-header">
-          <div class="viewer-info">
-            <div class="eyebrow">Lecture Viewer</div>
-            <h1 id="lecture-title">Lecture 2</h1>
-            <p id="lecture-meta" class="viewer-meta">ECE 4252 FunML · Click a lecture to load.</p>
-          </div>
-          <div class="viewer-actions">
-            <div class="viewer-foot">
-              <div class="foot-card">
-                <div class="foot-label">Slides</div>
-                <div class="foot-value"><a id="slides-link" class="resource-link disabled" href="#" target="lecture-frame">No slides posted</a></div>
-                <div class="foot-sub">Official FunML course slides</div>
-              </div>
-              <div class="foot-card">
-                <div class="foot-label">Exercises</div>
-                <div class="foot-value">Not available</div>
-                <div class="foot-sub">In-class material not published</div>
-              </div>
-              <div class="foot-card">
-                <div class="foot-label">Videos</div>
-                <div id="video-links" class="foot-sub">No recording posted</div>
-              </div>
-              <div class="foot-card">
-                <div class="foot-label">Handouts</div>
-                <div class="foot-value">Formula sheet</div>
-                <div class="foot-sub">One-page reference</div>
-              </div>
-            </div>
-          </div>
-        </div>
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture10.html" data-meta="" data-title="Clustering I" href="#" role="listitem">
+<span class="lecture-num">09</span>
+<div>
+<div class="lecture-title">Clustering I</div>
 
-        <div class="viewer-frame-wrap">
-          <iframe id="lecture-frame" name="lecture-frame" class="lecture-frame" title="Lecture content" src="lectures/Lecture2.html" loading="lazy"></iframe>
-        </div>
-      </section>
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture11.html" data-meta="" data-title="Clustering II" href="#" role="listitem">
+<span class="lecture-num">10</span>
+<div>
+<div class="lecture-title">Clustering II</div>
 
-    </main>
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture12.html" data-meta="" data-title="Clustering III" href="#" role="listitem">
+<span class="lecture-num">11</span>
+<div>
+<div class="lecture-title">Clustering III</div>
 
-    <script src="script.js"></script>
-  </body>
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture13.html" data-meta="" data-title="Neural Networks II" href="#" role="listitem">
+<span class="lecture-num">12</span>
+<div>
+<div class="lecture-title">Neural Networks II</div>
+
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture14.html" data-meta="" data-title="CNN Foundations" href="#" role="listitem">
+<span class="lecture-num">13</span>
+<div>
+<div class="lecture-title">CNN Foundations</div>
+
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture15.html" data-meta="" data-title="CNN Architectures" href="#" role="listitem">
+<span class="lecture-num">14</span>
+<div>
+<div class="lecture-title">CNN Architectures</div>
+
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture16.html" data-meta="" data-title="CNN Training" href="#" role="listitem">
+<span class="lecture-num">15</span>
+<div>
+<div class="lecture-title">CNN Training</div>
+
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture17.html" data-meta="" data-title="Training Best Practices" href="#" role="listitem">
+<span class="lecture-num">16</span>
+<div>
+<div class="lecture-title">Training Best Practices</div>
+
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture18.html" data-meta="" data-title="Autoencoders" href="#" role="listitem">
+<span class="lecture-num">17</span>
+<div>
+<div class="lecture-title">Autoencoders</div>
+
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture19.html" data-meta="" data-title="Variational Autoencoders" href="#" role="listitem">
+<span class="lecture-num">18</span>
+<div>
+<div class="lecture-title">Variational Autoencoders</div>
+
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture20.html" data-meta="" data-title="Sequence Modeling I" href="#" role="listitem">
+<span class="lecture-num">19</span>
+<div>
+<div class="lecture-title">Sequence Modeling I</div>
+
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture21.html" data-meta="" data-title="Sequence Modeling II" href="#" role="listitem">
+<span class="lecture-num">20</span>
+<div>
+<div class="lecture-title">Sequence Modeling II</div>
+
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture22.html" data-meta="" data-title="Explainability I" href="#" role="listitem">
+<span class="lecture-num">21</span>
+<div>
+<div class="lecture-title">Explainability I</div>
+
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture23.html" data-meta="" data-title="Explainability II" href="#" role="listitem">
+<span class="lecture-num">22</span>
+<div>
+<div class="lecture-title">Explainability II</div>
+
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture24.html" data-meta="" data-title="Anomaly Detection" href="#" role="listitem">
+<span class="lecture-num">23</span>
+<div>
+<div class="lecture-title">Anomaly Detection</div>
+
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture25.html" data-meta="" data-title="Active Learning" href="#" role="listitem">
+<span class="lecture-num">24</span>
+<div>
+<div class="lecture-title">Active Learning</div>
+
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture26.html" data-meta="" data-title="Self-Supervised Learning" href="#" role="listitem">
+<span class="lecture-num">25</span>
+<div>
+<div class="lecture-title">Self-Supervised Learning</div>
+
+</div>
+</a>
+<a class="lecture-item" data-lecture="lectures/Lecture27.html" data-meta="" data-title="Uncertainty Estimation" href="#" role="listitem">
+<span class="lecture-num">26</span>
+<div>
+<div class="lecture-title">Uncertainty Estimation</div>
+
+</div>
+</a>
+</div>
+</aside>
+<section class="content">
+<div class="viewer-header">
+<div class="viewer-info">
+
+<h1 id="lecture-title">Classification Basics</h1>
+<p class="viewer-meta" id="lecture-meta">Select a topic from the left.</p>
+</div>
+<div class="viewer-actions">
+<div class="viewer-foot">
+<div class="foot-card click-card">
+<div class="foot-label">Slides</div>
+<div class="foot-value"><a class="resource-link disabled" href="#" id="slides-link" target="lecture-frame">Lecture slides</a></div>
+<div class="foot-sub">Official FunML course slides</div>
+</div>
+<div class="foot-card">
+<div class="foot-label">Exercises</div>
+<div class="foot-value">Not available</div>
+<div class="foot-sub">In-class material not published</div>
+</div>
+<div class="foot-card click-card">
+<div class="foot-label">Videos</div>
+<div class="foot-value" id="video-links">Lecture recordings</div>
+<div class="foot-sub">Select a recording</div>
+</div>
+<div class="foot-card">
+<div class="foot-label">Handouts</div>
+<div class="foot-value">Formula sheet</div>
+<div class="foot-sub">One-page reference</div>
+</div>
+</div>
+</div>
+</div>
+<div class="viewer-frame-wrap">
+<iframe class="lecture-frame" id="lecture-frame" loading="lazy" name="lecture-frame" src="lectures/Lecture2.html" title="Lecture content"></iframe>
+</div>
+</section>
+</main>
+<script src="script.js"></script>
+</body>
 </html>

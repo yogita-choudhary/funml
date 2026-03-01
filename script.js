@@ -6,7 +6,6 @@ const lectureList = document.querySelector('.lecture-list');
 const lectureFrame = document.getElementById('lecture-frame');
 const lectureTitle = document.getElementById('lecture-title');
 const lectureMeta = document.getElementById('lecture-meta');
-const openLecture = document.getElementById('open-lecture');
 const slidesLink = document.getElementById('slides-link');
 const videoLinks = document.getElementById('video-links');
 let lectureMedia = {};
@@ -63,7 +62,7 @@ const updateLectureMedia = () => {
   const localSlide = lectureKey ? `assets/slides/${lectureKey}.pdf` : '';
   const slideEmbed = media.slide_local || localSlide || (media.slide ? `https://docs.google.com/gview?embedded=1&url=${encodeURIComponent(media.slide)}` : '');
 
-  updateResourceLink(slidesLink, slideEmbed, media.slide ? 'Open lecture slides' : 'No slides posted');
+  updateResourceLink(slidesLink, slideEmbed, media.slide ? 'Lecture slides' : 'No slides posted');
   if (!videoLinks) return;
 
   const recordings = media.recordings || [];
@@ -95,8 +94,7 @@ const openResourceHref = (href, kindLabel) => {
   const context = getActiveLectureContext();
   if (lectureFrame) lectureFrame.src = href;
   if (lectureTitle) lectureTitle.textContent = `${context.title} - ${kindLabel}`;
-  if (lectureMeta) lectureMeta.textContent = context.meta ? `${context.meta} · ${kindLabel} loaded.` : `${kindLabel} loaded.`;
-  if (openLecture) openLecture.setAttribute('href', href);
+  if (lectureMeta) lectureMeta.textContent = context.meta || '';
 };
 
 const openResourceInViewer = (event, kindLabel) => {
@@ -125,8 +123,7 @@ const setActiveLecture = (item) => {
 
   lectureFrame.src = src;
   if (lectureTitle) lectureTitle.textContent = title;
-  if (lectureMeta) lectureMeta.textContent = meta ? `${meta} · Loaded` : 'Lecture selected.';
-  if (openLecture) openLecture.setAttribute('href', src);
+  if (lectureMeta) lectureMeta.textContent = meta || '';
   updateLectureMedia();
 };
 
@@ -167,6 +164,16 @@ if (videoLinks) {
     openResourceHref(link.getAttribute('href'), link.dataset.kind || 'Recording');
   });
 }
+
+document.querySelectorAll('.click-card').forEach((card) => {
+  card.addEventListener('click', (event) => {
+    if (event.target.closest('a')) return;
+    const link = card.querySelector('a.resource-link:not(.disabled)');
+    if (!link) return;
+    const kind = link.id === 'slides-link' ? 'Slides' : 'Recording';
+    openResourceHref(link.getAttribute('href'), kind);
+  });
+});
 
 dropdownToggles.forEach((toggle) => {
   toggle.addEventListener('click', (event) => {

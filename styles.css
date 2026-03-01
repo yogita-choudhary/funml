@@ -262,7 +262,7 @@ a {
 
 .content {
   display: grid;
-  gap: 28px;
+  gap: 14px;
   min-height: calc(100vh - 180px);
   grid-template-rows: auto 1fr;
 }
@@ -271,14 +271,14 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 16px;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
 .viewer-info h1 {
-  margin: 6px 0 8px;
+  margin: 0 0 4px;
   font-family: "Fraunces", serif;
-  font-size: 2.1rem;
+  font-size: 1.55rem;
 }
 
 .viewer-meta {
@@ -302,7 +302,7 @@ a {
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   overflow: hidden;
-  min-height: 72vh;
+  min-height: 78vh;
   height: 100%;
 }
 
@@ -346,14 +346,34 @@ a {
 
 .resource-link {
   color: var(--teal);
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration: none;
 }
 
 .resource-link.disabled {
   color: var(--muted);
   text-decoration: none;
   pointer-events: none;
+}
+
+.click-card {
+  cursor: pointer;
+}
+
+.click-card:hover {
+  transform: translateY(-1px);
+}
+
+#video-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+#video-links .resource-link {
+  background: rgba(179, 163, 105, 0.2);
+  border-radius: 999px;
+  padding: 3px 8px;
+  font-size: 0.74rem;
 }
 
 .hero {
