@@ -72,7 +72,7 @@ const updateLectureMedia = () => {
   const localSlide = lectureKey ? `assets/slides/${lectureKey}.pdf` : '';
   const slideEmbed = media.slide_local || localSlide || (media.slide ? `https://docs.google.com/gview?embedded=1&url=${encodeURIComponent(media.slide)}` : '');
 
-  updateResourceLink(slidesLink, slideEmbed, media.slide ? 'Lecture slides' : 'No slides posted');
+  updateResourceLink(slidesLink, slideEmbed, media.slide ? 'Slides' : 'No slides posted');
   if (!videoLinks) return;
 
   const recordings = media.recordings || [];
